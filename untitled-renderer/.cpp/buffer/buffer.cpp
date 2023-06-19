@@ -46,28 +46,22 @@ void c_buffer::build_draw_commands( const std::vector<draw_command_t>& draw_comm
 
 void c_buffer::line( const vector2_t< uint16_t > from, const vector2_t< uint16_t > to, const color_t clr, const uint8_t thickness ) {
 	const auto& thick = thickness * 0.5f;
-	std::vector<vertex_t> vertices;
 
-	make_points_between( &vertices, &from, &to, &clr );
+	std::vector<vertex_t> vertices{
+		vertex_t( from.x, from.y, 0.f, 1.f, clr.hex ),
+		vertex_t( to.x + thick, to.y, 0.f, 1.f, clr.hex ),
+		vertex_t( to.x - thick, to.y, 0.f, 1.f, clr.hex ),
 
-	std::vector<vertex_t> pixel;
+		vertex_t( to.x, to.y, 0.f, 1.f, clr.hex ),
+		vertex_t( from.x + thick, from.y, 0.f, 1.f, clr.hex ),
+		vertex_t( from.x - thick, from.y, 0.f, 1.f, clr.hex )
+	};
 
-	for ( const vertex_t& vertex : vertices ) {
-		pixel = {
-			vertex_t( vertex.x - thick, vertex.y - thick, 0.f, 1.f, vertex.clr ),
-			vertex_t( vertex.x + thick, vertex.y - thick, 0.f, 1.f, vertex.clr ),
-			vertex_t( vertex.x + thick, vertex.y + thick, 0.f, 1.f, vertex.clr ),
-			vertex_t( vertex.x + thick, vertex.y + thick, 0.f, 1.f, vertex.clr ),
-			vertex_t( vertex.x - thick, vertex.y + thick, 0.f, 1.f, vertex.clr ),
-			vertex_t( vertex.x - thick, vertex.y - thick, 0.f, 1.f, vertex.clr )
-		};
-
-		write_to_buffer( &pixel, nullptr );
-	}
+	write_to_buffer( &vertices, nullptr );
 }
 
 void c_buffer::polyline( const std::vector< vector2_t< uint16_t > > points, const color_t clr, const uint8_t thickness ) {
-	for ( uint16_t i = 0; i < points.size( ) - 1; i++ )
+	for ( uint16_t i = 0; i < points.size( ) - 1; ++i )
 		line( points[ i ], points[ i + 1 ], clr, thickness );
 }
 
@@ -121,6 +115,7 @@ void c_buffer::filled_gradient( const vector2_t< uint16_t > pos, const vector2_t
 
 void c_buffer::circle( const vector2_t< uint16_t > pos, const uint16_t radius, const color_t clr ) {
 	std::vector<vector2_t<uint16_t>> points;
+
 	generate_arc_points( &points, &pos, radius, 100, 0, 64, false );
 
 	polyline( points, clr, 1.f );
@@ -128,6 +123,7 @@ void c_buffer::circle( const vector2_t< uint16_t > pos, const uint16_t radius, c
 
 void c_buffer::filled_circle( const vector2_t< uint16_t > pos, const uint16_t radius, const color_t clr ) {
 	std::vector<vector2_t<uint16_t>> points;
+
 	generate_arc_points( &points, &pos, radius, 100, 0, 64, true );
 
 	polygon( points, clr );
@@ -165,11 +161,10 @@ void c_buffer::push_command( const command_t command ) {
 void c_buffer::generate_arc_points( std::vector<vector2_t<uint16_t>>* points, const vector2_t<uint16_t>* pos, const uint16_t radius, const uint16_t completion, const uint16_t rotation, const uint16_t segments, const bool filled ) {
 	double ang = static_cast< double >( rotation * M_PI ) / 180.0;
 	double comp = ( completion * 0.01 ) * M_PI;
-	double diameter = static_cast< double >( radius );
 
 	auto get_point = [ & ] ( uint16_t i ) {
 		double theta = ang + 2.0 * comp * static_cast< double >( i ) / static_cast< double >( segments );
-		return vector2_t<double>( static_cast< double >( pos->x ) + diameter * cos( theta ), static_cast< double >( pos->y ) + diameter * sin( theta ) );
+		return vector2_t<double>( static_cast< double >( pos->x ) + radius * 0.5 * cos( theta ), static_cast< double >( pos->y ) + radius * 0.5 * sin( theta ) );
 	};
 
 	for ( int i = 0; i < segments; ++i ) {
@@ -181,21 +176,6 @@ void c_buffer::generate_arc_points( std::vector<vector2_t<uint16_t>>* points, co
 
 		points->push_back( vector2_t<uint16_t>( point.x, point.y ) );
 		points->push_back( vector2_t<uint16_t>( next_point.x, next_point.y ) );
-	}
-}
-
-void c_buffer::make_points_between( std::vector<vertex_t>* vertices, const vector2_t<uint16_t>* from, const vector2_t<uint16_t>* to, const color_t* clr ) {
-	int steps = max( std::abs( from->x - to->x ), std::abs( from->y - to->y ) );
-	float x_increment = static_cast< float >( to->x - from->x ) / steps;
-	float y_increment = static_cast< float >( to->y - from->y ) / steps;
-
-	vector2_t<uint16_t> point = *from;
-
-	for ( int i = 0; i <= steps; ++i ) {
-		vertices->push_back( vertex_t( point.x, point.y, 0.f, 1.f, clr->hex ) );
-
-		point.x = static_cast< uint16_t >( std::round( point.x + x_increment ) );
-		point.y = static_cast< uint16_t >( std::round( point.y + y_increment ) );
 	}
 }
 

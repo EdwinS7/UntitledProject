@@ -11,11 +11,12 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     while ( g_win32->dispatch_messages( ) ) {
         g_gfx->begin_scene( );
+        g_ctx->update( );
 
         g_win32->set_window_title( std::vformat( "untitled - renderer ({} FPS)", std::make_format_args( g_ctx->get_framerate() ) ).c_str( ) );
 
-        //g_buffer->line( { 60, 60 }, {100, 100}, color_t( 255, 255, 255, 255 ), 2.f );
-        g_buffer->filled_circle( { 160, 160 }, 300, color_t(255, 0, 0, 255) );
+        //g_buffer->line( { 10, 10 }, {60, 100}, color_t( 255, 255, 255, 255 ), 1.f );
+        g_buffer->circle( { 300, 300 }, 600, color_t(255, 255, 255, 255) );
 
         g_gfx->render_draw_data( );
         g_gfx->end_scene( );
@@ -26,16 +27,28 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
     return 0;
 }
 
+void c_ctx::update( ) {
+    static int fps = 60;
+
+    std::chrono::steady_clock::time_point m_high_resolution_clock = std::chrono::high_resolution_clock::now( );
+
+    float m_real_time = static_cast< float >(
+        std::chrono::duration_cast< std::chrono::duration<double> >(
+            m_high_resolution_clock.time_since_epoch( )
+        ).count( )
+    );
+
+    static float m_update = m_real_time + 0.5f;
+
+    if ( m_real_time > m_update ) {
+        m_update = m_real_time + 0.5f;
+        m_fps = fps * 2;
+        fps = 0;
+    }
+    else
+        fps++;
+}
+
 int c_ctx::get_framerate( ) {
-    std::chrono::steady_clock::time_point high_resolution_clock =
-        std::chrono::high_resolution_clock::now( );
-
-    static std::chrono::steady_clock::time_point frame_time = std::chrono::high_resolution_clock::now( );
-
-    static float m_delta_time = 0.f;
-    m_delta_time = static_cast< float >( std::chrono::duration_cast< std::chrono::duration<double> >( high_resolution_clock - frame_time ).count( ) );
-
-    frame_time = high_resolution_clock;
-
-    return 1.f / m_delta_time;
+    return m_fps;
 }

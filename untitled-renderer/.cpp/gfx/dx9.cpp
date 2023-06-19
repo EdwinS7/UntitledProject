@@ -89,11 +89,8 @@ void c_gfx::begin_scene( ) {
 }
 
 void c_gfx::end_scene( ) {
-    if ( m_device->EndScene( ) != D3D_OK )
-        throw std::runtime_error( "end_scene failed (end scene)" );
-
-    if ( m_device->Present( NULL, NULL, NULL, NULL ) != D3D_OK )
-        throw std::runtime_error( "end_scene failed (present)" );
+    m_device->EndScene( );
+    m_device->Present( NULL, NULL, NULL, NULL );
 }
 
 void c_gfx::render_draw_data( ) {

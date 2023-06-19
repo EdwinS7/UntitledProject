@@ -20,7 +20,11 @@ public:
 	constexpr bool operator>= ( const vector2_t& vector ) const noexcept { return x >= vector.x && y >= vector.y; }
 	constexpr bool operator< ( const vector2_t& vector ) const noexcept { return x < vector.x && y < vector.y; }
 	constexpr bool operator<= ( const vector2_t& vector ) const noexcept { return x <= vector.x && y <= vector.y; }
-	constexpr vector2_t operator*= ( const type_t& val ) const noexcept { return { x *= val, y *= val }; }
+	constexpr vector2_t operator*= ( const type_t& val ) noexcept { return { x *= val, y *= val }; }
+
+	vector2_t normalize( ) {
+		return vector2_t( );
+	}
 
 #ifdef USE_CUSTOM_VECTOR2_OPPERATORS
 	USE_CUSTOM_VECTOR2_OPPERATORS

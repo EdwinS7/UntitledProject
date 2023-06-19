@@ -107,13 +107,6 @@ private:
 		const bool filled
 	);
 
-	void make_points_between( 
-		std::vector<vertex_t>* vertices, 
-		const vector2_t<uint16_t>* from, 
-		const vector2_t<uint16_t>* to, 
-		const color_t* color 
-	);
-
 	void make_vertices( 
 		std::vector<vertex_t>* vertices, 
 		const std::vector<vector2_t<uint16_t>>* points, 
