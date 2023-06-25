@@ -5,6 +5,9 @@
 
 #ifdef UNTITLED_USE_DX9
 
+#define TRIANGLE_LIST D3DPT_TRIANGLELIST
+#define LINE_LIST D3DPT_LINELIST
+
 class c_gfx {
 public:
 	void set_render_states( IDirect3DDevice9* device );

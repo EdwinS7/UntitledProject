@@ -15,8 +15,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
         g_win32->set_window_title( std::vformat( "untitled - renderer ({} FPS)", std::make_format_args( g_ctx->get_framerate() ) ).c_str( ) );
 
-        //g_buffer->line( { 10, 10 }, {60, 100}, color_t( 255, 255, 255, 255 ), 1.f );
-        g_buffer->circle( { 300, 300 }, 600, color_t(255, 255, 255, 255) );
+        g_buffer->circle( { 160, 160 }, 300, color_t(255, 255, 255, 255) );
 
         g_gfx->render_draw_data( );
         g_gfx->end_scene( );
@@ -27,6 +26,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
     return 0;
 }
 
+// __DEMO__
 void c_ctx::update( ) {
     static int fps = 60;
 

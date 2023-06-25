@@ -9,8 +9,9 @@ public:
     void create_objects( );
 
     void write_to_buffer(
-    const std::vector<vertex_t>* vertices,
-    const std::vector<uint32_t>* indices
+        const uint8_t primitive,
+        const std::vector<vertex_t>* vertices,
+        const std::vector<uint32_t>* indices
     );
 
     void build_draw_commands(
@@ -20,14 +21,12 @@ public:
     void line(
         const vector2_t<uint16_t> from,
         const vector2_t<uint16_t> to,
-        const color_t clr,
-        const uint8_t thickness
+        const color_t clr
     );
 
     void polyline(
         const std::vector<vector2_t<uint16_t>> points,
-        const color_t clr,
-        const uint8_t thickness
+        const color_t clr
     );
 
     void polygon(

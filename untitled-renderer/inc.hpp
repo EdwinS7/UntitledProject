@@ -29,6 +29,7 @@ using wndclass_t = WNDCLASSEX;
 #define UNTITLED_USE_GL3
 */
 
+#define UNTITLED_USE_CONSOLE
 #define UNTITLED_USE_WIN32
 #define UNTITLED_USE_DX9
 

@@ -8,9 +8,9 @@ void c_buffer::create_objects( ) {
 
 // __BUFFER__
 
-void c_buffer::write_to_buffer( const std::vector< vertex_t >* vertices, const std::vector < uint32_t >* indices ) {
+void c_buffer::write_to_buffer( const uint8_t primitive, const std::vector< vertex_t >* vertices, const std::vector < uint32_t >* indices ) {
 	if ( vertices->empty( ) )
-		throw std::runtime_error{ "write_idx failed (vertices invalid)" };
+		throw std::runtime_error{ "write_to_buffer failed (vertices invalid)" };
 
 	int vertices_count = vertices->size( ),
 		indices_count = indices == nullptr ? vertices_count * 3 : indices->size();
@@ -22,7 +22,7 @@ void c_buffer::write_to_buffer( const std::vector< vertex_t >* vertices, const s
 			dynamic_indices[ i ] = i;
 	}
 
-	m_draw_commands.push_back( draw_command_t( *vertices, indices == nullptr ? dynamic_indices : *indices, m_command, vertices_count, indices_count ) );
+	m_draw_commands.push_back( draw_command_t( primitive, *vertices, indices == nullptr ? dynamic_indices : *indices, m_command, vertices_count, indices_count ) );
 }
 
 void c_buffer::build_draw_commands( const std::vector<draw_command_t>& draw_commands ) {
@@ -44,25 +44,18 @@ void c_buffer::build_draw_commands( const std::vector<draw_command_t>& draw_comm
 
 // __SHAPES__
 
-void c_buffer::line( const vector2_t< uint16_t > from, const vector2_t< uint16_t > to, const color_t clr, const uint8_t thickness ) {
-	const auto& thick = thickness * 0.5f;
-
+void c_buffer::line( const vector2_t< uint16_t > from, const vector2_t< uint16_t > to, const color_t clr ) {
 	std::vector<vertex_t> vertices{
 		vertex_t( from.x, from.y, 0.f, 1.f, clr.hex ),
-		vertex_t( to.x + thick, to.y, 0.f, 1.f, clr.hex ),
-		vertex_t( to.x - thick, to.y, 0.f, 1.f, clr.hex ),
-
-		vertex_t( to.x, to.y, 0.f, 1.f, clr.hex ),
-		vertex_t( from.x + thick, from.y, 0.f, 1.f, clr.hex ),
-		vertex_t( from.x - thick, from.y, 0.f, 1.f, clr.hex )
+		vertex_t( to.x, to.y, 0.f, 1.f, clr.hex )
 	};
 
-	write_to_buffer( &vertices, nullptr );
+	write_to_buffer( LINE_LIST, &vertices, nullptr );
 }
 
-void c_buffer::polyline( const std::vector< vector2_t< uint16_t > > points, const color_t clr, const uint8_t thickness ) {
-	for ( uint16_t i = 0; i < points.size( ) - 1; ++i )
-		line( points[ i ], points[ i + 1 ], clr, thickness );
+void c_buffer::polyline( const std::vector< vector2_t< uint16_t > > points, const color_t clr ) {
+	for ( uint16_t i = 0; i < points.size( ) - 1; i++ )
+		line( points.at(i), points.at(i + 1), clr );
 }
 
 void c_buffer::polygon( const std::vector<vector2_t<uint16_t>> points, const color_t clr ) {
@@ -70,7 +63,7 @@ void c_buffer::polygon( const std::vector<vector2_t<uint16_t>> points, const col
 
 	make_vertices( &vertices, &points, &clr );
 
-	write_to_buffer( &vertices, nullptr );
+	write_to_buffer( TRIANGLE_LIST, &vertices, nullptr );
 }
 
 void c_buffer::rectangle( const vector2_t< uint16_t > pos, const vector2_t< uint16_t > size, const color_t clr ) {
@@ -90,7 +83,7 @@ void c_buffer::filled_rectangle( const vector2_t< uint16_t > pos, const vector2_
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
 
-	write_to_buffer( &vertices, nullptr );
+	write_to_buffer( TRIANGLE_LIST, &vertices, nullptr );
 }
 
 void c_buffer::gradient( const vector2_t< uint16_t > pos, const vector2_t< uint16_t > size, const color_t clr, const color_t clr2, const bool vertical ) {
@@ -110,7 +103,7 @@ void c_buffer::filled_gradient( const vector2_t< uint16_t > pos, const vector2_t
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
 
-	write_to_buffer( &vertices, nullptr );
+	write_to_buffer( TRIANGLE_LIST, &vertices, nullptr );
 }
 
 void c_buffer::circle( const vector2_t< uint16_t > pos, const uint16_t radius, const color_t clr ) {
@@ -118,7 +111,7 @@ void c_buffer::circle( const vector2_t< uint16_t > pos, const uint16_t radius, c
 
 	generate_arc_points( &points, &pos, radius, 100, 0, 64, false );
 
-	polyline( points, clr, 1.f );
+	polyline( points, clr );
 }
 
 void c_buffer::filled_circle( const vector2_t< uint16_t > pos, const uint16_t radius, const color_t clr ) {
@@ -177,6 +170,8 @@ void c_buffer::generate_arc_points( std::vector<vector2_t<uint16_t>>* points, co
 		points->push_back( vector2_t<uint16_t>( point.x, point.y ) );
 		points->push_back( vector2_t<uint16_t>( next_point.x, next_point.y ) );
 	}
+
+	std::cout << std::to_string( points->size( ) ) << std::endl;
 }
 
 void c_buffer::make_vertices( std::vector<vertex_t>* vertices, const std::vector<vector2_t<uint16_t>>* points, const color_t* clr ) {

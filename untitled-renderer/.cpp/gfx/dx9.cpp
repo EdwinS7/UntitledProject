@@ -150,7 +150,7 @@ void c_gfx::render_draw_data( ) {
     for ( const draw_command_t& command : draw_commands ) {
         m_device->SetScissorRect( &command.command.clips.back( ) );
         m_device->SetTexture( 0, command.command.textures.back( ) );
-        m_device->DrawIndexedPrimitive( D3DPT_TRIANGLELIST, start_vertex, 0, command.vertices_count, start_index, command.indices_count / 3 );
+        m_device->DrawIndexedPrimitive( D3DPRIMITIVETYPE(command.primitive), start_vertex, 0, command.vertices_count, start_index, command.indices_count / 3 );
 
         start_vertex += command.vertices_count;
         start_index += command.indices_count;
