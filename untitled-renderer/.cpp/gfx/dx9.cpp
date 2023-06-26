@@ -130,10 +130,10 @@ void c_gfx::render_draw_data( ) {
     uint32_t* index_data{ };
 
     if ( m_vertex_buffer->Lock( 0, ( UINT ) ( draw_command.vertices_count * sizeof( vertex_t ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
-        throw std::runtime_error{ "render_draw_data error (vtx_buffer->Lock)" };
+        throw std::runtime_error("render_draw_data error (vtx_buffer->Lock)");
 
     if ( m_index_buffer->Lock( 0, ( UINT ) ( draw_command.indices_count * sizeof( std::uint32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
-        throw std::runtime_error{ "render_draw_data error (idx_buffer->Lock)" };
+        throw std::runtime_error("render_draw_data error (idx_buffer->Lock)");
 
     memcpy( vertex_data, draw_command.vertices.data( ), draw_command.vertices_count * sizeof( vertex_t ) );
     memcpy( index_data, draw_command.indices.data( ), draw_command.indices_count * sizeof( uint32_t ) );
@@ -150,6 +150,8 @@ void c_gfx::render_draw_data( ) {
     for ( const draw_command_t& command : draw_commands ) {
         m_device->SetScissorRect( &command.command.clips.back( ) );
         m_device->SetTexture( 0, command.command.textures.back( ) );
+        m_device->SetRenderState( D3DRS_MULTISAMPLEANTIALIAS, command.command.multi_sampling.back( ) );
+
         m_device->DrawIndexedPrimitive( D3DPRIMITIVETYPE(command.primitive), start_vertex, 0, command.vertices_count, start_index, command.indices_count / 3 );
 
         start_vertex += command.vertices_count;

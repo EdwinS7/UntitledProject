@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="debug|Win32">
+      <Configuration>debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="release|Win32">
+      <Configuration>release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a7a678cd-2511-435a-809c-54a72925046d}</ProjectGuid>
+    <RootNamespace>koficsgo</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>ClangCL</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>ClangCL</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <IncludePath>$(DXSDK_DIR)\include;$(ProjectDir)dependencies\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\lib\x86;$(ProjectDir).hpp\dependencies\;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <IncludePath>$(DXSDK_DIR)\include;$(ProjectDir)dependencies\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\lib\x86;$(ProjectDir).hpp\dependencies\;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/Zc:char8_t-  /Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
+      <ExceptionHandling>false</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalOptions>/Zc:char8_t-  /Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
+      <ExceptionHandling>false</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include=".cpp\ctx\ctx.cpp" />
+    <ClCompile Include=".cpp\dependencies\cfg\cfg.cpp" />
+    <ClCompile Include=".cpp\dependencies\imgui\imgui.cpp" />
+    <ClCompile Include=".cpp\dependencies\imgui\imgui_draw.cpp" />
+    <ClCompile Include=".cpp\dependencies\imgui\imgui_impl_dx9.cpp" />
+    <ClCompile Include=".cpp\dependencies\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include=".cpp\dependencies\imgui\imgui_tables.cpp" />
+    <ClCompile Include=".cpp\dependencies\imgui\imgui_widgets.cpp" />
+    <ClCompile Include=".cpp\dependencies\minhook\buffer.c" />
+    <ClCompile Include=".cpp\dependencies\minhook\hde\hde32.c" />
+    <ClCompile Include=".cpp\dependencies\minhook\hook.c" />
+    <ClCompile Include=".cpp\dependencies\minhook\trampoline.c" />
+    <ClCompile Include=".cpp\hacks\aim_bot\aim_bot.cpp" />
+    <ClCompile Include=".cpp\hacks\anim_sync\anim_sync.cpp" />
+    <ClCompile Include=".cpp\hacks\anti_aim\anti_aim.cpp" />
+    <ClCompile Include=".cpp\hacks\auto_wall\auto_wall.cpp" />
+    <ClCompile Include=".cpp\hacks\eng_pred\eng_pred.cpp" />
+    <ClCompile Include=".cpp\hacks\exploits\exploits.cpp" />
+    <ClCompile Include=".cpp\hacks\lag_comp\lag_comp.cpp" />
+    <ClCompile Include=".cpp\hacks\movement\movement.cpp" />
+    <ClCompile Include=".cpp\hacks\shots\shots.cpp" />
+    <ClCompile Include=".cpp\hacks\skins\skins.cpp" />
+    <ClCompile Include=".cpp\hacks\visuals\visuals.cpp" />
+    <ClCompile Include=".cpp\hooks\hooks.cpp" />
+    <ClCompile Include=".cpp\valve\net_vars\net_vars.cpp" />
+    <ClCompile Include=".cpp\hacks\weather\weather.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include=".hpp\ctx\ctx.hpp" />
+    <ClInclude Include=".hpp\dependencies\cfg\cfg.hpp" />
+    <ClInclude Include=".hpp\dependencies\cfg\detail\data_types\base_cfg_var.hpp" />
+    <ClInclude Include=".hpp\dependencies\cfg\detail\detail.hpp" />
+    <ClInclude Include=".hpp\dependencies\imgui\imconfig.h" />
+    <ClInclude Include=".hpp\dependencies\imgui\imgui.h" />
+    <ClInclude Include=".hpp\dependencies\imgui\imgui_impl_dx9.h" />
+    <ClInclude Include=".hpp\dependencies\imgui\imgui_impl_win32.h" />
+    <ClInclude Include=".hpp\dependencies\imgui\imgui_internal.h" />
+    <ClInclude Include=".hpp\dependencies\imgui\imstb_rectpack.h" />
+    <ClInclude Include=".hpp\dependencies\imgui\imstb_textedit.h" />
+    <ClInclude Include=".hpp\dependencies\imgui\imstb_truetype.h" />
+    <ClInclude Include=".hpp\dependencies\json\json.hpp" />
+    <ClInclude Include=".hpp\dependencies\minhook\buffer.h" />
+    <ClInclude Include=".hpp\dependencies\minhook\hde\hde32.h" />
+    <ClInclude Include=".hpp\dependencies\minhook\hde\pstdint.h" />
+    <ClInclude Include=".hpp\dependencies\minhook\hde\table32.h" />
+    <ClInclude Include=".hpp\dependencies\minhook\minhook.h" />
+    <ClInclude Include=".hpp\dependencies\minhook\trampoline.h" />
+    <ClInclude Include=".hpp\dependencies\xorstr\xorstr.hpp" />
+    <ClInclude Include=".hpp\hacks\aim_bot\aim_bot.hpp" />
+    <ClInclude Include=".hpp\hacks\anim_sync\anim_sync.hpp" />
+    <ClInclude Include=".hpp\hacks\anti_aim\anti_aim.hpp" />
+    <ClInclude Include=".hpp\hacks\auto_wall\auto_wall.hpp" />
+    <ClInclude Include=".hpp\hacks\eng_pred\eng_pred.hpp" />
+    <ClInclude Include=".hpp\hacks\exploits\exploits.hpp" />
+    <ClInclude Include=".hpp\hacks\hacks.hpp" />
+    <ClInclude Include=".hpp\hacks\lag_comp\lag_comp.hpp" />
+    <ClInclude Include=".hpp\hacks\movement\movement.hpp" />
+    <ClInclude Include=".hpp\hacks\shots\shots.hpp" />
+    <ClInclude Include=".hpp\hacks\skins\skins.hpp" />
+    <ClInclude Include=".hpp\hacks\visuals\visuals.hpp" />
+    <ClInclude Include=".hpp\hooks\hooks.hpp" />
+    <ClInclude Include=".hpp\math\math.hpp" />
+    <ClInclude Include=".hpp\util\util.hpp" />
+    <ClInclude Include=".hpp\valve\net_vars\net_vars.hpp" />
+    <ClInclude Include="inc.hpp" />
+    <ClInclude Include=".hpp\valve\entities\entities.hpp" />
+    <ClInclude Include=".hpp\valve\interfaces\interfaces.hpp" />
+    <ClInclude Include=".hpp\valve\other\other.hpp" />
+    <ClInclude Include=".hpp\valve\valve.hpp" />
+    <ClInclude Include=".hpp\hacks\weather\weather.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".hpp\ctx\inl\ctx.inl" />
+    <None Include=".hpp\dependencies\cfg\inl\cfg.inl" />
+    <None Include=".hpp\hacks\aim_bot\inl\aim_bot.inl" />
+    <None Include=".hpp\hacks\anim_sync\inl\anim_sync.inl" />
+    <None Include=".hpp\hacks\anti_aim\inl\anti_aim.inl" />
+    <None Include=".hpp\hacks\eng_pred\inl\eng_pred.inl" />
+    <None Include=".hpp\hacks\exploits\inl\exploits.inl" />
+    <None Include=".hpp\hacks\lag_comp\inl\lag_comp.inl" />
+    <None Include=".hpp\hacks\movement\inl\movement.inl" />
+    <None Include=".hpp\hacks\shots\inl\shots.inl" />
+    <None Include=".hpp\hacks\skins\skins.inl" />
+    <None Include=".hpp\hacks\visuals\inl\visuals.inl" />
+    <None Include=".hpp\hacks\weather\inl\weather.inl" />
+    <None Include=".hpp\math\inl\math.inl" />
+    <None Include=".hpp\util\impl\util.inl" />
+    <None Include=".hpp\valve\entities\inl\entities.inl" />
+    <None Include=".hpp\valve\interfaces\inl\interfaces.inl" />
+    <None Include=".hpp\valve\net_vars\inl\net_vars.inl" />
+    <None Include=".hpp\valve\other\inl\other.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

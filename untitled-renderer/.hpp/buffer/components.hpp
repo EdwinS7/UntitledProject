@@ -118,17 +118,20 @@ class command_t {
 public:
 	std::vector< rect_t > clips;
 	std::vector< GfxTexture > textures;
+	std::vector< bool > multi_sampling;
 
 	constexpr command_t( ) noexcept = default;
 
-	constexpr command_t( const rect_t clip, const GfxTexture texture ) noexcept {
+	constexpr command_t( const rect_t clip, const GfxTexture texture, const bool multi_sample ) noexcept {
 		clips.push_back( clip );
 		textures.push_back( texture );
+		multi_sampling.push_back( multi_sample );
 	}
 
 	constexpr void operator+= ( const command_t& command ) noexcept {
 		clips.insert( clips.end( ), command.clips.begin( ), command.clips.end( ) );
 		textures.insert( textures.end( ), command.textures.begin( ), command.textures.end( ) );
+		multi_sampling.insert( multi_sampling.end( ), command.multi_sampling.begin( ), command.multi_sampling.end( ) );
 	}
 
 #ifdef USE_CUSTOM_COMMAND_OPPERATORS

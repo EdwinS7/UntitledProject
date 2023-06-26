@@ -10,8 +10,7 @@ public:
 
     void write_to_buffer(
         const uint8_t primitive,
-        const std::vector<vertex_t>* vertices,
-        const std::vector<uint32_t>* indices
+        const std::vector<vertex_t>* vertices
     );
 
     void build_draw_commands(
