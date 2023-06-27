@@ -1,6 +1,22 @@
 #pragma once
 #include "buffer.hpp"
 
+enum corner_flags {
+	corner_none = 0 << 0,
+	corner_top_left = 1 << 0,
+	corner_top_right = 1 << 1,
+	corner_bottom_left = 1 << 2,
+	corner_bottom_right = 1 << 3,
+
+	corner_top = corner_top_left | corner_top_right,
+	corner_right = corner_top_right | corner_bottom_right,
+	corner_bottom = corner_bottom_left | corner_bottom_right,
+	corner_left = corner_top_left | corner_bottom_left,
+
+	corner_all = corner_top_left | corner_top_right |
+	corner_bottom_left | corner_bottom_right
+};
+
 template < typename type_t = uint16_t >
 
 class vector2_t {
@@ -21,10 +37,6 @@ public:
 	constexpr bool operator< ( const vector2_t& vector ) const noexcept { return x < vector.x && y < vector.y; }
 	constexpr bool operator<= ( const vector2_t& vector ) const noexcept { return x <= vector.x && y <= vector.y; }
 	constexpr vector2_t operator*= ( const type_t& val ) noexcept { return { x *= val, y *= val }; }
-
-	vector2_t normalize( ) {
-		return vector2_t( );
-	}
 
 #ifdef USE_CUSTOM_VECTOR2_OPPERATORS
 	USE_CUSTOM_VECTOR2_OPPERATORS
@@ -118,20 +130,17 @@ class command_t {
 public:
 	std::vector< rect_t > clips;
 	std::vector< GfxTexture > textures;
-	std::vector< bool > multi_sampling;
 
 	constexpr command_t( ) noexcept = default;
 
-	constexpr command_t( const rect_t clip, const GfxTexture texture, const bool multi_sample ) noexcept {
+	constexpr command_t( const rect_t clip, const GfxTexture texture ) noexcept {
 		clips.push_back( clip );
 		textures.push_back( texture );
-		multi_sampling.push_back( multi_sample );
 	}
 
 	constexpr void operator+= ( const command_t& command ) noexcept {
 		clips.insert( clips.end( ), command.clips.begin( ), command.clips.end( ) );
 		textures.insert( textures.end( ), command.textures.begin( ), command.textures.end( ) );
-		multi_sampling.insert( multi_sampling.end( ), command.multi_sampling.begin( ), command.multi_sampling.end( ) );
 	}
 
 #ifdef USE_CUSTOM_COMMAND_OPPERATORS

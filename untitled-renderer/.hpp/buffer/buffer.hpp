@@ -10,7 +10,8 @@ public:
 
     void write_to_buffer(
         const uint8_t primitive,
-        const std::vector<vertex_t>* vertices
+        const std::vector<vertex_t>* vertices,
+        const std::vector<uint32_t>* indices
     );
 
     void build_draw_commands(
@@ -36,13 +37,17 @@ public:
     void rectangle(
         const vector2_t<uint16_t> pos,
         const vector2_t<uint16_t> size,
-        const color_t clr
+        const color_t clr,
+        const uint16_t rounding,
+        const corner_flags flags
     );
 
     void filled_rectangle(
         const vector2_t<uint16_t> pos,
         const vector2_t<uint16_t> size,
-        const color_t clr
+        const color_t clr,
+        const uint16_t rounding,
+        const corner_flags flags
     );
 
     void gradient(
@@ -73,22 +78,16 @@ public:
         const color_t clr
     );
 
-    void filled_circle_multi_color(
-        const vector2_t<uint16_t> pos,
-        const uint16_t radius,
-        const color_t outer_clr,
-        const color_t inner_clr
-    );
+// inline
+    ALWAYS_INLINE void clear_commands( );
 
-    command_t get_command( );
+    ALWAYS_INLINE command_t get_command( );
 
-    void push_command( const command_t command );
+    ALWAYS_INLINE compiled_draw_command_t get_draw_command( );
 
-    compiled_draw_command_t get_draw_command( );
+    ALWAYS_INLINE std::vector<draw_command_t> get_draw_commands( );
 
-    std::vector<draw_command_t> get_draw_commands( );
-
-    void clear_commands( );
+    ALWAYS_INLINE void push_command( const command_t command );
 
 private:
 	std::vector < draw_command_t > m_draw_commands;
@@ -101,8 +100,7 @@ private:
 		const uint16_t radius,
 		const uint16_t completion,
 		const uint16_t rotation,
-		const uint16_t segments,
-		const bool filled
+		const uint16_t segments
 	);
 
 	void make_vertices( 
@@ -113,3 +111,9 @@ private:
 };
 
 inline const auto g_buffer = std::make_unique<c_buffer>( );
+
+/* lower = performance, higher = quality */
+#define CIRCLE_SEGMENTS 64
+#define RECTANGLE_SEGMENTS 16
+
+#include "buffer.inl"

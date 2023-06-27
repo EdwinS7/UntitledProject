@@ -24,7 +24,8 @@ void c_gfx::set_render_states( IDirect3DDevice9* device ) {
     device->SetRenderState( D3DRS_CLIPPING, TRUE );
     device->SetRenderState( D3DRS_LIGHTING, FALSE );
     device->SetRenderState( D3DRS_SRGBWRITEENABLE, FALSE );
-    device->SetRenderState( D3DRS_MULTISAMPLEANTIALIAS, FALSE );
+    device->SetRenderState( D3DRS_MULTISAMPLEANTIALIAS, TRUE );
+    device->SetRenderState( D3DRS_VERTEXBLEND, FALSE );
 
     device->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG2 );
     device->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
@@ -74,7 +75,22 @@ IDirect3DParamaters9* c_gfx::get_parameters( ) {
 GfxTexture c_gfx::create_texture( const byte_t bytes[], const vector2_t<uint16_t> size ) {
     GfxTexture texture;
 
-    if ( D3DXCreateTextureFromFileInMemoryEx( m_device, bytes, INT_MAX, size.x, size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &texture ) != D3D_OK )
+    if ( D3DXCreateTextureFromFileInMemoryEx(
+            m_device,
+            bytes,
+            INT_MAX,
+            size.x,
+            size.y,
+            D3DX_DEFAULT,
+            NULL,
+            D3DFMT_UNKNOWN,
+            D3DPOOL_DEFAULT,
+            D3DX_DEFAULT,
+            D3DX_DEFAULT,
+            NULL, NULL,
+            NULL,
+            &texture ) != D3D_OK
+        )
         throw std::runtime_error( "create_texture failed (D3DXCreateTextureFromFileInMemoryEx)" );
 
     return texture;
@@ -150,7 +166,6 @@ void c_gfx::render_draw_data( ) {
     for ( const draw_command_t& command : draw_commands ) {
         m_device->SetScissorRect( &command.command.clips.back( ) );
         m_device->SetTexture( 0, command.command.textures.back( ) );
-        m_device->SetRenderState( D3DRS_MULTISAMPLEANTIALIAS, command.command.multi_sampling.back( ) );
 
         m_device->DrawIndexedPrimitive( D3DPRIMITIVETYPE(command.primitive), start_vertex, 0, command.vertices_count, start_index, command.indices_count / 3 );
 
@@ -161,8 +176,17 @@ void c_gfx::render_draw_data( ) {
     g_buffer->clear_commands( );
 }
 
+void c_gfx::draw( ) {
+    begin_scene( );
+    render_draw_data( );
+    end_scene( );
+}
+
 void c_gfx::release( ) {
     g_buffer->clear_commands( );
+
+    safe_release( m_vertex_buffer );
+    safe_release( m_index_buffer );
     safe_release( m_device );
     safe_release( m_d3d );
 }

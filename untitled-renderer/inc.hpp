@@ -18,6 +18,9 @@ using rect_t = RECT;
 using dword_t = DWORD;
 using ulong_t = unsigned long;
 using wndclass_t = WNDCLASSEX;
+using timepoint_t = std::chrono::steady_clock::time_point;
+
+#define ALWAYS_INLINE __forceinline
 
 // @note: you can use ( #define UNTITLED_USE_CONSOLE ) for logging & error handling.
 // @note: you can use ( #define UNTITLED_USE_WIN32 ) for a render enviornment.

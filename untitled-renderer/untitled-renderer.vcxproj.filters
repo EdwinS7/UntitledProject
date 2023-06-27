@@ -60,4 +60,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".hpp\buffer\buffer.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\ctx\ctx.inl">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

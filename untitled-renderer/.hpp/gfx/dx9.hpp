@@ -26,6 +26,8 @@ public:
 
 	void render_draw_data( );
 
+	void draw( );
+
 	void release( );
 
 private:
