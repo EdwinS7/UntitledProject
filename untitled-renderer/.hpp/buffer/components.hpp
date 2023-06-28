@@ -129,11 +129,11 @@ public:
 class command_t {
 public:
 	std::vector< rect_t > clips;
-	std::vector< GfxTexture > textures;
+	std::vector< texture > textures;
 
 	constexpr command_t( ) noexcept = default;
 
-	constexpr command_t( const rect_t clip, const GfxTexture texture ) noexcept {
+	constexpr command_t( const rect_t clip, const texture texture ) noexcept {
 		clips.push_back( clip );
 		textures.push_back( texture );
 	}

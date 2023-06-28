@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <iostream>
+#include <shlobj.h>
 #include <cstdint>
 #include <cassert>
 #include <thread>
@@ -10,6 +11,11 @@
 // @note: used for M_PI & other PI variables.
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+// @note: used for fonts
+#include ".lib/ft2build.h"
+#include FT_FREETYPE_H
+#include FT_BITMAP_H
 
 // @note: these are used only because I like them like this.
 using hwnd_t = HWND;
@@ -44,8 +50,12 @@ using timepoint_t = std::chrono::steady_clock::time_point;
 	#pragma comment(lib, "d3dx9.lib")
 	#include ".hpp/gfx/dx9.hpp"
 
-	using GfxTexture = LPDIRECT3DTEXTURE9;
+	using texture = LPDIRECT3DTEXTURE9;
+	using creation_paramaters = D3DDEVICE_CREATION_PARAMETERS;
 	using IDirect3DParamaters9 = D3DPRESENT_PARAMETERS;
+
+	#define TRIANGLE D3DPT_TRIANGLESTRIP
+	#define LINE D3DPT_LINESTRIP
 #endif
 
 /* supported games: roblox, eft, cs2, 7 days to die, fortnite */

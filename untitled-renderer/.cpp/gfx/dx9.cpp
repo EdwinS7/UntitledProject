@@ -72,8 +72,8 @@ IDirect3DParamaters9* c_gfx::get_parameters( ) {
     return &m_parameters;
 }
 
-GfxTexture c_gfx::create_texture( const byte_t bytes[], const vector2_t<uint16_t> size ) {
-    GfxTexture texture;
+texture c_gfx::create_texture( const byte_t bytes[], const vector2_t<uint16_t> size ) {
+    texture texture;
 
     if ( D3DXCreateTextureFromFileInMemoryEx(
             m_device,
@@ -94,6 +94,13 @@ GfxTexture c_gfx::create_texture( const byte_t bytes[], const vector2_t<uint16_t
         throw std::runtime_error( "create_texture failed (D3DXCreateTextureFromFileInMemoryEx)" );
 
     return texture;
+}
+
+creation_paramaters c_gfx::get_creation_paramaters() {
+    creation_paramaters params;
+    m_device->GetCreationParameters(&params);
+
+    return params;
 }
 
 void c_gfx::begin_scene( ) {

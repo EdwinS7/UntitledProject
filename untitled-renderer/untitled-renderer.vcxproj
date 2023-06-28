@@ -73,26 +73,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(ProjectDir).lib/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir).lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(ProjectDir).lib/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir).lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(ProjectDir).lib/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir).lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)include;$(ProjectDir).hpp/gfx/inc;$(ProjectDir).lib/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir).lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -110,6 +110,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,7 +132,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -151,6 +152,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -173,10 +175,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>freetype.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include=".cpp\buffer\buffer.cpp" />
+    <ClCompile Include=".cpp\buffer\fonts\font.cpp" />
     <ClCompile Include=".cpp\ctx\ctx.cpp" />
     <ClCompile Include=".cpp\gfx\dx11.cpp" />
     <ClCompile Include=".cpp\gfx\dx9.cpp" />
@@ -186,16 +190,121 @@
   <ItemGroup>
     <ClInclude Include=".hpp\buffer\buffer.hpp" />
     <ClInclude Include=".hpp\buffer\components.hpp" />
+    <ClInclude Include=".hpp\buffer\fonts\font.hpp" />
     <ClInclude Include=".hpp\ctx\ctx.hpp" />
     <ClInclude Include=".hpp\gfx\dx11.hpp" />
     <ClInclude Include=".hpp\gfx\dx9.hpp" />
     <ClInclude Include=".hpp\gfx\gl3.hpp" />
+    <ClInclude Include=".lib\freetype\config\ftconfig.h" />
+    <ClInclude Include=".lib\freetype\config\ftheader.h" />
+    <ClInclude Include=".lib\freetype\config\ftmodule.h" />
+    <ClInclude Include=".lib\freetype\config\ftoption.h" />
+    <ClInclude Include=".lib\freetype\config\ftstdlib.h" />
+    <ClInclude Include=".lib\freetype\config\integer-types.h" />
+    <ClInclude Include=".lib\freetype\config\mac-support.h" />
+    <ClInclude Include=".lib\freetype\config\public-macros.h" />
+    <ClInclude Include=".lib\freetype\freetype.h" />
+    <ClInclude Include=".lib\freetype\ftadvanc.h" />
+    <ClInclude Include=".lib\freetype\ftbbox.h" />
+    <ClInclude Include=".lib\freetype\ftbdf.h" />
+    <ClInclude Include=".lib\freetype\ftbitmap.h" />
+    <ClInclude Include=".lib\freetype\ftbzip2.h" />
+    <ClInclude Include=".lib\freetype\ftcache.h" />
+    <ClInclude Include=".lib\freetype\ftchapters.h" />
+    <ClInclude Include=".lib\freetype\ftcid.h" />
+    <ClInclude Include=".lib\freetype\ftcolor.h" />
+    <ClInclude Include=".lib\freetype\ftdriver.h" />
+    <ClInclude Include=".lib\freetype\fterrdef.h" />
+    <ClInclude Include=".lib\freetype\fterrors.h" />
+    <ClInclude Include=".lib\freetype\ftfntfmt.h" />
+    <ClInclude Include=".lib\freetype\ftgasp.h" />
+    <ClInclude Include=".lib\freetype\ftglyph.h" />
+    <ClInclude Include=".lib\freetype\ftgxval.h" />
+    <ClInclude Include=".lib\freetype\ftgzip.h" />
+    <ClInclude Include=".lib\freetype\ftimage.h" />
+    <ClInclude Include=".lib\freetype\ftincrem.h" />
+    <ClInclude Include=".lib\freetype\ftlcdfil.h" />
+    <ClInclude Include=".lib\freetype\ftlist.h" />
+    <ClInclude Include=".lib\freetype\ftlogging.h" />
+    <ClInclude Include=".lib\freetype\ftlzw.h" />
+    <ClInclude Include=".lib\freetype\ftmac.h" />
+    <ClInclude Include=".lib\freetype\ftmm.h" />
+    <ClInclude Include=".lib\freetype\ftmodapi.h" />
+    <ClInclude Include=".lib\freetype\ftmoderr.h" />
+    <ClInclude Include=".lib\freetype\ftotval.h" />
+    <ClInclude Include=".lib\freetype\ftoutln.h" />
+    <ClInclude Include=".lib\freetype\ftparams.h" />
+    <ClInclude Include=".lib\freetype\ftpfr.h" />
+    <ClInclude Include=".lib\freetype\ftrender.h" />
+    <ClInclude Include=".lib\freetype\ftsizes.h" />
+    <ClInclude Include=".lib\freetype\ftsnames.h" />
+    <ClInclude Include=".lib\freetype\ftstroke.h" />
+    <ClInclude Include=".lib\freetype\ftsynth.h" />
+    <ClInclude Include=".lib\freetype\ftsystem.h" />
+    <ClInclude Include=".lib\freetype\fttrigon.h" />
+    <ClInclude Include=".lib\freetype\fttypes.h" />
+    <ClInclude Include=".lib\freetype\ftwinfnt.h" />
+    <ClInclude Include=".lib\freetype\internal\autohint.h" />
+    <ClInclude Include=".lib\freetype\internal\cffotypes.h" />
+    <ClInclude Include=".lib\freetype\internal\cfftypes.h" />
+    <ClInclude Include=".lib\freetype\internal\compiler-macros.h" />
+    <ClInclude Include=".lib\freetype\internal\ftcalc.h" />
+    <ClInclude Include=".lib\freetype\internal\ftdebug.h" />
+    <ClInclude Include=".lib\freetype\internal\ftdrv.h" />
+    <ClInclude Include=".lib\freetype\internal\ftgloadr.h" />
+    <ClInclude Include=".lib\freetype\internal\fthash.h" />
+    <ClInclude Include=".lib\freetype\internal\ftmemory.h" />
+    <ClInclude Include=".lib\freetype\internal\ftmmtypes.h" />
+    <ClInclude Include=".lib\freetype\internal\ftobjs.h" />
+    <ClInclude Include=".lib\freetype\internal\ftpsprop.h" />
+    <ClInclude Include=".lib\freetype\internal\ftrfork.h" />
+    <ClInclude Include=".lib\freetype\internal\ftserv.h" />
+    <ClInclude Include=".lib\freetype\internal\ftstream.h" />
+    <ClInclude Include=".lib\freetype\internal\fttrace.h" />
+    <ClInclude Include=".lib\freetype\internal\ftvalid.h" />
+    <ClInclude Include=".lib\freetype\internal\psaux.h" />
+    <ClInclude Include=".lib\freetype\internal\pshints.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svbdf.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svcfftl.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svcid.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svfntfmt.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svgldict.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svgxval.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svkern.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svmetric.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svmm.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svotval.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svpfr.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svprop.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svtteng.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include=".lib\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include=".lib\freetype\internal\sfnt.h" />
+    <ClInclude Include=".lib\freetype\internal\svginterface.h" />
+    <ClInclude Include=".lib\freetype\internal\t1types.h" />
+    <ClInclude Include=".lib\freetype\internal\tttypes.h" />
+    <ClInclude Include=".lib\freetype\internal\wofftypes.h" />
+    <ClInclude Include=".lib\freetype\otsvg.h" />
+    <ClInclude Include=".lib\freetype\t1tables.h" />
+    <ClInclude Include=".lib\freetype\ttnameid.h" />
+    <ClInclude Include=".lib\freetype\tttables.h" />
+    <ClInclude Include=".lib\freetype\tttags.h" />
+    <ClInclude Include=".lib\ft2build.h" />
     <ClInclude Include="inc.hpp" />
     <ClInclude Include=".hpp\win32\win32.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".hpp\buffer\buffer.inl" />
+    <None Include=".hpp\buffer\fonts\font.inl" />
     <None Include=".hpp\ctx\ctx.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include=".lib\freetype.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

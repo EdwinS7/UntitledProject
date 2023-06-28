@@ -5,9 +5,6 @@
 
 #ifdef UNTITLED_USE_DX9
 
-#define TRIANGLE D3DPT_TRIANGLESTRIP
-#define LINE D3DPT_LINESTRIP
-
 class c_gfx {
 public:
 	void set_render_states( IDirect3DDevice9* device );
@@ -18,7 +15,9 @@ public:
 
 	IDirect3DParamaters9* get_parameters( );
 
-	GfxTexture create_texture( const byte_t bytes[], const vector2_t<uint16_t> size );
+	texture create_texture( const byte_t bytes[], const vector2_t<uint16_t> size );
+
+	creation_paramaters get_creation_paramaters( );
 
 	void begin_scene( );
 
