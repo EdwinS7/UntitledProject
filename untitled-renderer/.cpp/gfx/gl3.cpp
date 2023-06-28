@@ -7,7 +7,7 @@ void c_gfx::create_context( ) {
 		throw std::runtime_error( "create_context failed (glfwInit)" );
 }
 
-bool c_gfx::create_device( hwnd_t hwnd ) {
+bool c_gfx::create_device( HWND hwnd ) {
 	//glfwMakeContextCurrent( hwnd );
 }
 

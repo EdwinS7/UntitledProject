@@ -11,7 +11,7 @@ public:
 
 	bool message_box( const char* title, const char* caption, uint8_t type );
 
-	hwnd_t get_hwnd( );
+	HWND get_hwnd( );
 
 	vector2_t<uint16_t> get_pos( );
 
@@ -20,8 +20,8 @@ public:
 	bool dispatch_messages( );
 private:
 
-	hwnd_t m_hwnd;
-	wndclass_t window_class;
+	HWND m_hwnd;
+	WNDCLASSEX window_class;
 };
 
 inline const auto g_win32 = std::make_unique<c_win32>( );

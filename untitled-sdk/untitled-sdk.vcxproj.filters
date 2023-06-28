@@ -14,4 +14,20 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include=".cpp\ctx\ctx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".hpp\ctx\ctx.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\ctx\ctx.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

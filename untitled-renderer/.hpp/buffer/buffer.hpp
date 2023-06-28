@@ -8,6 +8,8 @@ class c_buffer {
 public:
     void create_objects( );
 
+    void destroy_objects( );
+
     void write_to_buffer(
         const uint8_t primitive,
         const std::vector<vertex_t>* vertices,

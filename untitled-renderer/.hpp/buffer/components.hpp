@@ -88,12 +88,12 @@ public:
 class vertex_t {
 public:
 	float x, y, z, rhw;
-	dword_t clr;
+	DWORD clr;
 	float u, v;
 
 	constexpr vertex_t( ) noexcept = default;
 
-	constexpr vertex_t( const float x, const float y, const float z, const float rhw, const dword_t clr, const float u = 0.f, const float v = 0.f) noexcept
+	constexpr vertex_t( const float x, const float y, const float z, const float rhw, const DWORD clr, const float u = 0.f, const float v = 0.f) noexcept
 		: x( x ), y( y ), z( z ), rhw( rhw ), clr( clr ), u( u ), v( v ) { }
 
 #ifdef USE_CUSTOM_VERTEX_OPPERATORS
@@ -106,7 +106,7 @@ public:
 
 class color_t {
 public:
-	dword_t hex;
+	DWORD hex;
 
 	constexpr color_t( ) noexcept = default;
 
@@ -128,12 +128,12 @@ public:
 
 class command_t {
 public:
-	std::vector< rect_t > clips;
+	std::vector< RECT > clips;
 	std::vector< texture > textures;
 
 	constexpr command_t( ) noexcept = default;
 
-	constexpr command_t( const rect_t clip, const texture texture ) noexcept {
+	constexpr command_t( const RECT clip, const texture texture ) noexcept {
 		clips.push_back( clip );
 		textures.push_back( texture );
 	}

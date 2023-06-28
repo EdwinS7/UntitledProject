@@ -3,7 +3,12 @@
 void c_buffer::create_objects( ) {
 	vector2_t<uint16_t> win32_size = g_win32->get_size( );
 
-	push_command( command_t( rect_t( 0, 0, win32_size.x, win32_size.y ), nullptr ) );
+	push_command( command_t( RECT( 0, 0, win32_size.x, win32_size.y ), nullptr ) );
+}
+
+void c_buffer::destroy_objects( ) {
+	m_command.textures.clear( );
+	m_command.clips.clear( );
 }
 
 // __BUFFER__

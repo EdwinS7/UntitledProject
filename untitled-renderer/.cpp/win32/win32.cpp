@@ -3,8 +3,8 @@
 LRESULT CALLBACK WindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 	switch ( uMsg ) {
 	case WM_SIZE:
-		//g_gfx->get_parameters( )->BackBufferWidth = LOWORD( lParam );
-		//g_gfx->get_parameters( )->BackBufferHeight = HIWORD( lParam );
+		if ( g_gfx->valid( ) && wParam != SIZE_MINIMIZED )
+			g_gfx->reset( hwnd, lParam );
 
 		return 0;
 	case WM_DESTROY:
@@ -59,7 +59,7 @@ bool c_win32::message_box( const char* title, const char* caption, uint8_t type 
 	return false;
 }
 
-hwnd_t c_win32::get_hwnd( ) {
+HWND c_win32::get_hwnd( ) {
 	return m_hwnd;
 }
 

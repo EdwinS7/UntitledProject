@@ -2,6 +2,28 @@
 
 #ifdef UNTITLED_USE_DX9
 
+void c_gfx::create_context( ) {
+	m_d3d = Direct3DCreate9( D3D_SDK_VERSION );
+
+    m_parameters.Windowed = TRUE;
+    m_parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    m_parameters.BackBufferFormat = D3DFMT_UNKNOWN;
+    m_parameters.EnableAutoDepthStencil = TRUE;
+    m_parameters.AutoDepthStencilFormat = D3DFMT_D16;
+    m_parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+    m_parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
+    m_parameters.MultiSampleQuality = 0;
+}
+
+bool c_gfx::create_device( HWND hwnd ) {
+    if ( m_d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_parameters, &m_device ) < D3D_OK )
+        throw std::runtime_error("create_device failed");
+
+    set_render_states( m_device );
+
+    return true;
+}
+
 void c_gfx::set_render_states( IDirect3DDevice9* device ) {
     device->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
     device->SetRenderState( D3DRS_SHADEMODE, D3DSHADE_GOURAUD );
@@ -46,69 +68,9 @@ void c_gfx::set_render_states( IDirect3DDevice9* device ) {
     device->SetPixelShader( nullptr );
 }
 
-void c_gfx::create_context( ) {
-	m_d3d = Direct3DCreate9( D3D_SDK_VERSION );
-
-    m_parameters.Windowed = TRUE;
-    m_parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
-    m_parameters.BackBufferFormat = D3DFMT_UNKNOWN;
-    m_parameters.EnableAutoDepthStencil = TRUE;
-    m_parameters.AutoDepthStencilFormat = D3DFMT_D16;
-    m_parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-    m_parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
-    m_parameters.MultiSampleQuality = 0;
-}
-
-bool c_gfx::create_device( hwnd_t hwnd ) {
-    if ( m_d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_parameters, &m_device ) < D3D_OK )
-        throw std::runtime_error("create_device failed");
-
-    set_render_states( m_device );
-
-    return true;
-}
-
-IDirect3DParamaters9* c_gfx::get_parameters( ) {
-    return &m_parameters;
-}
-
-texture c_gfx::create_texture( const byte_t bytes[], const vector2_t<uint16_t> size ) {
-    texture texture;
-
-    if ( D3DXCreateTextureFromFileInMemoryEx(
-            m_device,
-            bytes,
-            INT_MAX,
-            size.x,
-            size.y,
-            D3DX_DEFAULT,
-            NULL,
-            D3DFMT_UNKNOWN,
-            D3DPOOL_DEFAULT,
-            D3DX_DEFAULT,
-            D3DX_DEFAULT,
-            NULL, NULL,
-            NULL,
-            &texture ) != D3D_OK
-        )
-        throw std::runtime_error( "create_texture failed (D3DXCreateTextureFromFileInMemoryEx)" );
-
-    return texture;
-}
-
-creation_paramaters c_gfx::get_creation_paramaters() {
-    creation_paramaters params;
-    m_device->GetCreationParameters(&params);
-
-    return params;
-}
-
 void c_gfx::begin_scene( ) {
-    if ( m_device->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_RGBA( 15, 15, 15, NULL ), 1.f, 0 ) != D3D_OK )
-        throw std::runtime_error( "begin_scene failed (clear)" );
-
-    if ( m_device->BeginScene( ) != D3D_OK)
-        throw std::runtime_error( "begin_scene failed (begin scene)" );
+    m_device->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_RGBA( 15, 15, 15, NULL ), 1.f, 0 );
+    m_device->BeginScene( );
 }
 
 void c_gfx::end_scene( ) {
@@ -189,6 +151,25 @@ void c_gfx::draw( ) {
     end_scene( );
 }
 
+void c_gfx::reset( const HWND hWnd, const LPARAM lParam ) {
+    g_buffer->destroy_objects( );
+
+    m_parameters.BackBufferWidth = LOWORD( lParam );
+    m_parameters.BackBufferHeight = HIWORD( lParam );
+     
+    safe_release( m_vertex_buffer );
+    safe_release( m_index_buffer );
+    safe_release( m_device );
+
+    create_device( hWnd );
+
+    g_buffer->create_objects( );
+}
+
+bool c_gfx::valid( ) {
+    return m_device != nullptr;
+}
+
 void c_gfx::release( ) {
     g_buffer->clear_commands( );
 
@@ -204,6 +185,32 @@ void c_gfx::safe_release( type*& obj ) {
         obj->Release( );
         obj = nullptr;
     }
+}
+
+/* utilities */
+
+texture c_gfx::create_texture( const std::vector<BYTE> bytes, const vector2_t<uint16_t> size ) {
+    texture texture;
+
+    if ( D3DXCreateTextureFromFileInMemoryEx(
+        m_device,
+        bytes.data(),
+        INT_MAX,
+        size.x,
+        size.y,
+        D3DX_DEFAULT,
+        NULL,
+        D3DFMT_UNKNOWN,
+        D3DPOOL_DEFAULT,
+        D3DX_DEFAULT,
+        D3DX_DEFAULT,
+        NULL, NULL,
+        NULL,
+        &texture ) != D3D_OK
+        )
+        throw std::runtime_error( "create_texture failed (D3DXCreateTextureFromFileInMemoryEx)" );
+
+    return texture;
 }
 
 #endif

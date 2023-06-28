@@ -7,17 +7,12 @@
 
 class c_gfx {
 public:
-	void set_render_states( IDirect3DDevice9* device );
 
 	void create_context( );
 
-	bool create_device( hwnd_t hwnd );
+	bool create_device( HWND hwnd );
 
-	IDirect3DParamaters9* get_parameters( );
-
-	texture create_texture( const byte_t bytes[], const vector2_t<uint16_t> size );
-
-	creation_paramaters get_creation_paramaters( );
+	void set_render_states( IDirect3DDevice9* device );
 
 	void begin_scene( );
 
@@ -27,12 +22,19 @@ public:
 
 	void draw( );
 
+	void reset( const HWND hWnd, const LPARAM lParam );
+
+	bool valid( );
+
 	void release( );
+
+// utilities
+	texture create_texture( const std::vector<BYTE> bytes, const vector2_t<uint16_t> size );
 
 private:
 	IDirect3D9* m_d3d;
 	IDirect3DDevice9* m_device;
-	IDirect3DParamaters9 m_parameters;
+	D3DPRESENT_PARAMETERS m_parameters;
 
 	int	m_vertex_buffer_size{ 5000 },
 		m_index_buffer_size{ 10000 };

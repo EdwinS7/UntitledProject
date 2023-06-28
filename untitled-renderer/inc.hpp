@@ -7,42 +7,39 @@
 #include <vector>
 #include <string>
 #include <format>
-
-// @note: used for M_PI & other PI variables.
-#define _USE_MATH_DEFINES
 #include <math.h>
 
-// @note: used for fonts
+#define _USE_MATH_DEFINES
+
+// @note: freetype font rasterizing
 #include ".lib/ft2build.h"
 #include FT_FREETYPE_H
 #include FT_BITMAP_H
 
-// @note: these are used only because I like them like this.
-using hwnd_t = HWND;
-using byte_t = BYTE;
-using rect_t = RECT;
-using dword_t = DWORD;
-using ulong_t = unsigned long;
-using wndclass_t = WNDCLASSEX;
-using timepoint_t = std::chrono::steady_clock::time_point;
-
+// @note: custom definitions
 #define ALWAYS_INLINE __forceinline
 
-// @note: you can use ( #define UNTITLED_USE_CONSOLE ) for logging & error handling.
-// @note: you can use ( #define UNTITLED_USE_WIN32 ) for a render enviornment.
-/* Graphics API's ( you must have the library installed for what you choose! )
-#define UNTITLED_USE_DX9
-#define UNTITLED_USE_DX11
-#define UNTITLED_USE_DX12
-#define UNTITLED_USE_GL2
-#define UNTITLED_USE_GL3
+// @note: redefinitions
+using ulong_t = unsigned long;
+using timepoint_t = std::chrono::steady_clock::time_point;
+
+/* __FEATURES__
+#define UNTITLED_USE_CONSOLE ( creates a debug console used for logging)
+#define UNTITLED_USE_WIN32 ( creates a Win32 window for rendering )
 */
 
+/* __APIs__
+#define UNTITLED_USE_DX9 ( DirectX 9 June 2010 )
+#define UNTITLED_USE_DX11 ( DirectX 11 )
+#define UNTITLED_USE_DX12 ( DirectX 12 )
+#define UNTITLED_USE_GL2 ( OpenGL 2 )
+#define UNTITLED_USE_GL3 ( OpenGL 3 )
+*/
+
+// @note: demo settings
 #define UNTITLED_USE_WIN32
 #define UNTITLED_USE_DX9
 
-// @note: add more games if you known any, only add known popular games.
-/* supported games: cs:go, css, call of duty, call of duty 2, hl2, tf2, any source engine game */
 #ifdef UNTITLED_USE_DX9
 	#include <d3d9.h>
 	#include <d3dx9.h>
@@ -52,13 +49,11 @@ using timepoint_t = std::chrono::steady_clock::time_point;
 
 	using texture = LPDIRECT3DTEXTURE9;
 	using creation_paramaters = D3DDEVICE_CREATION_PARAMETERS;
-	using IDirect3DParamaters9 = D3DPRESENT_PARAMETERS;
 
 	#define TRIANGLE D3DPT_TRIANGLESTRIP
 	#define LINE D3DPT_LINESTRIP
 #endif
 
-/* supported games: roblox, eft, cs2, 7 days to die, fortnite */
 #ifdef UNTITLED_USE_DX11
 	#include <d3d11.h>
 	#pragma comment(lib, "d3d11.lib")
@@ -67,30 +62,26 @@ using timepoint_t = std::chrono::steady_clock::time_point;
 	using GfxTexture = ID3D11Texture2D*;
 #endif
 
-/* supported games: fortnite */
 #ifdef UNTITLED_USE_DX12
 
 #endif
 
-/* supported games: mxs */
 #ifdef UNTITLED_USE_GL2
 
 #endif
 
-/* supported games: unknown */
 #ifdef UNTITLED_USE_GL3
 	#include <GLFW/glfw3.h>
 	#pragma comment (lib, "glfw3.lib")
 	#include ".hpp/gfx/gl3.hpp"
 #endif
 
-// includes
+// @note: header file includes
 #include ".hpp/buffer/buffer.hpp"
 #include ".hpp/buffer/components.hpp"
 
 #ifdef UNTITLED_USE_WIN32
 	#include ".hpp/win32/win32.hpp"
 #endif
-
 
 #include ".hpp/ctx/ctx.hpp"

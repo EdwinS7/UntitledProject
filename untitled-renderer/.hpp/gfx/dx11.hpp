@@ -11,9 +11,9 @@ public:
 
 	void create_context( );
 
-	bool create_device( hwnd_t hwnd );
+	bool create_device( HWND hwnd );
 
-	GfxTexture create_texture( const byte_t bytes[], const vector2_t<uint16_t> size );
+	GfxTexture create_texture( const BYTE bytes[], const vector2_t<uint16_t> size );
 
 	void begin_scene( );
 

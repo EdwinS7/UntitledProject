@@ -10,7 +10,7 @@ void c_gfx::create_context( ) {
 
 }
 
-bool c_gfx::create_device( hwnd_t hwnd ) {
+bool c_gfx::create_device( HWND hwnd ) {
     DXGI_SWAP_CHAIN_DESC sd = {
         .BufferDesc.Width = g_win32->get_size().x,
         .BufferDesc.Height = g_win32->get_size( ).y,
