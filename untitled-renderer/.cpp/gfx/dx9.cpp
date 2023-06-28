@@ -192,22 +192,11 @@ void c_gfx::safe_release( type*& obj ) {
 texture c_gfx::create_texture( const std::vector<BYTE> bytes, const vector2_t<uint16_t> size ) {
     texture texture;
 
-    if ( D3DXCreateTextureFromFileInMemoryEx(
-        m_device,
-        bytes.data(),
-        INT_MAX,
-        size.x,
-        size.y,
-        D3DX_DEFAULT,
-        NULL,
-        D3DFMT_UNKNOWN,
-        D3DPOOL_DEFAULT,
-        D3DX_DEFAULT,
-        D3DX_DEFAULT,
-        NULL, NULL,
-        NULL,
-        &texture ) != D3D_OK
-        )
+    if ( D3DXCreateTextureFromFileInMemoryEx( m_device, bytes.data(), bytes.size(),
+        size.x, size.y, D3DX_DEFAULT,
+        NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
+        D3DX_DEFAULT, D3DX_DEFAULT, NULL,
+        NULL, NULL, &texture ) != D3D_OK )
         throw std::runtime_error( "create_texture failed (D3DXCreateTextureFromFileInMemoryEx)" );
 
     return texture;
