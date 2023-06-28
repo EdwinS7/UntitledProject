@@ -66,6 +66,20 @@ public:
         const bool vertical
     );
 
+    void triangle( 
+        const vector2_t<uint16_t> p1,
+        const vector2_t<uint16_t> p2,
+        const vector2_t<uint16_t> p3,
+        const color_t clr
+    );
+
+    void filled_triangle(
+       const vector2_t<uint16_t> p1,
+       const vector2_t<uint16_t> p2,
+       const vector2_t<uint16_t> p3,
+       const color_t clr
+    );
+
     void circle(
         const vector2_t<uint16_t> pos,
         const uint16_t radius,

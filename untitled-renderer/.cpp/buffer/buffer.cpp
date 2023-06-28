@@ -18,7 +18,6 @@ void c_buffer::write_to_buffer( const uint8_t primitive, const std::vector< vert
 		for ( uint32_t i = 0; i < vertices_count; ++i )
 			dynamic_indices[ i ] = i;
 
-
 	m_draw_commands.push_back( draw_command_t( primitive, *vertices, indices == nullptr ? dynamic_indices : *indices, m_command, vertices_count, indices != nullptr ? indices->size( ) : indices_count ) );
 }
 
@@ -51,7 +50,7 @@ void c_buffer::line( const vector2_t< uint16_t > from, const vector2_t< uint16_t
 }
 
 void c_buffer::polyline( const std::vector< vector2_t< uint16_t > > points, const color_t clr ) {
-	std::vector<vertex_t> vertices( points.size( ) );
+	std::vector<vertex_t> vertices;
 
 	make_vertices( &vertices, &points, &clr );
 
@@ -63,7 +62,7 @@ void c_buffer::polygon( const std::vector<vector2_t<uint16_t>> points, const col
 
 	make_vertices( &vertices, &points, &clr );
 
-	std::vector<uint32_t> indices( ( vertices.size( ) - 2 ) * 3 );
+	std::vector<uint32_t> indices;
 
 	for ( uint32_t i = 1; i < ( vertices.size( ) - 2 ) * 3; i++ ) {
 		indices.push_back( 0 );
@@ -164,6 +163,26 @@ void c_buffer::filled_gradient( const vector2_t< uint16_t > pos, const vector2_t
 		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr2.hex ),
 		vertex_t( pos.x, pos.y + size.y, 0.f, 1.f, vertical ? clr2.hex : clr.hex ),
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
+	};
+
+	write_to_buffer( TRIANGLE, &vertices, nullptr );
+}
+
+void c_buffer::triangle( const vector2_t< uint16_t > p1, const vector2_t< uint16_t > p2, const vector2_t< uint16_t > p3, const color_t clr ) {
+	std::vector<vertex_t> vertices{
+		vertex_t( p1.x, p1.y, 0.f, 1.f, clr.hex ),
+		vertex_t( p2.x, p2.y, 0.f, 1.f, clr.hex ),
+		vertex_t( p3.x, p3.y, 0.f, 1.f, clr.hex )
+	};
+
+	write_to_buffer( LINE, &vertices, nullptr );
+}
+
+void c_buffer::filled_triangle( const vector2_t< uint16_t > p1, const vector2_t< uint16_t > p2, const vector2_t< uint16_t > p3, const color_t clr ) {
+	std::vector<vertex_t> vertices{
+		vertex_t( p1.x, p1.y, 0.f, 1.f, clr.hex ),
+		vertex_t( p2.x, p2.y, 0.f, 1.f, clr.hex ),
+		vertex_t( p3.x, p3.y, 0.f, 1.f, clr.hex )
 	};
 
 	write_to_buffer( TRIANGLE, &vertices, nullptr );
