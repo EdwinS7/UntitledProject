@@ -189,17 +189,22 @@ void c_gfx::safe_release( type*& obj ) {
 
 /* utilities */
 
-texture c_gfx::create_texture( const std::vector<BYTE> bytes, const vector2_t<uint16_t> size ) {
-    texture texture;
-
+void c_gfx::create_texture_from_bytes( texture* resource, const std::vector<BYTE> bytes, const vector2_t<uint16_t> size ) {
     if ( D3DXCreateTextureFromFileInMemoryEx( m_device, bytes.data(), bytes.size(),
         size.x, size.y, D3DX_DEFAULT,
         NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
         D3DX_DEFAULT, D3DX_DEFAULT, NULL,
-        NULL, NULL, &texture ) != D3D_OK )
-        throw std::runtime_error( "create_texture failed (D3DXCreateTextureFromFileInMemoryEx)" );
+        NULL, NULL, resource ) != D3D_OK )
+        throw std::runtime_error( "create_texture_from_bytes failed ( invalid pattern of bytes )" );
+}
 
-    return texture;
+void c_gfx::create_texture_from_file( texture* resource, const char* file_name ) {
+    if ( D3DXCreateTextureFromFile( m_device, file_name, resource ) != D3D_OK )
+        throw std::runtime_error( "create_texture_from_file failed ( file not found )" );
+}
+
+IDirect3DDevice9* c_gfx::get_device( ) {
+    return m_device;
 }
 
 #endif

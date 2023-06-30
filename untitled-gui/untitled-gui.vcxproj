@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0EF39033-A3B3-412B-A0AB-E5E3925B632E}</ProjectGuid>
-    <RootNamespace>untitledsdk</RootNamespace>
+    <ProjectGuid>{7f159978-cebb-48e3-8a79-2f45360003d7}</ProjectGuid>
+    <RootNamespace>untitledgui</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -73,18 +73,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <LibraryPath>$(DXSDK_DIR)Lib/x86;$(LibraryPath);C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <IncludePath>$(DXSDK_DIR)Include;C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib/x86;$(LibraryPath);C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <IncludePath>$(DXSDK_DIR)Include;C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib/x64;$(LibraryPath);C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <LibraryPath>$(DXSDK_DIR)Lib/x64;$(LibraryPath);C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;C:\Users\RareD\Documents\untitled_project\untitled-renderer\.lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,7 +105,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -114,7 +122,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -131,7 +139,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -148,7 +156,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>

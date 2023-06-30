@@ -4,10 +4,12 @@
 #include <cstdint>
 #include <cassert>
 #include <thread>
+#include <chrono>
 #include <vector>
 #include <string>
 #include <format>
 #include <math.h>
+#include <map>
 
 #define _USE_MATH_DEFINES
 
@@ -21,6 +23,7 @@
 
 // @note: redefinitions
 using ulong_t = unsigned long;
+using uchar_t = unsigned char;
 using timepoint_t = std::chrono::steady_clock::time_point;
 
 /* __FEATURES__
@@ -37,6 +40,7 @@ using timepoint_t = std::chrono::steady_clock::time_point;
 */
 
 // @note: demo settings
+#define UNTITLED_USE_CONSOLE
 #define UNTITLED_USE_WIN32
 #define UNTITLED_USE_DX9
 

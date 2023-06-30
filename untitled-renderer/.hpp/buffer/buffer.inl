@@ -17,6 +17,18 @@ ALWAYS_INLINE std::vector<draw_command_t> c_buffer::get_draw_commands( ) {
     return m_draw_commands;
 }
 
-ALWAYS_INLINE void c_buffer::push_command( const command_t command ) {
-    m_command += command;
+ALWAYS_INLINE void c_buffer::push_clip( const RECT rect ) {
+    m_command.clips.push_back( rect );
+}
+
+ALWAYS_INLINE void c_buffer::pop_clip( ) {
+    m_command.clips.pop_back( );
+}
+
+ALWAYS_INLINE void c_buffer::push_texture( const texture resource ) {
+    m_command.textures.push_back( resource );
+}
+
+ALWAYS_INLINE void c_buffer::pop_texture( ) {
+    m_command.textures.pop_back( );
 }

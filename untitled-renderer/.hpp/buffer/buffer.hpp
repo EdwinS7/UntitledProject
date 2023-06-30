@@ -3,6 +3,7 @@
 // includes
 #include "../../inc.hpp"
 #include "components.hpp"
+#include "fonts/font.hpp"
 
 class c_buffer {
 public:
@@ -52,6 +53,13 @@ public:
         const corner_flags flags
     );
 
+    void textured_rectangle(
+        const texture* resource,
+        const vector2_t<uint16_t> pos,
+        const vector2_t<uint16_t> size,
+        const color_t clr
+    );
+
     void gradient(
         const vector2_t<uint16_t> pos,
         const vector2_t<uint16_t> size,
@@ -94,6 +102,18 @@ public:
         const color_t clr
     );
 
+    void text(
+        const font_t* font,
+        const std::string string,
+        const vector2_t<uint16_t> pos,
+        const color_t clr
+    );
+
+    vector2_t<uint16_t> get_text_size(
+         const font_t* font,
+        const std::string string
+    );
+
 // inline
     ALWAYS_INLINE void clear_commands( );
 
@@ -103,7 +123,19 @@ public:
 
     ALWAYS_INLINE std::vector<draw_command_t> get_draw_commands( );
 
-    ALWAYS_INLINE void push_command( const command_t command );
+    ALWAYS_INLINE void push_clip( const RECT rect );
+
+    ALWAYS_INLINE void pop_clip( );
+
+    ALWAYS_INLINE void push_texture( const texture resource );
+
+    ALWAYS_INLINE void pop_texture( );
+
+// fonts
+    font_t default_font;
+
+// textures
+    texture demo_texture;
 
 private:
 	std::vector < draw_command_t > m_draw_commands;

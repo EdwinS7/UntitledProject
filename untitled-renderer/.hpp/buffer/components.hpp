@@ -118,8 +118,23 @@ public:
 #endif
 };
 
+struct glyph_t {
+	texture resource;
+	vector2_t<uint32_t> size;
+	vector2_t<uint32_t> bearing;
+	int32_t advance;
+
+#ifdef USE_CUSTOM_GLYPH_OPPERATORS
+	USE_CUSTOM_GLYPH_OPPERATORS
+#endif
+};
+
 class font_t {
 public:
+	std::string path;
+	uint16_t size;
+
+	std::map<char, glyph_t> char_set;
 
 #ifdef USE_CUSTOM_FONT_OPPERATORS
 	USE_CUSTOM_FONT_OPPERATORS
@@ -130,18 +145,6 @@ class command_t {
 public:
 	std::vector< RECT > clips;
 	std::vector< texture > textures;
-
-	constexpr command_t( ) noexcept = default;
-
-	constexpr command_t( const RECT clip, const texture texture ) noexcept {
-		clips.push_back( clip );
-		textures.push_back( texture );
-	}
-
-	constexpr void operator+= ( const command_t& command ) noexcept {
-		clips.insert( clips.end( ), command.clips.begin( ), command.clips.end( ) );
-		textures.insert( textures.end( ), command.textures.begin( ), command.textures.end( ) );
-	}
 
 #ifdef USE_CUSTOM_COMMAND_OPPERATORS
 	USE_CUSTOM_COMMAND_OPPERATORS
