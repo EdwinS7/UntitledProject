@@ -339,7 +339,7 @@ namespace hacks {
 		}
 
 		if ( g_ctx->flags( ) & e_context_flags::can_shoot
-			&& hacks::g_aim_bot->cfg( ).m_predictive_auto_stop
+			&& hacks::g_aim_bot->cfg( ).weapon_t[ g_aim_bot->config_weapon ].m_predictive_auto_stop
 			&& m_allow_early
 			&& is_peeking( 2 ) )
 			predict_available = true;
@@ -516,6 +516,18 @@ namespace hacks {
 	void c_movement::normalize( valve::user_cmd_t& user_cmd ) const {
 		if ( valve::g_local_player->move_type( ) != valve::e_move_type::walk )
 			return;
+
+		user_cmd.m_view_angles.x = std::remainder( user_cmd.m_view_angles.x, 360.f );
+		user_cmd.m_view_angles.y = std::remainder( user_cmd.m_view_angles.y, 360.f );
+		user_cmd.m_view_angles.z = std::remainder( user_cmd.m_view_angles.z, 360.f );
+
+		user_cmd.m_view_angles.x = std::clamp( user_cmd.m_view_angles.x, -89.f, 89.f );
+		user_cmd.m_view_angles.y = std::clamp( user_cmd.m_view_angles.y, -180.f, 180.f );
+		user_cmd.m_view_angles.z = std::clamp( user_cmd.m_view_angles.z, -90.f, 90.f );
+
+		user_cmd.m_move.x = std::clamp( user_cmd.m_move.x, -450.f, 450.f );
+		user_cmd.m_move.y = std::clamp( user_cmd.m_move.y, -450.f, 450.f );
+		user_cmd.m_move.z = std::clamp( user_cmd.m_move.z, -320.f, 320.f );
 
 		user_cmd.m_buttons &= ~(
 			valve::e_buttons::in_forward

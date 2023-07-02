@@ -49,18 +49,32 @@ namespace hooks {
 			if ( ImGui::CollapsingHeader( xorstr_( "aim bot##main" ) ) ) {
 				auto& cfg = hacks::g_aim_bot->cfg( );
 
+				static int current_weapon = 0;
+
 				ImGui::Checkbox( xorstr_( "enabled##aim_bot" ), &cfg.m_enabled );
-				ImGui::Checkbox( xorstr_( "auto scope##aim_bot" ), &cfg.m_auto_scope );
 
-				ImGui::SliderInt( xorstr_( "hit chance##aim_bot" ), &cfg.m_hit_chance, 0, 100 );
+				const char* weapon_type_list[]{
+					( "auto" ),
+					( "awp" ),
+					( "scout" ),
+					( "heavy pistols" ),
+					( "pistols" ),
+					( "other" )
+				};
 
-				ImGui::Checkbox( xorstr_( "scale dmg on hp##aim_bot" ), &cfg.m_scale_dmg_on_hp );
+				ImGui::Combo( xorstr_( "current weapon##aim_bot" ), &current_weapon, weapon_type_list, IM_ARRAYSIZE( weapon_type_list ) );
 
-				ImGui::SliderInt( xorstr_( "min dmg##aim_bot" ), &cfg.m_min_dmg, 0, 100 );
+				ImGui::Checkbox( xorstr_( "auto scope##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_auto_scope );
+
+				ImGui::SliderInt( xorstr_( "hit chance##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_hit_chance, 0, 100 );
+
+				ImGui::Checkbox( xorstr_( "scale dmg on hp##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_scale_dmg_on_hp );
+
+				ImGui::SliderInt( xorstr_( "min dmg##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_min_dmg, 0, 100 );
 
 				ImGui::Hotkey( xorstr_( "min dmg override key##aim_bot" ), &cfg.m_min_dmg_override_key );
 
-				ImGui::SliderInt( xorstr_( "min dmg override##aim_bot" ), &cfg.m_min_dmg_override, 0, 100 );
+				ImGui::SliderInt( xorstr_( "min dmg override##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_min_dmg_override, 0, 100 );
 
 				if ( ImGui::BeginCombo( xorstr_( "hitgroups##aim_bot" ), "" ) ) {
 					const char* hitgroups_list[]{
@@ -75,7 +89,7 @@ namespace hooks {
 					static bool hitgroups_vars[ IM_ARRAYSIZE( hitgroups_list ) ]{};
 
 					for ( std::size_t i{}; i < IM_ARRAYSIZE( hitgroups_list ); ++i ) {
-						hitgroups_vars[ i ] = cfg.m_hitgroups & ( 1 << i );
+						hitgroups_vars[ i ] = cfg.weapon_t[ current_weapon ].m_hitgroups & ( 1 << i );
 
 						ImGui::Selectable(
 							hitgroups_list[ i ], &hitgroups_vars[ i ],
@@ -83,9 +97,9 @@ namespace hooks {
 						);
 
 						if ( hitgroups_vars[ i ] )
-							cfg.m_hitgroups |= ( 1 << i );
+							cfg.weapon_t[ current_weapon ].m_hitgroups |= ( 1 << i );
 						else
-							cfg.m_hitgroups &= ~( 1 << i );
+							cfg.weapon_t[ current_weapon ].m_hitgroups &= ~( 1 << i );
 					}
 
 					ImGui::EndCombo( );
@@ -104,7 +118,7 @@ namespace hooks {
 					static bool multi_points_vars[ IM_ARRAYSIZE( multi_points_list ) ]{};
 
 					for ( std::size_t i{}; i < IM_ARRAYSIZE( multi_points_list ); ++i ) {
-						multi_points_vars[ i ] = cfg.m_multi_points & ( 1 << i );
+						multi_points_vars[ i ] = cfg.weapon_t[ current_weapon ].m_multi_points & ( 1 << i );
 
 						ImGui::Selectable(
 							multi_points_list[ i ], &multi_points_vars[ i ],
@@ -112,19 +126,19 @@ namespace hooks {
 						);
 
 						if ( multi_points_vars[ i ] )
-							cfg.m_multi_points |= ( 1 << i );
+							cfg.weapon_t[ current_weapon ].m_multi_points |= ( 1 << i );
 						else
-							cfg.m_multi_points &= ~( 1 << i );
+							cfg.weapon_t[ current_weapon ].m_multi_points &= ~( 1 << i );
 					}
 
 					ImGui::EndCombo( );
 				}
 
-				ImGui::Checkbox( xorstr_( "static point scale##aim_bot" ), &cfg.m_static_point_scale );
+				ImGui::Checkbox( xorstr_( "static point scale##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_static_point_scale );
 
-				if ( cfg.m_static_point_scale ) {
-					ImGui::SliderInt( xorstr_( "head scale##aim_bot" ), &cfg.m_head_scale, 0, 100 );
-					ImGui::SliderInt( xorstr_( "body scale##aim_bot" ), &cfg.m_body_scale, 0, 100 );
+				if ( cfg.weapon_t[ current_weapon ].m_static_point_scale ) {
+					ImGui::SliderInt( xorstr_( "head scale##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_head_scale, 0, 100 );
+					ImGui::SliderInt( xorstr_( "body scale##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_body_scale, 0, 100 );
 				}
 
 				ImGui::Hotkey( xorstr_( "force body aim key##aim_bot" ), &cfg.m_force_baim_key );
@@ -134,12 +148,12 @@ namespace hooks {
 					( "none" ),
 					( "speed" ),
 					( "accuracy" )
-				};
+				};	
 
-				ImGui::Combo( xorstr_( "auto stop type##aim_bot" ), &cfg.m_auto_stop_type, auto_stop_type_list, IM_ARRAYSIZE( auto_stop_type_list ) );
+				ImGui::Combo( xorstr_( "auto stop type##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_auto_stop_type, auto_stop_type_list, IM_ARRAYSIZE( auto_stop_type_list ) );
 
-				if ( cfg.m_auto_stop_type )
-					ImGui::Checkbox( xorstr_( "predictive auto stop##aim_bot" ), &cfg.m_predictive_auto_stop );
+				if ( cfg.weapon_t[ current_weapon ].m_auto_stop_type )
+					ImGui::Checkbox( xorstr_( "predictive auto stop##aim_bot" ), &cfg.weapon_t[ current_weapon ].m_predictive_auto_stop );
 			}
 
 			if ( ImGui::CollapsingHeader( xorstr_( "exploits##main" ) ) ) {

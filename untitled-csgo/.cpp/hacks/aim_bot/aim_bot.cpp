@@ -45,13 +45,13 @@ namespace hacks {
 		const auto& pen = point.m_pen_data;
 
 		if ( !ignore_dmg ) {
-			auto min_dmg = m_cfg->m_min_dmg + 1;
+			auto min_dmg = m_cfg->weapon_t[config_weapon].m_min_dmg + 1;
 
 			if ( m_cfg->m_min_dmg_override_key
 				&& LOWORD( GetKeyState( m_cfg->m_min_dmg_override_key ) ) )
-				min_dmg = m_cfg->m_min_dmg_override;
+				min_dmg = m_cfg->weapon_t[ config_weapon ].m_min_dmg_override;
 
-			if ( m_cfg->m_scale_dmg_on_hp )
+			if ( m_cfg->weapon_t[ config_weapon ].m_scale_dmg_on_hp )
 				min_dmg = std::min( min_dmg, target.m_entry->m_player->health( ) + 5 );
 
 			if ( pen.m_dmg < min_dmg )
@@ -223,7 +223,7 @@ namespace hacks {
 
 		target.m_points.emplace_back( point, true, index, hitbox->m_group, 0 );
 
-		if ( !m_cfg->m_static_point_scale ) {
+		if ( !m_cfg->weapon_t[ config_weapon ].m_static_point_scale ) {
 			const auto max = ( hitbox->m_max - hitbox->m_min ).length( ) * 0.5f + hitbox->m_radius;
 
 			auto dir = ( point - g_ctx->shoot_pos( ) );
@@ -269,7 +269,7 @@ namespace hacks {
 
 		if ( index ) {
 			if ( index == 3 ) {
-				if ( !m_cfg->m_static_point_scale && scale > 0.9f )
+				if ( !m_cfg->weapon_t[ config_weapon ].m_static_point_scale && scale > 0.9f )
 					scale = 0.9f;
 			}
 			else {
@@ -277,7 +277,7 @@ namespace hacks {
 					&& index != 6 ) {
 					if ( index == 4
 						|| index == 5 ) {
-						if ( !m_cfg->m_static_point_scale && scale > 0.9f )
+						if ( !m_cfg->weapon_t[ config_weapon ].m_static_point_scale && scale > 0.9f )
 							scale = 0.9f;
 
 						point = { center.x, hitbox->m_max.y - hitbox->m_radius * scale, center.z };
@@ -290,7 +290,7 @@ namespace hacks {
 					return;
 				}
 
-				if ( !m_cfg->m_static_point_scale && scale > 0.9f )
+				if ( !m_cfg->weapon_t[ config_weapon ].m_static_point_scale && scale > 0.9f )
 					scale = 0.9f;
 
 				if ( index == 6 ) {
@@ -356,7 +356,7 @@ namespace hacks {
                 continue;
 
 			if ( ( ( 1 << i ) & multi_points ) ) {
-				const auto scale = ( i ? m_cfg->m_body_scale : m_cfg->m_head_scale ) / 100.f;
+				const auto scale = ( i ? m_cfg->weapon_t[ config_weapon ].m_body_scale : m_cfg->weapon_t[ config_weapon ].m_head_scale ) / 100.f;
 
 				for ( const auto& index : m_hitgroups.at( i ) ) {
 					const auto hitbox = hitbox_set->hitbox( index );
@@ -497,13 +497,13 @@ namespace hacks {
 		if ( additional_scan )
 			target.m_lag_record->restore( target.m_entry->m_player, target.m_lag_record->m_anim_side );
 
-		auto min_dmg = m_cfg->m_min_dmg + 1;
+		auto min_dmg = m_cfg->weapon_t[ config_weapon ].m_min_dmg + 1;
 
 		if ( m_cfg->m_min_dmg_override_key
 			&& LOWORD( GetKeyState( m_cfg->m_min_dmg_override_key ) ) )
-			min_dmg = m_cfg->m_min_dmg_override;
+			min_dmg = m_cfg->weapon_t[ config_weapon ].m_min_dmg_override;
 
-		if ( m_cfg->m_scale_dmg_on_hp )
+		if ( m_cfg->weapon_t[ config_weapon ].m_scale_dmg_on_hp )
 			min_dmg = std::min( min_dmg, target.m_entry->m_player->health( ) + 5 );
 
 		for ( auto& point : target.m_points ) {
@@ -931,6 +931,50 @@ namespace hacks {
 		return target.m_best_point;
 	}
 
+	void c_aim_bot::set_cfg_weapon( ) {
+		switch ( valve::g_local_player->weapon( )->model_index( ) ) {
+		case 521:
+			config_weapon = 0;
+			break;
+		case 366:
+			config_weapon = 0;
+			break;
+		case 350:
+			config_weapon = 1;
+			break;
+		case 538:
+			config_weapon = 2;
+			break;
+		case 602:
+			config_weapon = 3;
+			break;
+		case 297:
+			config_weapon = 3;
+			break;
+		case 324:
+			config_weapon = 4;
+			break;
+		case 307:
+			config_weapon = 4;
+			break;
+		case 510:
+			config_weapon = 4;
+			break;
+		case 469:
+			config_weapon = 4;
+			break;
+		case 316:
+			config_weapon = 4;
+			break;
+		case 586:
+			config_weapon = 4;
+			break;
+		case 479:
+			config_weapon = 4;
+			break;
+		}
+	}
+
 	void c_aim_bot::find_targets( ) {
 		m_targets.reserve( valve::g_global_vars->m_max_clients );
 
@@ -953,7 +997,7 @@ namespace hacks {
 
 	void c_aim_bot::scan_targets( ) {
 		for ( auto& target : m_targets )
-			scan_points( target, m_cfg->m_hitgroups, m_cfg->m_multi_points, false, g_ctx->shoot_pos( ) );
+			scan_points( target, m_cfg->weapon_t[ config_weapon ].m_hitgroups, m_cfg->weapon_t[ config_weapon ].m_multi_points, false, g_ctx->shoot_pos( ) );
 
 		m_targets.erase(
 			std::remove_if(
@@ -1108,6 +1152,8 @@ namespace hacks {
 			|| valve::g_local_player->move_type( ) == valve::e_move_type::noclip )
 			return;
 
+		set_cfg_weapon( );
+
 		find_targets( );
 
 		scan_targets( );
@@ -1156,7 +1202,7 @@ namespace hacks {
 
 		const auto item_index = g_ctx->weapon( )->item_index( );
 		if ( g_ctx->flags( ) & e_context_flags::can_shoot ) {
-			if ( m_cfg->m_auto_scope
+			if ( m_cfg->weapon_t[ config_weapon ].m_auto_scope
 				&& ( item_index == valve::e_item_index::g3sg1
 					|| item_index == valve::e_item_index::scar20
 					|| item_index == valve::e_item_index::awp
@@ -1168,7 +1214,7 @@ namespace hacks {
 				&& valve::g_local_player->flags( ) & valve::e_ent_flags::on_ground
 				&& !( g_eng_pred->old_user_cmd( ).m_buttons & valve::e_buttons::in_jump ) )
 				user_cmd.m_buttons |= valve::e_buttons::in_attack2;
-			else if ( calc_hit_chance( target, angle, point ) >= ( item_index == valve::e_item_index::taser ? 80 : m_cfg->m_hit_chance ) ) {
+			else if ( calc_hit_chance( target, angle, point ) >= ( item_index == valve::e_item_index::taser ? 80 : m_cfg->weapon_t[ config_weapon ].m_hit_chance ) ) {
 				user_cmd.m_view_angles = angle - valve::g_local_player->aim_punch( ) * g_ctx->cvars( ).m_weapon_recoil_scale->get_float( );
 
 				user_cmd.m_view_angles.x = std::remainder( user_cmd.m_view_angles.x, 360.f );
@@ -1196,7 +1242,7 @@ namespace hacks {
 			else {
 				if ( g_ctx->flags( ) & e_context_flags::can_shoot )
 					if ( !( user_cmd.m_buttons & valve::e_buttons::in_jump ) )
-						g_movement->stop_type( ) = m_cfg->m_auto_stop_type;
+						g_movement->stop_type( ) = m_cfg->weapon_t[ config_weapon ].m_auto_stop_type;
 			}
 		}
 

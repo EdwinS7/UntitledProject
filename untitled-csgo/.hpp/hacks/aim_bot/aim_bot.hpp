@@ -93,6 +93,8 @@ namespace hacks {
 
 		bool select_points( aim_target_t& target, const bool additional_scan ) const;
 
+		int config_weapon = 0;
+
 	private:
 
 		std::optional< aim_record_t > extrapolate( const player_entry_t& entry ) const;
@@ -102,6 +104,8 @@ namespace hacks {
 		std::optional< aim_record_t > select_record( const player_entry_t& entry ) const;
 
 		aim_point_t* select_point( const aim_target_t& target, const int cmd_number ) const;
+
+		void set_cfg_weapon( );
 
 		void find_targets( );
 
@@ -119,17 +123,22 @@ namespace hacks {
 		) const;
 
 		struct cfg_t {
-			bool	m_enabled{}, m_auto_scope{},
-					m_scale_dmg_on_hp{}, m_static_point_scale{},
-					m_predictive_auto_stop{};
+			bool	m_enabled;
 
-			int		m_body_scale{}, m_head_scale{},
-					m_hit_chance{}, m_auto_stop_type{}, m_min_dmg{}, 
-					m_min_dmg_override{}, m_min_dmg_override_key{}, m_hitgroups{},
-					m_multi_points{}, m_force_baim_key{}, m_force_safe_point_key{};
+			int		m_min_dmg_override_key{}, m_force_baim_key{}, m_force_safe_point_key{};
+			
+			struct weapon_t {
+				bool	m_auto_scope{},
+						m_scale_dmg_on_hp{}, m_static_point_scale{},
+						m_predictive_auto_stop{};
+
+				int		m_body_scale{}, m_head_scale{},
+						m_hit_chance{}, m_auto_stop_type{}, m_min_dmg{},
+						m_min_dmg_override{}, m_hitgroups{}, m_multi_points{};
+			} weapon_t[6];
 		};
 
-		sdk::cfg_var_t< cfg_t >					m_cfg{ 0x70d17808u, {} };
+		sdk::cfg_var_t< cfg_t >					m_cfg;
 
 		std::array< std::vector< int >, 6u >	m_hitgroups{
 			std::vector< int >{ 0 },
