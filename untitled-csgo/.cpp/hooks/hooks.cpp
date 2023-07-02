@@ -538,8 +538,6 @@ namespace hooks {
 			if ( ImGui::CollapsingHeader( xorstr_( "movement##main" ) ) ) {
 				auto& cfg = hacks::g_movement->cfg( );
 
-				ImGui::Checkbox( xorstr_( "anti untrusted##movement" ), &cfg.m_anti_untrusted );
-
 				ImGui::Checkbox( xorstr_( "slide walk##movement" ), &cfg.m_slide_walk );
 
 				ImGui::Checkbox( xorstr_( "slow walk##movement" ), &cfg.m_slow_walk );
