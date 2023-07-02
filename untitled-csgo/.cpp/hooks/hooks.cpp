@@ -436,12 +436,12 @@ namespace hooks {
 
 				if ( ImGui::BeginCombo( xorstr_( "indicators##visuals_other" ), "" ) ) {
 					const char* indicators_list[]{
-						( "lag comp##visuals_other_indicators" ),
 						( "double tap##visuals_other_indicators" ),
 						( "hide shots##visuals_other_indicators" ),
 						( "min damage##visuals_other_indicators" ),
 						( "force baim##visuals_other_indicators" ),
-						( "force safe##visuals_other_indicators" )
+						( "force safe##visuals_other_indicators" ),
+						( "bomb##visuals_other_indicators" )
 					};
 
 					static bool indicators_vars[ IM_ARRAYSIZE( indicators_list ) ]{};

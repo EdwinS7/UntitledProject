@@ -922,12 +922,18 @@ namespace hacks {
 				);
 		}
 
+		
+
 		if ( m_cfg->m_player.m_name ) {
 			const auto player_info = valve::g_engine->player_info( player->index( ) );
+
+			auto name = std::string( player_info.value( ).m_name );
+			std::transform( name.begin( ), name.end( ), name.begin( ), ::toupper );
+
 			if ( player_info.has_value( ) )
 				add_text(
 					{ bbox.m_min.x + bbox.m_size.x / 2.f, bbox.m_min.y - 13 },
-					m_fonts.m_verdana12, player_info.value( ).m_name,
+					m_fonts.m_small_fonts8, name,
 					dormant ? 0xb4828282u
 					: 0xb4000000u | static_cast< std::uint8_t >( m_cfg->m_player.m_name_clr[ 0 ] * 255.f )
 					| ( static_cast< std::uint8_t >( m_cfg->m_player.m_name_clr[ 1 ] * 255.f ) << 8u )
@@ -1238,10 +1244,10 @@ namespace hacks {
 
 	void c_visuals::init( ) {
 		m_fonts.m_verdana12 = valve::g_surface->create_font( );
-		valve::g_font_mgr->set_font_glyph_set( m_fonts.m_verdana12, xorstr_( "Verdana" ), 12, 700, 0, 0, 0x080u, 0x20, 0xa69f );
+		valve::g_font_mgr->set_font_glyph_set( m_fonts.m_verdana12, xorstr_( "Verdana" ), 12, 400, 0, 1, 0x080u, 0x20, 0xa69f );
 
 		m_fonts.m_verdana26 = valve::g_surface->create_font( );
-		valve::g_font_mgr->set_font_glyph_set( m_fonts.m_verdana26, xorstr_( "Verdana" ), 26, 800, 0, 0, 0x080u );
+		valve::g_font_mgr->set_font_glyph_set( m_fonts.m_verdana26, xorstr_( "Verdana" ), 26, 800, 0, 1, 0x080u );
 
 		m_fonts.m_verdana26n = valve::g_surface->create_font( );
 		valve::g_font_mgr->set_font_glyph_set( m_fonts.m_verdana26n, xorstr_( "Verdana" ), 26, 600, 0, 0, 0x010u );
@@ -1341,8 +1347,8 @@ namespace hacks {
 		if ( g_movement->cfg( ).m_auto_peek_key
 			&& LOWORD( GetKeyState( g_movement->cfg( ).m_auto_peek_key ) ) ) {
 
-			const float clr[] = { 1, 0, 0.56, 1 };
-			add_beam_ring( g_movement->auto_peek_start_pos( ), 26.f, 26.f, 0.1f, clr );
+			const float clr[] = { 1.f, 0.f, 0.56f, 1.f };
+			add_beam_ring( g_movement->auto_peek_start_pos( ), 26.f, 26.f, 1.f, clr );
 		}
 
 		if ( m_cfg->m_other.m_inaccuracy
@@ -1372,9 +1378,16 @@ namespace hacks {
 			);
 		}
 
+		std::vector<std::tuple<const char*, ImColor>> indicators;
+
 		vec2_t indicator_pos{ 30.f, screen_center.y + screen_center.y / 4.f };
 
-		if ( planted_bomb
+		auto add_indicator = [ & ] ( const char* title, ImColor clr ) {
+			indicators.push_back( std::tuple{ title, clr } );
+		};
+
+		if ( m_cfg->m_other.m_indicators & 7
+			&& planted_bomb
 			&& planted_bomb->is_bomb_ticking( )
 			&& m_cfg->m_other.m_bomb ) {
 			constexpr auto k_range = 500.f;
@@ -1392,126 +1405,71 @@ namespace hacks {
 			const auto mod = std::clamp( dmg / hp, 0.f, 1.f );
 
 			if ( dmg >= 1.f ) {
-				add_text(
-					indicator_pos, m_fonts.m_verdana26,
-					dmg >= hp ? xorstr_( "FATAL" ) : std::vformat( xorstr_( "-{} HP" ), std::make_format_args( static_cast< int >( dmg ) ) ).data( ),
+				add_indicator( dmg >= hp ? xorstr_( "FATAL" ) : std::vformat( xorstr_( "-{} HP" ), std::make_format_args( static_cast< int >( dmg ) ) ).data( ),
 					0x0ff0000u | static_cast< std::uint8_t >( 255.f * mod )
-					| ( static_cast< std::uint8_t >( 255.f * ( 1.f - mod ) ) << 8u ),
-					0
+					| ( static_cast< std::uint8_t >( 255.f * ( 1.f - mod ) ) << 8u )
 				);
-
-				indicator_pos.y += 30.f;
 			}
 
-			add_text(
-				indicator_pos, m_fonts.m_verdana26,
-				std::vformat( xorstr_( "{} - {:.1f}s" ),
-					std::make_format_args(
+			add_indicator( std::vformat( xorstr_( "{} - {:.1f}s" ),
+				std::make_format_args(
 					planted_bomb->bomb_site( ) == 0 ? xorstr_( "A" ) : xorstr_( "B" ),
-					planted_bomb->c4_blow( ) - valve::g_global_vars->m_cur_time
-				) ).data( ), 0xb4ffffffu,
-				0
+					planted_bomb->c4_blow( ) - valve::g_global_vars->m_cur_time) ).data( ), 0xb4ffffffu 
 			);
-
-			indicator_pos.y -= 60.f;
-		}
-
-		if ( m_cfg->m_other.m_indicators & 7 ) {
-			const auto cfg = g_aim_bot->cfg( );
-			if ( cfg.m_force_safe_point_key
-				&& LOWORD( GetKeyState( cfg.m_force_safe_point_key ) ) ) {
-				add_text(
-					indicator_pos, m_fonts.m_verdana26, xorstr_( "SP" ),
-					ImColor( 240, 240, 240 ),
-					0
-				);
-
-				indicator_pos.y -= 30.f;
-			}
 		}
 
 		if ( m_cfg->m_other.m_indicators & 6 ) {
 			const auto cfg = g_aim_bot->cfg( );
-			if ( cfg.m_force_baim_key
-				&& LOWORD( GetKeyState( cfg.m_force_baim_key ) ) ) {
-				add_text(
-					indicator_pos, m_fonts.m_verdana26, xorstr_( "BA" ),
-					ImColor( 240, 240, 240 ),
-					0
-				);
-
-				indicator_pos.y -= 30.f;
-			}
+			if ( cfg.m_force_safe_point_key
+				&& LOWORD( GetKeyState( cfg.m_force_safe_point_key ) ) )
+				add_indicator( "SP", ImColor( 240, 240, 240 ) );
 		}
-
 
 		if ( m_cfg->m_other.m_indicators & 5 ) {
 			const auto cfg = g_aim_bot->cfg( );
-			if ( cfg.m_min_dmg_override_key
-				&& LOWORD( GetKeyState( cfg.m_min_dmg_override_key ) ) ) {
-				add_text(
-					indicator_pos, m_fonts.m_verdana26, xorstr_( "DMG" ),
-					ImColor( 240, 240, 240 ),
-					0
-				);
-
-				indicator_pos.y -= 30.f;
-			}
+			if ( cfg.m_force_baim_key
+				&& LOWORD( GetKeyState( cfg.m_force_baim_key ) ) )
+				add_indicator( "BA", ImColor( 240, 240, 240 ) );
 		}
 
-		if ( m_cfg->m_other.m_indicators & 4 ) {
-			const auto cfg = g_movement->cfg( );
-			if ( cfg.m_fake_duck_key
-				&& LOWORD( GetKeyState( cfg.m_fake_duck_key ) ) ) {
-				add_text(
-					indicator_pos, m_fonts.m_verdana26, xorstr_( "DUCK" ),
-					ImColor( 135, 0, 0 ),
-					0
-				);
 
-				indicator_pos.y -= 30.f;
-			}
+		if ( m_cfg->m_other.m_indicators & 4 ) {
+			const auto cfg = g_aim_bot->cfg( );
+			if ( cfg.m_min_dmg_override_key
+				&& LOWORD( GetKeyState( cfg.m_min_dmg_override_key ) ) )
+				add_indicator( "DMG", ImColor( 240, 240, 240 ) );
 		}
 
 		if ( m_cfg->m_other.m_indicators & 3 ) {
-			const auto type = g_exploits->type( );
-			if ( type == 1 ) {
-				add_text(
-					indicator_pos, m_fonts.m_verdana26, xorstr_( "OSAA" ),
-					ImColor( 240, 240, 240 ),
-					0
-				);
-
-				indicator_pos.y -= 30.f;
-			}
+			const auto cfg = g_movement->cfg( );
+			if ( cfg.m_fake_duck_key
+				&& LOWORD( GetKeyState( cfg.m_fake_duck_key ) ) )
+				add_indicator( "DUCK", ImColor( 240, 240, 240 ) );
 		}
 
 		if ( m_cfg->m_other.m_indicators & 2 ) {
-
 			const auto type = g_exploits->type( );
-			if ( type == 2
-				|| type == 3
-				|| type == 5 ) {
-				add_text(
-					indicator_pos, m_fonts.m_verdana26, xorstr_( "DT" ),
-					g_exploits->dt_ready( ) ? ImColor( 240, 240, 240 ) : ImColor( 135, 0, 0 ),
-					0
-				);
-
-				indicator_pos.y -= 30.f;
-			}
+			if ( type == 1 )
+				add_indicator( "HS", ImColor( 240, 240, 240 ) );
 		}
 
-		if ( m_cfg->m_other.m_indicators & 1
-			&& ( g_ctx->broke_lc( ) || valve::g_local_player->velocity( ).length_2d( ) > 270.f ) ) {
+		if ( m_cfg->m_other.m_indicators & 1 ) {
+
+			const auto type = g_exploits->type( );
+			if ( type == 2 || type == 3 || type == 5 )
+				add_indicator( "DT", ImColor( 240, 240, 240 ) );
+		}
+
+		for ( const std::tuple<const char*, ImColor> indicator : indicators ) {
 			add_text(
-				indicator_pos, m_fonts.m_verdana26, xorstr_( "LC" ),
-				g_ctx->broke_lc( ) ? 0xb415c27bu : 0xb40000ffu,
-				0
+				indicator_pos, m_fonts.m_verdana26, std::get<0>( indicator ),
+				std::get<1>( indicator ),	0
 			);
 
 			indicator_pos.y -= 30.f;
 		}
+
+		indicators.clear( );
 
 		if ( m_cfg->m_other.m_spectators ) {
 			std::vector< std::string > spectators{};
