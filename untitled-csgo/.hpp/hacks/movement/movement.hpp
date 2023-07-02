@@ -25,8 +25,8 @@ namespace hacks {
 		void auto_strafe( valve::user_cmd_t& user_cmd );
 
 		struct cfg_t {
-			bool	m_anti_untrusted{ true }, m_slide_walk{}, m_slow_walk{},
-					m_remove_crouch_cooldown{}, m_auto_bhop{}, m_fast_stop{};
+			bool	m_slide_walk{}, m_slow_walk{}, m_remove_crouch_cooldown{},
+					m_auto_bhop{}, m_fast_stop{};
 
 			float	m_slow_walk_speed{};
 			int		m_auto_strafe_type{}, m_fake_duck_key{}, m_slow_walk_key{}, m_auto_peek_key{};
