@@ -69,7 +69,7 @@ void c_gfx::set_render_states( IDirect3DDevice9* device ) {
 }
 
 void c_gfx::begin_scene( ) {
-    m_device->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_RGBA( 15, 15, 15, NULL ), 1.f, 0 );
+    m_device->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_RGBA( 115, 140, 153, 255 ), 1.f, 0 );
     m_device->BeginScene( );
 }
 

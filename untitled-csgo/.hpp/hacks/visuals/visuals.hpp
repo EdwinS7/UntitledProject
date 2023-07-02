@@ -100,7 +100,7 @@ namespace hacks {
 			const int segments_count, const std::uint32_t clr
 		) const;
 
-		void add_beam_ring( const vec3_t& pos, const float* const clr ) const;
+		void add_beam_ring( const vec3_t& pos, const float start_size, const float end_size, const float time, const float* const clr ) const;
 
 		void add_beam( const vec3_t& from, const vec3_t& to, const float* const clr ) const;
 

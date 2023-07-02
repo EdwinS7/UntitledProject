@@ -815,7 +815,7 @@ namespace hooks {
 
 		hacks::g_movement->should_fake_duck( )
 			= hacks::g_movement->cfg( ).m_fake_duck_key
-			&& HIWORD( GetKeyState( hacks::g_movement->cfg( ).m_fake_duck_key ) )
+			&& LOWORD( GetKeyState( hacks::g_movement->cfg( ).m_fake_duck_key ) )
 			&& valve::g_local_player->flags( ) & valve::e_ent_flags::on_ground
 			&& !( user_cmd.m_buttons & valve::e_buttons::in_jump );
 

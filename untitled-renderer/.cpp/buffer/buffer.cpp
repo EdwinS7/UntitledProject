@@ -10,13 +10,13 @@ void c_buffer::create_objects( ) {
 }
 
 void c_buffer::destroy_objects( ) {
+	g_font->release_font( &default_font );
+
 	m_command.textures.clear( );
 	m_command.clips.clear( );
-
-	// @note: we need need to release font texture's or else memory leaks will occur.
 }
 
-// __BUFFER__
+// __BUFFER__ 
 
 void c_buffer::write_to_buffer( const uint8_t primitive, const std::vector< vertex_t >* vertices, const std::vector<uint32_t>* indices ) {
 	int vertices_count = vertices->size( ),

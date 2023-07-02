@@ -58,24 +58,24 @@ namespace hacks {
 		std::array< weapon_t, k_max_knives >	m_knives {
 			weapon_t{ valve::e_item_index::none, xorstr_( "default" ) },
 			{ valve::e_item_index::knife_bayonet, xorstr_( "bayonet" ) },
-			{ valve::e_item_index::knife_css, xorstr_( "css" ) },
+			{ valve::e_item_index::knife_css, xorstr_( "classic" ) },
 			{ valve::e_item_index::knife_skeleton, xorstr_( "skeleton" ) },
-			{ valve::e_item_index::knife_outdoor, xorstr_( "outdoor" ) },
-			{ valve::e_item_index::knife_cord, xorstr_( "cord" ) },
-			{ valve::e_item_index::knife_canis, xorstr_( "canis" ) },
+			{ valve::e_item_index::knife_outdoor, xorstr_( "nomad" ) },
+			{ valve::e_item_index::knife_cord, xorstr_( "paracord" ) },
+			{ valve::e_item_index::knife_canis, xorstr_( "survival" ) },
 			{ valve::e_item_index::knife_flip, xorstr_( "flip" ) },
 			{ valve::e_item_index::knife_gut, xorstr_( "gut" ) },
 			{ valve::e_item_index::knife_karambit, xorstr_( "karambit" ) },
 			{ valve::e_item_index::knife_m9_bayonet, xorstr_( "m9 bayonet" ) },
-			{ valve::e_item_index::knife_tactical, xorstr_( "tactical" ) },
+			{ valve::e_item_index::knife_tactical, xorstr_( "huntsman" ) },
 			{ valve::e_item_index::knife_falchion, xorstr_( "falchion" ) },
 			{ valve::e_item_index::knife_survival_bowie, xorstr_( "bowie" ) },
 			{ valve::e_item_index::knife_butterfly, xorstr_( "butterfly" ) },
-			{ valve::e_item_index::knife_push, xorstr_( "push" ) },
+			{ valve::e_item_index::knife_push, xorstr_( "shadow daggers" ) },
 			{ valve::e_item_index::knife_ursus, xorstr_( "ursus" ) },
-			{ valve::e_item_index::knife_gypsy_jackknife, xorstr_( "gypsy" ) },
+			{ valve::e_item_index::knife_gypsy_jackknife, xorstr_( "navaja" ) },
 			{ valve::e_item_index::knife_stiletto, xorstr_( "stiletto" ) },
-			{ valve::e_item_index::knife_widowmaker, xorstr_( "widowmaker" ) }
+			{ valve::e_item_index::knife_widowmaker, xorstr_( "talon" ) }
 		};
 
 		std::array< std::string, k_max_knives - 1u > m_knife_mdls {

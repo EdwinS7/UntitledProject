@@ -1342,7 +1342,7 @@ namespace hacks {
 			&& LOWORD( GetKeyState( g_movement->cfg( ).m_auto_peek_key ) ) ) {
 
 			const float clr[] = { 1, 0, 0.56, 1 };
-			add_beam_ring( g_movement->auto_peek_start_pos( ), 26.f, 26.f, 0.1f, clr );
+			add_beam_ring( g_movement->auto_peek_start_pos( ), 26.f, 26.f, 1.f, clr );
 		}
 
 		if ( m_cfg->m_other.m_inaccuracy

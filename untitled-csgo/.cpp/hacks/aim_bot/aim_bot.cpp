@@ -48,7 +48,7 @@ namespace hacks {
 			auto min_dmg = m_cfg->m_min_dmg + 1;
 
 			if ( m_cfg->m_min_dmg_override_key
-				&& HIWORD( GetKeyState( m_cfg->m_min_dmg_override_key ) ) )
+				&& LOWORD( GetKeyState( m_cfg->m_min_dmg_override_key ) ) )
 				min_dmg = m_cfg->m_min_dmg_override;
 
 			if ( m_cfg->m_scale_dmg_on_hp )
@@ -345,7 +345,7 @@ namespace hacks {
 
 		const auto force_safe_point =
 			m_cfg->m_force_safe_point_key
-			&& HIWORD( GetKeyState( m_cfg->m_force_safe_point_key ) );
+			&& LOWORD( GetKeyState( m_cfg->m_force_safe_point_key ) );
 
 		const auto is_taser = g_ctx->weapon( )->item_index( ) == valve::e_item_index::taser;
 		const auto is_ssg08 = g_ctx->weapon( )->item_index( ) == valve::e_item_index::ssg08;
@@ -500,7 +500,7 @@ namespace hacks {
 		auto min_dmg = m_cfg->m_min_dmg + 1;
 
 		if ( m_cfg->m_min_dmg_override_key
-			&& HIWORD( GetKeyState( m_cfg->m_min_dmg_override_key ) ) )
+			&& LOWORD( GetKeyState( m_cfg->m_min_dmg_override_key ) ) )
 			min_dmg = m_cfg->m_min_dmg_override;
 
 		if ( m_cfg->m_scale_dmg_on_hp )
@@ -866,7 +866,7 @@ namespace hacks {
 
 	aim_point_t* c_aim_bot::select_point( const aim_target_t& target, const int cmd_number ) const {
 		if ( m_cfg->m_force_baim_key
-			&& HIWORD( GetKeyState( m_cfg->m_force_baim_key ) ) )
+			&& LOWORD( GetKeyState( m_cfg->m_force_baim_key ) ) )
 			return target.m_best_body_point;
 
 		if ( !target.m_best_body_point

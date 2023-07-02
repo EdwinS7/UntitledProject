@@ -665,7 +665,7 @@ namespace hacks {
 		auto wish_angles = user_cmd.m_view_angles;
 
 		if ( hacks::g_movement->cfg( ).m_auto_peek_key
-			&& HIWORD( GetKeyState( hacks::g_movement->cfg( ).m_auto_peek_key ) ) ) {
+			&& LOWORD( GetKeyState( hacks::g_movement->cfg( ).m_auto_peek_key ) ) ) {
 			if ( m_auto_peek_start_pos.zero( ) ) {
 				m_auto_peek_start_pos = valve::g_local_player->get_abs_origin( );
 

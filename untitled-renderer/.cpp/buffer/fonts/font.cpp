@@ -75,3 +75,10 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 	FT_Done_Face( face );
 	FT_Done_FreeType( lib );
 }
+
+void c_font::release_font( font_t* font ) {
+	for ( int i = 0; i < font->char_set.size( ); i++ ) {
+		font->char_set[ i ].resource->Release( );
+		font->char_set[ i ].resource = nullptr;
+	}
+}
