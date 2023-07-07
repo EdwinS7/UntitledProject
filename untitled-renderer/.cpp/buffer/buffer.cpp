@@ -6,7 +6,7 @@ void c_buffer::create_objects( ) {
 	push_clip( RECT( 0, 0, win32_size.x, win32_size.y ) );
 	push_texture( nullptr );
 
-	g_font->create_font( &default_font, "Tahoma", 10, 400, false );
+	g_font->create_font( &default_font, "Segoe UI", 10, 400, true );
 }
 
 void c_buffer::destroy_objects( ) {
@@ -16,7 +16,7 @@ void c_buffer::destroy_objects( ) {
 	m_command.clips.clear( );
 }
 
-// __BUFFER__ 
+// __BUFFER__
 
 void c_buffer::write_to_buffer( const uint8_t primitive, const std::vector< vertex_t >* vertices, const std::vector<uint32_t>* indices ) {
 	int vertices_count = vertices->size( ),
@@ -61,6 +61,7 @@ void c_buffer::line( const vector2_t< uint16_t > from, const vector2_t< uint16_t
 
 void c_buffer::polyline( const std::vector< vector2_t< uint16_t > > points, const color_t clr ) {
 	std::vector<vertex_t> vertices;
+	vertices.reserve( points.size( ) );
 
 	make_vertices( &vertices, &points, &clr );
 
@@ -69,10 +70,12 @@ void c_buffer::polyline( const std::vector< vector2_t< uint16_t > > points, cons
 
 void c_buffer::polygon( const std::vector<vector2_t<uint16_t>> points, const color_t clr ) {
 	std::vector<vertex_t> vertices;
+	vertices.reserve( points.size( ) );
 
 	make_vertices( &vertices, &points, &clr );
 
 	std::vector<uint32_t> indices;
+	indices.reserve( vertices.size( ) * 3 );
 
 	for ( uint32_t i = 1; i < ( vertices.size( ) - 2 ) * 3; i++ ) {
 		indices.push_back( 0 );
@@ -106,6 +109,8 @@ void c_buffer::rectangle( const vector2_t< uint16_t > pos, const vector2_t< uint
 			int angle = std::get<2>( corner_tuple );
 
 			std::vector<vector2_t<uint16_t>> corner_points;
+			corner_points.reserve( RECTANGLE_SEGMENTS + 1 );
+
 			generate_arc_points( &corner_points, &corner_rounded, rounding, 25, angle, RECTANGLE_SEGMENTS );
 
 			points.insert( points.end( ), corner_points.begin( ), corner_points.end( ) );
@@ -145,6 +150,8 @@ void c_buffer::filled_rectangle( const vector2_t< uint16_t > pos, const vector2_
 			int angle = std::get<2>( corner_tuple );
 
 			std::vector<vector2_t<uint16_t>> corner_points;
+			corner_points.reserve( RECTANGLE_SEGMENTS + 1 );
+
 			generate_arc_points( &corner_points, &corner_rounded, rounding, 25, angle, RECTANGLE_SEGMENTS );
 
 			points.insert( points.end( ), corner_points.begin( ), corner_points.end( ) );
@@ -214,7 +221,8 @@ void c_buffer::filled_triangle( const vector2_t< uint16_t > p1, const vector2_t<
 }
 
 void c_buffer::circle( const vector2_t< uint16_t > pos, const uint16_t radius, const color_t clr ) {
-	std::vector<vector2_t<uint16_t>> points( CIRCLE_SEGMENTS );
+	std::vector<vector2_t<uint16_t>> points;
+	points.reserve( CIRCLE_SEGMENTS + 1 );
 
 	generate_arc_points( &points, &pos, radius, 100, 0, CIRCLE_SEGMENTS );
 
@@ -222,7 +230,8 @@ void c_buffer::circle( const vector2_t< uint16_t > pos, const uint16_t radius, c
 }
 
 void c_buffer::filled_circle( const vector2_t< uint16_t > pos, const uint16_t radius, const color_t clr ) {
-	std::vector<vector2_t<uint16_t>> points( CIRCLE_SEGMENTS );
+	std::vector<vector2_t<uint16_t>> points;
+	points.reserve( CIRCLE_SEGMENTS + 1 );
 
 	generate_arc_points( &points, &pos, radius, 100, 0, CIRCLE_SEGMENTS );
 
@@ -256,8 +265,45 @@ void c_buffer::text( const font_t* font, const std::string string, const vector2
 			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f },
 			{x + w, y, 0.f, 1.f, clr.hex, 1.f, 0.f},
 			{x + w, y + h, 0.f, 1.f, clr.hex, 1.f, 1.f},
-			{x, y + h, 0.f, 1.f, clr.hex, 0.f, 1.f},
-			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f }
+			{x, y + h, 0.f, 1.f, clr.hex, 0.f, 1.f}
+		};
+
+		push_texture( font->char_set.at( letter ).resource );
+		write_to_buffer( TRIANGLE, &vertices, nullptr );
+		pop_texture( );
+
+		advance += font->char_set.at( letter ).advance / 64;
+	}
+}
+
+void c_buffer::text_gradient( const font_t* font, const std::string string, const vector2_t<uint16_t> pos, const color_t clr, const color_t clr2 ) {
+	if ( string.empty( ) )
+		return;
+
+	vector2_t<uint16_t> bounds = get_text_size( font, string );
+
+	int advance = 0;
+	for ( char letter : string ) {
+		auto should_draw = [ ] ( const char letter ) {
+			return isprint( letter ) && letter != ' ';
+		};
+
+		if ( !should_draw( letter ) ) {
+			advance += font->char_set.at( letter ).advance / 64;
+			continue;
+		}
+
+		float	w = round( static_cast< float >( font->char_set.at( letter ).size.x ) ),
+			h = round( static_cast< float >( font->char_set.at( letter ).size.y ) );
+
+		float	x = round( static_cast< float >( pos.x ) + advance + font->char_set.at( letter ).bearing.x ) + 0.5f,
+			y = round( static_cast< float >( pos.y ) + ( bounds.y * 0.75f ) - font->char_set.at( letter ).bearing.y ) + 0.5f;
+
+		const std::vector<vertex_t> vertices = {
+			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f },
+			{x + w, y, 0.f, 1.f, clr2.hex, 1.f, 0.f},
+			{x + w, y + h, 0.f, 1.f, clr2.hex, 1.f, 1.f},
+			{x, y + h, 0.f, 1.f, clr.hex, 0.f, 1.f}
 		};
 
 		push_texture( font->char_set.at( letter ).resource );

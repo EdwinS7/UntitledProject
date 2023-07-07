@@ -7,7 +7,7 @@ class c_win32 {
 public:
 	void set_window_title( const char* title );
 
-	bool create_window( const char* title, bool full_screen, vector2_t< uint16_t > size );
+	bool create_window( const char* title, vector2_t< uint16_t > size );
 
 	bool message_box( const char* title, const char* caption, uint8_t type );
 

@@ -19,7 +19,7 @@ void c_win32::set_window_title(const char* title) {
 	SetWindowTextA( m_hwnd, title );
 }
 
-bool c_win32::create_window( const char* title, bool full_screen, vector2_t< uint16_t > size ) {
+bool c_win32::create_window( const char* title, vector2_t< uint16_t > size ) {
 	window_class = {
 		sizeof( window_class ),
 		CS_CLASSDC,

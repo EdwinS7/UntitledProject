@@ -103,10 +103,18 @@ public:
     );
 
     void text(
+       const font_t* font,
+       const std::string string,
+       const vector2_t<uint16_t> pos,
+       const color_t clr
+    );
+
+    void text_gradient(
         const font_t* font,
         const std::string string,
         const vector2_t<uint16_t> pos,
-        const color_t clr
+        const color_t clr,
+        const color_t clr2
     );
 
     vector2_t<uint16_t> get_text_size(
@@ -123,18 +131,22 @@ public:
 
     ALWAYS_INLINE std::vector<draw_command_t> get_draw_commands( );
 
-    ALWAYS_INLINE void push_clip( const RECT rect );
+    ALWAYS_INLINE void push_clip(
+        const RECT rect
+    );
 
     ALWAYS_INLINE void pop_clip( );
 
-    ALWAYS_INLINE void push_texture( const texture resource );
+    ALWAYS_INLINE void push_texture(
+        const texture resource
+    );
 
     ALWAYS_INLINE void pop_texture( );
 
-// fonts
+// @fonts
     font_t default_font;
 
-// textures
+// @textures
     texture demo_texture;
 
 private:

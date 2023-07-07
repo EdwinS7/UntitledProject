@@ -18,15 +18,162 @@
     <ClCompile Include=".cpp\ctx\ctx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include=".cpp\mem\mem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".cpp\hooks\wnd_proc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".cpp\hooks\directx9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".cpp\gui\gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\imgui\imgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\imgui\imgui_draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\imgui\imgui_impl_dx9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\imgui\imgui_impl_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\imgui\imgui_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\imgui\imgui_widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\minhook\hde\hde32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\minhook\buffer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\minhook\hook.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\minhook\trampoline.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".cpp\valve\net_vars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".hpp\ctx\ctx.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include=".hpp\ctx\ctx.hpp" />
+    <None Include=".hpp\mem\mem.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\gui\gui.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\valve\entities\inl\entities.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\valve\interfaces\inl\interfaces.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\valve\net_vars\inl\net_vars.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\valve\other\inl\other.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\util\impl\util.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include=".hpp\math\inl\math.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\mem\mem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\hooks\hooks.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\gui\gui.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imgui_impl_dx9.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imgui_impl_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imstb_rectpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imstb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\json\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\hde\hde32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\hde\pstdint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\hde\table32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\minhook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\trampoline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\xorstr\xorstr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\valve\entities\entities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\valve\interfaces\interfaces.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\valve\net_vars\net_vars.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\valve\other\other.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\valve\valve.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\util\util.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\math\math.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

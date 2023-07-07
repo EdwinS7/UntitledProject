@@ -11,8 +11,6 @@ void c_gfx::create_context( ) {
     m_parameters.EnableAutoDepthStencil = TRUE;
     m_parameters.AutoDepthStencilFormat = D3DFMT_D16;
     m_parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-    m_parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
-    m_parameters.MultiSampleQuality = 0;
 }
 
 bool c_gfx::create_device( HWND hwnd ) {

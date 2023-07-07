@@ -1,7 +1,7 @@
 #include "../../.hpp/ctx/ctx.hpp"
 
 int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int show_cmd ) {
-    g_win32->create_window( "untitled - renderer", false, { 1280, 720 } );
+    g_win32->create_window( "untitled - renderer", { 1280, 720 } );
 
     g_gfx->create_context( );
 
@@ -12,12 +12,22 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
     while ( g_win32->dispatch_messages( ) ) {
         g_ctx->update( );
 
-        g_win32->set_window_title( std::vformat( "untitled - renderer ({} FPS)", std::make_format_args( g_ctx->get_framerate( ) ) ).c_str( ) );
+        auto framerate = std::vformat( "{} FPS", std::make_format_args( g_ctx->get_framerate( ) ) );
 
-        g_buffer->text( &g_buffer->default_font, "Distinguished is a big fat fucking nigger monkey", { 10, 10 }, color_t( 255, 255, 255, 255 ) );
-        g_buffer->filled_circle( { 100, 100 }, 50, color_t( 255, 255, 255, 255 ) );
+        g_buffer->text( 
+            &g_buffer->default_font,
+           framerate.c_str(),
+            vector2_t<uint16_t>(5, 5),
+            color_t( 255, 255, 255, 255 )
+        );
 
-        g_gfx->draw( );  
+        g_buffer->circle(
+            vector2_t<uint16_t>(100, 100),
+            50,
+            color_t( 255, 255, 255, 255 )
+        );
+
+        g_gfx->draw( );
     }
 
     g_gfx->release( );
