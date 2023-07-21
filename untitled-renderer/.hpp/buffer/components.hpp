@@ -17,6 +17,32 @@ enum corner_flags {
 	corner_bottom_left | corner_bottom_right
 };
 
+template < typename type_t = float >
+
+class view_angles_t {
+public:
+	type_t pitch, yaw;
+
+	constexpr view_angles_t( ) noexcept = default;
+
+	constexpr view_angles_t( const type_t pitch, const type_t yaw ) noexcept
+		: pitch( pitch ), yaw( yaw ) { }
+
+	constexpr view_angles_t operator+ ( const view_angles_t& viewangles ) const noexcept { return { pitch + viewangles.pitch, yaw + viewangles.yaw }; }
+	constexpr view_angles_t operator- ( const view_angles_t& viewangles ) const noexcept { return { pitch - viewangles.pitch, yaw - viewangles.yaw }; }
+	constexpr view_angles_t operator* ( const view_angles_t& viewangles ) const noexcept { return { pitch * viewangles.pitch, yaw * viewangles.yaw }; }
+	constexpr view_angles_t operator/ ( const view_angles_t& viewangles ) const noexcept { return { pitch / viewangles.pitch, yaw / viewangles.yaw }; }
+	constexpr bool operator> ( const view_angles_t& viewangles ) const noexcept { return pitch > viewangles.pitch && yaw > viewangles.yaw; }
+	constexpr bool operator>= ( const view_angles_t& viewangles ) const noexcept { return pitch >= viewangles.pitch && yaw >= viewangles.yaw; }
+	constexpr bool operator< ( const view_angles_t& viewangles ) const noexcept { return pitch < viewangles.pitch && yaw < viewangles.yaw; }
+	constexpr bool operator<= ( const view_angles_t& viewangles ) const noexcept { return pitch <= viewangles.pitch && yaw <= viewangles.yaw; }
+	constexpr view_angles_t operator*= ( const type_t& viewangles ) noexcept { return { pitch *= viewangles.pitch, yaw *= viewangles.yaw }; }
+
+#ifdef USE_CUSTOM_VIEW_ANGLES_OPPERATORS
+	USE_CUSTOM_VIEW_ANGLES_OPPERATORS
+#endif
+};
+
 template < typename type_t = uint16_t >
 
 class vector2_t {
@@ -43,7 +69,7 @@ public:
 #endif
 };
 
-template < typename type_t = uint32_t >
+template < typename type_t = float >
 
 class vector3_t {
 public:
@@ -58,6 +84,11 @@ public:
 	constexpr vector3_t operator- ( const vector3_t& vector ) const noexcept { return { x - vector.x, y - vector.y, z - vector.z }; }
 	constexpr vector3_t operator* ( const vector3_t& vector ) const noexcept { return { x * vector.x, y * vector.y, z * vector.z }; }
 	constexpr vector3_t operator/ ( const vector3_t& vector ) const noexcept { return { x / vector.x, y / vector.y, z / vector.z }; }
+	constexpr bool operator> ( const vector3_t& vector ) const noexcept { return x > vector.x && y > vector.y && z > vector.z; }
+	constexpr bool operator>= ( const vector3_t& vector ) const noexcept { return x >= vector.x && y >= vector.y && z >= vector.z; }
+	constexpr bool operator< ( const vector3_t& vector ) const noexcept { return x < vector.x && y < vector.y && z < vector.z; }
+	constexpr bool operator<= ( const vector3_t& vector ) const noexcept { return x <= vector.x && y <= vector.y && z <= vector.z; }
+	constexpr vector3_t operator*= ( const type_t& val ) noexcept { return { x *= val, y *= val, z *= val }; }
 
 #ifdef USE_CUSTOM_VECTOR3_OPPERATORS
 	USE_CUSTOM_VECTOR3_OPPERATORS
@@ -79,6 +110,11 @@ public:
 	constexpr vector4_t operator- ( const vector4_t& vector ) const noexcept { return { w - vector.w, x - vector.x, y - vector.y, z - vector.z }; }
 	constexpr vector4_t operator* ( const vector4_t& vector ) const noexcept { return { w * vector.w, x * vector.x, y * vector.y, z * vector.z }; }
 	constexpr vector4_t operator/ ( const vector4_t& vector ) const noexcept { return { w / vector.w, x / vector.x, y / vector.y, z / vector.z }; }
+	constexpr bool operator> ( const vector4_t& vector ) const noexcept { return w > vector.w && x > vector.x && y > vector.y && z > vector.z; }
+	constexpr bool operator>= ( const vector4_t& vector ) const noexcept { return w >= vector.w && x >= vector.x && y >= vector.y && z >= vector.z; }
+	constexpr bool operator< ( const vector4_t& vector ) const noexcept { return w < vector.w && x < vector.x && y < vector.y && z < vector.z; }
+	constexpr bool operator<= ( const vector4_t& vector ) const noexcept { return w <= vector.w && x <= vector.x && y <= vector.y && z <= vector.z; }
+	constexpr vector4_t operator*= ( const type_t& val ) noexcept { return { w *= val, x *= val, y *= val, z *= val }; }
 
 #ifdef USE_CUSTOM_VECTOR4_OPPERATORS
 	USE_CUSTOM_VECTOR4_OPPERATORS
@@ -101,8 +137,7 @@ public:
 #endif
 };
 
-#define COLOR(r,g,b,a) \
-    ((DWORD)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
+#define COLOR(r,g,b,a) ((DWORD)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
 
 class color_t {
 public:

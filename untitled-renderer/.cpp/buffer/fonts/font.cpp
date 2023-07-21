@@ -7,8 +7,6 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 	font->path = get_path( font_name );
 	font->size = size;
 
-	std::cout << "[ renderer ] received font file from ( " + font->path + " )" << std::endl;
-
 	if ( FT_Init_FreeType( &lib ) != FT_Err_Ok )
 		throw std::runtime_error( "create_objects failed ( FT_Init_FreeType )" );
 
@@ -74,6 +72,8 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 
 	FT_Done_Face( face );
 	FT_Done_FreeType( lib );
+
+	LOG( std::vformat( "[ renderer ] loaded font file from ( {} )\n", std::make_format_args( font->path ) ).c_str() );
 }
 
 void c_font::release_font( font_t* font ) {

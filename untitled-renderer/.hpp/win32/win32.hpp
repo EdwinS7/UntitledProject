@@ -7,17 +7,19 @@ class c_win32 {
 public:
 	void set_window_title( const char* title );
 
-	bool create_window( const char* title, vector2_t< uint16_t > size );
+	void create_window( const char* title, const vector2_t< uint16_t > size );
 
-	bool message_box( const char* title, const char* caption, uint8_t type );
+	void create_message_box( const char* title, const char* caption, uint8_t type );
 
-	HWND get_hwnd( );
+	bool dispatch_messages( );
+
+	void set_rect( const vector2_t<uint16_t> pos, const vector2_t<uint16_t> size );
 
 	vector2_t<uint16_t> get_pos( );
 
 	vector2_t<uint16_t> get_size( );
 
-	bool dispatch_messages( );
+	HWND get_hwnd( );
 private:
 
 	HWND m_hwnd;

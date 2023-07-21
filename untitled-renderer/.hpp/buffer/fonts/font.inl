@@ -27,8 +27,5 @@ ALWAYS_INLINE std::string c_font::get_path( const char* font_name ) {
 	memset( str_buffer, 0, MAX_PATH );
 	SHGetFolderPathA( nullptr, CSIDL_FONTS, nullptr, 0, str_buffer );
 
-	// @note: debug
-	std::cout << "[ renderer ] loaded font file from ( " + std::string( str_buffer ) + '\\' + str_path + " )" << std::endl;
-
 	return std::string( str_buffer ) + '\\' + str_path;
 }

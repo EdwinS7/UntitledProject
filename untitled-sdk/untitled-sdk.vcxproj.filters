@@ -24,7 +24,7 @@
     <ClCompile Include=".cpp\hooks\wnd_proc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".cpp\hooks\directx9.cpp">
+    <ClCompile Include=".cpp\hooks\directx11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include=".cpp\gui\gui.cpp">
@@ -34,9 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include=".lib\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include=".lib\imgui\imgui_impl_dx9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include=".lib\imgui\imgui_impl_win32.cpp">
@@ -60,7 +57,10 @@
     <ClCompile Include=".lib\minhook\trampoline.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".cpp\valve\net_vars.cpp">
+    <ClCompile Include=".lib\imgui\imgui_impl_dx11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".lib\minhook\hde\hde64.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,18 +73,6 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include=".hpp\gui\gui.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include=".hpp\valve\entities\inl\entities.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include=".hpp\valve\interfaces\inl\interfaces.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include=".hpp\valve\net_vars\inl\net_vars.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include=".hpp\valve\other\inl\other.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include=".hpp\util\impl\util.inl">
@@ -111,9 +99,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include=".lib\imgui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include=".lib\imgui\imgui_impl_dx9.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include=".lib\imgui\imgui_impl_win32.h">
@@ -155,25 +140,25 @@
     <ClInclude Include=".lib\xorstr\xorstr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".hpp\valve\entities\entities.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include=".hpp\valve\interfaces\interfaces.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include=".hpp\valve\net_vars\net_vars.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include=".hpp\valve\other\other.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include=".hpp\valve\valve.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include=".hpp\util\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include=".hpp\math\math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\imgui\imgui_impl_dx11.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\hde\table64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\minhook\hde\hde64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\interfaces\interfaces.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".lib\fnv1a\fnv1a.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

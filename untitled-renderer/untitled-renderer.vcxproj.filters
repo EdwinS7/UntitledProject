@@ -27,13 +27,13 @@
     <ClCompile Include=".cpp\buffer\buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".cpp\gfx\gl3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include=".cpp\gfx\dx11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include=".cpp\buffer\fonts\font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include=".cpp\input\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,9 +54,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include=".hpp\buffer\components.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include=".hpp\gfx\gl3.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include=".hpp\gfx\dx11.hpp">
@@ -363,6 +360,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include=".lib\freetype\tttags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include=".hpp\input\input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

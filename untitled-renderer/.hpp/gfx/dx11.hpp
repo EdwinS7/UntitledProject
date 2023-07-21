@@ -9,17 +9,19 @@ class c_gfx {
 public:
 	void set_render_states( ID3D11Device* device );
 
-	void create_context( );
-
 	bool create_device( HWND hwnd );
 
-	GfxTexture create_texture( const BYTE bytes[], const vector2_t<uint16_t> size );
+	void create_texture( texture* resource, const std::vector<BYTE> bytes, const vector2_t<uint16_t> size );
 
 	void begin_scene( );
 
 	void end_scene( );
 
 	void render_draw_data( );
+
+	bool valid( );
+
+	void reset( );
 
 	void release( );
 

@@ -18,10 +18,12 @@
 #include <deque>
 #include <mutex>
 
-#include <d3d9.h>
-#include <d3dx9.h>
+#include <d3d11.h>
+#include <dxgi1_2.h>
 
+#define PAD( sz )
 #define ALWAYS_INLINE __forceinline
+#define LOG(...) std::printf(__VA_ARGS__)
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 
@@ -45,13 +47,16 @@
         __forceinline ImVec3 normalized( ) { auto ret = *this; ret.normalize( ); return ret; } \
         __forceinline bool zero( ) { return ( x > -0.01f && x < 0.01f && y > -0.01f && y < 0.01f && z > -0.01f && z < 0.01f ); }
 
+#define JSON_NOEXCEPTION
+
 #include ".lib/json/json.hpp"
+#include ".lib/fnv1a/fnv1a.hpp"
 #include ".lib/xorstr/xorstr.hpp"
 #include ".lib/minhook/minhook.h"
 
 #include ".lib/imgui/imgui.h"
 #include ".lib/imgui/imgui_internal.h"
-#include ".lib/imgui/imgui_impl_dx9.h"
+#include ".lib/imgui/imgui_impl_dx11.h"
 #include ".lib/imgui/imgui_impl_win32.h"
 
 #include ".hpp/math/math.hpp"
@@ -60,7 +65,7 @@
 #include ".hpp/mem/mem.hpp"
 
 #include ".hpp/ctx/ctx.hpp"
-#include ".hpp/valve/valve.hpp"
 
+#include ".hpp/interfaces/interfaces.hpp"
 #include ".hpp/hooks/hooks.hpp"
 #include ".hpp/gui/gui.hpp"

@@ -1,5 +1,8 @@
 #include "../../.hpp/win32/win32.hpp"
 
+#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
+#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
+
 LRESULT CALLBACK WindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 	switch ( uMsg ) {
 	case WM_SIZE:
@@ -7,6 +10,9 @@ LRESULT CALLBACK WindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam 
 			g_gfx->reset( hwnd, lParam );
 
 		return 0;
+	case WM_MOUSEMOVE:
+		g_input->set_mouse_pos( vector2_t<uint16_t>( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ) );
+		break;
 	case WM_DESTROY:
 		PostQuitMessage( 0 );
 		return 0;
@@ -19,7 +25,7 @@ void c_win32::set_window_title(const char* title) {
 	SetWindowTextA( m_hwnd, title );
 }
 
-bool c_win32::create_window( const char* title, vector2_t< uint16_t > size ) {
+void c_win32::create_window( const char* title, const vector2_t< uint16_t > size ) {
 	window_class = {
 		sizeof( window_class ),
 		CS_CLASSDC,
@@ -50,17 +56,36 @@ bool c_win32::create_window( const char* title, vector2_t< uint16_t > size ) {
 	freopen_s( &fp, "CONIN$", "r", stdin );
 	freopen_s( &fp, "CONOUT$", "w", stdout );
 	freopen_s( &fp, "CONOUT$", "w", stderr );
+
+	LOG( "[ win32 ] console created\n" );
 #endif
+
+	LOG( "[ win32 ] window created\n" );
+}
+
+void c_win32::create_message_box( const char* title, const char* caption, uint8_t type ) {
+	LOG( "[ win32 ] message box created\n" );
+	MessageBox( m_hwnd, title, caption, type );
+	LOG( "[ win32 ] message box destroyed\n" );
+}
+
+bool c_win32::dispatch_messages( ) {
+	MSG msg;
+
+	std::memset( &msg, 0, sizeof( MSG ) );
+	if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
+		TranslateMessage( &msg );
+		DispatchMessage( &msg );
+
+		if ( msg.message == WM_QUIT )
+			return false;
+	}
 
 	return true;
 }
 
-bool c_win32::message_box( const char* title, const char* caption, uint8_t type ) {
-	return false;
-}
-
-HWND c_win32::get_hwnd( ) {
-	return m_hwnd;
+void c_win32::set_rect( const vector2_t< uint16_t > pos, const vector2_t< uint16_t > size ) {
+	SetWindowPos( m_hwnd, NULL, pos.x, pos.y, size.x, size.y, NULL );
 }
 
 vector2_t< uint16_t > c_win32::get_pos( ) {
@@ -78,20 +103,9 @@ vector2_t< uint16_t > c_win32::get_size( ) {
 	if ( GetClientRect( m_hwnd, &rect ) )
 		return vector2_t< uint16_t >( rect.right - rect.left, rect.bottom - rect.top );
 
-	throw std::runtime_error("GetClientRect failed");
+	throw std::runtime_error( "GetClientRect failed" );
 }
 
-bool c_win32::dispatch_messages( ) {
-	MSG msg;
-
-	std::memset( &msg, 0, sizeof( MSG ) );
-	if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
-		TranslateMessage( &msg );
-		DispatchMessage( &msg );
-
-		if ( msg.message == WM_QUIT )
-			return false;
-	}
-
-	return true;
+HWND c_win32::get_hwnd( ) {
+	return m_hwnd;
 }

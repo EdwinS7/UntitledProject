@@ -3,12 +3,12 @@
 #include "../../inc.hpp"
 
 namespace hooks {
-	LRESULT CALLBACK wnd_proc( const HWND hwnd, const UINT msg, const WPARAM wparam, const LPARAM lparam );
+	LRESULT CALLBACK wnd_proc( HWND, UINT, WPARAM, LPARAM );
 	inline decltype( &wnd_proc ) original_wnd_proc{};
 
-	long D3DAPI	device_reset( IDirect3DDevice9* const device, D3DPRESENT_PARAMETERS* const present_params );
-	inline decltype( &device_reset ) original_device_reset{};
+	HRESULT CALLBACK resize_buffers( IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT );
+	inline decltype( &resize_buffers ) original_resize_buffers{};
 
-	long D3DAPI device_present( IDirect3DDevice9* const device, RECT* const src_rect, RECT* const dst_rect, const HWND dst_wnd_override, RGNDATA* const dirty_region );
-	inline decltype( &device_present ) original_device_present{};
+	HRESULT CALLBACK present( IDXGISwapChain*, UINT, UINT );
+	inline decltype( &present ) original_present{};
 };

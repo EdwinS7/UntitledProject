@@ -6,7 +6,7 @@ void c_gfx::set_render_states( ID3D11Device* device ) {
 
 }
 
-void c_gfx::create_context( ) {
+void c_gfx::create_texture( texture* resource, const std::vector<BYTE> bytes, const vector2_t<uint16_t> size ) {
 
 }
 
@@ -75,7 +75,7 @@ void c_gfx::render_draw_data( ) {
                 start_vertex = 0,
                 start_index = 0;
 
-    /*for ( const draw_command_t& command : draw_commands ) {
+    for ( const draw_command_t& command : draw_commands ) {
         D3D11_BUFFER_DESC buffer_description{
             .BindFlags = D3D11_BIND_VERTEX_BUFFER,
             .Usage = D3D11_USAGE_DEFAULT,
@@ -85,18 +85,34 @@ void c_gfx::render_draw_data( ) {
             .StructureByteStride = sizeof( vertex_t )
         };
 
-        D3D11_SUBRESOURCE_DATA resource_data{
-            .pSysMem = command.vertices
-        };
+        // Create a vertex buffer
+        D3D11_BUFFER_DESC vertexBufferDesc;
+        ZeroMemory( &vertexBufferDesc, sizeof( D3D11_BUFFER_DESC ) );
+        vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+        vertexBufferDesc.ByteWidth = sizeof( vertex_t ) * 3; // 3 vertices for the triangle
+        vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+        vertexBufferDesc.CPUAccessFlags = 0;
+
+        D3D11_SUBRESOURCE_DATA vertexData;
+        ZeroMemory( &vertexData, sizeof( D3D11_SUBRESOURCE_DATA ) );
+        vertexData.pSysMem = command.vertices.data();
 
         ID3D11Buffer* vertex_buffer;
-        m_device->CreateBuffer( &buffer_description, &resource_data, &vertex_buffer );
+        m_device->CreateBuffer( &buffer_description, &vertexData, &vertex_buffer );
 
         m_context->IASetVertexBuffers( 0, 1, &vertex_buffer, &stride, &start_vertex );
         m_context->Draw( draw_command.vertices_count, start_vertex );
-    }*/
+    }
 
     g_buffer->clear_commands( );
+}
+
+bool c_gfx::valid( ) {
+    return m_device != nullptr;
+}
+
+void c_gfx::reset( ) {
+
 }
 
 void c_gfx::release( ) {

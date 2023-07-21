@@ -11,6 +11,8 @@ void c_gfx::create_context( ) {
     m_parameters.EnableAutoDepthStencil = TRUE;
     m_parameters.AutoDepthStencilFormat = D3DFMT_D16;
     m_parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
+    LOG( "[ graphics ] created context\n" );
 }
 
 bool c_gfx::create_device( HWND hwnd ) {
@@ -18,6 +20,8 @@ bool c_gfx::create_device( HWND hwnd ) {
         throw std::runtime_error("create_device failed");
 
     set_render_states( m_device );
+
+    LOG( "[ graphics ] created device\n" );
 
     return true;
 }
@@ -175,6 +179,8 @@ void c_gfx::release( ) {
     safe_release( m_index_buffer );
     safe_release( m_device );
     safe_release( m_d3d );
+
+    LOG( "[ graphics ] released and destroyed all objects\n" );
 }
 
 template <typename type>

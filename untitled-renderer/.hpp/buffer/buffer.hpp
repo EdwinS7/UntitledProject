@@ -42,7 +42,7 @@ public:
         const vector2_t<uint16_t> size,
         const color_t clr,
         const uint16_t rounding,
-        const corner_flags flags
+        const corner_flags flags = corner_all
     );
 
     void filled_rectangle(
@@ -50,7 +50,7 @@ public:
         const vector2_t<uint16_t> size,
         const color_t clr,
         const uint16_t rounding,
-        const corner_flags flags
+        const corner_flags flags = corner_all
     );
 
     void textured_rectangle(
@@ -107,14 +107,6 @@ public:
        const std::string string,
        const vector2_t<uint16_t> pos,
        const color_t clr
-    );
-
-    void text_gradient(
-        const font_t* font,
-        const std::string string,
-        const vector2_t<uint16_t> pos,
-        const color_t clr,
-        const color_t clr2
     );
 
     vector2_t<uint16_t> get_text_size(

@@ -21,11 +21,15 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
             color_t( 255, 255, 255, 255 )
         );
 
-        g_buffer->circle(
-            vector2_t<uint16_t>(100, 100),
-            50,
-            color_t( 255, 255, 255, 255 )
-        );
+        static bool test = false;
+
+        if ( g_input->key_pressed( VK_LBUTTON ) ) {
+            test = !test;
+        }
+
+        g_buffer->filled_circle( g_input->get_mouse_pos( ), 6, g_input->key_held( VK_LBUTTON ) ? color_t( 255, 0, 0, 255 ) : color_t( 255, 255, 255, 255 ) );
+
+        g_buffer->filled_rectangle( { 100, 100 }, { 50, 50 }, test ? color_t( 255, 0, 0, 255 ) : color_t( 255, 255, 255, 255 ), 10, corner_all );
 
         g_gfx->draw( );
     }
@@ -34,6 +38,8 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 }
 
 void c_ctx::update( ) {
+    g_input->pool_input( );
+
     m_timepoint = std::chrono::high_resolution_clock::now( );
 
     m_real_time = static_cast< float >(

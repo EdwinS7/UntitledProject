@@ -7,6 +7,8 @@ void c_buffer::create_objects( ) {
 	push_texture( nullptr );
 
 	g_font->create_font( &default_font, "Segoe UI", 10, 400, true );
+
+	LOG( "[ renderer ] created objects\n" );
 }
 
 void c_buffer::destroy_objects( ) {
@@ -14,6 +16,8 @@ void c_buffer::destroy_objects( ) {
 
 	m_command.textures.clear( );
 	m_command.clips.clear( );
+
+	LOG( "[ renderer ] destroyed and released objects\n" );
 }
 
 // __BUFFER__
@@ -265,44 +269,6 @@ void c_buffer::text( const font_t* font, const std::string string, const vector2
 			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f },
 			{x + w, y, 0.f, 1.f, clr.hex, 1.f, 0.f},
 			{x + w, y + h, 0.f, 1.f, clr.hex, 1.f, 1.f},
-			{x, y + h, 0.f, 1.f, clr.hex, 0.f, 1.f}
-		};
-
-		push_texture( font->char_set.at( letter ).resource );
-		write_to_buffer( TRIANGLE, &vertices, nullptr );
-		pop_texture( );
-
-		advance += font->char_set.at( letter ).advance / 64;
-	}
-}
-
-void c_buffer::text_gradient( const font_t* font, const std::string string, const vector2_t<uint16_t> pos, const color_t clr, const color_t clr2 ) {
-	if ( string.empty( ) )
-		return;
-
-	vector2_t<uint16_t> bounds = get_text_size( font, string );
-
-	int advance = 0;
-	for ( char letter : string ) {
-		auto should_draw = [ ] ( const char letter ) {
-			return isprint( letter ) && letter != ' ';
-		};
-
-		if ( !should_draw( letter ) ) {
-			advance += font->char_set.at( letter ).advance / 64;
-			continue;
-		}
-
-		float	w = round( static_cast< float >( font->char_set.at( letter ).size.x ) ),
-			h = round( static_cast< float >( font->char_set.at( letter ).size.y ) );
-
-		float	x = round( static_cast< float >( pos.x ) + advance + font->char_set.at( letter ).bearing.x ) + 0.5f,
-			y = round( static_cast< float >( pos.y ) + ( bounds.y * 0.75f ) - font->char_set.at( letter ).bearing.y ) + 0.5f;
-
-		const std::vector<vertex_t> vertices = {
-			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f },
-			{x + w, y, 0.f, 1.f, clr2.hex, 1.f, 0.f},
-			{x + w, y + h, 0.f, 1.f, clr2.hex, 1.f, 1.f},
 			{x, y + h, 0.f, 1.f, clr.hex, 0.f, 1.f}
 		};
 

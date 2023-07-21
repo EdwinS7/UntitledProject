@@ -7,7 +7,6 @@
 
 class c_gfx {
 public:
-
 	void create_context( );
 
 	bool create_device( HWND hwnd );

@@ -24,6 +24,7 @@
     <ProjectGuid>{f7f8028c-affe-43e7-aba7-fc2a406b09c6}</ProjectGuid>
     <RootNamespace>kofirenderer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>untitled-renderer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -132,7 +133,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -184,7 +185,7 @@
     <ClCompile Include=".cpp\ctx\ctx.cpp" />
     <ClCompile Include=".cpp\gfx\dx11.cpp" />
     <ClCompile Include=".cpp\gfx\dx9.cpp" />
-    <ClCompile Include=".cpp\gfx\gl3.cpp" />
+    <ClCompile Include=".cpp\input\input.cpp" />
     <ClCompile Include=".cpp\win32\win32.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,7 +195,7 @@
     <ClInclude Include=".hpp\ctx\ctx.hpp" />
     <ClInclude Include=".hpp\gfx\dx11.hpp" />
     <ClInclude Include=".hpp\gfx\dx9.hpp" />
-    <ClInclude Include=".hpp\gfx\gl3.hpp" />
+    <ClInclude Include=".hpp\input\input.hpp" />
     <ClInclude Include=".lib\freetype\config\ftconfig.h" />
     <ClInclude Include=".lib\freetype\config\ftheader.h" />
     <ClInclude Include=".lib\freetype\config\ftmodule.h" />
