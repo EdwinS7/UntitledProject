@@ -1,4 +1,4 @@
- #include "../../../.hpp/buffer/fonts/font.hpp"
+#include "../../../.hpp/buffer/fonts/font.hpp"
 
 void c_font::create_font( font_t* font, const char* font_name, const uint16_t size, const uint16_t weight, const bool anti_aliased ) {
 	FT_Library lib;
@@ -10,20 +10,20 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 	if ( FT_Init_FreeType( &lib ) != FT_Err_Ok )
 		throw std::runtime_error( "create_objects failed ( FT_Init_FreeType )" );
 
-	if ( FT_New_Face( lib, font->path.c_str(), 0, &face ) )
+	if ( FT_New_Face( lib, font->path.c_str( ), 0, &face ) )
 		throw std::runtime_error( "create_font failed ( FT_New_Face )" );
 
 	FT_Set_Char_Size( face, size * 64, 0, GetDpiForWindow( g_win32->get_hwnd( ) ), 0 );
 	FT_Select_Charmap( face, FT_ENCODING_UNICODE );
 
-	for ( uchar_t i = 0; i < 128; i++ ) {
+	for ( unsigned char i = 0; i < 128; i++ ) {
 		if ( FT_Load_Char( face, i, anti_aliased ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) )
 			throw std::runtime_error( "create_font failed ( FT_Load_Char, font most likely does not exist! )" );
 
 		uint32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
 		uint32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
 
-		if ( g_gfx->get_device()->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->char_set[i].resource, NULL ) )
+		if ( g_gfx->get_device( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->char_set[ i ].resource, NULL ) )
 			throw std::runtime_error{ "create_font failed ( create_texture failed )" };
 
 		D3DLOCKED_RECT locked_rect;
@@ -73,7 +73,7 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 	FT_Done_Face( face );
 	FT_Done_FreeType( lib );
 
-	LOG( std::vformat( "[ renderer ] loaded font file from ( {} )\n", std::make_format_args( font->path ) ).c_str() );
+	LOG( std::vformat( "[ renderer ] loaded font file from ( {} )\n", std::make_format_args( font->path ) ).c_str( ) );
 }
 
 void c_font::release_font( font_t* font ) {

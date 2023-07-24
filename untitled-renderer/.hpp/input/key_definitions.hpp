@@ -1,5 +1,9 @@
 #pragma once
 
+/* this is setup for a 75 % keyboard( no numpad )
+https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+*/
+
 #define KEY_LMOUSE 0x01
 #define KEY_RMOUSE 0x02
 #define KEY_MMOUSE 0x04

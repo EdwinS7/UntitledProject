@@ -169,7 +169,7 @@ public:
 	std::string path;
 	uint16_t size;
 
-	std::map<char, glyph_t> char_set;
+	std::vector<glyph_t> char_set{ 256 };
 
 #ifdef USE_CUSTOM_FONT_OPPERATORS
 	USE_CUSTOM_FONT_OPPERATORS

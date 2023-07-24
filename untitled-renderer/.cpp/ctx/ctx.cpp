@@ -14,22 +14,12 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
         auto framerate = std::vformat( "{} FPS", std::make_format_args( g_ctx->get_framerate( ) ) );
 
-        g_buffer->text( 
+        g_buffer->text(
             &g_buffer->default_font,
            framerate.c_str(),
             vector2_t<uint16_t>(5, 5),
             color_t( 255, 255, 255, 255 )
         );
-
-        static bool test = false;
-
-        if ( g_input->key_pressed( KEY_CONTROL ) ) {
-            test = !test;
-        }
-
-        g_buffer->filled_circle( g_input->get_mouse_pos( ), 6, g_input->key_held( VK_LBUTTON ) ? color_t( 255, 0, 0, 255 ) : color_t( 255, 255, 255, 255 ) );
-
-        g_buffer->filled_rectangle( { 100, 100 }, { 50, 50 }, test ? color_t( 255, 0, 0, 255 ) : color_t( 255, 255, 255, 255 ), 10, corner_all );
 
         g_gfx->draw( );
     }

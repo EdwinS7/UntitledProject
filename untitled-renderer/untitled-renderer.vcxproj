@@ -195,6 +195,7 @@
     <ClInclude Include=".hpp\ctx\ctx.hpp" />
     <ClInclude Include=".hpp\gfx\dx11.hpp" />
     <ClInclude Include=".hpp\gfx\dx9.hpp" />
+    <ClInclude Include="cfg.hpp" />
     <ClInclude Include=".hpp\input\input.hpp" />
     <ClInclude Include=".hpp\input\key_definitions.hpp" />
     <ClInclude Include=".lib\freetype\config\ftconfig.h" />
