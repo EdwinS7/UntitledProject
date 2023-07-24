@@ -23,7 +23,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
         static bool test = false;
 
-        if ( g_input->key_pressed( VK_LBUTTON ) ) {
+        if ( g_input->key_pressed( KEY_CONTROL ) ) {
             test = !test;
         }
 

@@ -365,6 +365,9 @@
     <ClInclude Include=".hpp\input\input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include=".hpp\input\key_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".hpp\buffer\buffer.inl">

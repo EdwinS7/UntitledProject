@@ -5,6 +5,8 @@
 
 #ifdef UNTITLED_USE_INPUT
 
+#include "key_definitions.hpp"
+
 class c_input {
 public:
 	void pool_input( );
@@ -22,8 +24,8 @@ public:
 private:
 	vector2_t<uint16_t> m_mouse_pos;
 
-	std::map<uint8_t, bool> prev_key_states;
-	std::map<uint8_t, std::pair<bool, bool>> key_states;
+	std::pair<bool, bool> prev_key_states[ 255 ];
+	std::pair<bool, bool> key_states[ 255 ];
 };
 
 inline const auto g_input = std::make_unique<c_input>( );
