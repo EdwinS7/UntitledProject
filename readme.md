@@ -1,25 +1,28 @@
-# untitled_project
-### 💜 private project coded by the one and only edwin777. this is not to be shared!
-What does this reposity include? This repository includes:
-- gui-framework
-- - Object oriented.
-- - Easy to use.
+# untitled-project: directx 9-12 buffer renderer
 
-- renderer
-- - DirectX 9
-- - DirectX 11
-- - DirectX 12
+![project banner](https://cdn.discordapp.com/attachments/1140442325181550694/1140442377434173460/Untitled-banner.png)
 
-- counter-strike: 2 sdk
-- - Aim bot
-- - Anti aim
-- - Visuals
-- - Misc
+untitled-project is a open source project that aims to provide a comprehensive learning resource for directx enthusiasts interested in creating beautiful 2d graphical user interfaces using directx 9-12. whether you're a commited developer or a newcomer to graphics programming, this project will help you understand the fundamentals of graphics programming and gui rendering.
 
-### What IDE can I use for this?
-- Visual Studio 17-latest
+## :droplet: about
 
-### Contributers:
-- Edwn ( Owner / Developer )
+untitled-project is an educational initiative focused on directx 9-12, demonstrating how to create a buffer renderer optimized for 2d graphical user interfaces, similar in concept to imgui.
 
-[<img src="https://github.com/EdwinS7/untitled_project/assets/88218388/42f70e46-db4e-4bd4-be55-91bc4c7c58be" width=15% height=15%>](https://twitter.com/CounterStrike)
+## :zap: why?
+
+- **learning opportunity:** this project is designed to provide a hands-on learning experience for anyone interested in graphics programming, directx, and gui rendering techniques.
+
+- **open source:** by making this project open source, we encourage collaboration and knowledge-sharing within the development community.
+
+- **competition:** i especially made this project for new competition over the far superior imgui over the past few years.
+
+## :hammer_and_wrench: getting started
+
+to get started with untitled-project, follow these steps:
+
+1. **install llvm/clang:** make sure you have llvm/clang compiler installed on your system.
+- **where do I get llvm/clang build tools?** visual studio installer -> YOUR visual studio install -> modify -> individual components -> search 'clang' and install both clang compiler and clang msbuild support.
+
+2. **clone the repository:** clone this repository to your local machine using the following command:
+
+<sub>git clone [https://github.com/EdwinS7/untitled_project]<sub>
