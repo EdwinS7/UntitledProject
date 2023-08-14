@@ -25,4 +25,4 @@ to get started with untitled-project, follow these steps:
 
 2. **clone the repository:** clone this repository to your local machine using the following command:
 
-<sub>git clone [https://github.com/EdwinS7/untitled_project]<sub>
+```git clone [https://github.com/EdwinS7/untitled_project]```
