@@ -89,14 +89,14 @@ public:
 
     void text(
        const font_t* font,
-       const std::string string,
+       const char* str,
        const vector2_t<uint16_t> pos,
        const color_t clr
     );
 
     vector2_t<uint16_t> get_text_size(
          const font_t* font,
-        const std::string string
+        const char* str
     );
 
 // inline
@@ -115,7 +115,7 @@ public:
     ALWAYS_INLINE void pop_clip( );
 
     ALWAYS_INLINE void push_texture(
-        const texture* resource
+        texture resource
     );
 
     ALWAYS_INLINE void pop_texture( );

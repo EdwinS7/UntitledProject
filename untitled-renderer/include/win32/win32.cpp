@@ -7,7 +7,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam 
 	switch ( uMsg ) {
 	case WM_SIZE:
 		if ( g_gfx->valid( ) && wParam != SIZE_MINIMIZED )
-			g_gfx->reset( hwnd, lParam );
+			g_gfx->reset( lParam );
 
 		return 0;
 	case WM_MOUSEMOVE:
@@ -48,18 +48,14 @@ void c_win32::create_window( const char* title, const vector2_t< uint16_t > size
 
 	ShowWindow( m_hwnd, SW_SHOWDEFAULT );
 	UpdateWindow( m_hwnd );
-
-#ifdef UNTITLED_USE_CONSOLE
-	g_console->create("untitled-renderer logs", vector2_t<uint16_t>(600, 600));
-#endif
 	
-	g_console->log( LOG_INFO, "[ win32 ] window created\n" );
+	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] window created\n" );
 }
 
 void c_win32::create_message_box( const char* title, const char* caption, uint8_t type ) {
-	g_console->log( LOG_INFO, "[ win32 ] message box created\n" );
+	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] message box created\n" );
 	MessageBox( m_hwnd, title, caption, type );
-	g_console->log( LOG_INFO, "[ win32 ] message box destroyed\n" );
+	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] message box destroyed\n" );
 }
 
 bool c_win32::dispatch_messages( ) {

@@ -3,25 +3,17 @@
 // includes
 #include "../../inc.hpp"
 
-#ifdef UNTITLED_USE_CONSOLE
-
-enum log_level {
-	LOG_DEFAULT = 0,
-	LOG_INFO,
-	LOG_WARNING,
-	LOG_ERROR,
-	LOG_SUCCESS
-};
-
 class c_console {
 public:
-	void create( const char* title, vector2_t<uint16_t> size );
-	void log( int level, const char* msg );
+	void draw( );
+	void handle( );
+
+	void log( color_t clr, const char* msg );
 
 private:
-	FILE* file_pointer;
+	std::vector<std::tuple<const char*, color_t, float>> history; // text, color, time remaining
+
+	FILE* m_file_pointer;
 };
 
 inline const auto g_console = std::make_unique<c_console>( );
-
-#endif

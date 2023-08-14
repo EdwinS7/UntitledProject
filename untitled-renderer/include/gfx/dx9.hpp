@@ -7,10 +7,13 @@
 
 class c_gfx {
 public:
-	bool create( HWND hwnd, const bool device_only = false );
+	bool initialize( HWND hwnd, const bool device_only = false );
 	void set_render_states( IDirect3DDevice9* device );
-	void reset( const HWND hWnd, const LPARAM lParam );
+	void reset( const LPARAM lParam );
 	void render_draw_data( );
+
+	void set_clear_color( const color_t clear_color );
+	void set_vsync( const bool state );
 
 	bool valid( );
 	void draw( );
@@ -32,6 +35,10 @@ private:
 
 	IDirect3DVertexBuffer9* m_vertex_buffer;
 	IDirect3DIndexBuffer9* m_index_buffer;
+
+	color_t m_clear_color{ 0, 0, 0, 255 };
+
+	HWND m_hwnd;
 
 	template <typename type>
 	void safe_release( type*& obj );

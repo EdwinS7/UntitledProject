@@ -167,6 +167,7 @@ struct glyph_t {
 class font_t {
 public:
 	std::string path;
+	uint16_t padding;
 	uint16_t size;
 
 	std::vector<glyph_t> char_set{ 256 };
@@ -179,7 +180,7 @@ public:
 class command_t {
 public:
 	std::vector< RECT > clips;
-	std::vector< const texture* > textures;
+	std::vector< texture > textures;
 
 #ifdef USE_CUSTOM_COMMAND_OPPERATORS
 	USE_CUSTOM_COMMAND_OPPERATORS

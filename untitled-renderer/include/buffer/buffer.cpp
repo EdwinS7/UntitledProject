@@ -6,10 +6,9 @@ void c_buffer::create_objects( ) {
 	push_clip( win32_size );
 	push_texture( nullptr );
 
-	g_font->create_font( &default_font, "Segoe UI", 10, 400, true );
-	g_gfx->create_texture_from_file( &demo_texture, "knvon.jpg" );
+	g_font->create_font( &default_font, "Segoe UI", 16, 400, 4, true );
 
-	g_console->log( LOG_INFO, "[ renderer ] created objects\n" );
+	g_console->log( color_t(240, 240, 240, 255), "[ renderer ] created objects\n" );
 }
 
 void c_buffer::destroy_objects( ) {
@@ -18,7 +17,7 @@ void c_buffer::destroy_objects( ) {
 	m_command.textures.clear( );
 	m_command.clips.clear( );
 
-	g_console->log( LOG_INFO, "[ renderer ] destroyed and released objects\n" );
+	g_console->log( color_t( 240, 240, 240, 255 ), "[ renderer ] destroyed and released objects\n" );
 }
 
 // __BUFFER__
@@ -181,7 +180,7 @@ void c_buffer::textured_rectangle( texture* resource, const vector2_t<uint16_t> 
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
 
-	push_texture( resource );
+	push_texture( *resource );
 	write_to_buffer( TRIANGLE, &vertices, nullptr );
 	pop_texture( );
 }
@@ -243,55 +242,64 @@ void c_buffer::filled_circle( const vector2_t< uint16_t > pos, const uint16_t ra
 	polygon( points, clr );
 }
 
-void c_buffer::text( const font_t* font, const std::string string, const vector2_t<uint16_t> pos, const color_t clr ) {
-	if ( string.empty() )
+void c_buffer::text( const font_t* font, const char* str, const vector2_t<uint16_t> pos, const color_t clr ) {
+	if ( !str || !font )
 		return;
 
-	vector2_t<uint16_t> bounds = get_text_size( font, string );
-
+	vector2_t<uint16_t> bounds = get_text_size( font, str );
+	float row_height = 0.f;
+	float y_offset = static_cast< float >( pos.y ) + ( bounds.y * 0.75f );
 	int advance = 0;
-	for ( char letter : string ) {
-		auto should_draw = [ ] ( const char letter ) {
-			return isprint( letter ) && letter != ' ';
-		};
+	int y_advance = 0;
 
-		if ( !should_draw( letter ) ) {
+	for ( const char* ptr = str; *ptr; ++ptr ) {
+		char letter = *ptr;
+
+		if ( ( !isprint( letter ) && letter != '\n' ) || letter == ' ' ) {
 			advance += font->char_set.at( letter ).advance / 64;
 			continue;
 		}
 
-		float	w = round( static_cast< float >( font->char_set.at( letter ).size.x ) ),
-				h = round( static_cast< float >( font->char_set.at( letter ).size.y ) );
+		const glyph_t& glyph = font->char_set.at( letter );
 
-		float	x = round( static_cast< float >( pos.x ) + advance + font->char_set.at( letter ).bearing.x ) + 0.5f,
-				y = round( static_cast< float >( pos.y ) + ( bounds.y * 0.75f ) - font->char_set.at( letter ).bearing.y ) + 0.5f;
+		if ( glyph.size.y > row_height )
+			row_height = glyph.size.y;
+
+		if ( letter == '\n' ) {
+			y_advance += static_cast< int >( row_height ) + font->padding;
+			advance = 0;
+			continue;
+		}
+
+		float x = round( static_cast< float >( pos.x ) + advance + glyph.bearing.x ) + 0.5f;
+		float y = round( y_offset + y_advance - glyph.bearing.y ) + 0.5f;
 
 		const std::vector<vertex_t> vertices = {
-			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f },
-			{x + w, y, 0.f, 1.f, clr.hex, 1.f, 0.f},
-			{x + w, y + h, 0.f, 1.f, clr.hex, 1.f, 1.f},
-			{x, y + h, 0.f, 1.f, clr.hex, 0.f, 1.f}
+			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f},
+			{x + glyph.size.x, y, 0.f, 1.f, clr.hex, 1.f, 0.f},
+			{x + glyph.size.x, y + glyph.size.y, 0.f, 1.f, clr.hex, 1.f, 1.f},
+			{x, y + glyph.size.y, 0.f, 1.f, clr.hex, 0.f, 1.f}
 		};
 
-		push_texture( &font->char_set.at( letter ).resource );
+		push_texture( glyph.resource );
 		write_to_buffer( TRIANGLE, &vertices, nullptr );
 		pop_texture( );
 
-		advance += font->char_set.at( letter ).advance / 64;
+		advance += glyph.advance / 64;
 	}
 }
 
 // __UTILS__ / __PRIVATE__
 
-vector2_t<uint16_t> c_buffer::get_text_size( const font_t* font, const std::string string ) {
-	if ( string.empty( ) )
+vector2_t<uint16_t> c_buffer::get_text_size( const font_t* font, const char* str ) {
+	if ( !str || !font )
 		return vector2_t<uint16_t>( 0, 0 );
 
-	vector2_t<uint16_t> size{ 0, 0 };
+	vector2_t<uint16_t> size{ 0, static_cast< uint16_t >( font->size * 1.5f ) };
 
-	for ( char letter : string ) {
-		size.y = max( size.y, font->size * 1.5f );
-		size.x += font->char_set.at(letter).advance / 64;
+	for ( const char* ptr = str; *ptr; ++ptr ) {
+		char letter = *ptr;
+		size.x += font->char_set.at( letter ).advance / 64;
 	}
 
 	return size;

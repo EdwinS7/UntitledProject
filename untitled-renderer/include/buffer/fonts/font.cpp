@@ -1,10 +1,11 @@
 #include "font.hpp"
 
-void c_font::create_font( font_t* font, const char* font_name, const uint16_t size, const uint16_t weight, const bool anti_aliased ) {
+void c_font::create_font( font_t* font, const char* font_name, const uint16_t size, const uint16_t weight, const uint16_t padding, const bool anti_aliased ) {
 	FT_Library lib;
 	FT_Face face;
 
 	font->path = get_path( font_name );
+	font->padding = padding;
 	font->size = size;
 
 	if ( FT_Init_FreeType( &lib ) != FT_Err_Ok )
@@ -73,7 +74,7 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 	FT_Done_Face( face );
 	FT_Done_FreeType( lib );
 
-	g_console->log( LOG_INFO, std::vformat( "[ renderer ] loaded font file from ( {} )\n", std::make_format_args( font->path ) ).c_str( ) );
+	g_console->log( color_t(240, 240, 240, 255), std::vformat( "[ renderer ] loaded font file from ( {} )\n", std::make_format_args( font->path ) ).c_str( ) );
 }
 
 void c_font::release_font( font_t* font ) {

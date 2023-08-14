@@ -2,6 +2,7 @@
 
 #ifdef UNTITLED_USE_INPUT
 
+// high-performance costing.
 void c_input::pool_input( ) {
     for ( size_t i = 0; i < 255; i++ ) {
         bool is_pressed = ( GetAsyncKeyState( i ) & 0x8000 ) != 0;

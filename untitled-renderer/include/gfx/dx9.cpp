@@ -2,12 +2,12 @@
 
 #ifdef UNTITLED_USE_DX9
 
-bool c_gfx::create( HWND hwnd, const bool device_only ) {
-
+bool c_gfx::initialize( HWND hwnd, const bool device_only ) {
     if ( !device_only ) {
+        m_hwnd = hwnd;
         m_d3d = Direct3DCreate9( D3D_SDK_VERSION );
 
-        g_console->log( LOG_INFO, "[ graphics ] created context\n" );
+        g_console->log( color_t(240, 240, 240, 255), "[ graphics ] created context\n" );
 
         m_parameters.Windowed = TRUE;
         m_parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
@@ -16,17 +16,17 @@ bool c_gfx::create( HWND hwnd, const bool device_only ) {
         m_parameters.AutoDepthStencilFormat = D3DFMT_D16;
         m_parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
-        g_console->log( LOG_INFO, "[ graphics ] paramaters set\n" );
+        g_console->log( color_t(240, 240, 240, 255), "[ graphics ] paramaters set\n" );
     }
 
-    if ( m_d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_parameters, &m_device ) < D3D_OK )
+    if ( m_d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_parameters, &m_device ) < D3D_OK )
         throw std::runtime_error("create_device failed");
 
-    g_console->log( LOG_INFO, "[ graphics ] created device\n" );
+    g_console->log( color_t(240, 240, 240, 255), "[ graphics ] created device\n" );
 
     set_render_states( m_device );
 
-    g_console->log( LOG_INFO, "[ graphics ] render states set\n" );
+    g_console->log( color_t(240, 240, 240, 255), "[ graphics ] render states set\n" );
 
     return true;
 }
@@ -131,7 +131,7 @@ void c_gfx::render_draw_data( ) {
 
     for ( const draw_command_t& command : draw_commands ) {
         m_device->SetScissorRect( &command.command.clips.back( ) );
-        m_device->SetTexture( 0, *command.command.textures.back( ) );
+        m_device->SetTexture( 0, command.command.textures.back( ) );
 
         m_device->DrawIndexedPrimitive( D3DPRIMITIVETYPE(command.primitive), start_vertex, 0, command.vertices_count, start_index, command.indices_count / 3 );
 
@@ -142,7 +142,7 @@ void c_gfx::render_draw_data( ) {
     g_buffer->clear_commands( );
 }
 
-void c_gfx::reset( const HWND hWnd, const LPARAM lParam ) {
+void c_gfx::reset( const LPARAM lParam ) {
     g_buffer->destroy_objects( );
 
     m_parameters.BackBufferWidth = LOWORD( lParam );
@@ -152,7 +152,25 @@ void c_gfx::reset( const HWND hWnd, const LPARAM lParam ) {
     safe_release( m_index_buffer );
     safe_release( m_device );
 
-    create( hWnd, true );
+    initialize( m_hwnd, true );
+
+    g_buffer->create_objects( );
+}
+
+void c_gfx::set_clear_color( const color_t clear_color ) {
+    m_clear_color = clear_color;
+}
+
+void c_gfx::set_vsync( const bool state ) {
+    g_buffer->destroy_objects( );
+
+    m_parameters.PresentationInterval = state ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+
+    safe_release( m_vertex_buffer );
+    safe_release( m_index_buffer );
+    safe_release( m_device );
+
+    initialize( m_hwnd, true );
 
     g_buffer->create_objects( );
 }
@@ -179,7 +197,7 @@ void c_gfx::release( ) {
     safe_release( m_device );
     safe_release( m_d3d );
 
-    g_console->log( LOG_INFO, "[ graphics ] released and destroyed all objects\n" );
+    g_console->log( color_t(240, 240, 240, 255), "[ graphics ] released and destroyed all objects\n" );
 }
 
 template <typename type>
@@ -198,12 +216,12 @@ void c_gfx::create_texture_from_bytes( texture* resource, const std::vector<BYTE
         NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
         D3DX_DEFAULT, D3DX_DEFAULT, NULL,
         NULL, NULL, resource ) != D3D_OK )
-        g_console->log( LOG_ERROR , std::vformat( "[ graphics ] failed to load texture resource ( {} bytes )\n", std::make_format_args( bytes.size( ) ) ).c_str( ) );
+        g_console->log( color_t(255, 0, 0, 255) , std::vformat( "[ graphics ] failed to load texture resource ( {} bytes )\n", std::make_format_args( bytes.size( ) ) ).c_str( ) );
 }
 
 void c_gfx::create_texture_from_file( texture* resource, const char* file_name ) {
     if ( D3DXCreateTextureFromFile( m_device, file_name, resource ) != D3D_OK )
-        g_console->log( LOG_ERROR, std::vformat( "[ graphics ] failed to load texture resource ( {} )\n", std::make_format_args( file_name ) ).c_str( ) );
+        g_console->log( color_t(255, 0, 0, 255), std::vformat( "[ graphics ] failed to load texture resource ( {} )\n", std::make_format_args( file_name ) ).c_str( ) );
 }
 
 IDirect3DDevice9* c_gfx::get_device( ) {

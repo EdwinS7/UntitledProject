@@ -25,7 +25,7 @@ ALWAYS_INLINE void c_buffer::pop_clip( ) {
     m_command.clips.pop_back( );
 }
 
-ALWAYS_INLINE void c_buffer::push_texture( const texture* resource ) {
+ALWAYS_INLINE void c_buffer::push_texture( texture resource ) {
     m_command.textures.push_back( resource );
 }
 
