@@ -20,9 +20,8 @@ untitled-project is an educational initiative focused on directx 9-12, demonstra
 
 to get started with untitled-project, follow these steps:
 
-1. **install llvm/clang:** make sure you have llvm/clang compiler installed on your system.
-- **where do I get llvm/clang build tools?** visual studio installer -> YOUR visual studio install -> modify -> individual components -> search 'clang' and install both clang compiler and clang msbuild support.
+1. **clone the repository:** clone this repository to your local machine
 
-2. **clone the repository:** clone this repository to your local machine using the following command:
+2. **change build settings to prefered settings** project->(project-name) properties->configuration properties->general
 
-```git clone [https://github.com/EdwinS7/untitled_project]```
+3. **build project** build->build untitled-renderer or ctrl + b

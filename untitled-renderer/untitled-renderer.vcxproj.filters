@@ -27,9 +27,6 @@
     <ClCompile Include="include\buffer\buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\gfx\dx11.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\buffer\fonts\font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,9 +60,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\buffer\components.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\gfx\dx11.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\buffer\fonts\font.hpp">
