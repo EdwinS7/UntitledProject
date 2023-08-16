@@ -117,7 +117,8 @@ void c_buffer::rectangle( const vector2_t< int16_t > pos, const vector2_t< int16
 		std::tuple{vector2_t<int16_t>( pos.x, pos.y ), vector2_t<int16_t>( pos.x + rounding, pos.y + rounding ), 180, round_top_left},
 		std::tuple{vector2_t<int16_t>( pos.x + size.x, pos.y ), vector2_t<int16_t>( pos.x + size.x - rounding, pos.y + rounding ), 270, round_top_right},
 		std::tuple{vector2_t<int16_t>( pos.x + size.x, pos.y + size.y ), vector2_t<int16_t>( pos.x + size.x - rounding, pos.y + size.y - rounding ), 0, round_bottom_right},
-		std::tuple{vector2_t<int16_t>( pos.x, pos.y + size.y ), vector2_t<int16_t>( pos.x + rounding, pos.y + size.y - rounding ), 90, round_bottom_left}
+		std::tuple{vector2_t<int16_t>( pos.x, pos.y + size.y ), vector2_t<int16_t>( pos.x + rounding, pos.y + size.y - rounding ), 90, round_bottom_left},
+		std::tuple{vector2_t<int16_t>( pos.x, pos.y ), vector2_t<int16_t>( pos.x + rounding, pos.y + rounding ), 180, round_top_left}
 	};
 
 	for ( const std::tuple<vector2_t<int16_t>, vector2_t<int16_t>, int, bool>& corner_tuple : gen_points ) {

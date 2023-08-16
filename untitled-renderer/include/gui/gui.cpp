@@ -13,10 +13,10 @@ c_gui::c_gui( const char* title, vector2_t<int16_t> size, window_flags flags ) {
 }
 
 void c_gui::start( ) {
-	if ( !m_flags & no_background )
+	if ( !( m_flags & no_background ) )
 		g_buffer->filled_rectangle( m_pos, m_size, m_color.window, m_style.window_radius );
 
-	if ( !m_flags & no_header ) {
+	if ( !( m_flags & no_header ) ) {
 		g_buffer->filled_rectangle( m_pos, vector2_t<int16_t>( m_size.x, 20 ), m_color.window_header, m_style.window_radius, corner_top );
 		g_buffer->line( m_pos + vector2_t<int16_t>( 1, 20 ), m_pos + vector2_t<int16_t>( m_size.x - 2, 20 ), m_color.accent );
 
@@ -24,7 +24,7 @@ void c_gui::start( ) {
 		g_buffer->text( &g_buffer->interface_font, m_title, m_pos + vector2_t<int16_t>( m_size.x * 0.5 - text_size.x * 0.5, 5 ), m_color.text_active );
 	}
 
-	if ( !m_flags & no_border )
+	if ( !( m_flags & no_border ) )
 		g_buffer->rectangle( m_pos, m_size, m_color.window_frame, m_style.window_radius );
 }
 
