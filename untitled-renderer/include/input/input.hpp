@@ -24,8 +24,8 @@ public:
 private:
 	vector2_t<uint16_t> m_mouse_pos;
 
-	std::pair<bool, bool> prev_key_states[ 255 ];
-	std::pair<bool, bool> key_states[ 255 ];
+	std::pair<bool, bool> m_prev_key_states[ 255 ];
+	std::pair<bool, bool> m_key_states[ 255 ];
 };
 
 inline const auto g_input = std::make_unique<c_input>( );

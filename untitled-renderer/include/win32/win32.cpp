@@ -26,8 +26,8 @@ void c_win32::set_window_title(const char* title) {
 }
 
 void c_win32::create_window( const char* title, const vector2_t< uint16_t > size ) {
-	window_class = {
-		sizeof( window_class ),
+	m_window_class = {
+		sizeof( m_window_class ),
 		CS_CLASSDC,
 		WindowProc,
 		0L,
@@ -41,10 +41,10 @@ void c_win32::create_window( const char* title, const vector2_t< uint16_t > size
 		NULL
 	};
 
-	RegisterClassEx( &window_class );
+	RegisterClassEx( &m_window_class );
 
-	m_hwnd = CreateWindow( window_class.lpszClassName, title,
-		WS_OVERLAPPEDWINDOW, NULL, NULL, size.x, size.y, NULL, NULL, window_class.hInstance, NULL );
+	m_hwnd = CreateWindow( m_window_class.lpszClassName, title,
+		WS_OVERLAPPEDWINDOW, NULL, NULL, size.x, size.y, NULL, NULL, m_window_class.hInstance, NULL );
 
 	ShowWindow( m_hwnd, SW_SHOWDEFAULT );
 	UpdateWindow( m_hwnd );

@@ -122,9 +122,17 @@ public:
 
 // @fonts
     font_t default_font;
+    font_t interface_font;
 
 // @textures
     texture demo_texture;
+
+    void generate_quadratic_bezier_points(
+       std::vector<vector2_t<uint16_t>>* points,
+       const vector2_t<uint16_t> p0,
+       const vector2_t<uint16_t> p1,
+       const vector2_t<uint16_t> p2
+    );
 
 private:
 	std::vector < draw_command_t > m_draw_commands;
@@ -152,5 +160,7 @@ inline const auto g_buffer = std::make_unique<c_buffer>( );
 /* lower = performance, higher = quality */
 #define CIRCLE_SEGMENTS 64
 #define RECTANGLE_SEGMENTS 16
+#define BEZIER_CUBIC_SEGMENTS 128
+#define BEZIER_QUADRATIC_SEGMENTS 128
 
 #include "buffer.inl"

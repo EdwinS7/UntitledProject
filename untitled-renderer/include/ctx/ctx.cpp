@@ -11,8 +11,8 @@ void c_ctx::update( ) {
         ).count( )
     );
 
-    if ( m_real_time > when_to_update ) {
-        when_to_update = m_real_time + 1.f;
+    if ( m_real_time > m_when_to_update ) {
+        m_when_to_update = m_real_time + 1.f;
         m_fps = m_frame_count;
         m_frame_count = 0;
     }

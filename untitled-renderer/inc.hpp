@@ -33,10 +33,6 @@ using creation_parameters = D3DDEVICE_CREATION_PARAMETERS;
 #include "include/gfx/dx9.hpp"
 #endif
 
-#ifdef UNTITLED_USE_DX11
-#include "include/gfx/dx11.hpp"
-#endif
-
 // includes
 #include "include/console/console.hpp"
 #include "include/buffer/buffer.hpp"

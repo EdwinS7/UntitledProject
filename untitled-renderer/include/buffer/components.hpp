@@ -17,107 +17,96 @@ enum corner_flags {
 	corner_bottom_left | corner_bottom_right
 };
 
-template < typename type_t = float >
-
+template <typename type_t = float>
 class view_angles_t {
 public:
 	type_t pitch, yaw;
 
 	constexpr view_angles_t( ) noexcept = default;
+	constexpr view_angles_t( const type_t pitch, const type_t yaw ) noexcept : pitch( pitch ), yaw( yaw ) {}
 
-	constexpr view_angles_t( const type_t pitch, const type_t yaw ) noexcept
-		: pitch( pitch ), yaw( yaw ) { }
+	constexpr view_angles_t operator+( const view_angles_t& viewangles ) const noexcept { return { static_cast< type_t >( pitch + viewangles.pitch ), static_cast< type_t >( yaw + viewangles.yaw ) }; }
+	constexpr view_angles_t operator-( const view_angles_t& viewangles ) const noexcept { return { static_cast< type_t >( pitch - viewangles.pitch ), static_cast< type_t >( yaw - viewangles.yaw ) }; }
+	constexpr view_angles_t operator*( const view_angles_t& viewangles ) const noexcept { return { static_cast< type_t >( pitch * viewangles.pitch ), static_cast< type_t >( yaw * viewangles.yaw ) }; }
+	constexpr view_angles_t operator/( const view_angles_t& viewangles ) const noexcept { return { static_cast< type_t >( pitch / viewangles.pitch ), static_cast< type_t >( yaw / viewangles.yaw ) }; }
+	constexpr bool operator>( const view_angles_t& viewangles ) const noexcept { return pitch > viewangles.pitch && yaw > viewangles.yaw; }
+	constexpr bool operator>=( const view_angles_t& viewangles ) const noexcept { return pitch >= viewangles.pitch && yaw >= viewangles.yaw; }
+	constexpr bool operator<( const view_angles_t& viewangles ) const noexcept { return pitch < viewangles.pitch && yaw < viewangles.yaw; }
+	constexpr bool operator<=( const view_angles_t& viewangles ) const noexcept { return pitch <= viewangles.pitch && yaw <= viewangles.yaw; }
+	constexpr view_angles_t operator*=( const type_t& viewangles ) noexcept { pitch *= viewangles.pitch; yaw *= viewangles.yaw; return *this; }
 
-	constexpr view_angles_t operator+ ( const view_angles_t& viewangles ) const noexcept { return { pitch + viewangles.pitch, yaw + viewangles.yaw }; }
-	constexpr view_angles_t operator- ( const view_angles_t& viewangles ) const noexcept { return { pitch - viewangles.pitch, yaw - viewangles.yaw }; }
-	constexpr view_angles_t operator* ( const view_angles_t& viewangles ) const noexcept { return { pitch * viewangles.pitch, yaw * viewangles.yaw }; }
-	constexpr view_angles_t operator/ ( const view_angles_t& viewangles ) const noexcept { return { pitch / viewangles.pitch, yaw / viewangles.yaw }; }
-	constexpr bool operator> ( const view_angles_t& viewangles ) const noexcept { return pitch > viewangles.pitch && yaw > viewangles.yaw; }
-	constexpr bool operator>= ( const view_angles_t& viewangles ) const noexcept { return pitch >= viewangles.pitch && yaw >= viewangles.yaw; }
-	constexpr bool operator< ( const view_angles_t& viewangles ) const noexcept { return pitch < viewangles.pitch && yaw < viewangles.yaw; }
-	constexpr bool operator<= ( const view_angles_t& viewangles ) const noexcept { return pitch <= viewangles.pitch && yaw <= viewangles.yaw; }
-	constexpr view_angles_t operator*= ( const type_t& viewangles ) noexcept { return { pitch *= viewangles.pitch, yaw *= viewangles.yaw }; }
-
-#ifdef USE_CUSTOM_VIEW_ANGLES_OPPERATORS
-	USE_CUSTOM_VIEW_ANGLES_OPPERATORS
+#ifdef USE_CUSTOM_VIEW_ANGLES_OPERATORS
+	USE_CUSTOM_VIEW_ANGLES_OPERATORS
 #endif
 };
 
-template < typename type_t = uint16_t >
 
+template <typename type_t = uint16_t>
 class vector2_t {
 public:
 	type_t x, y;
 
 	constexpr vector2_t( ) noexcept = default;
+	constexpr vector2_t( const type_t x, const type_t y ) noexcept : x( x ), y( y ) {}
 
-	constexpr vector2_t( const type_t x, const type_t y ) noexcept
-		: x( x ), y( y ) { }
+	constexpr vector2_t operator+( const vector2_t& vector ) const noexcept { return { static_cast< type_t >( x + vector.x ), static_cast< type_t >( y + vector.y ) }; }
+	constexpr vector2_t operator-( const vector2_t& vector ) const noexcept { return { static_cast< type_t >( x - vector.x ), static_cast< type_t >( y - vector.y ) }; }
+	constexpr vector2_t operator*( const vector2_t& vector ) const noexcept { return { static_cast< type_t >( x * vector.x ), static_cast< type_t >( y * vector.y ) }; }
+	constexpr vector2_t operator/( const vector2_t& vector ) const noexcept { return { static_cast< type_t >( x / vector.x ), static_cast< type_t >( y / vector.y ) }; }
+	constexpr bool operator>( const vector2_t& vector ) const noexcept { return x > vector.x && y > vector.y; }
+	constexpr bool operator>=( const vector2_t& vector ) const noexcept { return x >= vector.x && y >= vector.y; }
+	constexpr bool operator<( const vector2_t& vector ) const noexcept { return x < vector.x && y < vector.y; }
+	constexpr bool operator<=( const vector2_t& vector ) const noexcept { return x <= vector.x && y <= vector.y; }
+	constexpr vector2_t& operator*=( const type_t& val ) noexcept { return { x *= val, y *= val }; }
 
-	constexpr vector2_t operator+ ( const vector2_t& vector ) const noexcept { return { x + vector.x, y + vector.y }; }
-	constexpr vector2_t operator- ( const vector2_t& vector ) const noexcept { return { x - vector.x, y - vector.y }; }
-	constexpr vector2_t operator* ( const vector2_t& vector ) const noexcept { return { x * vector.x, y * vector.y }; }
-	constexpr vector2_t operator/ ( const vector2_t& vector ) const noexcept { return { x / vector.x, y / vector.y }; }
-	constexpr bool operator> ( const vector2_t& vector ) const noexcept { return x > vector.x && y > vector.y; }
-	constexpr bool operator>= ( const vector2_t& vector ) const noexcept { return x >= vector.x && y >= vector.y; }
-	constexpr bool operator< ( const vector2_t& vector ) const noexcept { return x < vector.x && y < vector.y; }
-	constexpr bool operator<= ( const vector2_t& vector ) const noexcept { return x <= vector.x && y <= vector.y; }
-	constexpr vector2_t operator*= ( const type_t& val ) noexcept { return { x *= val, y *= val }; }
-
-#ifdef USE_CUSTOM_VECTOR2_OPPERATORS
-	USE_CUSTOM_VECTOR2_OPPERATORS
+#ifdef USE_CUSTOM_VECTOR2_OPERATORS
+	USE_CUSTOM_VECTOR2_OPERATORS
 #endif
 };
 
-template < typename type_t = float >
-
+template <typename type_t = float>
 class vector3_t {
 public:
 	type_t x, y, z;
 
 	constexpr vector3_t( ) noexcept = default;
+	constexpr vector3_t( const type_t x, const type_t y, const type_t z ) noexcept : x( x ), y( y ), z( z ) {}
 
-	constexpr vector3_t( const type_t x, const type_t y, const type_t z ) noexcept
-		: x( x ), y( y ), z( z ) { }
+	constexpr vector3_t operator+( const vector3_t& vector ) const noexcept { return { static_cast< type_t >( x + vector.x ), static_cast< type_t >( y + vector.y ), static_cast< type_t >( z + vector.z ) }; }
+	constexpr vector3_t operator-( const vector3_t& vector ) const noexcept { return { static_cast< type_t >( x - vector.x ), static_cast< type_t >( y - vector.y ), static_cast< type_t >( z - vector.z ) }; }
+	constexpr vector3_t operator*( const vector3_t& vector ) const noexcept { return { static_cast< type_t >( x * vector.x ), static_cast< type_t >( y * vector.y ), static_cast< type_t >( z * vector.z ) }; }
+	constexpr vector3_t operator/( const vector3_t& vector ) const noexcept { return { static_cast< type_t >( x / vector.x ), static_cast< type_t >( y / vector.y ), static_cast< type_t >( z / vector.z ) }; }
+	constexpr bool operator>( const vector3_t& vector ) const noexcept { return x > vector.x && y > vector.y && z > vector.z; }
+	constexpr bool operator>=( const vector3_t& vector ) const noexcept { return x >= vector.x && y >= vector.y && z >= vector.z; }
+	constexpr bool operator<( const vector3_t& vector ) const noexcept { return x < vector.x && y < vector.y && z < vector.z; }
+	constexpr bool operator<=( const vector3_t& vector ) const noexcept { return x <= vector.x && y <= vector.y && z <= vector.z; }
+	constexpr vector3_t& operator*=( const type_t& val ) noexcept { return { static_cast< type_t >( x * val ), static_cast< type_t >( y * val ), static_cast< type_t >( z * val ) }; }
 
-	constexpr vector3_t operator+ ( const vector3_t& vector ) const noexcept { return { x + vector.x, y + vector.y, z + vector.z }; }
-	constexpr vector3_t operator- ( const vector3_t& vector ) const noexcept { return { x - vector.x, y - vector.y, z - vector.z }; }
-	constexpr vector3_t operator* ( const vector3_t& vector ) const noexcept { return { x * vector.x, y * vector.y, z * vector.z }; }
-	constexpr vector3_t operator/ ( const vector3_t& vector ) const noexcept { return { x / vector.x, y / vector.y, z / vector.z }; }
-	constexpr bool operator> ( const vector3_t& vector ) const noexcept { return x > vector.x && y > vector.y && z > vector.z; }
-	constexpr bool operator>= ( const vector3_t& vector ) const noexcept { return x >= vector.x && y >= vector.y && z >= vector.z; }
-	constexpr bool operator< ( const vector3_t& vector ) const noexcept { return x < vector.x && y < vector.y && z < vector.z; }
-	constexpr bool operator<= ( const vector3_t& vector ) const noexcept { return x <= vector.x && y <= vector.y && z <= vector.z; }
-	constexpr vector3_t operator*= ( const type_t& val ) noexcept { return { x *= val, y *= val, z *= val }; }
-
-#ifdef USE_CUSTOM_VECTOR3_OPPERATORS
-	USE_CUSTOM_VECTOR3_OPPERATORS
+#ifdef USE_CUSTOM_VECTOR3_OPERATORS
+	USE_CUSTOM_VECTOR3_OPERATORS
 #endif
 };
 
-template < typename type_t = uint32_t >
-
+template <typename type_t = float>
 class vector4_t {
 public:
 	type_t w, x, y, z;
 
 	constexpr vector4_t( ) noexcept = default;
+	constexpr vector4_t( const type_t w, const type_t x, const type_t y, const type_t z ) noexcept : w( w ), x( x ), y( y ), z( z ) {}
 
-	constexpr vector4_t( const type_t w, const type_t x, const type_t y, const type_t z ) noexcept
-		: w( w ), x( x ), y( y ), z( z ) { }
+	constexpr vector4_t operator+( const vector4_t& vector ) const noexcept { return { static_cast< type_t >( w + vector.w ), static_cast< type_t >( x + vector.x ), static_cast< type_t >( y + vector.y ), static_cast< type_t >( z + vector.z ) }; }
+	constexpr vector4_t operator-( const vector4_t& vector ) const noexcept { return { static_cast< type_t >( w - vector.w ), static_cast< type_t >( x - vector.x ), static_cast< type_t >( y - vector.y ), static_cast< type_t >( z - vector.z ) }; }
+	constexpr vector4_t operator*( const vector4_t& vector ) const noexcept { return { static_cast< type_t >( w * vector.w ), static_cast< type_t >( x * vector.x ), static_cast< type_t >( y * vector.y ), static_cast< type_t >( z * vector.z ) }; }
+	constexpr vector4_t operator/( const vector4_t& vector ) const noexcept { return { static_cast< type_t >( w / vector.w ), static_cast< type_t >( x / vector.x ), static_cast< type_t >( y / vector.y ), static_cast< type_t >( z / vector.z ) }; }
+	constexpr bool operator>( const vector4_t& vector ) const noexcept { return w > vector.w && x > vector.x && y > vector.y && z > vector.z; }
+	constexpr bool operator>=( const vector4_t& vector ) const noexcept { return w >= vector.w && x >= vector.x && y >= vector.y && z >= vector.z; }
+	constexpr bool operator<( const vector4_t& vector ) const noexcept { return w < vector.w && x < vector.x && y < vector.y && z < vector.z; }
+	constexpr bool operator<=( const vector4_t& vector ) const noexcept { return w <= vector.w && x <= vector.x && y <= vector.y && z <= vector.z; }
+	constexpr vector4_t operator*=( const type_t& val ) noexcept { return { static_cast< type_t >( w * val ), static_cast< type_t >( x * val ), static_cast< type_t >( y * val ), static_cast< type_t >( z * val ) }; }
 
-	constexpr vector4_t operator+ ( const vector4_t& vector ) const noexcept { return { w + vector.w, x + vector.x, y + vector.y, z + vector.z }; }
-	constexpr vector4_t operator- ( const vector4_t& vector ) const noexcept { return { w - vector.w, x - vector.x, y - vector.y, z - vector.z }; }
-	constexpr vector4_t operator* ( const vector4_t& vector ) const noexcept { return { w * vector.w, x * vector.x, y * vector.y, z * vector.z }; }
-	constexpr vector4_t operator/ ( const vector4_t& vector ) const noexcept { return { w / vector.w, x / vector.x, y / vector.y, z / vector.z }; }
-	constexpr bool operator> ( const vector4_t& vector ) const noexcept { return w > vector.w && x > vector.x && y > vector.y && z > vector.z; }
-	constexpr bool operator>= ( const vector4_t& vector ) const noexcept { return w >= vector.w && x >= vector.x && y >= vector.y && z >= vector.z; }
-	constexpr bool operator< ( const vector4_t& vector ) const noexcept { return w < vector.w && x < vector.x && y < vector.y && z < vector.z; }
-	constexpr bool operator<= ( const vector4_t& vector ) const noexcept { return w <= vector.w && x <= vector.x && y <= vector.y && z <= vector.z; }
-	constexpr vector4_t operator*= ( const type_t& val ) noexcept { return { w *= val, x *= val, y *= val, z *= val }; }
-
-#ifdef USE_CUSTOM_VECTOR4_OPPERATORS
-	USE_CUSTOM_VECTOR4_OPPERATORS
+#ifdef USE_CUSTOM_VECTOR4_OPERATORS
+	USE_CUSTOM_VECTOR4_OPERATORS
 #endif
 };
 
@@ -128,12 +117,11 @@ public:
 	float u, v;
 
 	constexpr vertex_t( ) noexcept = default;
+	constexpr vertex_t( const float x, const float y, const float z, const float rhw, const DWORD clr, const float u = 0.f, const float v = 0.f ) noexcept
+		: x( x ), y( y ), z( z ), rhw( rhw ), clr( clr ), u( u ), v( v ) {}
 
-	constexpr vertex_t( const float x, const float y, const float z, const float rhw, const DWORD clr, const float u = 0.f, const float v = 0.f) noexcept
-		: x( x ), y( y ), z( z ), rhw( rhw ), clr( clr ), u( u ), v( v ) { }
-
-#ifdef USE_CUSTOM_VERTEX_OPPERATORS
-	USE_CUSTOM_VERTEX_OPPERATORS
+#ifdef USE_CUSTOM_VERTEX_OPERATORS
+	USE_CUSTOM_VERTEX_OPERATORS
 #endif
 };
 
@@ -144,12 +132,11 @@ public:
 	DWORD hex;
 
 	constexpr color_t( ) noexcept = default;
-
 	constexpr color_t( const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a ) noexcept
-		: hex( COLOR( r, g, b, a ) ) { }
+		: hex( COLOR( r, g, b, a ) ) {}
 
-#ifdef USE_CUSTOM_COLOR_OPPERATORS
-	USE_CUSTOM_COLOR_OPPERATORS
+#ifdef USE_CUSTOM_COLOR_OPERATORS
+	USE_CUSTOM_COLOR_OPERATORS
 #endif
 };
 
@@ -159,8 +146,8 @@ struct glyph_t {
 	vector2_t<uint32_t> bearing;
 	int32_t advance;
 
-#ifdef USE_CUSTOM_GLYPH_OPPERATORS
-	USE_CUSTOM_GLYPH_OPPERATORS
+#ifdef USE_CUSTOM_GLYPH_OPERATORS
+	USE_CUSTOM_GLYPH_OPERATORS
 #endif
 };
 
@@ -172,18 +159,18 @@ public:
 
 	std::vector<glyph_t> char_set{ 256 };
 
-#ifdef USE_CUSTOM_FONT_OPPERATORS
-	USE_CUSTOM_FONT_OPPERATORS
+#ifdef USE_CUSTOM_FONT_OPERATORS
+	USE_CUSTOM_FONT_OPERATORS
 #endif
 };
 
 class command_t {
 public:
-	std::vector< RECT > clips;
-	std::vector< texture > textures;
+	std::vector<RECT> clips;
+	std::vector<texture> textures;
 
-#ifdef USE_CUSTOM_COMMAND_OPPERATORS
-	USE_CUSTOM_COMMAND_OPPERATORS
+#ifdef USE_CUSTOM_COMMAND_OPERATORS
+	USE_CUSTOM_COMMAND_OPERATORS
 #endif
 };
 
@@ -197,12 +184,11 @@ public:
 		indices_count;
 
 	constexpr draw_command_t( ) noexcept = default;
-
 	constexpr draw_command_t( const uint8_t primitive, const std::vector<vertex_t> vertices, const std::vector<std::uint32_t> indices, command_t command, const int vertices_count, const int indices_count ) noexcept
-		: primitive( primitive ), vertices( vertices ), indices( indices ), command( command ), vertices_count( vertices_count ), indices_count( indices_count ) { }
+		: primitive( primitive ), vertices( vertices ), indices( indices ), command( command ), vertices_count( vertices_count ), indices_count( indices_count ) {}
 
-#ifdef USE_CUSTOM_DRAW_DRAW_COMMAND_OPPERATORS
-	USE_CUSTOM_DRAW_DRAW_COMMAND_OPPERATORS
+#ifdef USE_CUSTOM_DRAW_DRAW_COMMAND_OPERATORS
+	USE_CUSTOM_DRAW_DRAW_COMMAND_OPERATORS
 #endif
 };
 
@@ -214,9 +200,8 @@ public:
 		indices_count;
 
 	constexpr compiled_draw_command_t( ) noexcept = default;
-
 	constexpr compiled_draw_command_t( const std::vector<vertex_t> vertices, const std::vector<std::uint32_t> indices, const int vertices_count, const int indices_count ) noexcept
-		: vertices( vertices ), indices( indices ), vertices_count( vertices_count ), indices_count( indices_count ) { }
+		: vertices( vertices ), indices( indices ), vertices_count( vertices_count ), indices_count( indices_count ) {}
 
 	void reset( ) {
 		vertices.clear( );
@@ -225,7 +210,7 @@ public:
 		indices_count = 0;
 	}
 
-#ifdef USE_CUSTOM_DRAW_COMPILED_DRAW_COMMAND_OPPERATORS
-	USE_CUSTOM_DRAW_COMPILED_DRAW_COMMAND_OPPERATORS
+#ifdef USE_CUSTOM_DRAW_COMPILED_DRAW_COMMAND_OPERATORS
+	USE_CUSTOM_DRAW_COMPILED_DRAW_COMMAND_OPERATORS
 #endif
 };

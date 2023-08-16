@@ -15,7 +15,7 @@ private:
 	int m_fps;
 	int m_frame_count;
 	float m_real_time;
-	float when_to_update;
+	float m_when_to_update;
 
 	timepoint_t m_timepoint;
 

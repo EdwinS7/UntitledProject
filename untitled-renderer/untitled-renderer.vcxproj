@@ -184,7 +184,6 @@
     <ClCompile Include="include\buffer\fonts\font.cpp" />
     <ClCompile Include="include\console\console.cpp" />
     <ClCompile Include="include\ctx\ctx.cpp" />
-    <ClCompile Include="include\gfx\dx11.cpp" />
     <ClCompile Include="include\gfx\dx9.cpp" />
     <ClCompile Include="include\gui\gui.cpp" />
     <ClCompile Include="include\input\input.cpp" />
@@ -198,7 +197,6 @@
     <ClInclude Include="include\buffer\components.hpp" />
     <ClInclude Include="include\buffer\fonts\font.hpp" />
     <ClInclude Include="include\ctx\ctx.hpp" />
-    <ClInclude Include="include\gfx\dx11.hpp" />
     <ClInclude Include="include\gfx\dx9.hpp" />
     <ClInclude Include="cfg.hpp" />
     <ClInclude Include="include\input\input.hpp" />

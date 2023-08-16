@@ -16,6 +16,9 @@ bool c_gfx::initialize( HWND hwnd, const bool device_only ) {
         m_parameters.AutoDepthStencilFormat = D3DFMT_D16;
         m_parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
+        /*m_parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
+        m_parameters.MultiSampleQuality = 0;*/
+
         g_console->log( color_t(240, 240, 240, 255), "[ graphics ] paramaters set\n" );
     }
 
@@ -180,7 +183,7 @@ bool c_gfx::valid( ) {
 }
 
 void c_gfx::draw( ) {
-    m_device->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_RGBA( 115, 140, 153, 255 ), 1.f, 0 );
+    m_device->Clear( 0, NULL, D3DCLEAR_TARGET, m_clear_color.hex, 1.f, 0 );
     m_device->BeginScene( );
 
     render_draw_data( );

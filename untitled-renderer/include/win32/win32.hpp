@@ -23,7 +23,7 @@ public:
 private:
 
 	HWND m_hwnd;
-	WNDCLASSEX window_class;
+	WNDCLASSEX m_window_class;
 };
 
 inline const auto g_win32 = std::make_unique<c_win32>( );

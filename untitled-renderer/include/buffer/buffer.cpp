@@ -7,12 +7,14 @@ void c_buffer::create_objects( ) {
 	push_texture( nullptr );
 
 	g_font->create_font( &default_font, "Segoe UI", 16, 400, 4, true );
+	g_font->create_font( &interface_font, "Verdana", 8, 400, 4, false );
 
 	g_console->log( color_t(240, 240, 240, 255), "[ renderer ] created objects\n" );
 }
 
 void c_buffer::destroy_objects( ) {
 	g_font->release_font( &default_font );
+	g_font->release_font( &interface_font );
 
 	m_command.textures.clear( );
 	m_command.clips.clear( );
@@ -24,7 +26,7 @@ void c_buffer::destroy_objects( ) {
 
 void c_buffer::write_to_buffer( const uint8_t primitive, const std::vector< vertex_t >* vertices, const std::vector<uint32_t>* indices ) {
 	int vertices_count = vertices->size( ),
-		indices_count = indices == nullptr ? vertices_count * 3 : indices->size();
+		indices_count = indices == nullptr ? (vertices_count * 3) - 1 : indices->size();
 
 	std::vector < uint32_t > dynamic_indices( indices_count );
 
@@ -242,37 +244,36 @@ void c_buffer::filled_circle( const vector2_t< uint16_t > pos, const uint16_t ra
 	polygon( points, clr );
 }
 
-void c_buffer::text( const font_t* font, const char* str, const vector2_t<uint16_t> pos, const color_t clr ) {
+void c_buffer ::text( const font_t* font, const char* str, const vector2_t<uint16_t> pos, const color_t clr ) {
 	if ( !str || !font )
 		return;
 
 	vector2_t<uint16_t> bounds = get_text_size( font, str );
-	float row_height = 0.f;
 	float y_offset = static_cast< float >( pos.y ) + ( bounds.y * 0.75f );
-	int advance = 0;
+
 	int y_advance = 0;
+	int row_height = 0;
+	int advance = 0;
 
 	for ( const char* ptr = str; *ptr; ++ptr ) {
 		char letter = *ptr;
 
-		if ( ( !isprint( letter ) && letter != '\n' ) || letter == ' ' ) {
-			advance += font->char_set.at( letter ).advance / 64;
+		if ( !std::isprint( letter ) && letter != '\n' || letter == ' ' ) {
+			advance += font->char_set[ letter ].advance / 64;
 			continue;
 		}
 
-		const glyph_t& glyph = font->char_set.at( letter );
-
-		if ( glyph.size.y > row_height )
-			row_height = glyph.size.y;
+		const glyph_t& glyph = font->char_set[ letter ];
+		row_height = max( row_height, static_cast< int >( glyph.size.y ) );
 
 		if ( letter == '\n' ) {
-			y_advance += static_cast< int >( row_height ) + font->padding;
+			y_advance += row_height + font->padding;
 			advance = 0;
 			continue;
 		}
 
-		float x = round( static_cast< float >( pos.x ) + advance + glyph.bearing.x ) + 0.5f;
-		float y = round( y_offset + y_advance - glyph.bearing.y ) + 0.5f;
+		float x = std::round( static_cast< float >( pos.x ) + advance + glyph.bearing.x ) + 0.5f;
+		float y = std::round( y_offset + y_advance - glyph.bearing.y ) + 0.5f;
 
 		const std::vector<vertex_t> vertices = {
 			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f},
@@ -318,6 +319,17 @@ void c_buffer::generate_arc_points( std::vector<vector2_t<uint16_t>>* points, co
 		vector2_t<double> point = get_point( i );
 
 		points->push_back( vector2_t<uint16_t>( std::round( point.x ), std::round( point.y ) ) );
+	}
+}
+
+void c_buffer::generate_quadratic_bezier_points( std::vector<vector2_t<uint16_t>>* points, const vector2_t<uint16_t> p0, const vector2_t<uint16_t> p1, const vector2_t<uint16_t> p2 ) {
+	for ( int i = 0; i < BEZIER_QUADRATIC_SEGMENTS; i++ ) {
+		double val = static_cast< double >( i ) / static_cast< double >( BEZIER_QUADRATIC_SEGMENTS - 1 );
+
+		points->push_back( {
+			static_cast< uint16_t >( std::round( std::lerp( std::lerp( p0.x, p2.x, val ), std::lerp( p2.x, p1.x, val ), val ) ) ),
+			static_cast< uint16_t >( std::round( std::lerp( std::lerp( p0.y, p2.y, val ), std::lerp( p2.y, p1.y, val ), val ) ) )
+		} );
 	}
 }
 
