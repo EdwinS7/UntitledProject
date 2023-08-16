@@ -148,10 +148,6 @@ private:
 	compiled_draw_command_t m_draw_command;
 	command_t m_command;
 
-#ifdef UNTITLED_USE_PRE_COMPUTED_SIN_COS
-    std::vector<double> m_pre_computed_sin, m_pre_computed_cos;
-#endif
-
 	void generate_arc_points( 
 		std::vector<vector2_t<int16_t>>* points,
 		const vector2_t<int16_t>* pos, 

@@ -9,16 +9,6 @@ void c_buffer::create_objects( ) {
 	g_font->create_font( &default_font, "Segoe UI", 16, 400, 4, true );
 	g_font->create_font( &interface_font, "Verdana", 8, 400, 4, false );
 
-#ifdef UNTITLED_USE_PRE_COMPUTED_SIN_COS
-	m_pre_computed_sin.resize( RECTANGLE_SEGMENTS );
-	m_pre_computed_cos.resize( RECTANGLE_SEGMENTS );
-
-	for ( int16_t i = 0; i < RECTANGLE_SEGMENTS; i++ ) {
-		m_pre_computed_cos[ i ] = cos( static_cast< double >( i ) / static_cast< double >( RECTANGLE_SEGMENTS ) );
-		m_pre_computed_sin[ i ] = sin( static_cast< double >( i ) / static_cast< double >( RECTANGLE_SEGMENTS ) );
-	}
-#endif
-
 	g_console->log( color_t(240, 240, 240, 255), "[ renderer ] created objects\n" );
 }
 
@@ -328,16 +318,9 @@ void c_buffer::generate_arc_points( std::vector<vector2_t<int16_t>>* points, con
 	double ang = static_cast< double >( rotation * M_PI ) / 180.0;
 	double comp = ( completion * 0.01 );
 
-	// @TODO: UNTITLED_USE_PRE_COMPUTED_SIN_COS is incomplete nor correct at all.
 	auto get_point = [ & ] ( int16_t i ) {
-#ifdef UNTITLED_USE_PRE_COMPUTED_SIN_COS
-		double cos_theta = m_pre_computed_cos[ i % RECTANGLE_SEGMENTS ];
-		double sin_theta = m_pre_computed_sin[ i % RECTANGLE_SEGMENTS ];
-		return vector2_t<double>( static_cast< double >( pos->x ) + radius * cos_theta, static_cast< double >( pos->y ) + radius * sin_theta );
-#else
 		double theta = ang + 2.0 * comp * M_PI * static_cast< double >( i ) / static_cast< double >( segments );
 		return vector2_t<double>( static_cast< double >( pos->x ) + radius * cos( theta ), static_cast< double >( pos->y ) + radius * sin( theta ) );
-#endif
 	};
 
 	for ( int i = 0; i <= segments; ++i ) {
