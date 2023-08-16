@@ -3,6 +3,9 @@
 ALWAYS_INLINE void c_buffer::clear_commands( ) {
     m_draw_commands.clear( );
     m_draw_command.reset( );
+
+    m_indices_count = 0;
+    m_vertices_count = 0;
 }
 
 ALWAYS_INLINE command_t c_buffer::get_command( ) {
@@ -15,6 +18,18 @@ ALWAYS_INLINE compiled_draw_command_t c_buffer::get_draw_command( ) {
 
 ALWAYS_INLINE std::vector<draw_command_t> c_buffer::get_draw_commands( ) {
     return m_draw_commands;
+}
+
+ALWAYS_INLINE int c_buffer::get_num_of_commands( ) {
+    return m_draw_commands.size();
+}
+
+ALWAYS_INLINE int c_buffer::get_num_of_vertices( ) {
+    return m_vertices_count;
+}
+
+ALWAYS_INLINE int c_buffer::get_num_of_indices( ) {
+    return m_indices_count;
 }
 
 ALWAYS_INLINE void c_buffer::push_clip( RECT rect ) {

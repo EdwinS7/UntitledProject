@@ -44,6 +44,9 @@ void c_buffer::write_to_buffer( const int8_t primitive, const std::vector< verte
 		for ( int32_t i = 0; i < vertices_count; ++i )
 			dynamic_indices[ i ] = i;
 
+	m_vertices_count += vertices_count;
+	m_indices_count += indices_count;
+
 	m_draw_commands.push_back( draw_command_t( primitive, *vertices, indices == nullptr ? dynamic_indices : *indices, m_command, vertices_count, indices != nullptr ? indices->size( ) : indices_count ) );
 }
 

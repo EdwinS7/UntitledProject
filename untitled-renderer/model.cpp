@@ -15,14 +15,6 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
     while ( g_win32->dispatch_messages( ) ) {
         g_ctx->update( );
 
-#ifdef UNTITLED_SHOW_FPS
-        auto framerate = std::vformat( "{} FPS", std::make_format_args( g_ctx->get_framerate( ) ) );
-
-        g_buffer->text(
-            &g_buffer->default_font, framerate.c_str( ), vector2_t<int16_t>( 5, 5 ), color_t( 160, 217, 255, 255 )
-        );
-#endif
-
         // gui demo
         static auto gui = std::make_unique<c_gui>( "untitled", vector2_t<int16_t>( 700, 670 ), window_flags::none );
 
@@ -31,6 +23,23 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
         }
         gui->end( );
+
+#ifdef UNTITLED_SHOW_STATS
+        auto display_info = std::vformat( 
+            "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES", 
+
+            std::make_format_args(
+                g_ctx->get_framerate( ),
+                g_buffer->get_num_of_commands( ),
+                g_buffer->get_num_of_vertices( ),
+                g_buffer->get_num_of_indices( )
+            )
+        );
+
+        g_buffer->text(
+            &g_buffer->default_font, display_info.c_str( ), vector2_t<int16_t>( 5, 5 ), color_t( 160, 217, 255, 255 )
+        );
+#endif
 
         g_gfx->draw( );
     }

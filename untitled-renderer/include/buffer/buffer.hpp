@@ -108,6 +108,12 @@ public:
 
     ALWAYS_INLINE std::vector<draw_command_t> get_draw_commands( );
 
+    ALWAYS_INLINE int get_num_of_commands( );
+
+    ALWAYS_INLINE int get_num_of_vertices( );
+
+    ALWAYS_INLINE int get_num_of_indices( );
+
     ALWAYS_INLINE void push_clip(
         RECT rect
     );
@@ -135,6 +141,9 @@ public:
     );
 
 private:
+    int m_vertices_count;
+    int m_indices_count;
+
 	std::vector < draw_command_t > m_draw_commands;
 	compiled_draw_command_t m_draw_command;
 	command_t m_command;
