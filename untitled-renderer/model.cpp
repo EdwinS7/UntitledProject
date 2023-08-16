@@ -19,12 +19,12 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
         auto framerate = std::vformat( "{} FPS", std::make_format_args( g_ctx->get_framerate( ) ) );
 
         g_buffer->text(
-            &g_buffer->default_font, framerate.c_str( ), vector2_t<uint16_t>( 5, 5 ), color_t( 160, 217, 255, 255 )
+            &g_buffer->default_font, framerate.c_str( ), vector2_t<int16_t>( 5, 5 ), color_t( 160, 217, 255, 255 )
         );
 #endif
 
         // gui demo
-        static auto gui = std::make_unique<c_gui>( "untitled", vector2_t<uint16_t>( 700, 670 ), window_flags::none );
+        static auto gui = std::make_unique<c_gui>( "untitled", vector2_t<int16_t>( 700, 670 ), window_flags::none );
 
         gui->start( );
         {

@@ -1,10 +1,10 @@
 #include "console.hpp"
 
 void c_console::draw( ) {
-	g_buffer->filled_rectangle( vector2_t<uint16_t>( 20, 20 ), vector2_t<uint16_t>( 350, g_win32->get_size( ).y - 40 ), color_t( 25, 25, 25, 255 ), 8 );
+	g_buffer->filled_rectangle( vector2_t<int16_t>( 20, 20 ), vector2_t<int16_t>( 350, g_win32->get_size( ).y - 40 ), color_t( 25, 25, 25, 255 ), 8 );
 
-	g_buffer->line( vector2_t<uint16_t>( 20, 40 ), vector2_t<uint16_t>( 370, 40 ), color_t( 0, 0, 0, 255 ) );
-	g_buffer->rectangle( vector2_t<uint16_t>( 20, 20 ), vector2_t<uint16_t>( 350, g_win32->get_size( ).y - 40 ), color_t( 0, 0, 0, 255 ), 8 );
+	g_buffer->line( vector2_t<int16_t>( 20, 40 ), vector2_t<int16_t>( 370, 40 ), color_t( 0, 0, 0, 255 ) );
+	g_buffer->rectangle( vector2_t<int16_t>( 20, 20 ), vector2_t<int16_t>( 350, g_win32->get_size( ).y - 40 ), color_t( 0, 0, 0, 255 ), 8 );
 }
 
 void c_console::handle( ) {

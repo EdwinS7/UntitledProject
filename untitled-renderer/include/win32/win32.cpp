@@ -11,7 +11,7 @@ LRESULT CALLBACK WindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam 
 
 		return 0;
 	case WM_MOUSEMOVE:
-		g_input->set_mouse_pos( vector2_t<uint16_t>( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ) );
+		g_input->set_mouse_pos( vector2_t<int16_t>( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ) );
 		break;
 	case WM_DESTROY:
 		PostQuitMessage( 0 );
@@ -25,7 +25,7 @@ void c_win32::set_window_title(const char* title) {
 	SetWindowTextA( m_hwnd, title );
 }
 
-void c_win32::create_window( const char* title, const vector2_t< uint16_t > size ) {
+void c_win32::create_window( const char* title, const vector2_t< int16_t > size ) {
 	m_window_class = {
 		sizeof( m_window_class ),
 		CS_CLASSDC,
@@ -52,7 +52,7 @@ void c_win32::create_window( const char* title, const vector2_t< uint16_t > size
 	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] window created\n" );
 }
 
-void c_win32::create_message_box( const char* title, const char* caption, uint8_t type ) {
+void c_win32::create_message_box( const char* title, const char* caption, int8_t type ) {
 	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] message box created\n" );
 	MessageBox( m_hwnd, title, caption, type );
 	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] message box destroyed\n" );
@@ -73,24 +73,24 @@ bool c_win32::dispatch_messages( ) {
 	return true;
 }
 
-void c_win32::set_rect( const vector2_t< uint16_t > pos, const vector2_t< uint16_t > size ) {
+void c_win32::set_rect( const vector2_t< int16_t > pos, const vector2_t< int16_t > size ) {
 	SetWindowPos( m_hwnd, NULL, pos.x, pos.y, size.x, size.y, NULL );
 }
 
-vector2_t< uint16_t > c_win32::get_pos( ) {
+vector2_t< int16_t > c_win32::get_pos( ) {
 	RECT rect{ };
 
 	if ( GetWindowRect( m_hwnd, &rect ) )
-		return vector2_t< uint16_t >( rect.left, rect.top );
+		return vector2_t< int16_t >( rect.left, rect.top );
 
 	throw std::runtime_error( "GetWindowRect failed" );
 }
 
-vector2_t< uint16_t > c_win32::get_size( ) {
+vector2_t< int16_t > c_win32::get_size( ) {
 	RECT rect{ };
 
 	if ( GetClientRect( m_hwnd, &rect ) )
-		return vector2_t< uint16_t >( rect.right - rect.left, rect.bottom - rect.top );
+		return vector2_t< int16_t >( rect.right - rect.left, rect.bottom - rect.top );
 
 	throw std::runtime_error( "GetClientRect failed" );
 }

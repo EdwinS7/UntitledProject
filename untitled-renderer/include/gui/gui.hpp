@@ -15,10 +15,10 @@ enum window_flags {
 
 class c_style {
 public:
-	uint8_t window_radius = 10;
-	uint8_t popup_radius = 5;
+	int8_t window_radius = 10;
+	int8_t popup_radius = 5;
 
-	uint8_t element_radius = 3;
+	int8_t element_radius = 3;
 
 };
 
@@ -36,21 +36,21 @@ public:
 
 class c_gui {
 public:
-	c_gui::c_gui( const char* title, vector2_t<uint16_t> size, window_flags flags );
+	c_gui::c_gui( const char* title, vector2_t<int16_t> size, window_flags flags );
 
 	void start( );
 	void end( );
 
 private:
 	const char* m_title;
-	vector2_t<uint16_t> m_pos;
-	vector2_t<uint16_t> m_size;
+	vector2_t<int16_t> m_pos;
+	vector2_t<int16_t> m_size;
 	window_flags m_flags;
 	
 	c_style m_style;
 	c_dark m_color;
 
-	vector2_t<uint16_t> m_drag_advance, m_resize_advance;
+	vector2_t<int16_t> m_drag_advance, m_resize_advance;
 	bool m_dragging = false, m_resizing = false;
 	bool m_drag_outside_bounds = false, m_resize_outside_bounds = false;
 };

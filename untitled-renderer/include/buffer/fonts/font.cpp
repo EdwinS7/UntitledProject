@@ -1,6 +1,6 @@
 #include "font.hpp"
 
-void c_font::create_font( font_t* font, const char* font_name, const uint16_t size, const uint16_t weight, const uint16_t padding, const bool anti_aliased ) {
+void c_font::create_font( font_t* font, const char* font_name, const int16_t size, const int16_t weight, const int16_t padding, const bool anti_aliased ) {
 	FT_Library lib;
 	FT_Face face;
 
@@ -21,8 +21,8 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 		if ( FT_Load_Char( face, i, anti_aliased ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) )
 			throw std::runtime_error( "create_font failed ( FT_Load_Char, font most likely does not exist! )" );
 
-		uint32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
-		uint32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
+		int32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
+		int32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
 
 		if ( g_gfx->get_device( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->char_set[ i ].resource, NULL ) )
 			throw std::runtime_error{ "create_font failed ( create_texture failed )" };
@@ -36,11 +36,11 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 		if ( source && destination ) {
 			switch ( face->glyph->bitmap.pixel_mode ) {
 			case FT_PIXEL_MODE_MONO:
-				for ( uint32_t y = 0; y < height; y++, source += face->glyph->bitmap.pitch, destination += locked_rect.Pitch ) {
-					uint8_t bits = 0;
+				for ( int32_t y = 0; y < height; y++, source += face->glyph->bitmap.pitch, destination += locked_rect.Pitch ) {
+					int8_t bits = 0;
 					const uint8_t* bits_ptr = source;
 
-					for ( uint32_t x = 0; x < width; x++, bits <<= 1 ) {
+					for ( int32_t x = 0; x < width; x++, bits <<= 1 ) {
 						if ( ( x & 7 ) == 0 )
 							bits = *bits_ptr++;
 
@@ -50,7 +50,7 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 
 				break;
 			case FT_PIXEL_MODE_GRAY:
-				for ( uint32_t i = 0; i < height; ++i ) {
+				for ( int32_t i = 0; i < height; ++i ) {
 					memcpy( destination, source, width );
 
 					source += face->glyph->bitmap.pitch;
@@ -67,7 +67,7 @@ void c_font::create_font( font_t* font, const char* font_name, const uint16_t si
 		font->char_set[ i ].resource->GetLevelDesc( 0, &description );
 
 		font->char_set[ i ].size = { width, height };
-		font->char_set[ i ].bearing = { static_cast< uint32_t >( face->glyph->bitmap_left ), static_cast< uint32_t >( face->glyph->bitmap_top ) };
+		font->char_set[ i ].bearing = { static_cast< int32_t >( face->glyph->bitmap_left ), static_cast< int32_t >( face->glyph->bitmap_top ) };
 		font->char_set[ i ].advance = face->glyph->advance.x;
 	}
 

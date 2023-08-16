@@ -21,7 +21,7 @@ public:
 
 	// utilities
 	void create_texture_from_file( texture* resource, const char* file_name );
-	void create_texture_from_bytes( texture* resource, const std::vector<BYTE> bytes, const vector2_t<uint16_t> size );
+	void create_texture_from_bytes( texture* resource, const std::vector<BYTE> bytes, const vector2_t<int16_t> size );
 
 	IDirect3DDevice9* get_device( );
 

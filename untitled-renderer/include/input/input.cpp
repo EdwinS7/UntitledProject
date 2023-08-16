@@ -12,15 +12,15 @@ void c_input::pool_input( ) {
     }
 }
 
-vector2_t<uint16_t> c_input::get_mouse_pos( ) {
+vector2_t<int16_t> c_input::get_mouse_pos( ) {
 	return m_mouse_pos;
 }
 
-void c_input::set_mouse_pos( vector2_t<uint16_t> pos ) {
+void c_input::set_mouse_pos( vector2_t<int16_t> pos ) {
 	m_mouse_pos = pos;
 }
 
-bool c_input::mouse_hovering_rect( vector2_t<uint16_t> pos, vector2_t<uint16_t> size ) {
+bool c_input::mouse_hovering_rect( vector2_t<int16_t> pos, vector2_t<int16_t> size ) {
 	std::pair<bool, bool> m_hovered {
 		get_mouse_pos( ).x > pos.x && get_mouse_pos( ).y > pos.y,
 		get_mouse_pos( ).x < pos.x + size.x && get_mouse_pos( ).y < pos.y + size.y
@@ -29,11 +29,11 @@ bool c_input::mouse_hovering_rect( vector2_t<uint16_t> pos, vector2_t<uint16_t> 
 	return m_hovered.first && m_hovered.second;
 }
 
-bool c_input::key_pressed( uint8_t key ) {
+bool c_input::key_pressed( int8_t key ) {
 	return ( std::get<0>( m_key_states[ key ] ) && std::get<1>( m_key_states[ key ] ) );
 }
 
-bool c_input::key_held( uint8_t key ) {
+bool c_input::key_held( int8_t key ) {
 	return std::get<0>( m_key_states[ key ] );
 }
 

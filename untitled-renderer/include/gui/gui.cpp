@@ -1,9 +1,9 @@
 #include "gui.hpp"
 
-c_gui::c_gui( const char* title, vector2_t<uint16_t> size, window_flags flags ) {
+c_gui::c_gui( const char* title, vector2_t<int16_t> size, window_flags flags ) {
 	m_title = title;
 
-	m_pos = vector2_t<uint16_t>(
+	m_pos = vector2_t<int16_t>(
 		g_win32->get_size( ).x * 0.5f - size.x * 0.5f,
 		g_win32->get_size( ).y * 0.5f - size.y * 0.5f
 	);
@@ -17,11 +17,11 @@ void c_gui::start( ) {
 		g_buffer->filled_rectangle( m_pos, m_size, m_color.window, m_style.window_radius );
 
 	if ( !m_flags & no_header ) {
-		g_buffer->filled_rectangle( m_pos, vector2_t<uint16_t>( m_size.x, 20 ), m_color.window_header, m_style.window_radius, corner_top );
-		g_buffer->line( m_pos + vector2_t<uint16_t>( 1, 20 ), m_pos + vector2_t<uint16_t>( m_size.x - 2, 20 ), m_color.accent );
+		g_buffer->filled_rectangle( m_pos, vector2_t<int16_t>( m_size.x, 20 ), m_color.window_header, m_style.window_radius, corner_top );
+		g_buffer->line( m_pos + vector2_t<int16_t>( 1, 20 ), m_pos + vector2_t<int16_t>( m_size.x - 2, 20 ), m_color.accent );
 
 		auto text_size = g_buffer->get_text_size( &g_buffer->interface_font, m_title );
-		g_buffer->text( &g_buffer->interface_font, m_title, m_pos + vector2_t<uint16_t>( m_size.x * 0.5 - text_size.x * 0.5, 5 ), m_color.text_active );
+		g_buffer->text( &g_buffer->interface_font, m_title, m_pos + vector2_t<int16_t>( m_size.x * 0.5 - text_size.x * 0.5, 5 ), m_color.text_active );
 	}
 
 	if ( !m_flags & no_border )
@@ -30,7 +30,7 @@ void c_gui::start( ) {
 
 void c_gui::end( ) {
 	bool held = g_input->key_held( KEY_LMOUSE );
-	bool inside_bounds = g_input->mouse_hovering_rect( m_pos, vector2_t<uint16_t>( m_size.x, 20 ) );
+	bool inside_bounds = g_input->mouse_hovering_rect( m_pos, vector2_t<int16_t>( m_size.x, 20 ) );
 
 	if ( held && !inside_bounds && !m_dragging && !m_drag_outside_bounds )
 		m_drag_outside_bounds = true;
@@ -47,7 +47,7 @@ void c_gui::end( ) {
 	if ( m_dragging )
 		m_pos = g_input->get_mouse_pos( ) - m_drag_advance;
 
-	inside_bounds = g_input->mouse_hovering_rect( m_pos + m_size - vector2_t<uint16_t>( 5, 5 ), vector2_t<uint16_t>( 5, 5 ) );
+	inside_bounds = g_input->mouse_hovering_rect( m_pos + m_size - vector2_t<int16_t>( 5, 5 ), vector2_t<int16_t>( 5, 5 ) );
 
 	if ( held && !inside_bounds && !m_resizing && !m_resize_outside_bounds )
 		m_resize_outside_bounds = true;

@@ -41,7 +41,7 @@ public:
 };
 
 
-template <typename type_t = uint16_t>
+template <typename type_t = int16_t>
 class vector2_t {
 public:
 	type_t x, y;
@@ -142,8 +142,8 @@ public:
 
 struct glyph_t {
 	texture resource;
-	vector2_t<uint32_t> size;
-	vector2_t<uint32_t> bearing;
+	vector2_t<int32_t> size;
+	vector2_t<int32_t> bearing;
 	int32_t advance;
 
 #ifdef USE_CUSTOM_GLYPH_OPERATORS
@@ -154,8 +154,8 @@ struct glyph_t {
 class font_t {
 public:
 	std::string path;
-	uint16_t padding;
-	uint16_t size;
+	int16_t padding;
+	int16_t size;
 
 	std::vector<glyph_t> char_set{ 256 };
 
@@ -176,15 +176,15 @@ public:
 
 class draw_command_t {
 public:
-	uint8_t primitive;
+	int8_t primitive;
 	std::vector<vertex_t> vertices;
-	std::vector<std::uint32_t> indices;
+	std::vector<std::int32_t> indices;
 	command_t command;
 	int vertices_count,
 		indices_count;
 
 	constexpr draw_command_t( ) noexcept = default;
-	constexpr draw_command_t( const uint8_t primitive, const std::vector<vertex_t> vertices, const std::vector<std::uint32_t> indices, command_t command, const int vertices_count, const int indices_count ) noexcept
+	constexpr draw_command_t( const int8_t primitive, const std::vector<vertex_t> vertices, const std::vector<std::int32_t> indices, command_t command, const int vertices_count, const int indices_count ) noexcept
 		: primitive( primitive ), vertices( vertices ), indices( indices ), command( command ), vertices_count( vertices_count ), indices_count( indices_count ) {}
 
 #ifdef USE_CUSTOM_DRAW_DRAW_COMMAND_OPERATORS
@@ -195,12 +195,12 @@ public:
 class compiled_draw_command_t {
 public:
 	std::vector<vertex_t> vertices;
-	std::vector<std::uint32_t> indices;
+	std::vector<std::int32_t> indices;
 	int vertices_count,
 		indices_count;
 
 	constexpr compiled_draw_command_t( ) noexcept = default;
-	constexpr compiled_draw_command_t( const std::vector<vertex_t> vertices, const std::vector<std::uint32_t> indices, const int vertices_count, const int indices_count ) noexcept
+	constexpr compiled_draw_command_t( const std::vector<vertex_t> vertices, const std::vector<std::int32_t> indices, const int vertices_count, const int indices_count ) noexcept
 		: vertices( vertices ), indices( indices ), vertices_count( vertices_count ), indices_count( indices_count ) {}
 
 	void reset( ) {

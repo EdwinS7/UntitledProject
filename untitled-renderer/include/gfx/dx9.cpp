@@ -98,7 +98,7 @@ void c_gfx::render_draw_data( ) {
             throw std::runtime_error{ "render_draw_data failed (CreateVertexBuffer)" };
     }
 
-    if ( !m_index_buffer || draw_command.indices_count * sizeof( std::uint32_t ) > m_index_buffer_size ) {
+    if ( !m_index_buffer || draw_command.indices_count * sizeof( std::int32_t ) > m_index_buffer_size ) {
         if ( m_index_buffer ) {
             m_index_buffer->Release( );
             m_index_buffer = nullptr;
@@ -106,22 +106,22 @@ void c_gfx::render_draw_data( ) {
 
         m_index_buffer_size = draw_command.indices_count + 10000;
 
-        if ( m_device->CreateIndexBuffer( m_index_buffer_size * sizeof( std::uint32_t ), 
+        if ( m_device->CreateIndexBuffer( m_index_buffer_size * sizeof( std::int32_t ), 
             D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_index_buffer, nullptr ) < D3D_OK )
             throw std::runtime_error{ "render_draw_data failed (CreateIndexBuffer)" };
     }
 
     vertex_t* vertex_data{ };
-    uint32_t* index_data{ };
+    int32_t* index_data{ };
 
-    if ( m_vertex_buffer->Lock( 0, ( UINT ) ( draw_command.vertices_count * sizeof( vertex_t ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_vertex_buffer->Lock( 0, ( int ) ( draw_command.vertices_count * sizeof( vertex_t ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
         throw std::runtime_error("render_draw_data error (vtx_buffer->Lock)");
 
-    if ( m_index_buffer->Lock( 0, ( UINT ) ( draw_command.indices_count * sizeof( std::uint32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_index_buffer->Lock( 0, ( int ) ( draw_command.indices_count * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
         throw std::runtime_error("render_draw_data error (idx_buffer->Lock)");
 
     memcpy( vertex_data, draw_command.vertices.data( ), draw_command.vertices_count * sizeof( vertex_t ) );
-    memcpy( index_data, draw_command.indices.data( ), draw_command.indices_count * sizeof( uint32_t ) );
+    memcpy( index_data, draw_command.indices.data( ), draw_command.indices_count * sizeof( int32_t ) );
 
     m_vertex_buffer->Unlock( );
     m_index_buffer->Unlock( );
@@ -183,13 +183,23 @@ bool c_gfx::valid( ) {
 }
 
 void c_gfx::draw( ) {
-    m_device->Clear( 0, NULL, D3DCLEAR_TARGET, m_clear_color.hex, 1.f, 0 );
-    m_device->BeginScene( );
+    if ( !valid( ) )
+        return;
 
-    render_draw_data( );
+    m_device->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, m_clear_color.hex, 1.f, 0 );
 
-    m_device->EndScene( );
-    m_device->Present( NULL, NULL, NULL, NULL );
+    if ( m_device->BeginScene( ) >= 0 ) {
+        render_draw_data( );
+        m_device->EndScene( );
+    }
+
+    HRESULT h = m_device->Present( nullptr, nullptr, nullptr, nullptr );
+
+    if ( h == D3DERR_DEVICELOST && m_device->TestCooperativeLevel( ) == D3DERR_DEVICENOTRESET ) {
+        g_buffer->destroy_objects( );
+        m_device->Reset( &m_parameters );
+        g_buffer->create_objects( );
+    }
 }
 
 void c_gfx::release( ) {
@@ -213,7 +223,7 @@ void c_gfx::safe_release( type*& obj ) {
 
 /* utilities */
 
-void c_gfx::create_texture_from_bytes( texture* resource, const std::vector<BYTE> bytes, const vector2_t<uint16_t> size ) {
+void c_gfx::create_texture_from_bytes( texture* resource, const std::vector<BYTE> bytes, const vector2_t<int16_t> size ) {
     if ( D3DXCreateTextureFromFileInMemoryEx( m_device, bytes.data( ), bytes.size( ),
         size.x, size.y, D3DX_DEFAULT,
         NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
