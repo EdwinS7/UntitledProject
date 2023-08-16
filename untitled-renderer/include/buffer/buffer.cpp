@@ -132,7 +132,9 @@ void c_buffer::rectangle( const vector2_t< int16_t > pos, const vector2_t< int16
 
 			generate_arc_points( &corner_points, &corner_rounded, rounding, 25, angle, RECTANGLE_SEGMENTS );
 
-			points.insert( points.end( ), corner_points.begin( ), corner_points.end( ) );
+			points.insert( points.end( ), 
+				std::make_move_iterator( corner_points.begin( ) ), std::make_move_iterator( corner_points.end( ) )
+			);
 		}
 		else {
 			vector2_t<int16_t> corner = std::get<0>( corner_tuple );
@@ -173,7 +175,9 @@ void c_buffer::filled_rectangle( const vector2_t< int16_t > pos, const vector2_t
 
 			generate_arc_points( &corner_points, &corner_rounded, rounding, 25, angle, RECTANGLE_SEGMENTS );
 
-			points.insert( points.end( ), corner_points.begin( ), corner_points.end( ) );
+			points.insert( points.end( ),
+				std::make_move_iterator( corner_points.begin( ) ), std::make_move_iterator( corner_points.end( ) )
+			);
 		}
 		else {
 			vector2_t<int16_t> corner = std::get<0>( corner_tuple );

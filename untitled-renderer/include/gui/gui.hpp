@@ -36,7 +36,7 @@ public:
 
 class c_gui {
 public:
-	c_gui::c_gui( const char* title, vector2_t<int16_t> size, window_flags flags );
+	c_gui( const char* title, vector2_t<int16_t> size, window_flags flags );
 
 	void start( );
 	void end( );
