@@ -175,6 +175,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\ctx\ctx.cpp" />
+    <ClCompile Include="include\hooks\hooks.cpp" />
+    <ClCompile Include="include\mem\memory.cpp" />
     <ClCompile Include="include\rbx\callcheck.cpp" />
     <ClCompile Include="include\rbx\execution.cpp" />
     <ClCompile Include="include\rbx\functions.cpp" />
@@ -215,6 +217,7 @@
     <ClInclude Include="include\ctx\ctx.hpp" />
     <ClInclude Include="include\hooks\hooks.hpp" />
     <ClInclude Include="inc.hpp" />
+    <ClInclude Include="include\mem\memory.hpp" />
     <ClInclude Include="include\rbx\rbx.hpp" />
     <ClInclude Include="include\util\enum.hpp" />
     <ClInclude Include="include\util\util.hpp" />

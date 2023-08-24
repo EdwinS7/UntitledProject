@@ -20,6 +20,7 @@
 
 #include "include/util/enum.hpp"
 #include "include/util/util.hpp"
+#include "include/mem/memory.hpp"
 #include "include/hooks/hooks.hpp"
 #include "include/rbx/rbx.hpp"
 

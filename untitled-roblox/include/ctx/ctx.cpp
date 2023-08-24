@@ -1,6 +1,8 @@
 #include "ctx.hpp"
 
 void c_ctx::init( ) {
+    g_offsets->init( );
+
     script_context = g_rbx->get_script_context( );
 
     int identity = 8, script = 0;
