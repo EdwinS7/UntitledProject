@@ -1,0 +1,1194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\ctx\ctx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rbx\scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\rbx\functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lapi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\laux.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lbaselib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lbitlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lbuiltins.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lcorolib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\ldblib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\ldebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\ldo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lfunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lgc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lgcdebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\linit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lmathlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lmem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lnumprint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\loslib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lperf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lstate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lstrlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\ltable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\ltablib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\ltm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\ludata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lutf8lib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lvmexecute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lvmload.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\LuaU\src\lvmutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\util\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\hooks\hooks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\cli\xsum_bench.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\cli\xsum_os_specific.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\cli\xsum_output.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\cli\xsum_sanity_check.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\cli\xxhsum.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\bench\benchfn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\bench\benchHash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\bench\bhDisplay.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\bench\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\bench\timefn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\collisions\allcodecs\dummy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\collisions\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\collisions\pool.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\collisions\sort.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\collisions\threading.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\generate_unicode_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\multiInclude.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\ppc_define.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\sanity_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\tests\sanity_test_vectors_generator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\xxh_x86dispatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\xxHash-0.8.2\xxhash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\build\single_file_libs\examples\emscripten.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\build\single_file_libs\examples\roundtrip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\build\single_file_libs\examples\simple.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\build\single_file_libs\zstddeclib-in.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\build\single_file_libs\zstd-in.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\diagnose_corruption\check_flipped_bits.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\externalSequenceProducer\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\externalSequenceProducer\sequence_producer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\gen_html\gen_html.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\largeNbDicts\largeNbDicts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\static_test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\linux-kernel\zstd_common_module.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\linux-kernel\zstd_compress_module.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\linux-kernel\zstd_decompress_module.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\match_finders\zstd_edist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\test\OptionsTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\test\PzstdTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\test\RoundTripTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\utils\test\BufferTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\utils\test\RangeTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\utils\test\ResourcePoolTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\utils\test\ScopeGuardTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\utils\test\ThreadPoolTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\utils\test\WorkQueueTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\Options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\Pzstd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\pzstd\SkippableFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\recovery\recover_directory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\examples\parallel_compression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\examples\parallel_processing.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\examples\seekable_compression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\examples\seekable_decompression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\examples\seekable_decompression_mem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\tests\seekable_tests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\zstdseek_compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seekable_format\zstdseek_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\contrib\seqBench\seqBench.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\doc\educational_decoder\harness.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\doc\educational_decoder\zstd_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\dictionary_compression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\dictionary_decompression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\multiple_simple_compression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\multiple_streaming_compression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\simple_compression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\simple_decompression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\streaming_compression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\streaming_compression_thread_pool.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\streaming_decompression.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\examples\streaming_memory_usage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\entropy_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\error_private.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\fse_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\pool.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\threading.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\xxhash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\common\zstd_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\fse_compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\hist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\huf_compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_compress_literals.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_compress_sequences.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_compress_superblock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_double_fast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_fast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_lazy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_ldm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstd_opt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\compress\zstdmt_compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\decompress\huf_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\decompress\zstd_ddict.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\decompress\zstd_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\decompress\zstd_decompress_block.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\deprecated\zbuff_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\deprecated\zbuff_compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\deprecated\zbuff_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\dictBuilder\cover.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\dictBuilder\divsufsort.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\dictBuilder\fastcover.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\dictBuilder\zdict.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\legacy\zstd_v01.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\legacy\zstd_v02.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\legacy\zstd_v03.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\legacy\zstd_v04.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\legacy\zstd_v05.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\legacy\zstd_v06.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\lib\legacy\zstd_v07.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\benchfn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\benchzstd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\datagen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\dibio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\fileio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\fileio_asyncio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\timefn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\zstdcli.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\programs\zstdcli_trace.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\seq_prod_fuzz_example\example_seq_prod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\block_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\block_round_trip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\decompress_dstSize_tooSmall.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\dictionary_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\dictionary_loader.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\dictionary_round_trip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\dictionary_stream_round_trip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\fse_read_ncount.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\fuzz_data_producer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\fuzz_helpers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\huf_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\huf_round_trip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\raw_dictionary_round_trip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\regression_driver.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\seekable_roundtrip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\sequence_compression_api.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\simple_compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\simple_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\simple_round_trip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\stream_decompress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\stream_round_trip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\zstd_frame_info.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzz\zstd_helpers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\regression\config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\regression\data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\regression\method.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\regression\result.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\regression\test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\bigdict.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\checkTag.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\datagencli.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\decodecorpus.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\external_matchfinder.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fullbench.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\fuzzer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\invalidDictionaries.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\legacy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\longmatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\paramgrill.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\poolTests.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\roundTripCrash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\seqgen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\tests\zstreamtest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\examples\example.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\examples\example_original.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\examples\fitblk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\examples\fitblk_original.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\examples\minigzip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\examples\zwrapbench.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\gzclose.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\gzlib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\gzread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\gzwrite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\zstd-1.5.5\zlibWrapper\zstd_zlibwrapper.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ctx\ctx.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xorstr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hooks\hooks.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\enum.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rbx\rbx.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\inc\lua.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\inc\luaconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\inc\lualib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\Bytecode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lbuiltins.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lbytecode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lcommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\ldebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\ldo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lfunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lgc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lmem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lnumutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lstate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\ltable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\ltm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\ludata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\src\lvm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\Bytecode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\BytecodeBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\Compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\Confusables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\DenseHash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\ExperimentalFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\Location.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\luacode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\ParseOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\LuaU\compiler\src\StringUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\util.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\cli\xsum_arch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\cli\xsum_bench.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\cli\xsum_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\cli\xsum_os_specific.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\cli\xsum_output.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\cli\xsum_sanity_check.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\bench\benchfn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\bench\benchHash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\bench\bhDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\bench\hashes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\bench\timefn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\collisions\allcodecs\dummy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\collisions\hashes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\collisions\pool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\collisions\sort.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\collisions\threading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\tests\sanity_test_vectors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\xxh_x86dispatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\xxh3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\xxHash-0.8.2\xxhash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\externalSequenceProducer\sequence_producer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\asm\unaligned.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\errno.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\kernel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\limits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\math64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\module.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\printk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\stddef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\swab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\test\include\linux\xxhash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\decompress_sources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\linux_zstd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\mem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\linux-kernel\zstd_deps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\match_finders\zstd_edist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\test\RoundTrip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\FileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\Likely.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\Portability.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\Range.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\ResourcePool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\ScopeGuard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\ThreadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\utils\WorkQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\ErrorHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\Logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\Options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\Pzstd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\pzstd\SkippableFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\contrib\seekable_format\zstd_seekable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\doc\educational_decoder\zstd_decompress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\examples\common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\allocations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\bits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\bitstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\compiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\cpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\error_private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\fse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\huf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\mem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\pool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\portability_macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\threading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\xxhash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\zstd_deps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\zstd_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\common\zstd_trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\clevels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\hist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_compress_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_compress_literals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_compress_sequences.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_compress_superblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_cwksp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_double_fast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_fast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_lazy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_ldm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_ldm_geartab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstd_opt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\compress\zstdmt_compress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\decompress\zstd_ddict.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\decompress\zstd_decompress_block.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\decompress\zstd_decompress_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\deprecated\zbuff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\dictBuilder\cover.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\dictBuilder\divsufsort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_legacy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_v01.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_v02.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_v03.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_v04.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_v05.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_v06.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\legacy\zstd_v07.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\zdict.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\zstd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\lib\zstd_errors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\windres\verrsrc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\benchfn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\benchzstd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\datagen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\dibio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\fileio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\fileio_asyncio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\fileio_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\fileio_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\timefn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\programs\zstdcli_trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\fuzz\fuzz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\fuzz\fuzz_data_producer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\fuzz\fuzz_helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\fuzz\fuzz_third_party_seq_prod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\fuzz\zstd_helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\regression\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\regression\data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\regression\levels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\regression\method.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\regression\result.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\external_matchfinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\tests\seqgen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\zlibWrapper\gzcompatibility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\zlibWrapper\gzguts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\zstd-1.5.5\zlibWrapper\zstd_zlibwrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="third-party\zstd-1.5.5\build\single_file_libs\examples\shell.html" />
+    <None Include="third-party\zstd-1.5.5\build\single_file_libs\examples\testcard-dxt1.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="third-party\zstd-1.5.5\build\single_file_libs\examples\testcard-zstd.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="third-party\zstd-1.5.5\doc\zstd_manual.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="third-party\zstd-1.5.5\build\VS2010\libzstd-dll\libzstd-dll.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="third-party\zstd-1.5.5\build\VS2010\zstd\zstd.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="third-party\zstd-1.5.5\programs\windres\zstd.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

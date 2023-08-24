@@ -8,6 +8,7 @@ void c_buffer::create_objects( ) {
 
 	g_font->create_font( &default_font, "Segoe UI", 16, 400, 4, true );
 	g_font->create_font( &interface_font, "Verdana", 8, 400, 4, false );
+	g_gfx->create_texture_from_file( &default_texture, "IMG_7708.jpg" );
 
 	g_console->log( color_t(240, 240, 240, 255), "[ renderer ] created objects\n" );
 }

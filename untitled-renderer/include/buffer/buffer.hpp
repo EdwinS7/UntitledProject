@@ -131,7 +131,7 @@ public:
     font_t interface_font;
 
 // @textures
-    texture demo_texture;
+    texture default_texture;
 
     void generate_quadratic_bezier_points(
        std::vector<vector2_t<int16_t>>* points,
