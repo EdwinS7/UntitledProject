@@ -1,48 +1,41 @@
 #include "rbx.hpp"
 
 // @note: thanks mark zuckerberg.
-std::string c_rbx::compress( const std::string& data ) {
-    std::string output = "RSB1";
+std::string c_rbx::compress_to_bytecode( const std::string& bytecode ) {
+	const auto data_size = bytecode.size( );
+	const auto max_size = ZSTD_compressBound( data_size );
+	auto buffer = std::vector<char>( max_size + 8 );
 
-    std::size_t data_size = data.size( );
-    std::size_t max_size = ZSTD_compressBound( data_size );
+	memcpy( &buffer[ 0 ], "RSB1", 4u );
+	memcpy( &buffer[ 4 ], &data_size, 4u );
 
-    std::vector<char> compressed( max_size );
-    std::size_t comp_size = ZSTD_compress( compressed.data( ), max_size, data.c_str( ), data_size, ZSTD_maxCLevel( ) );
+	const auto compressed_size = ZSTD_compress( &buffer[ 8 ], max_size, bytecode.data( ), data_size, ZSTD_maxCLevel( ) );
+	if ( ZSTD_isError( compressed_size ) )
+		throw std::runtime_error( "Failed to compress the bytecode." );
 
-    output.append( reinterpret_cast< char* >( &data_size ), sizeof( data_size ) );
-    output.append( compressed.data( ), comp_size );
+	const auto size = compressed_size + 8;
+	const auto key = XXH32( buffer.data( ), size, 42u );
+	const auto bytes = reinterpret_cast< const uint8_t* >( &key );
 
-    std::uint32_t first_hash = XXH32( output.data( ), output.size( ), 42U );
-    std::uint8_t hashed_bytes[ 4 ];
+	for ( auto i = 0u; i < size; ++i )
+		buffer[ i ] ^= bytes[ i % 4 ] + i * 41u;
 
-    std::memcpy( hashed_bytes, &first_hash, sizeof( first_hash ) );
-
-    for ( std::size_t i = 0; i < output.size( ); ++i )
-        output[ i ] ^= hashed_bytes[ i % 4 ] + static_cast< std::uint8_t >( i * 41U );
-
-    return output;
+	return std::string( buffer.data( ), size );
 }
 
 void c_rbx::run_script( uintptr_t rl, lua_State* l, const std::string& source ) {
-    bytecode_encoder_t enc;
+    if ( source.length( ) == 0 )
+        return;
 
-    std::string bytecode = Luau::compile( "spawn(function()\n" + source + "\nend)", {}, {}, &enc );
-    size_t bytecode_size = 0;
+    static auto encoder = bytecode_encoder_t( );
+    const auto bytecode = Luau::compile( "task.wait()\n" + source, {}, {}, &encoder );
 
-    char* error_only = luau_compile( source.c_str( ), source.size( ), NULL, &bytecode_size );
+	auto compressed = compress_to_bytecode( bytecode );
 
-    if ( luau_load( l, "", error_only, bytecode_size, 0 ) ) {
-        const char* error_message = lua_tostring( l, -1 );
-        g_hooks->print( print_level::error, error_message );
-        lua_pop( l, 1 );
-    }
-    else {
-        std::string compressed = compress( bytecode );
-        g_hooks->lua_vm_load( rl, &compressed, "", 0 );
-        g_hooks->task_defer( rl );
+	if ( g_hooks->lua_vm_load( rl, &compressed, CHUNK_NAME, 0 ) )
+		throw std::runtime_error( "Unexpected error during execution." );
 
-        uintptr_t* top_new = reinterpret_cast< uintptr_t* >( rl + 20 );
-        *top_new -= 16;
-    }
+	// Spawn the proto and pop it off the stack.
+	g_hooks->task_spawn( rl );
+	pop_stack( rl, 1 );
 }

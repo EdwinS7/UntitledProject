@@ -9,6 +9,10 @@ void c_rbx::push_global( uintptr_t rl, int fn, const char* name ) {
     g_hooks->r_lua_setfield( rl, -10002, name );
 }
 
+void c_rbx::pop_stack( uintptr_t state, uint8_t amount ) {
+    *reinterpret_cast< uintptr_t* >( state + g_offsets->top ) -= 0x10 * amount;
+}
+
 void c_rbx::teleport_handler( ) {
     static bool teleported = false;
 

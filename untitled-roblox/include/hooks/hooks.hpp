@@ -6,7 +6,7 @@ public:
 	std::uintptr_t print = 0x118A5C0; // @ida xref: "Current identity is %d" the function call within.
 	std::uintptr_t print_identity = 0x89EDE0; // @ida xref: "Current identity is %d" the function itself.
 	std::uintptr_t get_scheduler = 0xBD15B0; // @ida xref: [Watchdog or LuauWatchdog], after second jnz get call sub_xxxxxx.
-	std::uintptr_t task_defer = 0x980070; // @ida xref: "Maximum re-entrancy depth (%i) exceeded calling task.defer", the function within.
+	std::uintptr_t task_spawn = 0x980070; // @ida xref: "Maximum re-entrancy depth (%i) exceeded calling task.defer", the function within.
 	std::uintptr_t get_state = 0x87F1C0; // @ida xref: "challenge" sub_7.
 	std::uintptr_t lua_vm_load = 0x980FE0; // @ida xref: "oldResult, moduleRef  = ..." 3rd sub function downwards.
 
@@ -33,8 +33,8 @@ public:
 	using get_scheduler_hooked = std::uintptr_t( __cdecl* ) ( );
 	get_scheduler_hooked get_scheduler = reinterpret_cast< get_scheduler_hooked >( ASLR( g_offsets->get_scheduler ) );
 
-	using task_defer_hooked = std::uintptr_t( __cdecl* )( std::uintptr_t );
-	task_defer_hooked task_defer = reinterpret_cast< task_defer_hooked >( ASLR( g_offsets->task_defer ) );
+	using task_spawn_hooked = std::uintptr_t( __cdecl* )( std::uintptr_t );
+	task_spawn_hooked task_spawn = reinterpret_cast< task_spawn_hooked >( ASLR( g_offsets->task_spawn ) );
 
 	using get_state_hooked = std::uintptr_t( __thiscall* )( std::uintptr_t, int*, int* );
 	get_state_hooked get_state = reinterpret_cast< get_state_hooked >( ASLR( g_offsets->get_state ) );

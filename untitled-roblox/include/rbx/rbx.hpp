@@ -16,7 +16,7 @@ public:
 	uintptr_t get_script_context( );
 
 	// execution
-	std::string compress( const std::string& data );
+	std::string compress_to_bytecode( const std::string& bytecode);
 	void run_script( uintptr_t rl, lua_State* l, const std::string& source );
 
 	// callcheck
@@ -28,6 +28,7 @@ public:
 	// functions
 	void set_identity( const uintptr_t& state, const uint8_t& identity );
 	void push_global(uintptr_t rl, int fn, const char* name);
+	void pop_stack(uintptr_t state, uint8_t amount);
 	void register_functions(uintptr_t rl );
 	void teleport_handler();
 };
