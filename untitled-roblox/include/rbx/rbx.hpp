@@ -13,11 +13,13 @@ class c_rbx {
 public:
 	// scheduler
 	int get_job( const std::string& job );
+
 	uintptr_t get_script_context( );
+	uintptr_t get_lua_state( );
 
 	// execution
 	std::string compress_to_bytecode( const std::string& bytecode);
-	void run_script( uintptr_t rl, lua_State* l, const std::string& source );
+	void run_script( uintptr_t rl, const std::string& source );
 
 	// callcheck
 	std::vector<int> breakpoints;

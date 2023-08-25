@@ -3,9 +3,16 @@
 
 class c_offsets {
 public:
+	template <typename hook_type>
+	void create_hook( hook_type* hook, const std::string& signature );
+
+	template<typename hook_type>
+	void create_hook( hook_type* hook, const uintptr_t& offset );
+
 	void init( );
 	
-	// @note: requires manual update atm.
+	// @example: v12 = ( *( _DWORD *) ( a2 + 20 /*top*/ ) - *( _DWORD *) ( a2 + 8 /*base*/ ) ) >> 4;
+	// @ida xref: "Argument 2 missing or nil", generate pseudo code and look for a2 + ... both can be found in the same line.
 	std::uintptr_t top = 20;
 	std::uintptr_t base = 8;
 };
@@ -18,7 +25,7 @@ public:
 	// @note: used only when manually given addresses.
 	std::uintptr_t base = reinterpret_cast< std::uintptr_t >( GetModuleHandleA( nullptr ) );
 
-	std::uintptr_t ASLR( std::uintptr_t address ) {
+	std::uintptr_t aslr( std::uintptr_t address ) {
 		return address - 0x400000 + base;
 	}
 
@@ -40,11 +47,14 @@ public:
 	using lua_vm_load_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, std::string*, const char*, int );
 	lua_vm_load_hooked lua_vm_load;
 
-	using r_lua_setfield_t = uintptr_t( __stdcall* )( uintptr_t, int, const char* );
-	r_lua_setfield_t r_lua_setfield;
+	using lua_nil_object_hooked = std::uintptr_t( __fastcall* )( );
+	lua_nil_object_hooked lua_nil_object;
 
-	using r_lua_pushcclosure_t = uintptr_t( __stdcall* )( uintptr_t, int, int, int, int );
-	r_lua_pushcclosure_t r_lua_pushcclosure;
+	using lua_dummy_node_hooked = std::uintptr_t( __fastcall* )( );
+	lua_dummy_node_hooked lua_dummy_node;
+
+	using pseudo2_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int );
+	pseudo2_hooked pseudo2;
 };
 
 inline const auto g_hooks = std::make_unique<c_hooks>( );

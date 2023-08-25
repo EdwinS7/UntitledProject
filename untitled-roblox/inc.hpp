@@ -2,10 +2,12 @@
 #include <cstdint>
 #include <sstream>
 #include <iomanip> 
+#include <fstream>
 #include <thread>
 #include <vector>
 #include <string>
 #include <format>
+#include <array>
 
 #define CHUNK_NAME "Untitled_RBX"
 

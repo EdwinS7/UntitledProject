@@ -26,10 +26,11 @@ void c_rbx::teleport_handler( ) {
                     teleported = true;
                     std::this_thread::sleep_for( std::chrono::milliseconds( 6000 ) );
 
+                    g_offsets->init( );
                     g_ctx->lua_state = g_hooks->get_state( g_ctx->script_context, &identity, &script );
                     g_rbx->set_identity( g_ctx->lua_state, 8 );
 
-                    g_rbx->run_script( g_ctx->lua_state, ( lua_State* ) luaL_newstate( ), "Teleported!" );
+                    g_rbx->run_script( g_ctx->lua_state, "Teleported!" );
 
                     std::this_thread::sleep_for( std::chrono::milliseconds( 1000 ) );
                     teleported = false;

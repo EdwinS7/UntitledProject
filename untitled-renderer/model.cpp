@@ -24,10 +24,6 @@ void on_frame_call( ) {
     g_buffer->text(
         &g_buffer->default_font, display_info.c_str( ), vector2_t<int16_t>( 5, 5 ), color_t( 160, 217, 255, 255 )
     );
-
-    g_buffer->textured_rectangle(
-        &g_buffer->default_texture, vector2_t<int16_t>( 100, 100 ), vector2_t<int16_t>( 75, 100 ), color_t( 255, 255, 255, 255 )
-    );
 #endif
 }
 

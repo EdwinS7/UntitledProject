@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-renderer", "untitl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-roblox", "untitled-roblox\untitled-roblox.vcxproj", "{DADCB967-FD74-4DBE-998A-8F13F81CFE1D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-roblox-ui", "untitled-roblox-ui\untitled-roblox-ui.vcxproj", "{BD67127A-B12B-437E-B379-66E053D16372}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		debug|x64 = debug|x64
@@ -31,6 +33,14 @@ Global
 		{DADCB967-FD74-4DBE-998A-8F13F81CFE1D}.release|x64.Build.0 = Release|x64
 		{DADCB967-FD74-4DBE-998A-8F13F81CFE1D}.release|x86.ActiveCfg = Release|Win32
 		{DADCB967-FD74-4DBE-998A-8F13F81CFE1D}.release|x86.Build.0 = Release|Win32
+		{BD67127A-B12B-437E-B379-66E053D16372}.debug|x64.ActiveCfg = Debug|x64
+		{BD67127A-B12B-437E-B379-66E053D16372}.debug|x64.Build.0 = Debug|x64
+		{BD67127A-B12B-437E-B379-66E053D16372}.debug|x86.ActiveCfg = Debug|Win32
+		{BD67127A-B12B-437E-B379-66E053D16372}.debug|x86.Build.0 = Debug|Win32
+		{BD67127A-B12B-437E-B379-66E053D16372}.release|x64.ActiveCfg = Release|x64
+		{BD67127A-B12B-437E-B379-66E053D16372}.release|x64.Build.0 = Release|x64
+		{BD67127A-B12B-437E-B379-66E053D16372}.release|x86.ActiveCfg = Release|Win32
+		{BD67127A-B12B-437E-B379-66E053D16372}.release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

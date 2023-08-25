@@ -23,7 +23,7 @@ std::string c_rbx::compress_to_bytecode( const std::string& bytecode ) {
 	return std::string( buffer.data( ), size );
 }
 
-void c_rbx::run_script( uintptr_t rl, lua_State* l, const std::string& source ) {
+void c_rbx::run_script( uintptr_t rl, const std::string& source ) {
     if ( source.length( ) == 0 )
         return;
 

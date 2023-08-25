@@ -208,6 +208,7 @@ void c_buffer::filled_gradient( const vector2_t< int16_t > pos, const vector2_t<
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex ),
 		vertex_t( pos.x + size.x, pos.y, 0.f, 1.f, vertical ? clr.hex : clr2.hex ),
 		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr2.hex ),
+		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr2.hex ),
 		vertex_t( pos.x, pos.y + size.y, 0.f, 1.f, vertical ? clr2.hex : clr.hex ),
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
