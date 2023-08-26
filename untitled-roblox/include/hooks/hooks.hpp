@@ -10,7 +10,7 @@ public:
 	void create_hook( hook_type* hook, const uintptr_t& offset );
 
 	void init( );
-	
+
 	// @example: v12 = ( *( _DWORD *) ( a2 + 20 /*top*/ ) - *( _DWORD *) ( a2 + 8 /*base*/ ) ) >> 4;
 	// @ida xref: "Argument 2 missing or nil", generate pseudo code and look for a2 + ... both can be found in the same line.
 	std::uintptr_t top = 20;
@@ -25,6 +25,7 @@ public:
 	// @note: used only when manually given addresses.
 	std::uintptr_t base = reinterpret_cast< std::uintptr_t >( GetModuleHandleA( nullptr ) );
 
+	// @note: PE32: 0x400000, PE64: 0x140000000,
 	std::uintptr_t aslr( std::uintptr_t address ) {
 		return address - 0x400000 + base;
 	}
@@ -37,6 +38,9 @@ public:
 
 	using get_scheduler_hooked = std::uintptr_t( __cdecl* ) ( );
 	get_scheduler_hooked get_scheduler;
+
+	using task_defer_hooked = std::uintptr_t( __cdecl* )( std::uintptr_t );
+	task_defer_hooked task_defer;
 
 	using task_spawn_hooked = std::uintptr_t( __cdecl* )( std::uintptr_t );
 	task_spawn_hooked task_spawn;
@@ -55,6 +59,9 @@ public:
 
 	using pseudo2_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int );
 	pseudo2_hooked pseudo2;
+
+	using pushkclosure_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int );
+	pushkclosure_hooked pushkclosure;
 };
 
 inline const auto g_hooks = std::make_unique<c_hooks>( );

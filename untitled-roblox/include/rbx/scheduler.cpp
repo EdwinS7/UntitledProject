@@ -26,7 +26,7 @@ uintptr_t c_rbx::get_script_context( ) {
     return context_address;
 }
 
-uintptr_t c_rbx::get_lua_state( ) {
+uintptr_t c_rbx::get_global_state( ) {
     int identity = 8, script = 0;
     return g_hooks->get_state( g_ctx->script_context, &identity, &script );
 }

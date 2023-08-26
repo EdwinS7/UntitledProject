@@ -32,7 +32,7 @@ void c_rbx::run_script( uintptr_t rl, const std::string& source ) {
 
 	auto compressed = compress_to_bytecode( bytecode );
 
-	if ( g_hooks->lua_vm_load( rl, &compressed, CHUNK_NAME, 0 ) )
+	if ( g_hooks->lua_vm_load( rl, &compressed, "", 0 ) )
 		throw std::runtime_error( "Unexpected error during execution." );
 
 	// Spawn the proto and pop it off the stack.

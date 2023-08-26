@@ -5,8 +5,8 @@ void c_rbx::set_identity( const uintptr_t& state, const uint8_t& identity ) {
 }
 
 void c_rbx::push_global( uintptr_t rl, int fn, const char* name ) {
-    g_hooks->r_lua_pushcclosure( rl, fn, 0, 0, 0 );
-    g_hooks->r_lua_setfield( rl, -10002, name );
+    //g_hooks->r_lua_pushcclosure( rl, fn, 0, 0, 0 );
+    //g_hooks->r_lua_setfield( rl, -10002, name );
 }
 
 void c_rbx::pop_stack( uintptr_t state, uint8_t amount ) {

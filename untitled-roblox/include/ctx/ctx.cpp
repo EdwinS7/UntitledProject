@@ -1,12 +1,10 @@
 ﻿#include "ctx.hpp"
 
-std::ifstream file( "C:\\execute.lua" );
-
 void c_ctx::init( ) {
     g_offsets->init( );
 
     script_context = g_rbx->get_script_context( );
-    lua_state = g_rbx->get_lua_state( );
+    lua_state = g_rbx->get_global_state( );
 
     g_rbx->set_identity( lua_state, 8 );
 

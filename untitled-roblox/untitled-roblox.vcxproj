@@ -73,22 +73,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <LibraryPath>$(ProjectDir)third-party\ZStd\lib;$(ProjectDir)third-party\LuaU\compiler\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)third-party\MinHook\Lib;$(ProjectDir)third-party\ZStd\lib;$(ProjectDir)third-party\LuaU\compiler\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <LibraryPath>$(ProjectDir)third-party\ZStd\lib;$(ProjectDir)third-party\LuaU\compiler\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)third-party\MinHook\Lib;$(ProjectDir)third-party\ZStd\lib;$(ProjectDir)third-party\LuaU\compiler\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <LibraryPath>$(ProjectDir)third-party\ZStd\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)third-party\MinHook\Lib;$(ProjectDir)third-party\ZStd\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
-    <LibraryPath>$(ProjectDir)third-party\ZStd\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)third-party\MinHook\Lib;$(ProjectDir)third-party\ZStd\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,7 +108,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>zstd_static.lib;LuaU.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MinHook_Debug.lib;zstd_static.lib;LuaU.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,7 +132,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>zstd_static.lib;LuaU.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MinHook_Release.lib;zstd_static.lib;LuaU.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -181,7 +181,6 @@
     <ClCompile Include="include\rbx\execution.cpp" />
     <ClCompile Include="include\rbx\functions.cpp" />
     <ClCompile Include="include\rbx\scheduler.cpp" />
-    <ClCompile Include="include\util\util.cpp" />
     <ClCompile Include="third-party\LuaU\src\lapi.cpp" />
     <ClCompile Include="third-party\LuaU\src\laux.cpp" />
     <ClCompile Include="third-party\LuaU\src\lbaselib.cpp" />
@@ -220,7 +219,6 @@
     <ClInclude Include="include\mem\memory.hpp" />
     <ClInclude Include="include\rbx\rbx.hpp" />
     <ClInclude Include="include\util\enum.hpp" />
-    <ClInclude Include="include\util\util.hpp" />
     <ClInclude Include="third-party\LuaU\compiler\src\Bytecode.h" />
     <ClInclude Include="third-party\LuaU\compiler\src\BytecodeBuilder.h" />
     <ClInclude Include="third-party\LuaU\compiler\src\Common.h" />
@@ -254,6 +252,7 @@
     <ClInclude Include="third-party\LuaU\src\ltm.h" />
     <ClInclude Include="third-party\LuaU\src\ludata.h" />
     <ClInclude Include="third-party\LuaU\src\lvm.h" />
+    <ClInclude Include="third-party\MinHook\MinHook.h" />
     <ClInclude Include="third-party\xorstr.hpp" />
     <ClInclude Include="third-party\XXHash\src\xxhash.h" />
     <ClInclude Include="third-party\ZStd\inc\zstd.h" />

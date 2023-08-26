@@ -114,9 +114,6 @@
     <ClCompile Include="third-party\LuaU\src\lvmutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\util\util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\rbx\callcheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -248,9 +245,6 @@
     <ClInclude Include="third-party\LuaU\compiler\src\StringUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\util\util.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="third-party\XXHash\src\xxhash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -258,6 +252,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\mem\memory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\MinHook\MinHook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

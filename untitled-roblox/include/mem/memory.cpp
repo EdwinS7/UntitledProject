@@ -1,5 +1,7 @@
 #include "memory.hpp"
 
+// @note: used for scan function.
+// @credits: https://github.com/reversed2603/gamesense_legacy/blob/main/pandora-final/SDK/Utils/PatternScan.cpp#L8
 #define IS_IN_RANGE( value, max, min ) ( value >= max && value <= min )
 #define GET_BITS( value ) ( IS_IN_RANGE( value, '0', '9' ) ? ( value - '0' ) : ( ( value & ( ~0x20 ) ) - 'A' + 0xA ) )
 #define GET_BYTE( value ) ( GET_BITS( value[0] ) << 4 | GET_BITS( value[1] ) )
@@ -45,4 +47,58 @@ std::uintptr_t c_mem::scan( const std::string& signature ) {
     }
 
     return 0u;
+}
+
+std::string c_mem::bytes_to_ida_pattern( byte* bytes, size_t size ) {
+	std::stringstream ida_pattern;
+
+	ida_pattern << std::hex << std::setfill( '0' );
+	for ( size_t i = 0; i < size; i++ ) {
+		const int32_t current_byte = bytes[ i ];
+		if ( current_byte != 255 )
+			ida_pattern << std::setw( 2 ) << current_byte;
+		else
+			ida_pattern << std::setw( 1 ) << xorstr_( "?" );
+
+		if ( i != size - 1 )
+			ida_pattern << xorstr_( " " );
+	}
+
+	return ida_pattern.str( );
+}
+
+std::vector<uintptr_t> c_mem::get_xrefs_to( const std::string& signature, uintptr_t start, uintptr_t size ) {
+	std::vector<uintptr_t> xrefs = { };
+
+	const uintptr_t end = start + size;
+	while ( start && start < end ) {
+		uintptr_t xref = ( uintptr_t ) scan( signature );
+
+		if ( !xref )
+			break;
+
+		xrefs.push_back( xref );
+		start = xref + 4;
+	}
+
+	return xrefs;
+}
+
+std::vector<uintptr_t> c_mem::get_xrefs_to( uintptr_t address, uintptr_t start, uintptr_t size ) {
+	std::vector<uintptr_t> xrefs = { };
+
+	const std::string ida_pattern = bytes_to_ida_pattern( ( byte* ) &address, 4 );
+
+	const uintptr_t end = start + size;
+	while ( start && start < end ) {
+		uintptr_t xref = ( uintptr_t ) scan( ida_pattern );
+
+		if ( !xref )
+			break;
+
+		xrefs.push_back( xref );
+		start = xref + 4;
+	}
+
+	return xrefs;
 }
