@@ -9,6 +9,7 @@ void c_ctx::init( ) {
         g_rbx->run_script( xorstr_( "printidentity()" ) );
         g_rbx->run_script( xorstr_( "print('Execution ready!')" ) );
 
+        g_bridge->create_pipe( );
     }
     catch ( const std::exception& error ) {
         g_hooks->print( print_level::error, xorstr_( "Caught an exception: %s" ), error.what( ) );

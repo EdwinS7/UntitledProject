@@ -20,10 +20,15 @@
 #include "third-party/LuaU/Compiler/src/BytecodeBuilder.h"
 #include "third-party/LuaU/Compiler/src/luacode.h"
 
+#define ENVIORNMENT_NAME xorstr_( "UntitledProject" )
+
 #include "include/util/enum.hpp"
 #include "include/util/util.hpp"
 #include "include/mem/memory.hpp"
 #include "include/hooks/hooks.hpp"
 #include "include/rbx/rbx.hpp"
+
+//@note: used for communication between external client and internal (this).
+#include "include/bridge/bridge.hpp"
 
 #include "include/ctx/ctx.hpp"

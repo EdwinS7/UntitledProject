@@ -3,13 +3,13 @@
 int c_rbx::get_job( const std::string& job_name ) {
     uintptr_t scheduler = g_hooks->get_scheduler( );
 
-    uintptr_t job_start = *( uintptr_t* ) ( scheduler + g_offsets->job_start );
-    uintptr_t job_end = *( uintptr_t* ) ( scheduler + g_offsets->job_end );
+    uintptr_t job_start = *( uintptr_t* ) ( scheduler + g_offsets->scheduler::job_start );
+    uintptr_t job_end = *( uintptr_t* ) ( scheduler + g_offsets->scheduler::job_end );
 
     while ( job_start != job_end ) {
         uintptr_t job = *( uintptr_t* ) ( job_start );
 
-        if ( *reinterpret_cast< std::string* >( job + g_offsets->job_string ) == job_name )
+        if ( *reinterpret_cast< std::string* >( job + g_offsets->scheduler::job_name ) == job_name )
             return job;
 
         job_start += 8;
@@ -19,7 +19,7 @@ int c_rbx::get_job( const std::string& job_name ) {
 }
 
 uintptr_t c_rbx::get_script_context( ) {
-    return *( uintptr_t* ) ( get_job( "WaitingHybridScriptsJob" ) + g_offsets->job_context );
+    return *( uintptr_t* ) ( get_job( xorstr_( "WaitingHybridScriptsJob" ) ) + g_offsets->scheduler::job_context );
 }
 
 uintptr_t c_rbx::get_global_state( ) {

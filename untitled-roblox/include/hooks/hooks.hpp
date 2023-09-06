@@ -14,16 +14,20 @@ public:
 	// @helpful resources: https://www.rapidtables.com/convert/number/hex-to-decimal.html
 	// @example: v12 = ( *( _DWORD *) ( a2 + 20 /*top*/ ) - *( _DWORD *) ( a2 + 8 /*base*/ ) ) >> 4;
 	// @ida xref: "Argument 2 missing or nil", generate pseudo code and look for a2 + ... both can be found in the same line.
-	std::uintptr_t top = 0xC;
-	std::uintptr_t bottom = 0x10;
-	std::uintptr_t identity = 0x18;
-	std::uintptr_t extra_space = 0x48;
+	enum scheduler : std::uintptr_t {
+		framerate = 280,
+		job_start = 0x134,
+		job_end = 0x138,
+		job_name = 0x80,
+		job_context = 0x1A8,
+	};
 
-	// scheduler
-	std::uintptr_t job_context = 0x1A8;
-	std::uintptr_t job_string = 0x80;
-	std::uintptr_t job_start = 0x134;
-	std::uintptr_t job_end = 0x138;
+	enum lua : std::uintptr_t {
+		top = 0xC,
+		bottom = 0x10,
+		identity = 0x18,
+		extra_space = 0x48
+	};
 
 	// ctx
 	std::uintptr_t script_context, lua_state;
@@ -35,11 +39,11 @@ class c_hooks {
 public:
 
 	// @note: used only when manually given addresses.
-	std::uintptr_t base = reinterpret_cast< std::uintptr_t >( GetModuleHandleA( nullptr ) );
+	std::uintptr_t module = reinterpret_cast< std::uintptr_t >( GetModuleHandleA( nullptr ) );
 
 	// @note: PE32: 0x400000, PE64: 0x140000000,
-	std::uintptr_t aslr( std::uintptr_t address ) {
-		return address - 0x400000 + base;
+	std::uintptr_t rebase( std::uintptr_t address ) {
+		return address - 0x400000 + module;
 	}
 
 	using print_hooked = std::uintptr_t( __cdecl* )( int, const char*, ... );
