@@ -126,6 +126,9 @@
     <ClCompile Include="include\hooks\hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\util\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ctx\ctx.hpp">
@@ -255,6 +258,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="third-party\MinHook\MinHook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

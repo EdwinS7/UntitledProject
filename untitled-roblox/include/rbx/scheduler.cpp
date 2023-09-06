@@ -1,17 +1,16 @@
 #include "rbx.hpp"
 
-int c_rbx::get_job( const std::string& job ) {
-    uintptr_t scheduler_address = g_hooks->get_scheduler( );
+int c_rbx::get_job( const std::string& job_name ) {
+    uintptr_t scheduler = g_hooks->get_scheduler( );
 
-    uintptr_t job_start = *( uintptr_t* ) ( scheduler_address + 308 );
-    uintptr_t job_end = *( uintptr_t* ) ( scheduler_address + 312 );
+    uintptr_t job_start = *( uintptr_t* ) ( scheduler + g_offsets->job_start );
+    uintptr_t job_end = *( uintptr_t* ) ( scheduler + g_offsets->job_end );
 
     while ( job_start != job_end ) {
-        uintptr_t job_address = *( uintptr_t* ) ( job_start );
-        std::string* job_string = reinterpret_cast< std::string* >( job_address + 16 );
+        uintptr_t job = *( uintptr_t* ) ( job_start );
 
-        if ( *job_string == job )
-            return job_address;
+        if ( *reinterpret_cast< std::string* >( job + g_offsets->job_string ) == job_name )
+            return job;
 
         job_start += 8;
     }
@@ -20,13 +19,10 @@ int c_rbx::get_job( const std::string& job ) {
 }
 
 uintptr_t c_rbx::get_script_context( ) {
-    uintptr_t job_address = get_job( "WaitingHybridScriptsJob" );
-    uintptr_t context_address = *( uintptr_t* ) ( job_address + 312 );
-
-    return context_address;
+    return *( uintptr_t* ) ( get_job( "WaitingHybridScriptsJob" ) + g_offsets->job_context );
 }
 
 uintptr_t c_rbx::get_global_state( ) {
     int identity = 8, script = 0;
-    return g_hooks->get_state( g_ctx->script_context, &identity, &script );
+    return g_hooks->get_state( g_offsets->script_context, &identity, &script );
 }

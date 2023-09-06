@@ -11,10 +11,22 @@ public:
 
 	void init( );
 
+	// @helpful resources: https://www.rapidtables.com/convert/number/hex-to-decimal.html
 	// @example: v12 = ( *( _DWORD *) ( a2 + 20 /*top*/ ) - *( _DWORD *) ( a2 + 8 /*base*/ ) ) >> 4;
 	// @ida xref: "Argument 2 missing or nil", generate pseudo code and look for a2 + ... both can be found in the same line.
-	std::uintptr_t top = 20;
-	std::uintptr_t base = 8;
+	std::uintptr_t top = 0xC;
+	std::uintptr_t bottom = 0x10;
+	std::uintptr_t identity = 0x18;
+	std::uintptr_t extra_space = 0x48;
+
+	// scheduler
+	std::uintptr_t job_context = 0x1A8;
+	std::uintptr_t job_string = 0x80;
+	std::uintptr_t job_start = 0x134;
+	std::uintptr_t job_end = 0x138;
+
+	// ctx
+	std::uintptr_t script_context, lua_state;
 };
 
 inline const auto g_offsets = std::make_unique<c_offsets>( );
@@ -33,9 +45,6 @@ public:
 	using print_hooked = std::uintptr_t( __cdecl* )( int, const char*, ... );
 	print_hooked print;
 
-	using print_identity_hooked = std::uintptr_t( __cdecl* )( std::uintptr_t );
-	print_identity_hooked print_identity;
-
 	using get_scheduler_hooked = std::uintptr_t( __cdecl* ) ( );
 	get_scheduler_hooked get_scheduler;
 
@@ -51,6 +60,9 @@ public:
 	using lua_vm_load_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, std::string*, const char*, int );
 	lua_vm_load_hooked lua_vm_load;
 
+	using pushkclosure_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int, int, int, int );
+	pushkclosure_hooked pushkclosure;
+
 	using lua_nil_object_hooked = std::uintptr_t( __fastcall* )( );
 	lua_nil_object_hooked lua_nil_object;
 
@@ -60,8 +72,8 @@ public:
 	using pseudo2_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int );
 	pseudo2_hooked pseudo2;
 
-	using pushkclosure_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int );
-	pushkclosure_hooked pushkclosure;
+	using auxopen_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, const char*, int, int );
+	auxopen_hooked auxopen;
 };
 
 inline const auto g_hooks = std::make_unique<c_hooks>( );

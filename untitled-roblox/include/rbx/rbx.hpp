@@ -2,13 +2,6 @@
 
 #include "../../inc.hpp"
 
-// @note: roblox encoder. pulled from kawaii compiler.
-class bytecode_encoder_t : public Luau::BytecodeEncoder {
-	std::uint8_t encodeOp(const std::uint8_t opcode) {
-		return opcode * 227;
-	}
-};
-
 class c_rbx {
 public:
 	// scheduler
@@ -18,8 +11,8 @@ public:
 	uintptr_t get_global_state( );
 
 	// execution
-	std::string compress_to_bytecode( const std::string& bytecode);
-	void run_script( uintptr_t rl, const std::string& source );
+	std::string serialize( const std::string& bytecode);
+	void run_script( const std::string& source );
 
 	// callcheck
 	std::vector<int> breakpoints;
@@ -28,11 +21,11 @@ public:
 	int convert_closure(uintptr_t closure_address);
 
 	// functions
-	void set_identity( const uintptr_t& state, const uint8_t& identity );
-	void push_global(uintptr_t rl, int fn, const char* name);
-	void pop_stack(uintptr_t state, uint8_t amount);
-	void register_functions(uintptr_t rl );
-	void teleport_handler();
+	void set_identity( const uint8_t& identity );
+	void pop_stack( uint8_t amount);
+	int get_identity( );
+
+	void register_functions( uintptr_t rl );
 };
 
 inline const auto g_rbx = std::make_unique<c_rbx>( );

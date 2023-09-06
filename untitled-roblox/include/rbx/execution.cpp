@@ -1,41 +1,52 @@
 #include "rbx.hpp"
 
-// @note: thanks mark zuckerberg.
-std::string c_rbx::compress_to_bytecode( const std::string& bytecode ) {
-	const auto data_size = bytecode.size( );
-	const auto max_size = ZSTD_compressBound( data_size );
-	auto buffer = std::vector<char>( max_size + 8 );
+class BytecodeEncoderImpl : public Luau::BytecodeEncoder {
+public:
+	std::uint8_t encodeOp( const std::uint8_t opcode ) override {
+		return opcode * 227;
+	}
+} encoder;
 
-	memcpy( &buffer[ 0 ], "RSB1", 4u );
-	memcpy( &buffer[ 4 ], &data_size, 4u );
+std::string c_rbx::serialize( const std::string& bytecode ) {
+    const std::size_t data_size = bytecode.size( );
+    const std::size_t max_size = ZSTD_compressBound( data_size );
+    std::vector<char> buffer( max_size + 8 );
 
-	const auto compressed_size = ZSTD_compress( &buffer[ 8 ], max_size, bytecode.data( ), data_size, ZSTD_maxCLevel( ) );
-	if ( ZSTD_isError( compressed_size ) )
-		throw std::runtime_error( "Failed to compress the bytecode." );
+    std::memcpy( &buffer[ 0 ], xorstr_( "RSB1" ), 4 );
+    std::memcpy( &buffer[ 4 ], &data_size, 4 );
 
-	const auto size = compressed_size + 8;
-	const auto key = XXH32( buffer.data( ), size, 42u );
-	const auto bytes = reinterpret_cast< const uint8_t* >( &key );
+    const std::size_t compressed_size = ZSTD_compress( &buffer[ 8 ], max_size, bytecode.data( ), data_size, ZSTD_maxCLevel( ) );
 
-	for ( auto i = 0u; i < size; ++i )
-		buffer[ i ] ^= bytes[ i % 4 ] + i * 41u;
+    if ( ZSTD_isError( compressed_size ) ) {
+        g_hooks->print( print_level::error, xorstr_( "Unexpected error during serialization." ) );
+        return std::string( );
+    }
 
-	return std::string( buffer.data( ), size );
+    const std::size_t size = compressed_size + 8;
+    const std::uint32_t key = XXH32( buffer.data( ), size, 42 );
+    const std::uint8_t* bytes = reinterpret_cast< const std::uint8_t* >( &key );
+
+    for ( std::size_t i = 0; i < size; ++i )
+        buffer[ i ] ^= bytes[ i % 4 ] + i * 41;
+
+    return std::string( buffer.data( ), size );
 }
 
-void c_rbx::run_script( uintptr_t rl, const std::string& source ) {
-    if ( source.length( ) == 0 )
+void c_rbx::run_script( const std::string& source ) {
+    if ( source.length( ) <= 8 )
         return;
 
-    static auto encoder = bytecode_encoder_t( );
-    const auto bytecode = Luau::compile( "task.wait()\n" + source, {}, {}, &encoder );
+	// @note: task.wait is scheduled for next frame.
+    std::string script = Luau::compile( source, {}, {}, &encoder );
+	std::string bytecode = serialize( script );
 
-	auto compressed = compress_to_bytecode( bytecode );
+	// @note: deserializeFailure may be a problem here, idk.
+    if ( g_hooks->lua_vm_load( g_offsets->lua_state, &bytecode, g_util->random_string( 16 ).c_str( ), 0 ) ) {
+        g_hooks->print( print_level::error, xorstr_( "Unexpected error during execution." ) );
+        return;
+    }
 
-	if ( g_hooks->lua_vm_load( rl, &compressed, "", 0 ) )
-		throw std::runtime_error( "Unexpected error during execution." );
-
-	// Spawn the proto and pop it off the stack.
-	g_hooks->task_spawn( rl );
-	pop_stack( rl, 1 );
+	// @note: task_spawn can also be used here.
+	g_hooks->task_defer( g_offsets->lua_state );
+    pop_stack( 1 );
 }

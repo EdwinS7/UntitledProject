@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iomanip> 
 #include <fstream>
+#include <random>
 #include <thread>
 #include <vector>
 #include <string>
@@ -15,11 +16,12 @@
 #include "third-party/MinHook/MinHook.h"
 
 #include "third-party/LuaU/inc/lualib.h"
-#include "third-party/LuaU/compiler/src/Compiler.h"
-#include "third-party/LuaU/compiler/src/BytecodeBuilder.h"
-#include "third-party/LuaU/compiler/src/luacode.h"
+#include "third-party/LuaU/Compiler/src/Compiler.h"
+#include "third-party/LuaU/Compiler/src/BytecodeBuilder.h"
+#include "third-party/LuaU/Compiler/src/luacode.h"
 
 #include "include/util/enum.hpp"
+#include "include/util/util.hpp"
 #include "include/mem/memory.hpp"
 #include "include/hooks/hooks.hpp"
 #include "include/rbx/rbx.hpp"
