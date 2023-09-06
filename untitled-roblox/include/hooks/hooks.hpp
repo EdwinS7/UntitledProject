@@ -28,9 +28,6 @@ public:
 		identity = 0x18,
 		extra_space = 0x48
 	};
-
-	// ctx
-	std::uintptr_t script_context, lua_state;
 };
 
 inline const auto g_offsets = std::make_unique<c_offsets>( );

@@ -23,6 +23,8 @@ public:
 
 	// functions, register
 	void register_functions( uintptr_t rl );
+
+	std::uintptr_t script_context, lua_state;
 };
 
 inline const auto g_scheduler = std::make_unique<c_scheduler>( );

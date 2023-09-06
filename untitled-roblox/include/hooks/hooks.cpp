@@ -49,6 +49,6 @@ void c_offsets::init( ) {
 	// @ida xref: "ipairs" or "pairs" sub function. both used as paramaters.
 	create_hook( &g_hooks->auxopen, 0x1D0D180 );
 
-	script_context = g_scheduler->get_script_context( );
-	lua_state = g_scheduler->get_global_state( );
+	g_scheduler->script_context = g_scheduler->get_script_context( );
+	g_scheduler->lua_state = g_scheduler->get_global_state( );
 }
