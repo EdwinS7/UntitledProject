@@ -8,7 +8,7 @@ void c_ctx::init( ) {
 
         g_scheduler->run_script( xorstr_( "printidentity()" ) );
         g_scheduler->run_script( xorstr_( "print('Execution ready!')" ) );
-
+        
         g_bridge->create_pipe( );
     }
     catch ( const std::exception& error ) {

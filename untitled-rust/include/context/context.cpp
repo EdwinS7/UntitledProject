@@ -2,14 +2,7 @@
 
 void c_ctx::init( ) {
     try {
-        if ( !AllocConsole( ) )
-            return;
-
-        FILE* file{};
-        if ( freopen_s( &file, xorstr_( "CONOUT$" ), xorstr_( "w" ), stdout ) )
-            return;
-
-        SetConsoleTitle( xorstr_( "untitled-rust (edwn & distinguished)" ) );
+        g_utilities->open_console( xorstr_( "rust-internal" ) );
 
         g_hooks->init( );
 
