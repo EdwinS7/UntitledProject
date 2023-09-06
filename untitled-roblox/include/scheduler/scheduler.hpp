@@ -13,7 +13,6 @@ public:
 
 	// execution, scripts
 	void run_script( const std::string& source );
-
 	void luau_load( const std::string& source );
 
 	// functions, identity
