@@ -73,6 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output\</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others\</IntDir>
+    <LibraryPath>$(ProjectDir)third-party\MinHook\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -109,6 +110,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>MinHook_Release.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,11 +149,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\context\context.cpp" />
+    <ClCompile Include="include\hooks\hooks.cpp" />
     <ClCompile Include="include\memory\memory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.hpp" />
     <ClInclude Include="include\context\context.hpp" />
+    <ClInclude Include="include\hooks\hooks.hpp" />
     <ClInclude Include="include\memory\memory.hpp" />
     <ClInclude Include="third-party\MinHook\MinHook.h" />
     <ClInclude Include="third-party\xorstr.hpp" />
