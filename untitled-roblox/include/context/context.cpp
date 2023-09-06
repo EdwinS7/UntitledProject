@@ -1,13 +1,13 @@
-﻿#include "ctx.hpp"
+﻿#include "context.hpp"
 
 void c_ctx::init( ) {
     try {
         g_offsets->init( );
 
-        g_rbx->set_identity( 8 );
+        g_scheduler->set_identity( 8 );
 
-        g_rbx->run_script( xorstr_( "printidentity()" ) );
-        g_rbx->run_script( xorstr_( "print('Execution ready!')" ) );
+        g_scheduler->run_script( xorstr_( "printidentity()" ) );
+        g_scheduler->run_script( xorstr_( "print('Execution ready!')" ) );
 
         g_bridge->create_pipe( );
     }

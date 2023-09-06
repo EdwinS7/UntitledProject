@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../inc.hpp"
+#include "../../common.hpp"
 
 class c_util {
 public:

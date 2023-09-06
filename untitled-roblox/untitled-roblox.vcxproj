@@ -175,14 +175,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\bridge\bridge.cpp" />
-    <ClCompile Include="include\ctx\ctx.cpp" />
+    <ClCompile Include="include\context\context.cpp" />
     <ClCompile Include="include\hooks\hooks.cpp" />
-    <ClCompile Include="include\mem\memory.cpp" />
-    <ClCompile Include="include\rbx\callcheck.cpp" />
-    <ClCompile Include="include\rbx\execution.cpp" />
-    <ClCompile Include="include\rbx\functions.cpp" />
-    <ClCompile Include="include\rbx\scheduler.cpp" />
-    <ClCompile Include="include\util\util.cpp" />
+    <ClCompile Include="include\memory\memory.cpp" />
+    <ClCompile Include="include\scheduler\functions.cpp" />
+    <ClCompile Include="include\scheduler\scheduler.cpp" />
+    <ClCompile Include="include\serializer\serializer.cpp" />
+    <ClCompile Include="include\utilities\utilities.cpp" />
     <ClCompile Include="third-party\LuaU\src\lapi.cpp" />
     <ClCompile Include="third-party\LuaU\src\laux.cpp" />
     <ClCompile Include="third-party\LuaU\src\lbaselib.cpp" />
@@ -216,13 +215,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\bridge\bridge.hpp" />
-    <ClInclude Include="include\ctx\ctx.hpp" />
+    <ClInclude Include="include\context\context.hpp" />
     <ClInclude Include="include\hooks\hooks.hpp" />
-    <ClInclude Include="inc.hpp" />
-    <ClInclude Include="include\mem\memory.hpp" />
-    <ClInclude Include="include\rbx\rbx.hpp" />
-    <ClInclude Include="include\util\enum.hpp" />
-    <ClInclude Include="include\util\util.hpp" />
+    <ClInclude Include="common.hpp" />
+    <ClInclude Include="include\memory\memory.hpp" />
+    <ClInclude Include="include\scheduler\scheduler.hpp" />
+    <ClInclude Include="include\serializer\serializer.hpp" />
+    <ClInclude Include="include\utilities\defines.hpp" />
+    <ClInclude Include="include\utilities\utilities.hpp" />
     <ClInclude Include="third-party\LuaU\compiler\src\Bytecode.h" />
     <ClInclude Include="third-party\LuaU\compiler\src\BytecodeBuilder.h" />
     <ClInclude Include="third-party\LuaU\compiler\src\Common.h" />

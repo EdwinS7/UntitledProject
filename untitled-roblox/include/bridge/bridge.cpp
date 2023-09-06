@@ -14,7 +14,7 @@ void c_bridge::create_pipe( ) {
 				script += BufferSize;
 			}
 
-			g_rbx->run_script( script );
+			g_scheduler->run_script( script );
 			script.clear( );
 		}
 		DisconnectNamedPipe( Pipe );

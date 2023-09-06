@@ -22,13 +22,14 @@
 
 #define ENVIORNMENT_NAME xorstr_( "UntitledProject" )
 
-#include "include/util/enum.hpp"
-#include "include/util/util.hpp"
-#include "include/mem/memory.hpp"
+#include "include/utilities/defines.hpp"
+#include "include/utilities/utilities.hpp"
+#include "include/memory/memory.hpp"
 #include "include/hooks/hooks.hpp"
-#include "include/rbx/rbx.hpp"
+#include "include/serializer/serializer.hpp"
+#include "include/scheduler/scheduler.hpp"
 
 //@note: used for communication between external client and internal (this).
 #include "include/bridge/bridge.hpp"
 
-#include "include/ctx/ctx.hpp"
+#include "include/context/context.hpp"

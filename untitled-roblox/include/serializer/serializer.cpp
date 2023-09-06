@@ -1,13 +1,15 @@
-#include "rbx.hpp"
+#include "serializer.hpp"
 
 class BytecodeEncoderImpl : public Luau::BytecodeEncoder {
 public:
-	std::uint8_t encodeOp( const std::uint8_t opcode ) override {
-		return opcode * 227;
-	}
+    std::uint8_t encodeOp( const std::uint8_t opcode ) override {
+        return opcode * 227;
+    }
 } encoder;
 
-std::string c_rbx::serialize( const std::string& bytecode ) {
+std::string c_serializer::serialize( const std::string& script ) {
+    std::string bytecode = Luau::compile( script, {}, {}, &encoder );
+
     const std::size_t data_size = bytecode.size( );
     const std::size_t max_size = ZSTD_compressBound( data_size );
     std::vector<char> buffer( max_size + 8 );
@@ -30,23 +32,4 @@ std::string c_rbx::serialize( const std::string& bytecode ) {
         buffer[ i ] ^= bytes[ i % 4 ] + i * 41;
 
     return std::string( buffer.data( ), size );
-}
-
-void c_rbx::run_script( const std::string& source ) {
-    if ( source.length( ) <= 8 )
-        return;
-
-	// @note: task.wait is scheduled for next frame.
-    std::string script = Luau::compile( source, {}, {}, &encoder );
-	std::string bytecode = serialize( script );
-
-	// @note: deserializeFailure may be a problem here, idk.
-    if ( g_hooks->lua_vm_load( g_offsets->lua_state, &bytecode, g_util->random_string( 16 ).c_str( ), 0 ) ) {
-        g_hooks->print( print_level::error, xorstr_( "Unexpected error during execution." ) );
-        return;
-    }
-
-	// @note: task_spawn can also be used here.
-	g_hooks->task_defer( g_offsets->lua_state );
-    pop_stack( 1 );
 }
