@@ -1,4 +1,6 @@
 #include "scheduler.hpp"
+#include "../../third-party/Luau/src/lobject.h"
+#include "../../third-party/Luau/src/lgc.h"
 
 int c_scheduler::get_job( const std::string& job_name ) {
     uintptr_t scheduler = g_hooks->get_scheduler( );
@@ -41,4 +43,20 @@ void c_scheduler::run_script( const std::string& source ) {
 
     g_hooks->task_defer( lua_state );
     pop_stack( 1 );
+}
+
+// @note: Everything below this note is experimental or incomplete.
+// @note: https://github.com/Roblox/luau/blob/105f54b2330d0227059c08d2e03454efa934c5db/VM/src/lvmload.cpp#L79
+template<typename T>
+static T read( const char* data, size_t size, size_t& offset ) {
+    T result;
+    memcpy( &result, data + offset, sizeof( T ) );
+    offset += sizeof( T );
+
+    return result;
+}
+
+// @note: https://github.com/Roblox/luau/blob/105f54b2330d0227059c08d2e03454efa934c5db/VM/src/lvmload.cpp#L156
+void c_scheduler::luau_load( const std::string& source ) {
+    
 }

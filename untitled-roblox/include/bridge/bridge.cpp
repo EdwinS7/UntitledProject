@@ -1,5 +1,6 @@
 #include "bridge.hpp"
 
+// @note: incomplete but it works relativly the same as any other except for on the executor you have to actually search for the pipe (UWP).
 void c_bridge::create_pipe( ) {
 	DWORD Read{};
 	char BufferSize[ 999999 ];

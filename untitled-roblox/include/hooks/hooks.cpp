@@ -34,9 +34,6 @@ void c_offsets::init( ) {
 	// @ida xref: "oldResult, moduleRef  = ..." last sub function called.
 	create_hook( &g_hooks->lua_vm_load, xorstr_( "53 8B DC 83 EC 08 83 E4 F8 83 C4 04 55 8B 6B 04 89 6C 24 04 8B EC 6A FF 68 ?? ?? ?? ?? 64 A1 00 00 00 00 50 51 53 81 EC D0 07" ) );
 
-	// @ida xref: "The metatable is locked" located in the loc_xxxxxxx above. its the sub function being used.
-	create_hook( &g_hooks->pushkclosure, xorstr_( "E8 ?? ?? ?? ?? 83 C4 0C 8B 50 14 8D 48 28" ) );
-
 	// @ida xref: "tables cannot be cyclic" decompile then looks for the next unk_xxxxxxx, done.
 	create_hook( &g_hooks->lua_nil_object, 0x2E067F8 );
 
@@ -45,9 +42,6 @@ void c_offsets::init( ) {
 
 	// @ida xref: "assertion failed!" its the first unk_xxxxxxx used.
 	create_hook( &g_hooks->pseudo2, 0x02EFB810 );
-
-	// @ida xref: "ipairs" or "pairs" sub function. both used as paramaters.
-	create_hook( &g_hooks->auxopen, 0x1D0D180 );
 
 	g_scheduler->script_context = g_scheduler->get_script_context( );
 	g_scheduler->lua_state = g_scheduler->get_global_state( );

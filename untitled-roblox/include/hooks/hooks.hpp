@@ -61,9 +61,6 @@ public:
 	using lua_vm_load_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, std::string*, const char*, int );
 	lua_vm_load_hooked lua_vm_load;
 
-	using pushkclosure_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int, int, int, int );
-	pushkclosure_hooked pushkclosure;
-
 	using lua_nil_object_hooked = std::uintptr_t( __fastcall* )( );
 	lua_nil_object_hooked lua_nil_object;
 
@@ -72,9 +69,6 @@ public:
 
 	using pseudo2_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, int );
 	pseudo2_hooked pseudo2;
-
-	using auxopen_hooked = std::uintptr_t( __fastcall* )( std::uintptr_t, const char*, int, int );
-	auxopen_hooked auxopen;
 };
 
 inline const auto g_hooks = std::make_unique<c_hooks>( );
