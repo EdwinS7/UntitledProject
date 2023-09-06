@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-roblox", "untitled
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-roblox-ui", "untitled-roblox-ui\untitled-roblox-ui.vcxproj", "{BD67127A-B12B-437E-B379-66E053D16372}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-rust", "untitled-rust\untitled-rust.vcxproj", "{41773506-B8C9-4DFA-82C4-695F405231C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		debug|x64 = debug|x64
@@ -41,6 +43,14 @@ Global
 		{BD67127A-B12B-437E-B379-66E053D16372}.release|x64.Build.0 = Release|x64
 		{BD67127A-B12B-437E-B379-66E053D16372}.release|x86.ActiveCfg = Release|Win32
 		{BD67127A-B12B-437E-B379-66E053D16372}.release|x86.Build.0 = Release|Win32
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.debug|x64.ActiveCfg = Debug|x64
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.debug|x64.Build.0 = Debug|x64
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.debug|x86.ActiveCfg = Debug|Win32
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.debug|x86.Build.0 = Debug|Win32
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.release|x64.ActiveCfg = Release|x64
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.release|x64.Build.0 = Release|x64
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.release|x86.ActiveCfg = Release|Win32
+		{41773506-B8C9-4DFA-82C4-695F405231C7}.release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
