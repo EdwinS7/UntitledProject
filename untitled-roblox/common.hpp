@@ -16,9 +16,9 @@
 #include "third-party/MinHook/MinHook.h"
 
 #include "third-party/LuaU/inc/lualib.h"
-#include "third-party/LuaU/Compiler/src/Compiler.h"
-#include "third-party/LuaU/Compiler/src/BytecodeBuilder.h"
-#include "third-party/LuaU/Compiler/src/luacode.h"
+#include "third-party/LuaU/src/Compiler.h"
+#include "third-party/LuaU/src/BytecodeBuilder.h"
+#include "third-party/LuaU/src/luacode.h"
 
 #define ENVIORNMENT_NAME xorstr_( "UntitledProject" )
 

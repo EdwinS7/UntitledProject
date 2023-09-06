@@ -78,7 +78,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output\</OutDir>
     <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others\</IntDir>
-    <LibraryPath>$(ProjectDir)third-party\MinHook\Lib;$(ProjectDir)third-party\ZStd\lib;$(ProjectDir)third-party\LuaU\compiler\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)third-party\MinHook\Lib\;$(ProjectDir)third-party\ZStd\lib\;$(ProjectDir)third-party\LuaU\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
@@ -223,22 +223,18 @@
     <ClInclude Include="include\serializer\serializer.hpp" />
     <ClInclude Include="include\utilities\defines.hpp" />
     <ClInclude Include="include\utilities\utilities.hpp" />
-    <ClInclude Include="third-party\LuaU\compiler\src\Bytecode.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\BytecodeBuilder.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\Common.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\Compiler.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\Confusables.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\DenseHash.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\ExperimentalFlags.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\Location.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\luacode.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\ParseOptions.h" />
-    <ClInclude Include="third-party\LuaU\compiler\src\StringUtils.h" />
+    <ClInclude Include="third-party\Luau\src\BytecodeBuilder.h" />
+    <ClInclude Include="third-party\Luau\src\Compiler.h" />
+    <ClInclude Include="third-party\Luau\src\Confusables.h" />
+    <ClInclude Include="third-party\Luau\src\DenseHash.h" />
+    <ClInclude Include="third-party\Luau\src\ExperimentalFlags.h" />
+    <ClInclude Include="third-party\Luau\src\Location.h" />
+    <ClInclude Include="third-party\Luau\src\luacode.h" />
+    <ClInclude Include="third-party\Luau\src\ParseOptions.h" />
+    <ClInclude Include="third-party\Luau\src\StringUtils.h" />
     <ClInclude Include="third-party\LuaU\inc\lua.h" />
     <ClInclude Include="third-party\LuaU\inc\luaconf.h" />
     <ClInclude Include="third-party\LuaU\inc\lualib.h" />
-    <ClInclude Include="third-party\LuaU\src\Bytecode.h" />
-    <ClInclude Include="third-party\LuaU\src\Common.h" />
     <ClInclude Include="third-party\LuaU\src\lapi.h" />
     <ClInclude Include="third-party\LuaU\src\lbuiltins.h" />
     <ClInclude Include="third-party\LuaU\src\lbytecode.h" />
@@ -260,6 +256,9 @@
     <ClInclude Include="third-party\xorstr.hpp" />
     <ClInclude Include="third-party\XXHash\src\xxhash.h" />
     <ClInclude Include="third-party\ZStd\inc\zstd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="third-party\Luau\lib\Luau.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

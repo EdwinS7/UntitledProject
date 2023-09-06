@@ -15,15 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\ctx\ctx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\rbx\scheduler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\rbx\functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="third-party\LuaU\src\lapi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -114,42 +105,36 @@
     <ClCompile Include="third-party\LuaU\src\lvmutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\rbx\callcheck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\rbx\execution.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\mem\memory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\hooks\hooks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\util\util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\bridge\bridge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\context\context.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\memory\memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\scheduler\functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\scheduler\scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\serializer\serializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\utilities\utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ctx\ctx.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="third-party\xorstr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\hooks\hooks.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\util\enum.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\rbx\rbx.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="third-party\LuaU\inc\lua.h">
@@ -159,12 +144,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="third-party\LuaU\inc\lualib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="third-party\LuaU\src\Bytecode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="third-party\LuaU\src\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="third-party\LuaU\src\lapi.h">
@@ -218,37 +197,37 @@
     <ClInclude Include="third-party\LuaU\src\lvm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\Bytecode.h">
+    <ClInclude Include="third-party\Luau\src\Bytecode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\BytecodeBuilder.h">
+    <ClInclude Include="third-party\Luau\src\BytecodeBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\Common.h">
+    <ClInclude Include="third-party\Luau\src\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\Compiler.h">
+    <ClInclude Include="third-party\Luau\src\Compiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\Confusables.h">
+    <ClInclude Include="third-party\Luau\src\Confusables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\DenseHash.h">
+    <ClInclude Include="third-party\Luau\src\DenseHash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\ExperimentalFlags.h">
+    <ClInclude Include="third-party\Luau\src\ExperimentalFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\Location.h">
+    <ClInclude Include="third-party\Luau\src\Location.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\luacode.h">
+    <ClInclude Include="third-party\Luau\src\luacode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\ParseOptions.h">
+    <ClInclude Include="third-party\Luau\src\ParseOptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\LuaU\compiler\src\StringUtils.h">
+    <ClInclude Include="third-party\Luau\src\StringUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="third-party\XXHash\src\xxhash.h">
@@ -257,17 +236,35 @@
     <ClInclude Include="third-party\ZStd\inc\zstd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\mem\memory.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="third-party\MinHook\MinHook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\util\util.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\bridge\bridge.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\context\context.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\memory\memory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\scheduler\scheduler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\serializer\serializer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\defines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utilities\utilities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="third-party\Luau\lib\Luau.lib" />
   </ItemGroup>
 </Project>
