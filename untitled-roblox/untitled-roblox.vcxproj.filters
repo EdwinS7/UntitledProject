@@ -197,13 +197,7 @@
     <ClInclude Include="third-party\LuaU\src\lvm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\Luau\src\Bytecode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="third-party\Luau\src\BytecodeBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="third-party\Luau\src\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="third-party\Luau\src\Compiler.h">

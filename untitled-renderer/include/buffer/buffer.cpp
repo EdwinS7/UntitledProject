@@ -8,19 +8,18 @@ void c_buffer::create_objects( ) {
 
 	g_font->create_font( &default_font, "Segoe UI", 16, 400, 4, true );
 	g_font->create_font( &interface_font, "Verdana", 8, 400, 4, false );
-	g_gfx->create_texture_from_file( &default_texture, "IMG_7708.jpg" );
-
-	g_console->log( color_t(240, 240, 240, 255), "[ renderer ] created objects\n" );
+	g_gfx->create_texture_from_file( &default_texture, "demo.png" );
 }
 
 void c_buffer::destroy_objects( ) {
 	g_font->release_font( &default_font );
 	g_font->release_font( &interface_font );
 
+	default_texture->Release( );
+	default_texture = nullptr;
+
 	m_command.textures.clear( );
 	m_command.clips.clear( );
-
-	g_console->log( color_t( 240, 240, 240, 255 ), "[ renderer ] destroyed and released objects\n" );
 }
 
 // __BUFFER__
@@ -186,6 +185,7 @@ void c_buffer::textured_rectangle( texture* resource, const vector2_t<int16_t> p
 	std::vector<vertex_t> vertices{
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex ),
 		vertex_t( pos.x + size.x, pos.y, 0.f, 1.f, clr.hex ),
+		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr.hex ),
 		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr.hex ),
 		vertex_t( pos.x, pos.y + size.y, 0.f, 1.f, clr.hex ),
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )

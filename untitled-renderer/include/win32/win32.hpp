@@ -1,7 +1,7 @@
 #pragma once
 
 // includes
-#include "../../inc.hpp"
+#include "../../common.hpp"
 
 class c_win32 {
 public:

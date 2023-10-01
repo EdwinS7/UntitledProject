@@ -4,8 +4,8 @@ ALWAYS_INLINE void c_buffer::clear_commands( ) {
     m_draw_commands.clear( );
     m_draw_command.reset( );
 
-    m_indices_count = 0;
     m_vertices_count = 0;
+    m_indices_count = 0;
 }
 
 ALWAYS_INLINE command_t c_buffer::get_command( ) {

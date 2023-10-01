@@ -46,16 +46,22 @@ void c_win32::create_window( const char* title, const vector2_t< int16_t > size 
 	m_hwnd = CreateWindow( m_window_class.lpszClassName, title,
 		WS_OVERLAPPEDWINDOW, NULL, NULL, size.x, size.y, NULL, NULL, m_window_class.hInstance, NULL );
 
+#ifdef UNTITLED_USE_LOGS
+	AllocConsole( );
+	SetConsoleTitleA( title );
+
+	FILE* fp = nullptr;
+	freopen_s( &fp, "CONIN$", "r", stdin );
+	freopen_s( &fp, "CONOUT$", "w", stdout );
+	freopen_s( &fp, "CONOUT$", "w", stderr );
+#endif
+
 	ShowWindow( m_hwnd, SW_SHOWDEFAULT );
 	UpdateWindow( m_hwnd );
-	
-	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] window created\n" );
 }
 
 void c_win32::create_message_box( const char* title, const char* caption, int8_t type ) {
-	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] message box created\n" );
 	MessageBox( m_hwnd, title, caption, type );
-	g_console->log( color_t(240, 240, 240, 255), "[ win32 ] message box destroyed\n" );
 }
 
 bool c_win32::dispatch_messages( ) {
@@ -83,7 +89,7 @@ vector2_t< int16_t > c_win32::get_pos( ) {
 	if ( GetWindowRect( m_hwnd, &rect ) )
 		return vector2_t< int16_t >( rect.left, rect.top );
 
-	throw std::runtime_error( "GetWindowRect failed" );
+	std::printf( "GetWindowRect failed" );
 }
 
 vector2_t< int16_t > c_win32::get_size( ) {
@@ -92,7 +98,7 @@ vector2_t< int16_t > c_win32::get_size( ) {
 	if ( GetClientRect( m_hwnd, &rect ) )
 		return vector2_t< int16_t >( rect.right - rect.left, rect.bottom - rect.top );
 
-	throw std::runtime_error( "GetClientRect failed" );
+	std::printf( "GetClientRect failed" );
 }
 
 HWND c_win32::get_hwnd( ) {

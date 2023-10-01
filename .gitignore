@@ -32,5 +32,6 @@
 *.pdb
 *.idb
 /.vs/
+/compiled/
 /release/
 /debug/

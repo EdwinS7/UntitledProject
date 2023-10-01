@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\ctx\ctx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\win32\win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="include\gfx\dx9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\buffer\buffer.cpp">
@@ -30,30 +24,24 @@
     <ClCompile Include="include\buffer\fonts\font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\input\input.cpp">
+    <ClCompile Include="include\context\context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\gui\gui.cpp">
+    <ClCompile Include="include\graphics\dx9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\console\console.cpp">
+    <ClCompile Include="include\user input\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
+    <ClCompile Include="include\user interface\gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ctx\ctx.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\win32\win32.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\gfx\dx9.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\buffer\buffer.hpp">
@@ -365,19 +353,25 @@
     <ClInclude Include="third-party\freetype\tttags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\input\input.hpp">
+    <ClInclude Include="config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\input\key_definitions.hpp">
+    <ClInclude Include="common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cfg.hpp">
+    <ClInclude Include="include\context\context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\gui\gui.hpp">
+    <ClInclude Include="include\graphics\dx9.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\console\console.hpp">
+    <ClInclude Include="include\user input\input.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\user input\key_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\user interface\gui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -385,10 +379,10 @@
     <None Include="include\buffer\buffer.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="include\ctx\ctx.inl">
+    <None Include="include\buffer\fonts\font.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="include\buffer\fonts\font.inl">
+    <None Include="include\context\context.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

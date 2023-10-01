@@ -1,7 +1,7 @@
 #pragma once
 
 // includes
-#include "../../inc.hpp"
+#include "../../common.hpp"
 #include "components.hpp"
 #include "fonts/font.hpp"
 
