@@ -389,4 +389,9 @@
   <ItemGroup>
     <Library Include="third-party\freetype.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="demo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

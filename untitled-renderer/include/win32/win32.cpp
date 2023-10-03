@@ -54,6 +54,8 @@ void c_win32::create_window( const char* title, const vector2_t< int16_t > size 
 	freopen_s( &fp, "CONIN$", "r", stdin );
 	freopen_s( &fp, "CONOUT$", "w", stdout );
 	freopen_s( &fp, "CONOUT$", "w", stderr );
+
+	std::printf( std::vformat( "[ Win32 ] Console created ( name: {} )\n", std::make_format_args( title ) ).c_str( ) );
 #endif
 
 	ShowWindow( m_hwnd, SW_SHOWDEFAULT );
@@ -89,7 +91,7 @@ vector2_t< int16_t > c_win32::get_pos( ) {
 	if ( GetWindowRect( m_hwnd, &rect ) )
 		return vector2_t< int16_t >( rect.left, rect.top );
 
-	std::printf( "GetWindowRect failed" );
+	std::printf( "[ Win32 ] get_pos failed!" );
 }
 
 vector2_t< int16_t > c_win32::get_size( ) {
@@ -98,7 +100,7 @@ vector2_t< int16_t > c_win32::get_size( ) {
 	if ( GetClientRect( m_hwnd, &rect ) )
 		return vector2_t< int16_t >( rect.right - rect.left, rect.bottom - rect.top );
 
-	std::printf( "GetClientRect failed" );
+	std::printf( "[ Win32 ] get_size failed!" );
 }
 
 HWND c_win32::get_hwnd( ) {

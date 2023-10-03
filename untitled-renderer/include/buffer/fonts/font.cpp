@@ -9,23 +9,23 @@ void c_font::create_font( font_t* font, const char* font_name, const int16_t siz
 	font->size = size;
 
 	if ( FT_Init_FreeType( &lib ) != FT_Err_Ok )
-		std::printf( "create_objects failed ( FT_Init_FreeType )" );
+		std::printf( std::vformat( "[ Buffer ] FT_Init_FreeType failed ( {} )\n", std::make_format_args( font_name ) ).c_str( ) );
 
 	if ( FT_New_Face( lib, font->path.c_str( ), 0, &face ) )
-		std::printf( "create_font failed ( FT_New_Face )" );
+		std::printf( std::vformat( "[ Buffer ] FT_New_Face failed ( {} )\n", std::make_format_args( font_name ) ).c_str( ) );
 
 	FT_Set_Char_Size( face, size * 64, 0, GetDpiForWindow( g_win32->get_hwnd( ) ), 0 );
 	FT_Select_Charmap( face, FT_ENCODING_UNICODE );
 
 	for ( unsigned char i = 0; i < 128; i++ ) {
 		if ( FT_Load_Char( face, i, anti_aliased ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) )
-			std::printf( "create_font failed ( FT_Load_Char, font most likely does not exist! )" );
+			std::printf( std::vformat( "[ Buffer ] FT_Load_Char failed, font most likely does not exist! ( {} )\n", std::make_format_args( font_name ) ).c_str( ) );
 
 		int32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
 		int32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
 
 		if ( g_gfx->get_device( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->char_set[ i ].resource, NULL ) )
-			std::printf( "create_font failed ( create_texture failed )" );
+			std::printf( std::vformat( "[ Buffer ] CreateTexture failed ( {} )\n", std::make_format_args( font_name ) ).c_str( ) );
 
 		D3DLOCKED_RECT locked_rect;
 		font->char_set[ i ].resource->LockRect( 0, &locked_rect, nullptr, D3DLOCK_DISCARD );
@@ -73,6 +73,8 @@ void c_font::create_font( font_t* font, const char* font_name, const int16_t siz
 
 	FT_Done_Face( face );
 	FT_Done_FreeType( lib );
+
+	std::printf( std::vformat( "[ Buffer ] Created font ( name: {}, size: {}, weight: {}, antialiasing: {} )\n", std::make_format_args( font_name, size, weight, anti_aliased ) ).c_str( ) );
 }
 
 void c_font::release_font( font_t* font ) {
@@ -82,4 +84,6 @@ void c_font::release_font( font_t* font ) {
 
 		font->char_set[ i ].resource = nullptr;
 	}
+
+	std::printf( "[ Buffer ] Released font\n" );
 }

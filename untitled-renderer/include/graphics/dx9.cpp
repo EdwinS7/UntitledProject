@@ -19,7 +19,7 @@ bool c_gfx::initialize( HWND hwnd, const bool device_only ) {
     }
 
     if ( m_d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_parameters, &m_device ) < D3D_OK )
-        std::printf("create_device failed");
+        std::printf( "[ Graphics ] CreateDevice Failed!" );
 
     set_render_states( m_device );
 
@@ -87,7 +87,7 @@ void c_gfx::render_draw_data( ) {
 
         if ( m_device->CreateVertexBuffer( m_vertex_buffer_size * sizeof( vertex_t ), 
             D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1,  D3DPOOL_DEFAULT, &m_vertex_buffer, nullptr ) < D3D_OK )
-            std::printf( "render_draw_data failed (CreateVertexBuffer)" );
+            std::printf( "[ Graphics ] CreateVertexBuffer Failed!" );
     }
 
     if ( !m_index_buffer || draw_command.indices_count * sizeof( std::int32_t ) > m_index_buffer_size ) {
@@ -100,17 +100,17 @@ void c_gfx::render_draw_data( ) {
 
         if ( m_device->CreateIndexBuffer( m_index_buffer_size * sizeof( std::int32_t ), 
             D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_index_buffer, nullptr ) < D3D_OK )
-            std::printf( "render_draw_data failed (CreateIndexBuffer)" );
+            std::printf( "[ Graphics ] CreateIndexBuffer Failed!" );
     }
 
     vertex_t* vertex_data{ };
     int32_t* index_data{ };
 
     if ( m_vertex_buffer->Lock( 0, ( int ) ( draw_command.vertices_count * sizeof( vertex_t ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
-        std::printf("render_draw_data error (vtx_buffer->Lock)");
+        std::printf( "[ Graphics ] m_vertex_buffer->Lock Failed!" );
 
     if ( m_index_buffer->Lock( 0, ( int ) ( draw_command.indices_count * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
-        std::printf("render_draw_data error (idx_buffer->Lock)");
+        std::printf( "[ Graphics ] m_index_buffer->Lock Failed!" );
 
     memcpy( vertex_data, draw_command.vertices.data( ), draw_command.vertices_count * sizeof( vertex_t ) );
     memcpy( index_data, draw_command.indices.data( ), draw_command.indices_count * sizeof( int32_t ) );
@@ -181,6 +181,23 @@ void c_gfx::draw( ) {
     m_device->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, m_clear_color.hex, 1.f, 0 );
 
     if ( m_device->BeginScene( ) >= 0 ) {
+#ifdef UNTITLED_SHOW_STATS
+        auto display_info = std::vformat(
+            "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES",
+
+            std::make_format_args(
+                g_ctx->get_framerate( ),
+                g_buffer->get_num_of_commands( ),
+                g_buffer->get_num_of_vertices( ),
+                g_buffer->get_num_of_indices( )
+            )
+        );
+
+        g_buffer->text(
+            &g_buffer->default_font, display_info.c_str( ), vector2_t<int16_t>( 5, 5 ), color_t( 160, 217, 255, 255 )
+        );
+#endif
+
         render_draw_data( );
         m_device->EndScene( );
     }
@@ -207,18 +224,22 @@ void c_gfx::safe_release( type*& obj ) {
 
 /* utilities */
 
-void c_gfx::create_texture_from_bytes( texture* resource, const std::vector<BYTE> bytes, const vector2_t<int16_t> size ) {
-    if ( D3DXCreateTextureFromFileInMemoryEx( m_device, bytes.data( ), bytes.size( ), size.x, size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, resource ) != D3D_OK )
-        std::printf( std::vformat( "[ graphics ] failed to load texture resource ( {} bytes )\n", std::make_format_args( bytes.size( ) ) ).c_str( ) );
+void c_gfx::create_texture_from_bytes( texture* resource, const std::vector<BYTE>* bytes, const vector2_t<int16_t> size ) {
+    if ( D3DXCreateTextureFromFileInMemoryEx( m_device, bytes->data( ), bytes->size( ), size.x, size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, resource ) != D3D_OK )
+        std::printf( std::vformat( "[ Graphics ] Failed to create resource from bytes\n", std::make_format_args( bytes->size( ) ) ).c_str( ) );
+    else
+        std::printf( "[ Graphics ] Created resource from bytes\n" );
 }
 
 void c_gfx::create_texture_from_file( texture* resource, const char* file_name ) {
     if ( D3DXCreateTextureFromFile( m_device, file_name, resource ) != D3D_OK )
-        std::printf( std::vformat( "[ graphics ] failed to load texture resource ( {} )\n", std::make_format_args( file_name ) ).c_str( ) );
+        std::printf( std::vformat( "[ Graphics ] Failed to create resource ( filename: {} )\n", std::make_format_args( file_name ) ).c_str( ) );
+    else
+        std::printf( std::vformat( "[ Graphics ] Created resource ( filename: {} )\n", std::make_format_args( file_name ) ).c_str( ) );
 }
 
 IDirect3DDevice9* c_gfx::get_device( ) {
     return m_device;
 }
 
-#endif
+#endif 

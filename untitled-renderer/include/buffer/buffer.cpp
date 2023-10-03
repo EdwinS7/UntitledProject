@@ -216,6 +216,32 @@ void c_buffer::filled_gradient( const vector2_t< int16_t > pos, const vector2_t<
 	write_to_buffer( TRIANGLE, &vertices, nullptr );
 }
 
+void c_buffer::gradient( const vector2_t< int16_t > pos, const vector2_t< int16_t > size, const color_t clr, const color_t clr2, const color_t clr3, const color_t clr4 ) {
+	std::vector<vertex_t> vertices{
+		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex ),
+		vertex_t( pos.x + size.x, pos.y, 0.f, 1.f, clr2.hex ),
+		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr3.hex ),
+		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr3.hex ),
+		vertex_t( pos.x, pos.y + size.y, 0.f, 1.f, clr4.hex ),
+		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
+	};
+
+	write_to_buffer( LINE, &vertices, nullptr );
+}
+
+void c_buffer::filled_gradient( const vector2_t< int16_t > pos, const vector2_t< int16_t > size, const color_t clr, const color_t clr2, const color_t clr3, const color_t clr4 ) {
+	std::vector<vertex_t> vertices{
+		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex ),
+		vertex_t( pos.x + size.x, pos.y, 0.f, 1.f, clr2.hex ),
+		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr3.hex ),
+		vertex_t( pos.x + size.x, pos.y + size.y, 0.f, 1.f, clr3.hex ),
+		vertex_t( pos.x, pos.y + size.y, 0.f, 1.f, clr4.hex ),
+		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
+	};
+
+	write_to_buffer( TRIANGLE, &vertices, nullptr );
+}
+
 void c_buffer::triangle( const vector2_t< int16_t > p1, const vector2_t< int16_t > p2, const vector2_t< int16_t > p3, const color_t clr ) {
 	std::vector<vertex_t> vertices{
 		vertex_t( p1.x, p1.y, 0.f, 1.f, clr.hex ),
@@ -249,6 +275,16 @@ void c_buffer::filled_circle( const vector2_t< int16_t > pos, const int16_t radi
 	std::vector<vector2_t<int16_t>> points;
 	points.reserve( CIRCLE_SEGMENTS + 1 );
 
+	generate_arc_points( &points, &pos, radius, 100, 0, CIRCLE_SEGMENTS );
+
+	polygon( points, clr );
+}
+
+void c_buffer::filled_gradient_circle( const vector2_t< int16_t > pos, const int16_t radius, const color_t clr, const color_t clr2 ) {
+	std::vector<vector2_t<int16_t>> points;
+	points.reserve( CIRCLE_SEGMENTS + 1 );
+
+	points.push_back( pos );
 	generate_arc_points( &points, &pos, radius, 100, 0, CIRCLE_SEGMENTS );
 
 	polygon( points, clr );

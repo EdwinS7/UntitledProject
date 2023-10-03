@@ -61,6 +61,24 @@ public:
         const bool vertical
     );
 
+    void gradient( 
+        const vector2_t<int16_t> pos,
+        const vector2_t<int16_t> size,
+        const color_t clr,
+        const color_t clr2,
+        const color_t clr3,
+        const color_t clr4
+    );
+
+    void filled_gradient(
+        const vector2_t<int16_t> pos,
+        const vector2_t<int16_t> size,
+        const color_t clr,
+        const color_t clr2,
+        const color_t clr3,
+        const color_t clr4
+    );
+
     void triangle( 
         const vector2_t<int16_t> p1,
         const vector2_t<int16_t> p2,
@@ -85,6 +103,13 @@ public:
         const vector2_t<int16_t> pos,
         const int16_t size,
         const color_t clr
+    );
+
+    void filled_gradient_circle( 
+        const vector2_t<int16_t> pos,
+        const int16_t radius,
+        const color_t clr,
+        const color_t clr2
     );
 
     void text(
