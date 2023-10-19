@@ -1,4 +1,5 @@
 #include "buffer.hpp"
+#include <algorithm>
 
 void c_buffer::create_objects( ) {
 	RECT win32_size = RECT( 0, 0, g_win32->get_size( ).x, g_win32->get_size( ).y );
@@ -65,6 +66,7 @@ void c_buffer::line( const vector2_t< int16_t > from, const vector2_t< int16_t >
 		vertex_t( to.x, to.y, 0.f, 1.f, clr.hex )
 	};
 
+	rotate_object( &vertices );
 	write_to_buffer( LINE, &vertices, nullptr);
 }
 
@@ -74,6 +76,7 @@ void c_buffer::polyline( const std::vector< vector2_t< int16_t > > points, const
 
 	make_vertices( &vertices, &points, &clr );
 
+	rotate_object( &vertices );
 	write_to_buffer( LINE, &vertices, nullptr );
 }
 
@@ -92,6 +95,7 @@ void c_buffer::polygon( const std::vector<vector2_t<int16_t>> points, const colo
 		indices.push_back( i + 1 );
 	}
 
+	rotate_object( &vertices );
 	write_to_buffer( TRIANGLE, &vertices, &indices );
 }
 
@@ -191,9 +195,11 @@ void c_buffer::textured_rectangle( texture* resource, const vector2_t<int16_t> p
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
 
-	push_texture( *resource );
+
+	//push_texture( *resource );
+	rotate_object( &vertices );
 	write_to_buffer( TRIANGLE, &vertices, nullptr );
-	pop_texture( );
+	//pop_texture( );
 }
 
 void c_buffer::gradient( const vector2_t< int16_t > pos, const vector2_t< int16_t > size, const color_t clr, const color_t clr2, const bool vertical ) {
@@ -213,6 +219,7 @@ void c_buffer::filled_gradient( const vector2_t< int16_t > pos, const vector2_t<
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
 
+	rotate_object( &vertices );
 	write_to_buffer( TRIANGLE, &vertices, nullptr );
 }
 
@@ -226,6 +233,7 @@ void c_buffer::gradient( const vector2_t< int16_t > pos, const vector2_t< int16_
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
 
+	rotate_object( &vertices );
 	write_to_buffer( LINE, &vertices, nullptr );
 }
 
@@ -239,6 +247,7 @@ void c_buffer::filled_gradient( const vector2_t< int16_t > pos, const vector2_t<
 		vertex_t( pos.x, pos.y, 0.f, 1.f, clr.hex )
 	};
 
+	rotate_object( &vertices );
 	write_to_buffer( TRIANGLE, &vertices, nullptr );
 }
 
@@ -249,6 +258,7 @@ void c_buffer::triangle( const vector2_t< int16_t > p1, const vector2_t< int16_t
 		vertex_t( p3.x, p3.y, 0.f, 1.f, clr.hex )
 	};
 
+	rotate_object( &vertices );
 	write_to_buffer( LINE, &vertices, nullptr );
 }
 
@@ -259,6 +269,7 @@ void c_buffer::filled_triangle( const vector2_t< int16_t > p1, const vector2_t< 
 		vertex_t( p3.x, p3.y, 0.f, 1.f, clr.hex )
 	};
 
+	rotate_object( &vertices );
 	write_to_buffer( TRIANGLE, &vertices, nullptr );
 }
 
@@ -275,16 +286,6 @@ void c_buffer::filled_circle( const vector2_t< int16_t > pos, const int16_t radi
 	std::vector<vector2_t<int16_t>> points;
 	points.reserve( CIRCLE_SEGMENTS + 1 );
 
-	generate_arc_points( &points, &pos, radius, 100, 0, CIRCLE_SEGMENTS );
-
-	polygon( points, clr );
-}
-
-void c_buffer::filled_gradient_circle( const vector2_t< int16_t > pos, const int16_t radius, const color_t clr, const color_t clr2 ) {
-	std::vector<vector2_t<int16_t>> points;
-	points.reserve( CIRCLE_SEGMENTS + 1 );
-
-	points.push_back( pos );
 	generate_arc_points( &points, &pos, radius, 100, 0, CIRCLE_SEGMENTS );
 
 	polygon( points, clr );
@@ -321,7 +322,7 @@ void c_buffer ::text( const font_t* font, const char* str, const vector2_t<int16
 		float x = std::round( static_cast< float >( pos.x ) + advance + glyph.bearing.x ) + 0.5f;
 		float y = std::round( y_offset + y_advance - glyph.bearing.y ) + 0.5f;
 
-		const std::vector<vertex_t> vertices = {
+		std::vector<vertex_t> vertices = {
 			{x, y, 0.f, 1.f, clr.hex, 0.f, 0.f},
 			{x + glyph.size.x, y, 0.f, 1.f, clr.hex, 1.f, 0.f},
 			{x + glyph.size.x, y + glyph.size.y, 0.f, 1.f, clr.hex, 1.f, 1.f},
@@ -382,4 +383,47 @@ void c_buffer::generate_quadratic_bezier_points( std::vector<vector2_t<int16_t>>
 void c_buffer::make_vertices( std::vector<vertex_t>* vertices, const std::vector<vector2_t<int16_t>>* points, const color_t* clr ) {
 	for ( const vector2_t<int16_t>& point : *points )
 		vertices->push_back( vertex_t( point.x, point.y, 0.f, 1.f, clr->hex ) );
+}
+
+void c_buffer::set_rotation( float val ) {
+	m_rotation = val;
+}
+
+void c_buffer::rotate_object( std::vector<vertex_t>* vertices, vector2_t<int16_t> center_manual ) {
+	if ( vertices->empty( ) )
+		return;
+
+	vector2_t<int16_t> center( 0, 0 );
+
+	/*if ( center_manual != vector2_t<int16_t>( -1, -1 ) ) {
+		center = center_manual;
+		goto SKIP_CENTER;
+	}*/
+
+	for ( const auto& vertex : *vertices ) {
+		center.x += vertex.x;
+		center.y += vertex.y;
+	}
+	center.x /= static_cast< float >( vertices->size( ) );
+	center.y /= static_cast< float >( vertices->size( ) );
+
+	SKIP_CENTER:
+
+	float radians = m_rotation * M_PI / 180.0f;
+	float cos_value = cosf( radians );
+	float sin_value = sinf( radians );
+
+	for ( auto& vertex : *vertices ) {
+		// Translate the vertex relative to the center
+		float translatedX = vertex.x - center.x;
+		float translatedY = vertex.y - center.y;
+
+		// Perform rotation around the center
+		float new_x = translatedX * cos_value - translatedY * sin_value;
+		float new_y = translatedX * sin_value + translatedY * cos_value;
+
+		// Translate the vertex back to its original position
+		vertex.x = new_x + center.x;
+		vertex.y = new_y + center.y;
+	}
 }

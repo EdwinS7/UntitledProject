@@ -105,13 +105,6 @@ public:
         const color_t clr
     );
 
-    void filled_gradient_circle( 
-        const vector2_t<int16_t> pos,
-        const int16_t radius,
-        const color_t clr,
-        const color_t clr2
-    );
-
     void text(
        const font_t* font,
        const char* str,
@@ -122,6 +115,10 @@ public:
     vector2_t<int16_t> get_text_size(
          const font_t* font,
         const char* str
+    );
+
+    void set_rotation(
+        float val
     );
 
 // inline
@@ -166,6 +163,8 @@ public:
     );
 
 private:
+    float m_rotation;
+
     int m_vertices_count;
     int m_indices_count;
 
@@ -187,6 +186,7 @@ private:
 		const std::vector<vector2_t<int16_t>>* points, 
 		const color_t* color
 	);
+    void rotate_object( std::vector<vertex_t>* vertices, vector2_t<int16_t> center_manual = { -1, -1 } );
 };
 
 inline const auto g_buffer = std::make_unique<c_buffer>( );

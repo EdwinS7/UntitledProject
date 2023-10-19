@@ -57,6 +57,7 @@ public:
 	constexpr bool operator>=( const vector2_t& vector ) const noexcept { return x >= vector.x && y >= vector.y; }
 	constexpr bool operator<( const vector2_t& vector ) const noexcept { return x < vector.x && y < vector.y; }
 	constexpr bool operator<=( const vector2_t& vector ) const noexcept { return x <= vector.x && y <= vector.y; }
+	constexpr bool operator==( const vector2_t& vector ) noexcept { return x == vector.x && y == vector.y; }
 	constexpr vector2_t& operator*=( const type_t& val ) noexcept { return { x *= val, y *= val }; }
 
 #ifdef USE_CUSTOM_VECTOR2_OPERATORS
