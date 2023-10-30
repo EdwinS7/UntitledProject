@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
+    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
     <LibraryPath>$(ProjectDir)third-party\MinHook\Lib;$(ProjectDir)third-party\ZStd\lib;$(ProjectDir)third-party\LuaU\compiler\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,8 +81,8 @@
     <LibraryPath>$(ProjectDir)third-party\MinHook\Lib\;$(ProjectDir)third-party\ZStd\lib\;$(ProjectDir)third-party\LuaU\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
+    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
     <LibraryPath>$(ProjectDir)third-party\MinHook\Lib;$(ProjectDir)third-party\ZStd\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

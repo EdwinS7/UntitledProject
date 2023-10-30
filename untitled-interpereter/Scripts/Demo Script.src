@@ -1,0 +1,3 @@
+let testvar = 6
+let testvar2 = testvar
+print(testvar2)

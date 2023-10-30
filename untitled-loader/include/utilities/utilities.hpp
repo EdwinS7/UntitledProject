@@ -28,7 +28,6 @@ struct MANUAL_MAPPING_DATA
 class CUtilities {
 public:
 	int InjectDLL( const char* process_name, uint8_t binary[] );
-	int OverwritePrivileges( const char* process_name );
 	int IsCorrectTargetArchitecture( HANDLE process );
 	int GetProcessID( const char* process_name );
 	int EscalateLocalPrivileges( );

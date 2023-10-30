@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-mxsim", "untitled-
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-loader", "untitled-loader\untitled-loader.vcxproj", "{7F1960A5-A5E9-487E-A131-9CD51BB00886}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-interpereter", "untitled-interpereter\untitled-interpereter.vcxproj", "{91E21870-EA62-4A54-BFD2-5CCC19539E2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		debug|x64 = debug|x64
@@ -51,6 +53,14 @@ Global
 		{7F1960A5-A5E9-487E-A131-9CD51BB00886}.release|x64.Build.0 = Release|x64
 		{7F1960A5-A5E9-487E-A131-9CD51BB00886}.release|x86.ActiveCfg = Release|Win32
 		{7F1960A5-A5E9-487E-A131-9CD51BB00886}.release|x86.Build.0 = Release|Win32
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.debug|x64.ActiveCfg = Debug|x64
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.debug|x64.Build.0 = Debug|x64
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.debug|x86.ActiveCfg = Debug|Win32
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.debug|x86.Build.0 = Debug|Win32
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x64.ActiveCfg = Release|x64
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x64.Build.0 = Release|x64
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x86.ActiveCfg = Release|Win32
+		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -72,8 +72,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
+    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
     <IncludePath>$(DXSDK_DIR)include;$(ProjectDir)third-party/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)third-party;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -84,8 +84,8 @@
     <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)third-party;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Configuration)\$(ProjectName)\output</OutDir>
-    <IntDir>$(SolutionDir)$(Configuration)\$(ProjectName)\others</IntDir>
+    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
+    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
     <IncludePath>$(DXSDK_DIR)include;$(ProjectDir)third-party/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir)third-party;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
