@@ -12,8 +12,7 @@ public:
 		return address - 0x140000000 + module;
 	}
 
-	std::uintptr_t key_valid = rebase( 0x1435ACBE4 );
-	std::uintptr_t key = rebase( 0x140217EB0 );
+	std::uintptr_t key_valid = rebase( 0x1423FA8E4 );
 
 	template <typename T>
 	T read_memory( uintptr_t address ) {

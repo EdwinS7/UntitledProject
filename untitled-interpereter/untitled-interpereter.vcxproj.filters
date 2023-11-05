@@ -15,30 +15,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="entry.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\context\context.cpp">
+    <ClCompile Include="Include\Context\Context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\interpereter\interpereter.cpp">
+    <ClCompile Include="Include\Interpreter\Interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\utilities\utilities.cpp">
+    <ClCompile Include="Include\Utilities\Utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Interpreter\Memory\Memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Tokenizer\Tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\include.hpp">
+    <ClInclude Include="Include\Include.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\context\context.hpp">
+    <ClInclude Include="Include\Context\Context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\interpereter\interpereter.hpp">
+    <ClInclude Include="Include\Interpreter\Interpreter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utilities\utilities.hpp">
+    <ClInclude Include="Include\Utilities\Utilities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Interpreter\Types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Interpreter\Functions\Functions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Interpreter\Memory\Memory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tokenizer\Tokenizer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

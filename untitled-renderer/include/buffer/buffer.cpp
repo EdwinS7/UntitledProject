@@ -1,5 +1,4 @@
 #include "buffer.hpp"
-#include <algorithm>
 
 void c_buffer::create_objects( ) {
 	RECT win32_size = RECT( 0, 0, g_win32->get_size( ).x, g_win32->get_size( ).y );

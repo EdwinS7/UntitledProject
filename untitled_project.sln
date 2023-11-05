@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-loader", "untitled
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-interpereter", "untitled-interpereter\untitled-interpereter.vcxproj", "{91E21870-EA62-4A54-BFD2-5CCC19539E2E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "untitled-roblox-v2", "untitled-roblox-v2\untitled-roblox-v2.vcxproj", "{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		debug|x64 = debug|x64
@@ -61,6 +63,14 @@ Global
 		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x64.Build.0 = Release|x64
 		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x86.ActiveCfg = Release|Win32
 		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x86.Build.0 = Release|Win32
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.debug|x64.ActiveCfg = Debug|x64
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.debug|x64.Build.0 = Debug|x64
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.debug|x86.ActiveCfg = Debug|Win32
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.debug|x86.Build.0 = Debug|Win32
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.release|x64.ActiveCfg = Release|x64
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.release|x64.Build.0 = Release|x64
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.release|x86.ActiveCfg = Release|Win32
+		{E0CF5E69-09A3-4993-B2A5-518767BFC5F9}.release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

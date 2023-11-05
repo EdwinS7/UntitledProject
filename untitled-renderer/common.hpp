@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <Uxtheme.h>
+#include <dwmapi.h>
 #include <shlobj.h>
 #include <cassert>
 #include <thread>
