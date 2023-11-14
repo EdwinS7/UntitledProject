@@ -1,2 +1,3 @@
-Var test_dummy = 100
-Print(test_dummy)
+Var DemoInt = 1
+Var DemoBool = True
+Var DemoString = "Hello World!"

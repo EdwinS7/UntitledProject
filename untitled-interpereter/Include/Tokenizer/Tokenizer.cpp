@@ -1,81 +1,54 @@
 #include "Tokenizer.hpp"
 
 std::vector<Token> Untitled::Tokenizer::Tokenize( std::string& src ) {
-    //std::vector<Token> Tokens; // Chached tokens
-    //std::size_t Start; // Used for data points
-
-    //for ( int i = 0; i < src.size( ); i++ ) {
-    //    if ( std::isspace( src[ i ] ) || !std::isalpha( src[ i ] ) )
-    //        continue; // Skip whitespace & non alphabetical letters.
-
-    //    switch ( src[ i ] ) {
-    //    case '"': // QUOTE / STRINGS
-    //        Start = i;
-
-    //        while ( i < src.size( ) && src[ i ] != '"' )
-    //            i++;
-
-    //        if ( i < src.size( ) ) {
-    //            Tokens.push_back( Token( src.substr( Start + 1, i - Start - 1 ) ) );
-    //            i++;
-    //        }
-
-    //        break;
-    //    case '_':
-    //        Start = i;
-
-    //        while ( i < src.size( ) && ( std::isalnum( src[ i ] ) || src[ i ] == '_' ) )
-    //            i++;
-
-    //        Tokens.push_back( Token( src.substr( Start, i - Start ) ) );
-
-    //        break;
-    //    }
-    //}
-
-    //return Tokens;
-
     std::vector<Token> Tokens;
-    std::size_t i = 0;
+    std::size_t Start;
 
-    while ( i < src.size( ) ) {
-        if ( std::isspace( src[ i ] ) )
-            i++; // Skip whitespace
-        else if ( src[ i ] == '"' ) {
-            // Handle double-quoted strings
-            std::size_t start = i;
+    for ( std::size_t i = 0; i < src.size( ); ) {
+        if ( src.compare( i, 2, "(!)" ) == 0 ) { // Skip Comments
+            while ( i < src.size( ) && src[ i ] != '\n' )
+                i++;
+
+            continue;
+        }
+
+        if ( std::isspace( src[ i ] ) ) // Skip whitespace
             i++;
+        else if ( src[ i ] == '"' ) { // Handle Double-Quoted Strings
+            Start = i++;
+
+            Tokens.push_back( Token( src.substr( Start, i - Start ) ) );
 
             while ( i < src.size( ) && src[ i ] != '"' )
                 i++;
 
             if ( i < src.size( ) ) {
-                Tokens.push_back( Token( src.substr( start + 1, i - start - 1 ) ) );
-                i++; // Skip the closing quote
+                Tokens.push_back( Token( src.substr( Start + 1, i - Start - 1 ) ) );
+                i++;
             }
+
+            Start = i++;
+
+            Tokens.push_back( Token( src.substr( Start - 1, i - Start ) ) );
         }
-        else if ( std::isdigit( src[ i ] ) || src[ i ] == '-' || ( src[ i ] == '.' && std::isdigit( src[ i + 1 ] ) ) ) {
-            // Handle numbers
-            std::size_t start = i;
+        else if ( std::isdigit( src[ i ] ) || src[ i ] == '-' || ( src[ i ] == '.' && std::isdigit( src[ i + 1 ] ) ) ) { // Handle Numbers
+            Start = i;
 
             while ( i < src.size( ) && ( std::isdigit( src[ i ] ) || src[ i ] == '.' ) )
                 i++;
 
-            Tokens.push_back( Token( src.substr( start, i - start ) ) );
+            Tokens.push_back( Token( src.substr( Start, i - Start ) ) );
         }
-        else if ( std::isalpha( src[ i ] ) || src[ i ] == '_' ) {
-            // Handle identifiers
-            std::size_t start = i;
+        else if ( std::isalpha( src[ i ] ) || src[ i ] == '_' ) { // Handle Identifiers
+            Start = i;
 
             while ( i < src.size( ) && ( std::isalnum( src[ i ] ) || src[ i ] == '_' ) )
                 i++;
 
-            Tokens.push_back( Token( src.substr( start, i - start ) ) );
+            Tokens.push_back( Token( src.substr( Start, i - Start ) ) );
         }
-        else {
-            // Handle other characters or unknown tokens
+        else
             i++;
-        }
     }
 
     return Tokens;

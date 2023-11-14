@@ -1,61 +1,66 @@
 #include "context.hpp"
 
 void Untitled::Context::Init( ) {
-    std::map<const char*, std::uintptr_t*> Functions;
+    std::map<const char*, std::uintptr_t> Functions;
 
     Interpreter::Functions::RegisterFunctions( &Functions );
     Interpreter::Register( &Functions );
+
+    if ( Untitled::Utilities::IsFirstLaunch( ) )
+        Untitled::Utilities::Print( "We've detected this is your first time using untitled!\n\n" );
+    else
+        Untitled::Utilities::Print( "Welcome back!\n\n" );
+
+    if ( !std::filesystem::is_directory( "Scripts" ) && !Untitled::Utilities::IsFirstLaunch( ) ) {
+        std::filesystem::create_directory( "Scripts" );
+        Untitled::Utilities::PrintInfo( "It seems your scripts folder has been deleted!\n\n" );
+    }
 }
 
-int Untitled::Context::RunScript( const char* env, std::string src, int level ) {
-    std::vector<Token> Tokens = Tokenizer::Tokenize( src );
+int Untitled::Context::RunScript( const char* Environment, std::string Source, int Level ) {
+    std::vector<Token> Tokens = Tokenizer::Tokenize( Source );
+    InterpreterResponse Interpreter = Interpreter::Interpret( Environment, Level, Tokens );
 
-    // Debug logs from tokenizer
-    Utilities::PrintWarning( "[DEBUG]\n" );
+    if ( Interpreter.Errors.size( ) > 0 ) {
+        for ( auto& Error : Interpreter.Errors )
+            Utilities::Print( Error.c_str( ) );
 
-    if ( !PrintTokenTable( Tokens ) ) {
-        Utilities::PrintError( "Tokens are empty!\n" );
         return 0;
     }
 
-    // Output
-    Utilities::PrintWarning( "\n[OUTPUT]\n" );
-
-    if ( !Interpreter::Interpret( Tokens, level ) ) {
-        Utilities::PrintError( "Failed to Interpret tokens!\n" );
-        return 0;
-    }
-
-    return 1;
-}
-
-int Untitled::Context::PrintTokenTable( std::vector<Token> Tokens ) {
-    printf( "Tokens = {\n" );
+    Utilities::PrintInfo( "Tokens = {\n" );
     for ( size_t i = 0; i < Tokens.size( ); ++i ) {
         if ( i > 0 )
-            printf( ",\n" );
+            Utilities::Print( ",\n" );
 
-        printf( "   %s", Tokens[ i ].name.c_str( ) );
+        Utilities::Print( std::vformat( "   {}", std::make_format_args( Tokens[ i ].Name ) ).c_str( ) );
     }
-    printf( "\n}\n" );
+    Utilities::PrintInfo( "\n}\n" );
+
+    Utilities::PrintInfo( "\nVariables = {\n" );
+    for ( size_t i = 0; i < Interpreter.Variables.size( ); ++i ) {
+        if ( i > 0 )
+            Utilities::Print( ",\n" );
+
+        Utilities::Print( std::vformat( "   {}", std::make_format_args( Interpreter.Variables[ i ] ) ).c_str( ) );
+    }
+    Utilities::PrintInfo( "\n}\n" );
 
     return 1;
 }
 
-int Untitled::Context::IsFirstLaunch( ) {
-    HKEY HKey;
+std::map<std::string, uintptr_t> Commands;
+int Untitled::Context::RunCommand( std::string cmd ) {
+    std::map<std::string, uintptr_t> Commands;
+    Commands[ "/clear" ] = reinterpret_cast< uintptr_t >( Utilities::ClearConsole );
 
-    if ( RegOpenKeyEx( HKEY_CURRENT_USER, "Software//UntitledAPI", 0, KEY_READ, &HKey ) != ERROR_SUCCESS ) {
-        if ( RegCreateKey( HKEY_CURRENT_USER, "Software//UntitledAPI", &HKey ) == ERROR_SUCCESS ) {
-            DWORD value = 1;
-            RegSetValueEx( HKey, "IsFirstLaunch", 0, REG_DWORD, ( BYTE* ) &value, sizeof( value ) );
-            RegCloseKey( HKey );
-        }
+    auto lowerCmd = Untitled::Utilities::ToLower( cmd );
+    auto it = Commands.find( lowerCmd );
 
+    if ( it != Commands.end( ) ) {
+        CALL_FUNCTION( it->second );
         return 1;
     }
-    else {
-        RegCloseKey( HKey );
-        return 0;
-    }
+
+    return 1;
 }

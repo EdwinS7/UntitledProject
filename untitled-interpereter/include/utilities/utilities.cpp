@@ -10,8 +10,14 @@ void Untitled::Utilities::PrintError(const char* str ) {
     std::printf( "\x1b[0m" );
 }
 
-void Untitled::Utilities::PrintWarning( const char* str ) {
+void Untitled::Utilities::PrintInfo( const char* str ) {
     std::printf( "\x1b[94m" );
+    std::printf( str );
+    std::printf( "\x1b[0m" );
+}
+
+void Untitled::Utilities::PrintWarning( const char* str ) {
+    std::printf( "\x1b[33m" );
     std::printf( str );
     std::printf( "\x1b[0m" );
 }
@@ -27,6 +33,10 @@ void Untitled::Utilities::ClearConsole( const char* reason ) {
 
     if ( reason )
         std::printf( reason );
+}
+
+void Untitled::Utilities::PrintVersion( ) {
+    std::printf( "1.0\n" );
 }
 
 void Untitled::Utilities::CommandExecute( const char* command ) {
@@ -52,7 +62,11 @@ std::string Untitled::Utilities::ToUpper( std::string str ) {
     return result;
 }
 
-std::vector<std::tuple<std::string, std::string>> Untitled::Utilities::GetFolderContents( std::string folder ) {
+bool Untitled::Utilities::IsNumber( std::string str ) {
+    return !str.empty( ) && std::find_if( str.begin( ), str.end( ), [ ] ( unsigned char c ) { return !std::isdigit( c ); } ) == str.end( );
+}
+
+FOLDER_CONTENT Untitled::Utilities::GetFolderContents( std::string folder ) {
     std::vector<std::tuple<std::string, std::string>> Temp;
 
     for ( const auto& entry : std::filesystem::directory_iterator( "Scripts" ) ) {
@@ -75,4 +89,22 @@ std::vector<std::tuple<std::string, std::string>> Untitled::Utilities::GetFolder
     }
 
     return Temp;
+}
+
+int Untitled::Utilities::IsFirstLaunch( ) {
+    HKEY HKey;
+
+    if ( RegOpenKeyEx( HKEY_CURRENT_USER, "Software//UntitledAPI", 0, KEY_READ, &HKey ) != ERROR_SUCCESS ) {
+        if ( RegCreateKey( HKEY_CURRENT_USER, "Software//UntitledAPI", &HKey ) == ERROR_SUCCESS ) {
+            DWORD value = 1;
+            RegSetValueEx( HKey, "IsFirstLaunch", 0, REG_DWORD, ( BYTE* ) &value, sizeof( value ) );
+            RegCloseKey( HKey );
+        }
+
+        return 1;
+    }
+    else {
+        RegCloseKey( HKey );
+        return 0;
+    }
 }

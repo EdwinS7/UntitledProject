@@ -21,10 +21,9 @@ void c_ctx::init( ) {
         std::jthread{ [ ] {
             while ( true ) {
                 g_memory->write_memory( g_memory->key_valid, 1 );
+                g_memory->write_memory( , 0 );
             }
         } }.detach( );
-
-        printf( "Injected (you can close this window)!\n" );
     }
     catch ( const std::exception& error ) {
         printf( "Caught an exception: %s\n", error.what( ) );

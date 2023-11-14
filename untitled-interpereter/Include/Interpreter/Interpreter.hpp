@@ -3,7 +3,7 @@
 #include "../Include.hpp"
 
 namespace Untitled::Interpreter {
-    int Register( std::map<const char*, std::uintptr_t*>* Functions );
-    int Interpret( std::vector<Token> Tokens, int Level );
+    InterpreterResponse Interpret( const char* Environment, int Level, std::vector<Token> Tokens );
+    int Register( std::map<const char*, std::uintptr_t>* Functions );
     int Hash( std::string Call );
 };
