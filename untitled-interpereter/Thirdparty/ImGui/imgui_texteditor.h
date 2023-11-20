@@ -264,7 +264,7 @@ public:
 
 	static const Palette& GetDarkPalette( );
 	static const Palette& GetLightPalette( );
-	static const Palette& GetRetroBluePalette( );
+	static const Palette& GetCherryBlossomPalette( );
 
 private:
 	typedef std::vector<std::pair<std::regex, PaletteIndex>> RegexList;

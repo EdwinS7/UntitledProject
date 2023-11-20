@@ -11,4 +11,4 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
         Untitled::Context::RenderWindow( );
         Untitled::Graphics::EndScene( );
     }
-} 
+}

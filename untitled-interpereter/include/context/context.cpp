@@ -30,14 +30,25 @@ void Untitled::Context::RenderWindow( ) {
     ImGui::SetNextWindowPos( { 0.f, 0.f } );
     ImGui::SetNextWindowSize( { 400.f, Win32::GetSize( ).y - 250.f } );
 
-    if ( ImGui::Begin( Config::Gui::ListPanel ? "Tokens" : "Variables", &Config::Gui::Open, INACTIVE_WINDOW_FLAGS ) ) {
-        if ( ImGui::BeginPopupContextItem( "List settings" ) ) {
-            if ( Config::Gui::ListPanel != 0 && ImGui::MenuItem( "Switch to Variables View" ) )
-                Config::Gui::ListPanel = 0;
-            else if ( Config::Gui::ListPanel != 1 && ImGui::MenuItem( "Switch to Tokens View" ) )
-                Config::Gui::ListPanel = 1;
+    if ( ImGui::Begin( Config::Gui::ListPanel ? "Tokens" : "Variables", &Config::Gui::Open, INACTIVE_WINDOW_FLAGS | ImGuiWindowFlags_MenuBar ) ) {
+        if ( ImGui::BeginMenuBar( ) ) {
+            if ( ImGui::BeginMenu( "Edit" ) ) {
+                if ( ImGui::MenuItem( "Clear", nullptr, nullptr ) )
+                    ( Config::Gui::ListPanel == 0 ) ? Config::Backend::SavedInterpreter.Formatted.clear( ) : Config::Backend::SavedLexer.Formatted.clear( );
 
-            ImGui::EndPopup( );
+                ImGui::EndMenu( );
+            }
+
+            if ( ImGui::BeginMenu( "View" ) ) {
+                if ( ImGui::MenuItem( "Variables" ) )
+                    Config::Gui::ListPanel = 0;
+                if ( ImGui::MenuItem( "Tokens" ) )
+                    Config::Gui::ListPanel = 1;
+
+                ImGui::EndMenu( );
+            }
+
+            ImGui::EndMenuBar( );
         }
 
         const auto& formattedData = ( Config::Gui::ListPanel == 0 ) ? Config::Backend::SavedInterpreter.Formatted : Config::Backend::SavedLexer.Formatted;
@@ -68,8 +79,59 @@ void Untitled::Context::RenderWindow( ) {
     ImGui::SetNextWindowPos( { 400.f, 0.f } );
     ImGui::SetNextWindowSize( { Win32::GetSize( ).x - 400.f, Win32::GetSize( ).y - 250.f } );
 
-    if ( ImGui::Begin( "Code editor", &Config::Gui::Open, WINDOW_FLAGS ) ) {
-        Config::Gui::Editor.Render( "TextEditor", { ImGui::GetWindowSize( ).x - 17.f, ImGui::GetWindowSize( ).y - 62.f } );
+    if ( ImGui::Begin( "Code editor", &Config::Gui::Open, WINDOW_FLAGS | ImGuiWindowFlags_MenuBar ) ) {
+        if ( ImGui::BeginMenuBar( ) ) {
+            if ( ImGui::BeginMenu( "Edit" ) ) {
+                bool ro = Config::Gui::Editor.IsReadOnly( );
+                if ( ImGui::MenuItem( "Read-only mode", nullptr, &ro ) )
+                    Config::Gui::Editor.SetReadOnly( ro );
+                ImGui::Separator( );
+
+                if ( ImGui::MenuItem( "Undo", "Ctrl-Z", nullptr, !ro && Config::Gui::Editor.CanUndo( ) ) )
+                    Config::Gui::Editor.Undo( );
+                if ( ImGui::MenuItem( "Redo", "Ctrl-Y", nullptr, !ro && Config::Gui::Editor.CanRedo( ) ) )
+                    Config::Gui::Editor.Redo( );
+
+                ImGui::Separator( );
+
+                if ( ImGui::MenuItem( "Copy", "Ctrl-C", nullptr, Config::Gui::Editor.HasSelection( ) ) )
+                    Config::Gui::Editor.Copy( );
+                if ( ImGui::MenuItem( "Cut", "Ctrl-X", nullptr, !ro && Config::Gui::Editor.HasSelection( ) ) )
+                    Config::Gui::Editor.Cut( );
+                if ( ImGui::MenuItem( "Delete", "Del", nullptr, !ro && Config::Gui::Editor.HasSelection( ) ) )
+                    Config::Gui::Editor.Delete( );
+                if ( ImGui::MenuItem( "Paste", "Ctrl-V", nullptr, !ro && ImGui::GetClipboardText( ) != nullptr ) )
+                    Config::Gui::Editor.Paste( );
+
+                ImGui::Separator( );
+
+                if ( ImGui::MenuItem( "Select all", nullptr, nullptr ) )
+                    Config::Gui::Editor.SetSelection( TextEditor::Coordinates( ), TextEditor::Coordinates( Config::Gui::Editor.GetTotalLines( ), 0 ) );
+
+                ImGui::EndMenu( );
+            }
+
+            if ( ImGui::BeginMenu( "View" ) ) {
+                if ( ImGui::MenuItem( "Dark palette" ) ) {
+                    Config::Gui::Editor.SetPalette( TextEditor::GetDarkPalette( ) );
+                    ImGui::StyleColorsDark( );
+                }   
+                if ( ImGui::MenuItem( "Light palette" ) ) {
+                    Config::Gui::Editor.SetPalette( TextEditor::GetLightPalette( ) );
+                    ImGui::StyleColorsLight( );
+                }
+                if ( ImGui::MenuItem( "Cherry blossom palette" ) ) {
+                    Config::Gui::Editor.SetPalette( TextEditor::GetCherryBlossomPalette( ) );
+                    ImGui::StyleColorsCherryBlossom( );
+                }
+
+                ImGui::EndMenu( );
+            }
+
+            ImGui::EndMenuBar( );
+        }
+
+        Config::Gui::Editor.Render( "TextEditor", { ImGui::GetWindowSize( ).x - 17.f, ImGui::GetWindowSize( ).y - 80.f } );
 
         ImGui::Dummy( { 0.f, 3.f } );
 

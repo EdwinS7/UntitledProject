@@ -66,6 +66,9 @@
     <ClCompile Include="Thirdparty\ImGui\imgui_texteditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Thirdparty\ImGui\ImTextEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp">
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\ImGui\imgui_texteditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thirdparty\ImGui\ImTextEdit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

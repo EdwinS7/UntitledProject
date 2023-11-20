@@ -2005,85 +2005,87 @@ void TextEditor::Redo( int aSteps )
 
 const TextEditor::Palette& TextEditor::GetDarkPalette( )
 {
-	const static Palette p = { {
-			0xff7f7f7f,	// Default
-			0xffd69c56,	// Keyword	
-			0xff00ff00,	// Number
-			0xff7070e0,	// String
-			0xff70a0e0, // Char literal
-			0xffffffff, // Punctuation
-			0xff408080,	// Preprocessor
-			0xffaaaaaa, // Identifier
-			0xff9bc64d, // Known identifier
-			0xffc040a0, // Preproc identifier
-			0xff206020, // Comment (single line)
-			0xff406020, // Comment (multi line)
-			0xff101010, // Background
-			0xffe0e0e0, // Cursor
-			0x80a06020, // Selection
-			0x800020ff, // ErrorMarker
-			0x40f08000, // Breakpoint
-			0xff707000, // Line number
-			0x40000000, // Current line fill
-			0x40808080, // Current line fill (inactive)
-			0x40a0a0a0, // Current line edge
-		} };
+	const static Palette p = {
+		ImColor( 28, 28, 28, 255 ),   // Default
+		ImColor( 219, 112, 147, 255 ), // Keyword
+		ImColor( 130, 170, 255, 255 ), // Number
+		ImColor( 152, 195, 121, 255 ), // String
+		ImColor( 173, 127, 168, 255 ), // Char literal
+		ImColor( 190, 190, 190, 255 ), // Punctuation
+		ImColor( 129, 162, 190, 255 ), // Preprocessor
+		ImColor( 197, 197, 197, 255 ), // Identifier
+		ImColor( 186, 209, 130, 255 ), // Known identifier
+		ImColor( 214, 112, 218, 255 ), // Preproc identifier
+		ImColor( 96, 96, 96, 255 ),    // Comment (single line)
+		ImColor( 70, 70, 70, 255 ),    // Comment (multi line)
+		ImColor( 40, 40, 40, 255 ),    // Background
+		ImColor( 255, 255, 255, 255 ), // Cursor
+		ImColor( 47, 97, 171, 128 ),   // Selection
+		ImColor( 255, 85, 85, 128 ),   // ErrorMarker
+		ImColor( 255, 170, 0, 128 ),   // Breakpoint
+		ImColor( 120, 120, 120, 255 ), // Line number
+		ImColor( 32, 32, 32, 64 ),     // Current line fill
+		ImColor( 64, 64, 64, 64 ),     // Current line fill (inactive)
+		ImColor( 92, 92, 92, 64 ),     // Current line edge
+		};
 	return p;
+
 }
 
 const TextEditor::Palette& TextEditor::GetLightPalette( )
 {
-	const static Palette p = { {
-			0xff7f7f7f,	// None
-			0xffff0c06,	// Keyword	
-			0xff008000,	// Number
-			0xff2020a0,	// String
-			0xff304070, // Char literal
-			0xff000000, // Punctuation
-			0xff406060,	// Preprocessor
-			0xff404040, // Identifier
-			0xff606010, // Known identifier
-			0xffc040a0, // Preproc identifier
-			0xff205020, // Comment (single line)
-			0xff405020, // Comment (multi line)
-			0xffffffff, // Background
-			0xff000000, // Cursor
-			0x80600000, // Selection
-			0xa00010ff, // ErrorMarker
-			0x80f08000, // Breakpoint
-			0xff505000, // Line number
-			0x40000000, // Current line fill
-			0x40808080, // Current line fill (inactive)
-			0x40000000, // Current line edge
-		} };
+	const static Palette p = {
+		ImColor( 220, 220, 220, 255 ), // Default
+		ImColor( 40, 100, 180, 255 ),   // Keyword
+		ImColor( 0, 128, 0, 255 ),      // Number
+		ImColor( 60, 60, 255, 255 ),    // String
+		ImColor( 90, 120, 255, 255 ),   // Char literal
+		ImColor( 0, 0, 0, 255 ),        // Punctuation
+		ImColor( 128, 0, 0, 255 ),      // Preprocessor
+		ImColor( 80, 80, 80, 255 ),     // Identifier
+		ImColor( 70, 120, 30, 255 ),    // Known identifier
+		ImColor( 160, 0, 120, 255 ),    // Preproc identifier
+		ImColor( 200, 200, 200, 255 ),  // Comment (single line)
+		ImColor( 160, 192, 160, 255 ),  // Comment (multi line)
+		ImColor( 255, 255, 255, 255 ),  // Background
+		ImColor( 32, 32, 32, 255 ),     // Cursor
+		ImColor( 128, 160, 255, 128 ),  // Selection
+		ImColor( 255, 0, 32, 128 ),     // ErrorMarker
+		ImColor( 64, 240, 0, 64 ),      // Breakpoint
+		ImColor( 128, 0, 0, 255 ),      // Line number
+		ImColor( 200, 200, 200, 64 ),   // Current line fill
+		ImColor( 160, 192, 192, 64 ),   // Current line fill (inactive)
+		ImColor( 160, 160, 160, 64 ),   // Current line edge
+	};
 	return p;
+
 }
 
-const TextEditor::Palette& TextEditor::GetRetroBluePalette( )
+const TextEditor::Palette& TextEditor::GetCherryBlossomPalette( )
 {
-	const static Palette p = { {
-			0xff00ffff,	// None
-			0xffffff00,	// Keyword	
-			0xff00ff00,	// Number
-			0xff808000,	// String
-			0xff808000, // Char literal
-			0xffffffff, // Punctuation
-			0xff008000,	// Preprocessor
-			0xff00ffff, // Identifier
-			0xffffffff, // Known identifier
-			0xffff00ff, // Preproc identifier
-			0xff808080, // Comment (single line)
-			0xff404040, // Comment (multi line)
-			0xff800000, // Background
-			0xff0080ff, // Cursor
-			0x80ffff00, // Selection
-			0xa00000ff, // ErrorMarker
-			0x80ff8000, // Breakpoint
-			0xff808000, // Line number
-			0x40000000, // Current line fill
-			0x40808080, // Current line fill (inactive)
-			0x40000000, // Current line edge
-		} };
+	const static Palette p = {
+		ImColor( 255, 255, 255, 255 ), // None
+		ImColor( 255, 105, 180, 255 ), // Keyword
+		ImColor( 80, 160, 255, 255 ),  // Number
+		ImColor( 120, 160, 255, 255 ), // String
+		ImColor( 120, 160, 255, 255 ), // Char literal
+		ImColor( 0, 0, 0, 255 ),       // Punctuation
+		ImColor( 80, 200, 120, 255 ),  // Preprocessor
+		ImColor( 200, 120, 160, 255 ), // Identifier
+		ImColor( 0, 0, 0, 255 ),       // Known identifier
+		ImColor( 200, 120, 160, 255 ), // Preproc identifier
+		ImColor( 80, 80, 80, 255 ),    // Comment (single line)
+		ImColor( 120, 120, 120, 255 ), // Comment (multi line)
+		ImColor( 255, 220, 240, 255 ), // Background
+		ImColor( 0, 0, 0, 255 ),       // Cursor
+		ImColor( 50, 150, 255, 128 ),  // Selection
+		ImColor( 255, 0, 0, 128 ),     // ErrorMarker
+		ImColor( 255, 165, 0, 128 ),   // Breakpoint
+		ImColor( 100, 100, 100, 255 ), // Line number
+		ImColor( 255, 220, 240, 64 ),  // Current line fill
+		ImColor( 200, 200, 200, 64 ),  // Current line fill (inactive)
+		ImColor( 150, 150, 150, 64 ),  // Current line edge
+	};
 	return p;
 }
 
