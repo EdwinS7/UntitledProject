@@ -24,6 +24,7 @@
     <ProjectGuid>{91e21870-ea62-4a54-bfd2-5ccc19539e2e}</ProjectGuid>
     <RootNamespace>untitledinterpereter</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>untitled-interpreter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -97,8 +98,9 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,10 +116,11 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -131,8 +134,9 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,33 +152,52 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Include\Interpreter\Functions\Functions.cpp" />
+    <ClCompile Include="Include\Window\Graphics.cpp" />
+    <ClCompile Include="Include\Window\Window.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Include\Context\Context.cpp" />
     <ClCompile Include="Include\Interpreter\Interpreter.cpp" />
-    <ClCompile Include="Include\Interpreter\Memory\Memory.cpp" />
-    <ClCompile Include="Include\Tokenizer\Tokenizer.cpp" />
+    <ClCompile Include="Include\Lexer\Lexer.cpp" />
     <ClCompile Include="Include\Utilities\Utilities.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\Backend\imgui_impl_dx11.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\Backend\imgui_impl_win32.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_stdlib.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_texteditor.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\Wrapper\Wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Include.hpp" />
+    <ClInclude Include="Common.hpp" />
     <ClInclude Include="Include\Context\Context.hpp" />
-    <ClInclude Include="Include\Interpreter\Functions\Functions.hpp" />
+    <ClInclude Include="Include\Window\Graphics.hpp" />
     <ClInclude Include="Include\Interpreter\Interpreter.hpp" />
-    <ClInclude Include="Include\Interpreter\Memory\Memory.hpp" />
-    <ClInclude Include="Include\Tokenizer\Tokenizer.hpp" />
-    <ClInclude Include="Include\Interpreter\Types.hpp" />
+    <ClInclude Include="Include\Lexer\Lexer.hpp" />
+    <ClInclude Include="Include\Definitions.hpp" />
     <ClInclude Include="Include\Utilities\Utilities.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Scripts\Demo Script.src" />
+    <ClInclude Include="Include\Window\Window.hpp" />
+    <ClInclude Include="Thirdparty\ImGui\Backend\imgui_impl_dx11.h" />
+    <ClInclude Include="Thirdparty\ImGui\Backend\imgui_impl_win32.h" />
+    <ClInclude Include="Thirdparty\ImGui\imconfig.h" />
+    <ClInclude Include="Thirdparty\ImGui\imgui.h" />
+    <ClInclude Include="Thirdparty\ImGui\imgui_internal.h" />
+    <ClInclude Include="Thirdparty\ImGui\imgui_stdlib.h" />
+    <ClInclude Include="Thirdparty\ImGui\imgui_texteditor.h" />
+    <ClInclude Include="Thirdparty\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Thirdparty\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Thirdparty\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Thirdparty\ImGui\Wrapper\Wrapper.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

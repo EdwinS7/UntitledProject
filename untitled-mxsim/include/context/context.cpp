@@ -21,7 +21,8 @@ void c_ctx::init( ) {
         std::jthread{ [ ] {
             while ( true ) {
                 g_memory->write_memory( g_memory->key_valid, 1 );
-                g_memory->write_memory( , 0 );
+                
+                g_memory->RenderText( 10, 10, 100, 100, 0.f, "Test lol" );
             }
         } }.detach( );
     }

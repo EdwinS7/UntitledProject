@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../Include.hpp"
+#include "../../Common.hpp"
 
 namespace Untitled::Interpreter {
-    InterpreterResponse Interpret( const char* Environment, int Level, std::vector<Token> Tokens );
+    InterpreterResponse Interpret( const char* Environment, LexerResponse Tokens );
     int Register( std::map<const char*, std::uintptr_t>* Functions );
-    int Hash( std::string Call );
+
+    void Release( );
 };

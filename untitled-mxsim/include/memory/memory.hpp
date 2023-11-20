@@ -23,6 +23,9 @@ public:
 	void write_memory( uintptr_t address, T data ) {
 		*reinterpret_cast< T* >( address ) = data;
 	}
+
+	using RenderTextHooked = std::uintptr_t( __fastcall* )( int, int, int, int, float, const char* );
+	RenderTextHooked RenderText = reinterpret_cast< RenderTextHooked >( rebase( 0x14009AFD0 ) );
 };
 
 inline const auto g_memory = std::make_unique<c_memory>( );

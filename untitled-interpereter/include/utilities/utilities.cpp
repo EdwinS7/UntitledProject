@@ -1,110 +1,56 @@
 #include "utilities.hpp"
 
-void Untitled::Utilities::Print(const char* str ) {
-    std::printf( str );
-}
-
-void Untitled::Utilities::PrintError(const char* str ) {
-    std::printf( "\x1b[31m" );
-    std::printf( str );
-    std::printf( "\x1b[0m" );
-}
-
-void Untitled::Utilities::PrintInfo( const char* str ) {
-    std::printf( "\x1b[94m" );
-    std::printf( str );
-    std::printf( "\x1b[0m" );
-}
-
-void Untitled::Utilities::PrintWarning( const char* str ) {
-    std::printf( "\x1b[33m" );
-    std::printf( str );
-    std::printf( "\x1b[0m" );
-}
-
-void Untitled::Utilities::PrintSuccess( const char* str ) {
-    std::printf( "\x1b[92m" );
-    std::printf( str );
-    std::printf( "\x1b[0m" );
-}
-
-void Untitled::Utilities::ClearConsole( const char* reason ) {
-    system( "cls" );
-
-    if ( reason )
-        std::printf( reason );
-}
-
 void Untitled::Utilities::PrintVersion( ) {
-    std::printf( "1.0\n" );
+    Context::AddLog( 1, "Untitled 1.0 (pre-pre alpha)" );
 }
 
-void Untitled::Utilities::CommandExecute( const char* command ) {
-    if ( !std::strcmp( command, "Clear" ) )
-        ClearConsole( );
-}
-
-std::string Untitled::Utilities::ToLower( std::string str ) {
-    std::string result = str;
-
-    for ( char& c : result )
+std::string Untitled::Utilities::ToLower( std::string String ) {
+    for ( char& c : String )
         c = std::tolower( c );
 
-    return result;
+    return String;
 }
 
-std::string Untitled::Utilities::ToUpper( std::string str ) {
-    std::string result = str;
-
-    for ( char& c : result )
+std::string Untitled::Utilities::ToUpper( std::string String ) {
+    for ( char& c : String )
         c = std::toupper( c );
 
-    return result;
+    return String;
 }
 
-bool Untitled::Utilities::IsNumber( std::string str ) {
-    return !str.empty( ) && std::find_if( str.begin( ), str.end( ), [ ] ( unsigned char c ) { return !std::isdigit( c ); } ) == str.end( );
-}
+FOLDER_CONTENT Untitled::Utilities::GetFolderContents( const std::string& Folder ) {
+    FOLDER_CONTENT FolderContent;
 
-FOLDER_CONTENT Untitled::Utilities::GetFolderContents( std::string folder ) {
-    std::vector<std::tuple<std::string, std::string>> Temp;
-
-    for ( const auto& entry : std::filesystem::directory_iterator( "Scripts" ) ) {
+    for ( const auto& entry : std::filesystem::directory_iterator( Folder ) ) {
         if ( entry.is_regular_file( ) ) {
-            std::string Name, Content;
+            std::ifstream file( entry.path( ) );
 
-            Name = entry.path( ).filename( ).string( );
-
-            std::ifstream File( entry.path( ) );
-
-            if ( File.is_open( ) )
-                Content = std::string( ( std::istreambuf_iterator<char>( File ) ), std::istreambuf_iterator<char>( ) );
-            else {
-                Untitled::Utilities::PrintError( "Failed to open file!\n" );
-                continue;
+            if ( file.is_open( ) ) {
+                std::string name = entry.path( ).filename( ).string( );
+                std::string content( ( std::istreambuf_iterator<char>( file ) ), std::istreambuf_iterator<char>( ) );
+                FolderContent.push_back( std::make_tuple( name, content ) );
             }
-
-            Temp.push_back( std::make_tuple( Name, Content ) );
+            else
+                continue;
         }
     }
 
-    return Temp;
+    return FolderContent;
 }
 
 int Untitled::Utilities::IsFirstLaunch( ) {
-    HKEY HKey;
+    HKEY hKey;
 
-    if ( RegOpenKeyEx( HKEY_CURRENT_USER, "Software//UntitledAPI", 0, KEY_READ, &HKey ) != ERROR_SUCCESS ) {
-        if ( RegCreateKey( HKEY_CURRENT_USER, "Software//UntitledAPI", &HKey ) == ERROR_SUCCESS ) {
+    if ( RegOpenKeyEx( HKEY_CURRENT_USER, "Software\\UntitledAPI", 0, KEY_READ, &hKey ) != ERROR_SUCCESS ) {
+        if ( RegCreateKey( HKEY_CURRENT_USER, "Software\\UntitledAPI", &hKey ) == ERROR_SUCCESS ) {
             DWORD value = 1;
-            RegSetValueEx( HKey, "IsFirstLaunch", 0, REG_DWORD, ( BYTE* ) &value, sizeof( value ) );
-            RegCloseKey( HKey );
+            RegSetValueEx( hKey, "IsFirstLaunch", 0, REG_DWORD, reinterpret_cast< const BYTE* >( &value ), sizeof( value ) );
+            RegCloseKey( hKey );
         }
 
         return 1;
     }
-    else {
-        RegCloseKey( HKey );
-        return 0;
-    }
+
+    RegCloseKey( hKey );
+    return 0;
 }
