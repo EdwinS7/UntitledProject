@@ -160,6 +160,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\Ast\Ast.cpp" />
+    <ClCompile Include="Include\Parser\Parser.cpp" />
     <ClCompile Include="Include\Window\Graphics.cpp" />
     <ClCompile Include="Include\Window\Window.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -180,7 +182,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
+    <ClInclude Include="Include\Ast\Ast.hpp" />
     <ClInclude Include="Include\Context\Context.hpp" />
+    <ClInclude Include="Include\Parser\Parser.hpp" />
     <ClInclude Include="Include\Window\Graphics.hpp" />
     <ClInclude Include="Include\Interpreter\Interpreter.hpp" />
     <ClInclude Include="Include\Lexer\Lexer.hpp" />

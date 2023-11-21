@@ -5,18 +5,18 @@ std::unordered_map<std::string, int> Keywords = {
 };
 
 LexerResponse Untitled::Lexer::Tokenize( const std::string& Source ) {
-    auto Response = LexerResponse( );
+    auto Lexer = LexerResponse( );
 
     int Start = 0;
     for ( int i = 0; i < Source.size( ); i++ ) {
         if ( Source[ i ] == '(' )
-            Response.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::OpenParen ) );
+            Lexer.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::OpenParen ) );
         else if ( Source[ i ] == ')' )
-            Response.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::CloseParen ) );
+            Lexer.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::CloseParen ) );
         else if ( Source[ i ] == '+' || Source[ i ] == '-' || Source[ i ] == '*' || Source[ i ] == '/' )
-            Response.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::BinaryOperator ) );
+            Lexer.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::BinaryOperator ) );
         else if ( Source[ i ] == '=' )
-            Response.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::Equals ) );
+            Lexer.Tokens.push_back( Token( std::string( 1, Source[ i ] ), TokenType::Equals ) );
         else {
             // Handle multichar tokens
             Start = i;
@@ -27,7 +27,7 @@ LexerResponse Untitled::Lexer::Tokenize( const std::string& Source ) {
                 while ( i < Source.size( ) && ( std::isdigit( Source[ i ] ) || Source[ i ] == '.' ) )
                     i++;
 
-                Response.Tokens.push_back( Token( Source.substr( Start, i - Start ), TokenType::Number ) );
+                Lexer.Tokens.push_back( Token( Source.substr( Start, i - Start ), TokenType::Number ) );
             }
             else if ( IsAlpha( std::string( 1, Source[ i ] ) ) ) {
                 while ( i < Source.size( ) && ( std::isalnum( Source[ i ] ) || Source[ i ] == '_' ) )
@@ -37,20 +37,21 @@ LexerResponse Untitled::Lexer::Tokenize( const std::string& Source ) {
 
                 auto keywordIt = Keywords.find( sToken );
                 if ( keywordIt != Keywords.end( ) )
-                    Response.Tokens.push_back( Token( sToken, keywordIt->second ) );
+                    Lexer.Tokens.push_back( Token( sToken, keywordIt->second ) );
                 else
-                    Response.Tokens.push_back( Token( sToken, TokenType::Identifier ) );
+                    Lexer.Tokens.push_back( Token( sToken, TokenType::Identifier ) );
             }
-            else {
-
-            }
+            else
+                Context::AddLog( 3, ( "Unrecognized character found in source: ", std::string( 1, Source[ i ] ) ) );
         }
     }
 
-    for ( const auto& Token : Response.Tokens )
-        Response.Formatted.push_back( "{ name: \"" + Token.Name + "\", type: " + std::to_string( Token.Type ) + " }" );
+    Lexer.Tokens.push_back( Token("EndOfFile", TokenType::Eof ) );
 
-    return Response;
+    for ( const auto& Token : Lexer.Tokens )
+        Lexer.Formatted.push_back( "{ name: \"" + Token.Name + "\", type: " + std::to_string( Token.Type ) + " }" );
+
+    return Lexer;
 }
 
 int Untitled::Lexer::IsWhitespace( const std::string& Token ) {

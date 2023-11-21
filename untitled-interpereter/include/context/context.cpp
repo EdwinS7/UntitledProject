@@ -151,12 +151,14 @@ void Untitled::Context::RenderWindow( ) {
 }
 
 int Untitled::Context::RunScript( const char* Environment, const std::string& Source, int Level ) {
-    LexerResponse LexerResponse = Lexer::Tokenize( Source );
+    auto LexerResponse = Lexer::Tokenize( Source );
 
     if ( LexerResponse.Tokens.size( ) <= 3 ) {
         AddLog( 3, "Too few tokens to interpret!" );
         return 0;
     }
+
+    auto ParserResponse = Parser::ProduceAST( Source );
 
     InterpreterResponse InterpreterResponse = Interpreter::Interpret( Environment, LexerResponse );
 
