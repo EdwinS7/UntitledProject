@@ -1,45 +1,23 @@
 #include "context.hpp"
 
-void c_ctx::init( ) {
+void cContext::Init( ) {
     try {
-        // @note: Wait for last module loaded!
-        while ( !GetModuleHandleA( "ntdll.dll" ) )
-            std::this_thread::sleep_for( 1s );
+        while ( !GetModuleHandleA( LAST_LOADED_MODULE ) )
+            std::this_thread::sleep_for( 1ms );
 
-        // @note: Allocate a console.
-        if ( !AllocConsole( ) )
+        if ( !Utilities->AllocateConsole( std::format( "{} ( {} )", GAME_NAME, GAME_VERSION ) ) ) {
+            LOG_ERROR( "Failed to allocate console!" );
             return;
+        }
 
-        // @note: fix in/out messages.
-        FILE* fp = nullptr;
-        freopen_s( &fp, "CONOUT$", "w", stdout );
+        if ( !Hooking::Init( ) )
+            LOG_ERROR( Xor( "Failed to initiate hooks!" ) );
 
-        printf( "Allocating Console...\n" );
-        printf( "Redirecting in/out put...\n" );
-
-        // @note: run per frame ( run this under a function that is called 1x per frame )
-        std::jthread{ [ ] {
-            while ( true ) {
-                g_memory->write_memory( g_memory->key_valid, 1 );
-                
-                g_memory->RenderText( 10, 10, 100, 100, 0.f, "Test lol" );
-            }
-        } }.detach( );
+        LOG( Xor( "[End] You may close this console now!" ) );
     }
     catch ( const std::exception& error ) {
-        printf( "Caught an exception: %s\n", error.what( ) );
+        LOG_ERROR( std::vformat( Xor( "Caught an exception: {}" ), std::make_format_args( error.what( ) ) ) );
     }
     
-    FreeConsole( );
-}
-
-BOOL APIENTRY DllMain( HMODULE module, DWORD reason, LPVOID reserved ) {
-    if ( reason != DLL_PROCESS_ATTACH )
-        return 0;
-
-    std::jthread{ [ ] {
-        g_ctx->init( );
-    } }.detach( );
-
-    return 1;
+    //FreeConsole( );
 }

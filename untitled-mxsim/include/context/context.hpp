@@ -2,10 +2,12 @@
 
 #include "../../common.hpp"
 
-class c_ctx {
+class cContext {
 public:
-	void init( );
+	void Init( );
 
+protected:
+	
 };
 
-inline const auto g_ctx = std::make_unique<c_ctx>( );
+inline const auto Context = std::make_unique<cContext>( );

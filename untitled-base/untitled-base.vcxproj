@@ -21,10 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}</ProjectGuid>
-    <RootNamespace>untitledmxsim</RootNamespace>
+    <ProjectGuid>{c19d14f9-ed21-434b-ad68-d379ba085dc2}</ProjectGuid>
+    <RootNamespace>untitledbase</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>untitled-mxsim</ProjectName>
+    <ProjectName>untitled-base</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;untitledmxsim_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;UNTITLEDBASE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -120,7 +120,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;untitledmxsim_EXPORTS;_WINDOWS;_USRDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;UNTITLEDBASE_EXPORTS;_WINDOWS;_USRDLL;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -141,7 +141,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;untitledmxsim_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;UNTITLEDBASE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -162,7 +162,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;untitledmxsim_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;UNTITLEDBASE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -180,9 +180,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\Console\Console.cpp" />
     <ClCompile Include="Include\Context\Context.cpp" />
-    <ClCompile Include="Include\Hooking\Hooks.cpp" />
-    <ClCompile Include="Include\Hooking\Hooks\IsKeyValid.cpp" />
+    <ClCompile Include="Include\Hooks\Hooks.cpp" />
+    <ClCompile Include="Include\Hooks\Hooks\IsLicenseKeyValid.cpp" />
     <ClCompile Include="include\memory\Memory.cpp" />
     <ClCompile Include="DLLMain.cpp" />
     <ClCompile Include="Include\Utilities\Utilities.cpp" />
@@ -190,8 +191,9 @@
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
     <ClInclude Include="Definitions.hpp" />
+    <ClInclude Include="Include\Console\Console.hpp" />
     <ClInclude Include="Include\Context\Context.hpp" />
-    <ClInclude Include="Include\Hooking\Hooks.hpp" />
+    <ClInclude Include="Include\Hooks\Hooks.hpp" />
     <ClInclude Include="Include\Memory\Memory.hpp" />
     <ClInclude Include="Include\Utilities\Utilities.hpp" />
     <ClInclude Include="Thirdparty\MinHook\MinHook.h" />

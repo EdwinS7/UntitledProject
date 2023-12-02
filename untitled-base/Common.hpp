@@ -8,8 +8,6 @@
 #include <string>
 #include <format>
 
-using namespace std::chrono_literals;
-
 // Third party & Definitions
 #include "Thirdparty/Xorstr.hpp"
 #include "Thirdparty/MinHook/MinHook.h"
@@ -17,6 +15,8 @@ using namespace std::chrono_literals;
 
 // Local
 #include "Include/Utilities/Utilities.hpp"
+#include "Include/Console/Console.hpp"
 #include "Include/Memory/Memory.hpp"
-#include "Include/Hooking/Hooks.hpp"
+#include "Include/Hooks/Hooks.hpp"
+
 #include "Include/Context/Context.hpp"

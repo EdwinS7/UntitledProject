@@ -24,13 +24,16 @@
     <ClCompile Include="DLLMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Hooking\Hooks\IsKeyValid.cpp">
+    <ClCompile Include="Include\Hooks\Hooks\IsLicenseKeyValid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Hooking\Hooks.cpp">
+    <ClCompile Include="Include\Hooks\Hooks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\Utilities\Utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Console\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,13 +53,16 @@
     <ClInclude Include="Thirdparty\Xorstr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Hooking\Hooks.hpp">
+    <ClInclude Include="Include\Hooks\Hooks.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\MinHook\MinHook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Utilities\Utilities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Console\Console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
