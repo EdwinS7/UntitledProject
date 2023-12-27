@@ -1,17 +1,17 @@
-#include "context.hpp"
+#include "Context.hpp"
 
-ALWAYS_INLINE int c_ctx::get_framerate( ) const {
-	return m_fps;
+inline int cContext::GetFrameRate( ) {
+	return m_Fps;
 }
 
-ALWAYS_INLINE float c_ctx::get_real_time( ) const {
-	return m_real_time;
+inline float cContext::GetRealTime( ) {
+	return m_RealTime;
 }
 
-ALWAYS_INLINE float c_ctx::get_delta_time( ) const {
-	return m_delta_time;
+inline float cContext::GetDeltaTime( ) {
+	return m_DeltaTime;
 }
 
-ALWAYS_INLINE timepoint_t c_ctx::get_time_point( ) const {
-	return m_time_point;
+inline std::chrono::steady_clock::time_point cContext::getTimePoint( ) {
+	return m_TimePoint;
 }

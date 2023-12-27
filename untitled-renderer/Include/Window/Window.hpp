@@ -1,0 +1,30 @@
+#pragma once
+
+// includes
+#include "../../common.hpp"
+
+class cWindow {
+public:
+	void SetWindowTitle( const char* title );
+
+	int CreateRenderEnvironment( const char* title, const Vec2< int16_t > size );
+	void DestroyRenderEnvironment();
+
+	int CreateLoggingEnvironment( const char* title );
+	void DestroyLoggingEnvironment();
+
+	bool Dispatch( );
+
+	inline Vec2<int16_t> GetPos( );
+	inline Vec2<int16_t> GetSize( );
+
+	inline HWND GetHwnd( );
+private:
+
+	HWND m_Hwnd;
+	WNDCLASSEX m_WindowClass;
+};
+
+inline const auto gWin32 = std::make_unique<cWindow>( );
+
+#include "Window.inl"

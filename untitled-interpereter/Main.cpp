@@ -8,7 +8,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     while ( Untitled::Win32::Dispatch( ) ) {
         Untitled::Graphics::BeginScene( );
-        Untitled::Context::RenderWindow( );
+        Untitled::Gui::Render( );
         Untitled::Graphics::EndScene( );
     }
 }

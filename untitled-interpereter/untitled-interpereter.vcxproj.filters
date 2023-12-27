@@ -66,10 +66,10 @@
     <ClCompile Include="Thirdparty\ImGui\imgui_texteditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Ast\Ast.cpp">
+    <ClCompile Include="Include\Gui\Gui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Parser\Parser.cpp">
+    <ClCompile Include="Include\Config\Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,10 +131,10 @@
     <ClInclude Include="Thirdparty\ImGui\imgui_texteditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Ast\Ast.hpp">
+    <ClInclude Include="Include\Gui\Gui.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Parser\Parser.hpp">
+    <ClInclude Include="Include\Config\Config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

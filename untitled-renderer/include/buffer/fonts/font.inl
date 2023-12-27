@@ -1,6 +1,6 @@
 #include "font.hpp"
 
-ALWAYS_INLINE std::string c_font::get_path( const char* font_name ) {
+inline std::string cFont::GetPath( const char* font_name ) {
 	HKEY key;
 
 	if ( RegOpenKeyExA( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &key ) != ERROR_SUCCESS )

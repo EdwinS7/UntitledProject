@@ -8,15 +8,10 @@ enum ExecutionLevel {
     UNRESTRICTED    // (WARNING) You can do anything.
 };
 
-#define WINDOW_FLAGS ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings
-#define INACTIVE_WINDOW_FLAGS ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoNav
-
 namespace Untitled::Context {
     void Init( );
-    void RenderWindow( );
 
-    int RunScript( const char* Environment, const std::string& Source, int Level );
-    void UpdateLists( InterpreterResponse Interpreter, LexerResponse Lexer );
+    int Execute( const char* Environment, const std::string& Source, int Level );
 
     void AddLog( int Level, std::string Message );
     void ClearLog( );

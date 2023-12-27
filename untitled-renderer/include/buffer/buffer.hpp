@@ -5,162 +5,58 @@
 #include "components.hpp"
 #include "fonts/font.hpp"
 
-class c_buffer {
+class cBuffer {
 public:
-    void create_objects( );
-    void destroy_objects( );
+    void CreateObjects( );
+    void DestroyObjects( );
 
-    void write_to_buffer( const int8_t primitive, const std::vector<vertex_t>* vertices, const std::vector<int32_t>* indices );
-    void build_draw_commands( const std::vector<draw_command_t>& draw_commands );
+    void WriteToBuffer( const int8_t Primitive, const std::vector<Vertex>* Vertices, const std::vector<int32_t>* Indices );
+    void BuildDrawCommands( const std::vector<DrawCommand>& DrawCommands );
 
-    void line( const vector2_t<int16_t> from, const vector2_t<int16_t> to, const color_t clr );
+    void Line( const Vec2<int16_t> From, const Vec2<int16_t> To, const Color Color );
+    void Polyline( const std::vector<Vec2<int16_t>> Points, const Color Color );
+    void Polygon( const std::vector<Vec2<int16_t>> Points, const Color Color );
+    void Rectangle( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color, const int16_t Rounding = 0, const corner_flags Flags = corner_all );
+    void FilledRectangle( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color, const int16_t Rounding = 0, const corner_flags Flags = corner_all );
+    void TexturedRectangle( IDirect3DTexture9* Resource, const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color );
+    void Gradient( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color ColorFrom, const Color ColorTo, const bool Vertical );
+    void FilledGradient( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color ColorFrom, const Color ColorTo, const bool Vertical );
+    void Gradient( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color1, const Color Color2, const Color Color3, const Color Color4 );
+    void FilledGradient( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color1, const Color Color2, const Color Color3, const Color Color4 );
+    void Triangle( const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3, const Color Color );
+    void FilledTriangle( const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3, const Color Color );
+    void Circle( const Vec2<int16_t> Pos, const int16_t Radius, const Color Color );
+    void FilledCircle( const Vec2<int16_t> Pos, const int16_t Radius, const Color Color );
 
-    void polyline( const std::vector<vector2_t<int16_t>> points, const color_t clr );
+    void String( const Font* Font, const char* String, const Vec2<int16_t> Pos, const Color Color );
+    Vec2<int16_t> GetStringSize( const Font* Font, const char* String );
 
-    void polygon(
-        const std::vector<vector2_t<int16_t>> points,
-        const color_t clr
-    );
+    void RotateObject( float Degrees );
 
-    void rectangle(
-        const vector2_t<int16_t> pos,
-        const vector2_t<int16_t> size,
-        const color_t clr,
-        const int16_t rounding,
-        const corner_flags flags = corner_all
-    );
+    inline void ClearCommands( );
+    inline Command GetCommand( );
+    inline CompiledDrawCommand GetDrawCommand( );
+    inline std::vector<DrawCommand> GetDrawCommands( );
 
-    void filled_rectangle(
-        const vector2_t<int16_t> pos,
-        const vector2_t<int16_t> size,
-        const color_t clr,
-        const int16_t rounding,
-        const corner_flags flags = corner_all
-    );
+    inline int GetCommandsCount( );
+    inline int GetVerticesCount( );
+    inline int GetIndicesCount( );
 
-    void textured_rectangle(
-        texture* resource,
-        const vector2_t<int16_t> pos,
-        const vector2_t<int16_t> size,
-        const color_t clr
-    );
+    inline void PushClip( RECT rect );
+    inline void PopClip( );
 
-    void gradient(
-        const vector2_t<int16_t> pos,
-        const vector2_t<int16_t> size,
-        const color_t clr,
-        const color_t clr2,
-        const bool vertical
-    );
+    inline void PushTexture( IDirect3DTexture9* Resource );
+    inline void PopTexture( );
 
-    void filled_gradient(
-        const vector2_t<int16_t> pos,
-        const vector2_t<int16_t> size,
-        const color_t clr,
-        const color_t clr2,
-        const bool vertical
-    );
+    void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3 );
 
-    void gradient( 
-        const vector2_t<int16_t> pos,
-        const vector2_t<int16_t> size,
-        const color_t clr,
-        const color_t clr2,
-        const color_t clr3,
-        const color_t clr4
-    );
+    struct cFonts {
+        Font Default;
+    } Fonts;
 
-    void filled_gradient(
-        const vector2_t<int16_t> pos,
-        const vector2_t<int16_t> size,
-        const color_t clr,
-        const color_t clr2,
-        const color_t clr3,
-        const color_t clr4
-    );
-
-    void triangle( 
-        const vector2_t<int16_t> p1,
-        const vector2_t<int16_t> p2,
-        const vector2_t<int16_t> p3,
-        const color_t clr
-    );
-
-    void filled_triangle(
-       const vector2_t<int16_t> p1,
-       const vector2_t<int16_t> p2,
-       const vector2_t<int16_t> p3,
-       const color_t clr
-    );
-
-    void circle(
-        const vector2_t<int16_t> pos,
-        const int16_t radius,
-        const color_t clr
-    );
-
-    void filled_circle(
-        const vector2_t<int16_t> pos,
-        const int16_t size,
-        const color_t clr
-    );
-
-    void text(
-       const font_t* font,
-       const char* str,
-       const vector2_t<int16_t> pos,
-       const color_t clr
-    );
-
-    vector2_t<int16_t> get_text_size(
-         const font_t* font,
-        const char* str
-    );
-
-    void set_rotation(
-        float val
-    );
-
-// inline
-    ALWAYS_INLINE void clear_commands( );
-
-    ALWAYS_INLINE command_t get_command( );
-
-    ALWAYS_INLINE compiled_draw_command_t get_draw_command( );
-
-    ALWAYS_INLINE std::vector<draw_command_t> get_draw_commands( );
-
-    ALWAYS_INLINE int get_num_of_commands( );
-
-    ALWAYS_INLINE int get_num_of_vertices( );
-
-    ALWAYS_INLINE int get_num_of_indices( );
-
-    ALWAYS_INLINE void push_clip(
-        RECT rect
-    );
-
-    ALWAYS_INLINE void pop_clip( );
-
-    ALWAYS_INLINE void push_texture(
-        texture resource
-    );
-
-    ALWAYS_INLINE void pop_texture( );
-
-// @fonts
-    font_t default_font;
-    font_t interface_font;
-
-// @textures
-    texture default_texture;
-
-    void generate_quadratic_bezier_points(
-       std::vector<vector2_t<int16_t>>* points,
-       const vector2_t<int16_t> p0,
-       const vector2_t<int16_t> p1,
-       const vector2_t<int16_t> p2
-    );
+    struct cTextures {
+        IDirect3DTexture9* Default;
+    } Textures;
 
 private:
     float m_rotation;
@@ -168,13 +64,13 @@ private:
     int m_vertices_count;
     int m_indices_count;
 
-	std::vector < draw_command_t > m_draw_commands;
-	compiled_draw_command_t m_draw_command;
-	command_t m_command;
+	std::vector < DrawCommand > m_draw_commands;
+	CompiledDrawCommand m_draw_command;
+	Command m_command;
 
 	void generate_arc_points( 
-		std::vector<vector2_t<int16_t>>* points,
-		const vector2_t<int16_t>* pos, 
+		std::vector<Vec2<int16_t>>* points,
+		const Vec2<int16_t>* pos, 
 		const int16_t radius,
 		const int16_t completion,
 		const int16_t rotation,
@@ -182,14 +78,14 @@ private:
 	);
 
 	void make_vertices( 
-		std::vector<vertex_t>* vertices, 
-		const std::vector<vector2_t<int16_t>>* points, 
-		const color_t* color
+		std::vector<Vertex>* vertices, 
+		const std::vector<Vec2<int16_t>>* points, 
+		const Color* color
 	);
-    void rotate_object( std::vector<vertex_t>* vertices, vector2_t<int16_t> center_manual = { -1, -1 } );
+    void rotate_object( std::vector<Vertex>* vertices, Vec2<int16_t> center_manual = { -1, -1 } );
 };
 
-inline const auto g_buffer = std::make_unique<c_buffer>( );
+inline const auto gBuffer = std::make_unique<cBuffer>( );
 
 /* lower = performance, higher = quality */
 #define CIRCLE_SEGMENTS 64

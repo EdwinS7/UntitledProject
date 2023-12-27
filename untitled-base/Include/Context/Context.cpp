@@ -8,7 +8,8 @@ void Context::Init( void* Reserved ) {
     while ( !GetModuleHandleA( LAST_LOADED_MODULE ) )
         std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
 
-    Hooks::Initialize( );
+    if ( Hooks::Initialize( ) )
+        LOG( Xor( "[Hooks] Initialized!" ) );
 
     while ( !GetAsyncKeyState( VK_DELETE ) && !GetAsyncKeyState( VK_END ) )
         std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );

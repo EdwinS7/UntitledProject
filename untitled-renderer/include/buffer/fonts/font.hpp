@@ -1,18 +1,18 @@
 #pragma once
 
 #include "../buffer.hpp"
+#include FT_FREETYPE_H
+#include FT_BITMAP_H
 
-class c_font {
+class cFont {
 public:
-	void create_font( font_t* font, const char* font_name, const int16_t size, const int16_t weight, const int16_t padding, const bool anti_aliased );
-
-	void release_font( font_t* font );
+	void Create( Font* font, const char* font_name, const int16_t size, const int16_t weight, const int16_t padding, const bool anti_aliased );
 
 private:
-	ALWAYS_INLINE std::string get_path( const char* font_name );
+	inline std::string GetPath( const char* font_name );
 
 };
 
-inline const auto g_font = std::make_unique<c_font>( );
+inline const auto gFont = std::make_unique<cFont>( );
 
 #include "font.inl"

@@ -1,6 +1,6 @@
 #include "buffer.hpp"
 
-ALWAYS_INLINE void c_buffer::clear_commands( ) {
+inline void cBuffer::ClearCommands( ) {
     m_draw_commands.clear( );
     m_draw_command.reset( );
 
@@ -8,42 +8,42 @@ ALWAYS_INLINE void c_buffer::clear_commands( ) {
     m_indices_count = 0;
 }
 
-ALWAYS_INLINE command_t c_buffer::get_command( ) {
+inline Command cBuffer::GetCommand( ) {
     return m_command;
 }
 
-ALWAYS_INLINE compiled_draw_command_t c_buffer::get_draw_command( ) {
+inline CompiledDrawCommand cBuffer::GetDrawCommand( ) {
     return m_draw_command;
 }
 
-ALWAYS_INLINE std::vector<draw_command_t> c_buffer::get_draw_commands( ) {
+inline std::vector<DrawCommand> cBuffer::GetDrawCommands( ) {
     return m_draw_commands;
 }
 
-ALWAYS_INLINE int c_buffer::get_num_of_commands( ) {
+inline int cBuffer::GetCommandsCount( ) {
     return m_draw_commands.size();
 }
 
-ALWAYS_INLINE int c_buffer::get_num_of_vertices( ) {
+inline int cBuffer::GetVerticesCount( ) {
     return m_vertices_count;
 }
 
-ALWAYS_INLINE int c_buffer::get_num_of_indices( ) {
+inline int cBuffer::GetIndicesCount( ) {
     return m_indices_count;
 }
 
-ALWAYS_INLINE void c_buffer::push_clip( RECT rect ) {
+inline void cBuffer::PushClip( RECT rect ) {
     m_command.clips.push_back( rect );
 }
 
-ALWAYS_INLINE void c_buffer::pop_clip( ) {
+inline void cBuffer::PopClip( ) {
     m_command.clips.pop_back( );
 }
 
-ALWAYS_INLINE void c_buffer::push_texture( texture resource ) {
+inline void cBuffer::PushTexture( IDirect3DTexture9* resource ) {
     m_command.textures.push_back( resource );
 }
 
-ALWAYS_INLINE void c_buffer::pop_texture( ) {
+inline void cBuffer::PopTexture( ) {
     m_command.textures.pop_back( );
 }

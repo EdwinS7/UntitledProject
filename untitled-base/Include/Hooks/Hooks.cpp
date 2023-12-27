@@ -9,8 +9,6 @@ int MAKE_HOOK( const std::string& pattern, type detour, type* original ) {
 }
 
 int Hooks::Initialize( ) {
-    LOG( Xor( "[Hooks] Initializing..." ) );
-
     if ( MH_Initialize( ) != MH_OK )
         return 0;
 

@@ -186,7 +186,6 @@
     <ClCompile Include="Include\Hooks\Hooks\IsLicenseKeyValid.cpp" />
     <ClCompile Include="include\memory\Memory.cpp" />
     <ClCompile Include="DLLMain.cpp" />
-    <ClCompile Include="Include\Utilities\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
@@ -195,7 +194,6 @@
     <ClInclude Include="Include\Context\Context.hpp" />
     <ClInclude Include="Include\Hooks\Hooks.hpp" />
     <ClInclude Include="Include\Memory\Memory.hpp" />
-    <ClInclude Include="Include\Utilities\Utilities.hpp" />
     <ClInclude Include="Thirdparty\MinHook\MinHook.h" />
     <ClInclude Include="Thirdparty\Xorstr.hpp" />
   </ItemGroup>

@@ -36,12 +36,12 @@ using namespace std::chrono_literals;
 #include "Thirdparty/ImGui/Wrapper/Wrapper.hpp"
 
 #include "Include/Definitions.hpp"
+#include "Include/Config/Config.hpp"
 
 #include "Include/Utilities/Utilities.hpp"
 
-#include "Include/Ast/Ast.hpp"
 #include "Include/Lexer/Lexer.hpp"
-#include "Include/Parser/Parser.hpp"
 #include "Include/Interpreter/Interpreter.hpp"
 
 #include "Include/Context/Context.hpp"
+#include "Include/Gui/Gui.hpp"

@@ -3,26 +3,26 @@
 // includes
 #include "../../common.hpp"
 
-class c_ctx {
+class cContext {
 public:
-	void update( );
+	void Update( );
 
-	ALWAYS_INLINE int get_framerate( ) const;
-	ALWAYS_INLINE float get_real_time( ) const;
-	ALWAYS_INLINE float get_delta_time( ) const;
-	ALWAYS_INLINE timepoint_t get_time_point( ) const;
+	inline int GetFrameRate( );
+	inline float GetRealTime( );
+	inline float GetDeltaTime( );
+	inline std::chrono::steady_clock::time_point getTimePoint( );
 
 private:
-	int m_fps;
-	int m_frame_count;
-	float m_real_time;
-	float m_delta_time;
-	float m_when_to_update;
+	int m_Fps;
+	int m_FrameCount;
+	float m_RealTime;
+	float m_DeltaTime;
+	float m_WhenToUpdate;
 
-	timepoint_t m_time_point;
-	timepoint_t m_frame_time;
+	std::chrono::steady_clock::time_point m_TimePoint;
+	std::chrono::steady_clock::time_point m_FrameTime;
 };
 
-inline const auto g_ctx = std::make_unique<c_ctx>( );
+inline const auto gContext = std::make_unique<cContext>( );
 
 #include "context.inl"
