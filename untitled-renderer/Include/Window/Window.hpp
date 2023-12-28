@@ -1,23 +1,23 @@
 #pragma once
-
-// includes
 #include "../../common.hpp"
 
 class cWindow {
 public:
-	void SetWindowTitle( const char* title );
 
 	int CreateRenderEnvironment( const char* title, const Vec2< int16_t > size );
-	void DestroyRenderEnvironment();
+	void SetRenderEnvironmentTitle( const char* title );
+	void DestroyRenderEnvironment( );
 
 	int CreateLoggingEnvironment( const char* title );
+	void SetLoggingEnvironmentTitle( const char* title );
 	void DestroyLoggingEnvironment();
 
 	bool Dispatch( );
 
 	inline Vec2<int16_t> GetPos( );
 	inline Vec2<int16_t> GetSize( );
-
+	inline RECT GetCanvasRect( );
+	inline RECT GetRect( );
 	inline HWND GetHwnd( );
 private:
 

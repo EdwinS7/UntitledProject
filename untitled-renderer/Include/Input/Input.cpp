@@ -1,6 +1,8 @@
 #include "input.hpp"
 
-void c_input::PoolInput( ) {
+void cInput::PoolInput( ) {
+	m_CursorStyle = IDC_ARROW;
+
     for ( size_t i = 0; i < 255; i++ ) {
         bool is_pressed = ( GetAsyncKeyState( i ) & 0x8000 ) != 0;
 		m_KeyStates[ i ] = std::make_pair( is_pressed, is_pressed != m_PreviousKeyStates[ i ].first );
@@ -9,13 +11,11 @@ void c_input::PoolInput( ) {
     }
 }
 
-
-
-void c_input::SetMousePos( Vec2<int16_t> pos ) {
+void cInput::SetMousePos( Vec2<int16_t> pos ) {
 	m_MousePos = pos;
 }
 
-bool c_input::MouseHoveringRect( Vec2<int16_t> pos, Vec2<int16_t> size ) {
+bool cInput::MouseHoveringRect( Vec2<int16_t> pos, Vec2<int16_t> size ) {
 	std::pair<bool, bool> m_hovered {
 		GetMousePos( ).x > pos.x && GetMousePos( ).y > pos.y,
 		GetMousePos( ).x < pos.x + size.x && GetMousePos( ).y < pos.y + size.y
@@ -24,10 +24,15 @@ bool c_input::MouseHoveringRect( Vec2<int16_t> pos, Vec2<int16_t> size ) {
 	return m_hovered.first && m_hovered.second;
 }
 
-bool c_input::KeyPressed( int8_t key ) {
+bool cInput::KeyPressed( int8_t key ) {
 	return ( std::get<0>( m_KeyStates[ key ] ) && std::get<1>( m_KeyStates[ key ] ) );
 }
 
-bool c_input::KeyHeld( int8_t key ) {
+bool cInput::KeyHeld( int8_t key ) {
 	return std::get<0>( m_KeyStates[ key ] );
+}
+
+
+void cInput::SetCursorStyle( LPSTR ID ) {
+	m_CursorStyle = ID;
 }

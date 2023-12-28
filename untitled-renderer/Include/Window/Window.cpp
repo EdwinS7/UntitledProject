@@ -8,7 +8,10 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 
 		return 0;
 	case WM_MOUSEMOVE:
-		g_input->SetMousePos( Vec2<int16_t>( LOWORD( lParam ), HIWORD( lParam ) ) );
+		gInput->SetMousePos( Vec2<int16_t>( LOWORD( lParam ), HIWORD( lParam ) ) );
+		break;
+	case WM_SETCURSOR:
+		SetCursor( LoadCursorA( 0, gInput->GetCursorStyle( ) ) );
 		break;
 	case WM_DESTROY:
 		PostQuitMessage( 0 );
@@ -18,7 +21,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 
-void cWindow::SetWindowTitle(const char* title) {
+void cWindow::SetRenderEnvironmentTitle(const char* title) {
 	SetWindowTextA( m_Hwnd, title );
 }
 
@@ -65,6 +68,10 @@ int cWindow::CreateLoggingEnvironment( const char* title ) {
 	std::printf( std::vformat( "[ Win32 ] Console created ( name: {} )\n", std::make_format_args( title ) ).c_str( ) );
 
 	return 1;
+}
+
+void cWindow::SetLoggingEnvironmentTitle( const char* title ) {
+	SetConsoleTitle( title );
 }
 
 void cWindow::DestroyLoggingEnvironment( ) {

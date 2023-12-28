@@ -138,9 +138,11 @@ public:
 	std::vector<Glyph> char_set{ 256 };
 
 	void Release( ) {
-		for ( auto& cur_char : char_set ) {
-			cur_char.resource->Release( );
-			cur_char.resource = nullptr;
+		for ( int i = 0; i < char_set.size( ); i++ ) {
+			if ( char_set[ i ].resource )
+				char_set[ i ].resource->Release( );
+
+			char_set[ i ].resource = nullptr;
 		}
 	}
 

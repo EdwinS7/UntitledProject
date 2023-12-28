@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <windows.h>
 #include <Uxtheme.h>
 #include <dwmapi.h>
@@ -31,4 +32,6 @@
 
 #include "Include/Input/Input.hpp"
 #include "Include/Window/Window.hpp"
+#include "Include/Gui/Gui.hpp"
+
 #include "Include/context/Context.hpp"

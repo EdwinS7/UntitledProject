@@ -3,7 +3,7 @@
 #include "../../common.hpp"
 #include "KeyDefinitions.hpp"
 
-class c_input {
+class cInput {
 public:
 	void PoolInput( );
 
@@ -15,13 +15,18 @@ public:
 	bool KeyPressed( int8_t key );
 	bool KeyHeld( int8_t key );
 
+	void SetCursorStyle( LPSTR ID );
+	inline LPSTR GetCursorStyle( );
+
 private:
 	Vec2<int16_t> m_MousePos;
 
 	std::pair<bool, bool> m_PreviousKeyStates[ 255 ];
 	std::pair<bool, bool> m_KeyStates[ 255 ];
+
+	LPSTR m_CursorStyle;
 };
 
-inline const auto g_input = std::make_unique<c_input>( );
+inline const auto gInput = std::make_unique<cInput>( );
 
 #include "Input.inl"

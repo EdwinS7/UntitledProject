@@ -18,10 +18,7 @@
     <ClCompile Include="Include\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Buffer\buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\Buffer\fonts\font.cpp">
+    <ClCompile Include="Include\Buffer\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\Context\Context.cpp">
@@ -36,18 +33,18 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Include\Gui\Gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Window\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Buffer\buffer.hpp">
+    <ClInclude Include="Include\Buffer\Buffer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Buffer\components.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Buffer\fonts\font.hpp">
+    <ClInclude Include="Include\Buffer\Components.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\ft2build.h">
@@ -368,12 +365,12 @@
     <ClInclude Include="Definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Gui\Gui.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Include\Buffer\buffer.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Include\Buffer\fonts\font.inl">
+    <None Include="Include\Buffer\Buffer.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Context\Context.inl">
@@ -386,6 +383,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Input\Input.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Gui\Gui.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

@@ -180,9 +180,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\Gui\Gui.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Include\Buffer\buffer.cpp" />
-    <ClCompile Include="Include\Buffer\fonts\font.cpp" />
+    <ClCompile Include="Include\Buffer\Buffer.cpp" />
     <ClCompile Include="Include\Context\Context.cpp" />
     <ClCompile Include="Include\Graphics\DirectX9.cpp" />
     <ClCompile Include="Include\Input\Input.cpp" />
@@ -193,9 +193,9 @@
     <ClInclude Include="Definitions.hpp" />
     <ClInclude Include="Include\Context\Context.hpp" />
     <ClInclude Include="Include\Graphics\DirectX9.hpp" />
-    <ClInclude Include="Include\Buffer\buffer.hpp" />
-    <ClInclude Include="Include\Buffer\components.hpp" />
-    <ClInclude Include="Include\Buffer\fonts\font.hpp" />
+    <ClInclude Include="Include\Buffer\Buffer.hpp" />
+    <ClInclude Include="Include\Buffer\Components.hpp" />
+    <ClInclude Include="Include\Gui\Gui.hpp" />
     <ClInclude Include="Include\Input\Input.hpp" />
     <ClInclude Include="Include\Input\KeyDefinitions.hpp" />
     <ClInclude Include="Thirdparty\freetype\config\ftconfig.h" />
@@ -301,10 +301,10 @@
     <ClInclude Include="Include\Window\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Include\Buffer\buffer.inl" />
-    <None Include="Include\Buffer\fonts\font.inl" />
+    <None Include="Include\Buffer\Buffer.inl" />
     <None Include="Include\Context\Context.inl" />
     <None Include="Include\Graphics\DirectX9.inl" />
+    <None Include="Include\Gui\Gui.inl" />
     <None Include="Include\Input\Input.inl" />
     <None Include="Include\Window\Window.inl" />
   </ItemGroup>

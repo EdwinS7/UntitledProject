@@ -18,6 +18,14 @@ inline Vec2< int16_t > cWindow::GetSize( ) {
 	std::printf( "[ Win32 ] get_size failed!" );
 }
 
+inline RECT cWindow::GetCanvasRect( ) {
+	return RECT( 0, 0, GetSize( ).x, GetSize( ).y );
+}
+
+inline RECT cWindow::GetRect( ) {
+	return RECT( GetPos().x, GetPos().y, GetPos( ).x + GetSize( ).x, GetPos( ).y + GetSize( ).y );
+}
+
 inline HWND cWindow::GetHwnd( ) {
 	return m_Hwnd;
 }

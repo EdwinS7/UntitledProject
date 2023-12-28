@@ -1,14 +1,13 @@
 #pragma once
 
 // includes
-#include "../../common.hpp"
-#include "components.hpp"
-#include "fonts/font.hpp"
+#include "../../Common.hpp"
+#include "Components.hpp"
 
 class cBuffer {
 public:
-    void CreateObjects( );
-    void DestroyObjects( );
+    void Init( bool ApplyDefaults );
+    void Destroy( );
 
     void WriteToBuffer( const int8_t Primitive, const std::vector<Vertex>* Vertices, const std::vector<int32_t>* Indices );
     void BuildDrawCommands( const std::vector<DrawCommand>& DrawCommands );
@@ -30,7 +29,7 @@ public:
 
     void String( const Font* Font, const char* String, const Vec2<int16_t> Pos, const Color Color );
     Vec2<int16_t> GetStringSize( const Font* Font, const char* String );
-
+     
     void RotateObject( float Degrees );
 
     inline void ClearCommands( );
@@ -47,11 +46,9 @@ public:
 
     inline void PushTexture( IDirect3DTexture9* Resource );
     inline void PopTexture( );
-
-    void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3 );
-
+    
     struct cFonts {
-        Font Default;
+        Font Default, Interface;
     } Fonts;
 
     struct cTextures {
@@ -59,38 +56,27 @@ public:
     } Textures;
 
 private:
-    float m_rotation;
+    float m_Rotation;
 
-    int m_vertices_count;
-    int m_indices_count;
+    int m_VerticesCount, m_IndicesCount;
+
+    int m_CircleSegments, m_RectangleSegments;
+    int m_BezierCubicSegments, m_BezierQuadraticSegments;
 
 	std::vector < DrawCommand > m_draw_commands;
 	CompiledDrawCommand m_draw_command;
 	Command m_command;
 
-	void generate_arc_points( 
-		std::vector<Vec2<int16_t>>* points,
-		const Vec2<int16_t>* pos, 
-		const int16_t radius,
-		const int16_t completion,
-		const int16_t rotation,
-		const int16_t segments
-	);
+    void GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* Pos, const int16_t Radius, const int16_t Completion, const int16_t Rotation, const int16_t Segments );
+    void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3 );
 
-	void make_vertices( 
-		std::vector<Vertex>* vertices, 
-		const std::vector<Vec2<int16_t>>* points, 
-		const Color* color
-	);
-    void rotate_object( std::vector<Vertex>* vertices, Vec2<int16_t> center_manual = { -1, -1 } );
+	void MakeVertices(  std::vector<Vertex>* vertices,  const std::vector<Vec2<int16_t>>* points,  const Color* color );
+    void RotateVertices( std::vector<Vertex>* vertices, Vec2<int16_t> center_manual = { -1, -1 } );
+
+    void CreateFontFromName( Font* Font, const char* FontName, const int16_t Size, const int16_t Weight, const int16_t Padding, const bool Antialiased );
+    inline std::string GetFontPath( const char* FontName );
 };
 
 inline const auto gBuffer = std::make_unique<cBuffer>( );
-
-/* lower = performance, higher = quality */
-#define CIRCLE_SEGMENTS 64
-#define RECTANGLE_SEGMENTS 16
-#define BEZIER_CUBIC_SEGMENTS 128
-#define BEZIER_QUADRATIC_SEGMENTS 128
 
 #include "buffer.inl"
