@@ -7,3 +7,7 @@ inline Vec2<int16_t> cInput::GetMousePos( ) {
 inline LPSTR cInput::GetCursorStyle( ) {
 	return m_CursorStyle;
 }
+
+inline bool cInput::AnyKeyPressed() {
+	return m_AnyKeyPressed;
+}

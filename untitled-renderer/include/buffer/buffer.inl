@@ -2,18 +2,18 @@
 
 inline void cBuffer::ClearCommands( ) {
     m_draw_commands.clear( );
-    m_draw_command.reset( );
+    m_DrawCommand.reset( );
 
     m_VerticesCount = 0;
     m_IndicesCount = 0;
 }
 
 inline Command cBuffer::GetCommand( ) {
-    return m_command;
+    return m_Command;
 }
 
 inline CompiledDrawCommand cBuffer::GetDrawCommand( ) {
-    return m_draw_command;
+    return m_DrawCommand;
 }
 
 inline std::vector<DrawCommand> cBuffer::GetDrawCommands( ) {
@@ -32,20 +32,20 @@ inline int cBuffer::GetIndicesCount( ) {
     return m_IndicesCount;
 }
 
-inline void cBuffer::PushClip( RECT rect ) {
-    m_command.clips.push_back( rect );
+inline void cBuffer::PushClip( RECT Rect ) {
+    m_Command.clips.push_back( Rect );
 }
 
 inline void cBuffer::PopClip( ) {
-    m_command.clips.pop_back( );
+    m_Command.clips.pop_back( );
 }
 
 inline void cBuffer::PushTexture( IDirect3DTexture9* resource ) {
-    m_command.textures.push_back( resource );
+    m_Command.textures.push_back( resource );
 }
 
 inline void cBuffer::PopTexture( ) {
-    m_command.textures.pop_back( );
+    m_Command.textures.pop_back( );
 }
 
 inline std::string cBuffer::GetFontPath( const char* FontName ) {

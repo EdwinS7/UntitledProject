@@ -18,7 +18,10 @@ public:
 	void SetCursorStyle( LPSTR ID );
 	inline LPSTR GetCursorStyle( );
 
+	inline bool AnyKeyPressed( );
+
 private:
+	bool m_AnyKeyPressed;
 	Vec2<int16_t> m_MousePos;
 
 	std::pair<bool, bool> m_PreviousKeyStates[ 255 ];

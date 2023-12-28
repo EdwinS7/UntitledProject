@@ -180,7 +180,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\Gui\Containers\Frame.cpp" />
+    <ClCompile Include="Include\Gui\Containers\Group.cpp" />
     <ClCompile Include="Include\Gui\Gui.cpp" />
+    <ClCompile Include="Include\Gui\Elements\Tab.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Include\Buffer\Buffer.cpp" />
     <ClCompile Include="Include\Context\Context.cpp" />
@@ -195,6 +198,8 @@
     <ClInclude Include="Include\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Buffer\Buffer.hpp" />
     <ClInclude Include="Include\Buffer\Components.hpp" />
+    <ClInclude Include="Include\Gui\Containers\Containers.hpp" />
+    <ClInclude Include="Include\Gui\Elements\Elements.hpp" />
     <ClInclude Include="Include\Gui\Gui.hpp" />
     <ClInclude Include="Include\Input\Input.hpp" />
     <ClInclude Include="Include\Input\KeyDefinitions.hpp" />

@@ -100,26 +100,26 @@ void cGraphics::RenderDrawData( ) {
     gBuffer->BuildDrawCommands( gBuffer->GetDrawCommands() );
     auto draw_command = gBuffer->GetDrawCommand( );
 
-    if ( !m_vertex_buffer || draw_command.vertices_count * sizeof( Vertex ) > m_vertex_buffer_size ) {
+    if ( !m_vertex_buffer || draw_command.VerticesCount * sizeof( Vertex ) > m_vertex_buffer_size ) {
         if ( m_vertex_buffer ) {
             m_vertex_buffer->Release( );
             m_vertex_buffer = nullptr;
         }
 
-        m_vertex_buffer_size = draw_command.vertices_count + 5000;
+        m_vertex_buffer_size = draw_command.VerticesCount + 5000;
 
         if ( m_device->CreateVertexBuffer( m_vertex_buffer_size * sizeof( Vertex ), 
             D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1,  D3DPOOL_DEFAULT, &m_vertex_buffer, nullptr ) < D3D_OK )
             std::printf( "[ Graphics ] CreateVertexBuffer Failed!" );
     }
 
-    if ( !m_index_buffer || draw_command.indices_count * sizeof( std::int32_t ) > m_index_buffer_size ) {
+    if ( !m_index_buffer || draw_command.IndicesCount * sizeof( std::int32_t ) > m_index_buffer_size ) {
         if ( m_index_buffer ) {
             m_index_buffer->Release( );
             m_index_buffer = nullptr;
         }
 
-        m_index_buffer_size = draw_command.indices_count + 10000;
+        m_index_buffer_size = draw_command.IndicesCount + 10000;
 
         if ( m_device->CreateIndexBuffer( m_index_buffer_size * sizeof( std::int32_t ), 
             D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_index_buffer, nullptr ) < D3D_OK )
@@ -129,14 +129,14 @@ void cGraphics::RenderDrawData( ) {
     Vertex* vertex_data{ };
     int32_t* index_data{ };
 
-    if ( m_vertex_buffer->Lock( 0, ( int ) ( draw_command.vertices_count * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_vertex_buffer->Lock( 0, ( int ) ( draw_command.VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
         std::printf( "[ Graphics ] m_vertex_buffer->Lock Failed!" );
 
-    if ( m_index_buffer->Lock( 0, ( int ) ( draw_command.indices_count * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_index_buffer->Lock( 0, ( int ) ( draw_command.IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
         std::printf( "[ Graphics ] m_index_buffer->Lock Failed!" );
 
-    memcpy( vertex_data, draw_command.vertices.data( ), draw_command.vertices_count * sizeof( Vertex ) );
-    memcpy( index_data, draw_command.indices.data( ), draw_command.indices_count * sizeof( int32_t ) );
+    memcpy( vertex_data, draw_command.Vertices.data( ), draw_command.VerticesCount * sizeof( Vertex ) );
+    memcpy( index_data, draw_command.Indices.data( ), draw_command.IndicesCount * sizeof( int32_t ) );
 
     m_vertex_buffer->Unlock( );
     m_index_buffer->Unlock( );
@@ -151,10 +151,10 @@ void cGraphics::RenderDrawData( ) {
         m_device->SetScissorRect( &command.command.clips.back( ) );
         m_device->SetTexture( 0, command.command.textures.back( ) );
 
-        m_device->DrawIndexedPrimitive( D3DPRIMITIVETYPE(command.primitive), start_vertex, 0, command.vertices_count, start_index, command.indices_count / 3 );
+        m_device->DrawIndexedPrimitive( D3DPRIMITIVETYPE(command.primitive), start_vertex, 0, command.VerticesCount, start_index, command.IndicesCount / 3 );
 
-        start_vertex += command.vertices_count;
-        start_index += command.indices_count;
+        start_vertex += command.VerticesCount;
+        start_index += command.IndicesCount;
     }
 
     gBuffer->ClearCommands( );
@@ -198,7 +198,7 @@ void cGraphics::Draw( ) {
         );
 
         gBuffer->String(
-            &gBuffer->Fonts.Default, display_info.c_str( ), Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
+            &gBuffer->Fonts.Default, display_info, Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
         );
 #endif
 

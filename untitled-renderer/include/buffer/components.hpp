@@ -1,106 +1,100 @@
 #pragma once
 #include "buffer.hpp"
 
-enum corner_flags {
-	corner_none = 0 << 0,
-	corner_top_left = 1 << 0,
-	corner_top_right = 1 << 1,
-	corner_bottom_left = 1 << 2,
-	corner_bottom_right = 1 << 3,
+enum CornerFlags {
+	CornerNone = 0 << 0,
+	CornerTopLeft = 1 << 0,
+	CornerTopRight = 1 << 1,
+	CornerBottomLeft = 1 << 2,
+	CornerBottomRight = 1 << 3,
 
-	corner_top = corner_top_left | corner_top_right,
-	corner_right = corner_top_right | corner_bottom_right,
-	corner_bottom = corner_bottom_left | corner_bottom_right,
-	corner_left = corner_top_left | corner_bottom_left,
+	CornerTop = CornerTopLeft | CornerTopRight,
+	CornerRight = CornerTopRight | CornerBottomRight,
+	CornerRottom = CornerBottomLeft | CornerBottomRight,
+	CornerLeft = CornerTopLeft | CornerBottomLeft,
 
-	corner_all = corner_top_left | corner_top_right |
-	corner_bottom_left | corner_bottom_right
+	CornerAll = CornerTopLeft | CornerTopRight | CornerBottomLeft | CornerBottomRight
 };
 
 
-template <typename type_t = int16_t>
+template <typename T = int16_t>
 class Vec2 {
 public:
-	type_t x, y;
+	T x, y;
 
-	constexpr Vec2( ) noexcept = default;
-	constexpr Vec2( const type_t x, const type_t y ) noexcept : x( x ), y( y ) {}
+	constexpr Vec2() noexcept = default;
+	constexpr Vec2(T x, T y) noexcept : x(x), y(y) {}
 
-	constexpr Vec2 operator+( const Vec2& vector ) const noexcept { return { static_cast< type_t >( x + vector.x ), static_cast< type_t >( y + vector.y ) }; }
-	constexpr Vec2 operator-( const Vec2& vector ) const noexcept { return { static_cast< type_t >( x - vector.x ), static_cast< type_t >( y - vector.y ) }; }
-	constexpr Vec2 operator*( const Vec2& vector ) const noexcept { return { static_cast< type_t >( x * vector.x ), static_cast< type_t >( y * vector.y ) }; }
-	constexpr Vec2 operator/( const Vec2& vector ) const noexcept { return { static_cast< type_t >( x / vector.x ), static_cast< type_t >( y / vector.y ) }; }
-	constexpr bool operator>( const Vec2& vector ) const noexcept { return x > vector.x && y > vector.y; }
-	constexpr bool operator>=( const Vec2& vector ) const noexcept { return x >= vector.x && y >= vector.y; }
-	constexpr bool operator<( const Vec2& vector ) const noexcept { return x < vector.x && y < vector.y; }
-	constexpr bool operator<=( const Vec2& vector ) const noexcept { return x <= vector.x && y <= vector.y; }
-	constexpr bool operator==( const Vec2& vector ) noexcept { return x == vector.x && y == vector.y; }
-	constexpr Vec2& operator*=( const type_t& val ) noexcept { return { x *= val, y *= val }; }
+	constexpr Vec2 operator+(const Vec2& v) const noexcept { return { static_cast<T>(x + v.x), static_cast<T>(y + v.y) }; }
+	constexpr Vec2 operator-(const Vec2& v) const noexcept { return { static_cast<T>(x - v.x), static_cast<T>(y - v.y) }; }
+	constexpr Vec2 operator*(const Vec2& v) const noexcept { return { static_cast<T>(x * v.x), static_cast<T>(y * v.y) }; }
+	constexpr Vec2 operator/(const Vec2& v) const noexcept { return { static_cast<T>(x / v.x), static_cast<T>(y / v.y) }; }
 
-#ifdef USE_CUSTOM_VECTOR2_OPERATORS
-	USE_CUSTOM_VECTOR2_OPERATORS
-#endif
+	constexpr bool operator>(const Vec2& v) const noexcept { return x > v.x && y > v.y; }
+	constexpr bool operator>=(const Vec2& v) const noexcept { return x >= v.x && y >= v.y; }
+	constexpr bool operator<(const Vec2& v) const noexcept { return x < v.x && y < v.y; }
+	constexpr bool operator<=(const Vec2& v) const noexcept { return x <= v.x && y <= v.y; }
+
+	constexpr bool operator==(const Vec2& v) const noexcept { return x == v.x && y == v.y; }
+
+	constexpr Vec2& operator*=(const T& val) noexcept { x *= val; y *= val; return *this; }
 };
 
-template <typename type_t = float>
+template <typename T = int16_t>
 class Vec3 {
 public:
-	type_t x, y, z;
+	T x, y, z;
 
-	constexpr Vec3( ) noexcept = default;
-	constexpr Vec3( const type_t x, const type_t y, const type_t z ) noexcept : x( x ), y( y ), z( z ) {}
+	constexpr Vec3() noexcept = default;
+	constexpr Vec3(T x, T y, T z) noexcept : x(x), y(y), z(z) {}
 
-	constexpr Vec3 operator+( const Vec3& vector ) const noexcept { return { static_cast< type_t >( x + vector.x ), static_cast< type_t >( y + vector.y ), static_cast< type_t >( z + vector.z ) }; }
-	constexpr Vec3 operator-( const Vec3& vector ) const noexcept { return { static_cast< type_t >( x - vector.x ), static_cast< type_t >( y - vector.y ), static_cast< type_t >( z - vector.z ) }; }
-	constexpr Vec3 operator*( const Vec3& vector ) const noexcept { return { static_cast< type_t >( x * vector.x ), static_cast< type_t >( y * vector.y ), static_cast< type_t >( z * vector.z ) }; }
-	constexpr Vec3 operator/( const Vec3& vector ) const noexcept { return { static_cast< type_t >( x / vector.x ), static_cast< type_t >( y / vector.y ), static_cast< type_t >( z / vector.z ) }; }
-	constexpr bool operator>( const Vec3& vector ) const noexcept { return x > vector.x && y > vector.y && z > vector.z; }
-	constexpr bool operator>=( const Vec3& vector ) const noexcept { return x >= vector.x && y >= vector.y && z >= vector.z; }
-	constexpr bool operator<( const Vec3& vector ) const noexcept { return x < vector.x && y < vector.y && z < vector.z; }
-	constexpr bool operator<=( const Vec3& vector ) const noexcept { return x <= vector.x && y <= vector.y && z <= vector.z; }
-	constexpr Vec3& operator*=( const type_t& val ) noexcept { return { static_cast< type_t >( x * val ), static_cast< type_t >( y * val ), static_cast< type_t >( z * val ) }; }
+	constexpr Vec3 operator+(const Vec3& v) const noexcept { return { static_cast<T>(x + v.x), static_cast<T>(y + v.y), static_cast<T>(z + v.z) }; }
+	constexpr Vec3 operator-(const Vec3& v) const noexcept { return { static_cast<T>(x - v.x), static_cast<T>(y - v.y), static_cast<T>(z - v.z) }; }
+	constexpr Vec3 operator*(const Vec3& v) const noexcept { return { static_cast<T>(x * v.x), static_cast<T>(y * v.y), static_cast<T>(z * v.z) }; }
+	constexpr Vec3 operator/(const Vec3& v) const noexcept { return { static_cast<T>(x / v.x), static_cast<T>(y / v.y), static_cast<T>(z / v.z) }; }
 
-#ifdef USE_CUSTOM_VECTOR3_OPERATORS
-	USE_CUSTOM_VECTOR3_OPERATORS
-#endif
+	constexpr bool operator>(const Vec3& v) const noexcept { return x > v.x && y > v.y && z > v.z; }
+	constexpr bool operator>=(const Vec3& v) const noexcept { return x >= v.x && y >= v.y && z >= v.z; }
+	constexpr bool operator<(const Vec3& v) const noexcept { return x < v.x && y < v.y && z < v.z; }
+	constexpr bool operator<=(const Vec3& v) const noexcept { return x <= v.x && y <= v.y && z <= v.z; }
+
+	constexpr bool operator==(const Vec3& v) const noexcept { return x == v.x && y == v.y && z == v.z; }
+
+	constexpr Vec3& operator*=(const T& val) noexcept { x *= val; y *= val; z *= val; return *this; }
 };
 
-template <typename type_t = float>
+template <typename T = int16_t>
 class Vec4 {
 public:
-	type_t w, x, y, z;
+	T w, x, y, z;
 
-	constexpr Vec4( ) noexcept = default;
-	constexpr Vec4( const type_t w, const type_t x, const type_t y, const type_t z ) noexcept : w( w ), x( x ), y( y ), z( z ) {}
+	constexpr Vec4() noexcept = default;
+	constexpr Vec4(T w, T x, T y, T z) noexcept : w(w), x(x), y(y), z(z) {}
 
-	constexpr Vec4 operator+( const Vec4& vector ) const noexcept { return { static_cast< type_t >( w + vector.w ), static_cast< type_t >( x + vector.x ), static_cast< type_t >( y + vector.y ), static_cast< type_t >( z + vector.z ) }; }
-	constexpr Vec4 operator-( const Vec4& vector ) const noexcept { return { static_cast< type_t >( w - vector.w ), static_cast< type_t >( x - vector.x ), static_cast< type_t >( y - vector.y ), static_cast< type_t >( z - vector.z ) }; }
-	constexpr Vec4 operator*( const Vec4& vector ) const noexcept { return { static_cast< type_t >( w * vector.w ), static_cast< type_t >( x * vector.x ), static_cast< type_t >( y * vector.y ), static_cast< type_t >( z * vector.z ) }; }
-	constexpr Vec4 operator/( const Vec4& vector ) const noexcept { return { static_cast< type_t >( w / vector.w ), static_cast< type_t >( x / vector.x ), static_cast< type_t >( y / vector.y ), static_cast< type_t >( z / vector.z ) }; }
-	constexpr bool operator>( const Vec4& vector ) const noexcept { return w > vector.w && x > vector.x && y > vector.y && z > vector.z; }
-	constexpr bool operator>=( const Vec4& vector ) const noexcept { return w >= vector.w && x >= vector.x && y >= vector.y && z >= vector.z; }
-	constexpr bool operator<( const Vec4& vector ) const noexcept { return w < vector.w && x < vector.x && y < vector.y && z < vector.z; }
-	constexpr bool operator<=( const Vec4& vector ) const noexcept { return w <= vector.w && x <= vector.x && y <= vector.y && z <= vector.z; }
-	constexpr Vec4 operator*=( const type_t& val ) noexcept { return { static_cast< type_t >( w * val ), static_cast< type_t >( x * val ), static_cast< type_t >( y * val ), static_cast< type_t >( z * val ) }; }
+	constexpr Vec4 operator+(const Vec4& v) const noexcept { return { static_cast<T>(w + v.w), static_cast<T>(x + v.x), static_cast<T>(y + v.y), static_cast<T>(z + v.z) }; }
+	constexpr Vec4 operator-(const Vec4& v) const noexcept { return { static_cast<T>(w - v.w), static_cast<T>(x - v.x), static_cast<T>(y - v.y), static_cast<T>(z - v.z) }; }
+	constexpr Vec4 operator*(const Vec4& v) const noexcept { return { static_cast<T>(w * v.w), static_cast<T>(x * v.x), static_cast<T>(y * v.y), static_cast<T>(z * v.z) }; }
+	constexpr Vec4 operator/(const Vec4& v) const noexcept { return { static_cast<T>(w / v.w), static_cast<T>(x / v.x), static_cast<T>(y / v.y), static_cast<T>(z / v.z) }; }
 
-#ifdef USE_CUSTOM_VECTOR4_OPERATORS
-	USE_CUSTOM_VECTOR4_OPERATORS
-#endif
+	constexpr bool operator>(const Vec4& v) const noexcept { return w > v.w && x > v.x && y > v.y && z > v.z; }
+	constexpr bool operator>=(const Vec4& v) const noexcept { return w >= v.w && x >= v.x && y >= v.y && z >= v.z; }
+	constexpr bool operator<(const Vec4& v) const noexcept { return w < v.w && x < v.x && y < v.y && z < v.z; }
+	constexpr bool operator<=(const Vec4& v) const noexcept { return w <= v.w && x <= v.x && y <= v.y && z <= v.z; }
+
+	constexpr bool operator==(const Vec4& v) const noexcept { return w == v.w && x == v.x && y == v.y && z == v.z; }
+
+	constexpr Vec4& operator*=(const T& val) noexcept { w *= val; x *= val; y *= val; z *= val; return *this; }
 };
 
 class Vertex {
 public:
 	float x, y, z, rhw;
-	DWORD clr;
+	uint32_t color;
 	float u, v;
 
-	constexpr Vertex( ) noexcept = default;
-	constexpr Vertex( const float x, const float y, const float z, const float rhw, const DWORD clr, const float u = 0.f, const float v = 0.f ) noexcept
-		: x( x ), y( y ), z( z ), rhw( rhw ), clr( clr ), u( u ), v( v ) {}
-
-#ifdef USE_CUSTOM_VERTEX_OPERATORS
-	USE_CUSTOM_VERTEX_OPERATORS
-#endif
+	constexpr Vertex() noexcept = default;
+	constexpr Vertex(float x, float y, float z, float rhw, uint32_t color, float u = 0.0f, float v = 0.0f) noexcept
+		: x(x), y(y), z(z), rhw(rhw), color(color), u(u), v(v) {}
 };
 
 #define COLOR(r,g,b,a) ((DWORD)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
@@ -109,95 +103,69 @@ class Color {
 public:
 	DWORD hex;
 
-	constexpr Color( ) noexcept = default;
-	constexpr Color( const uint8_t r, const uint8_t g, const uint8_t b, const uint8_t a ) noexcept
-		: hex( COLOR( r, g, b, a ) ) {}
-
-#ifdef USE_CUSTOM_COLOR_OPERATORS
-	USE_CUSTOM_COLOR_OPERATORS
-#endif
+	constexpr Color() noexcept = default;
+	constexpr Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) noexcept
+		: hex(COLOR(r, g, b, a)) {}
 };
 
 struct Glyph {
-	IDirect3DTexture9* resource;
-	Vec2<int32_t> size;
-	Vec2<int32_t> bearing;
-	int32_t advance;
-
-#ifdef USE_CUSTOM_GLYPH_OPERATORS
-	USE_CUSTOM_GLYPH_OPERATORS
-#endif
+	IDirect3DTexture9* Resource = nullptr;
+	Vec2<int32_t> Size, Bearing;
+	int32_t Advance;
 };
 
 class Font {
 public:
-	std::string path;
-	int16_t padding;
-	int16_t size;
+	std::string Path;
+	int16_t Padding, Size;
 
-	std::vector<Glyph> char_set{ 256 };
+	std::vector<Glyph> CharSet{ 256 };
 
-	void Release( ) {
-		for ( int i = 0; i < char_set.size( ); i++ ) {
-			if ( char_set[ i ].resource )
-				char_set[ i ].resource->Release( );
+	void Release() {
+		for (auto& glyph : CharSet) {
+			if (glyph.Resource)
+				glyph.Resource->Release();
 
-			char_set[ i ].resource = nullptr;
+			glyph.Resource = nullptr;
 		}
 	}
-
-#ifdef USE_CUSTOM_FONT_OPERATORS
-	USE_CUSTOM_FONT_OPERATORS
-#endif
 };
 
 class Command {
 public:
 	std::vector<RECT> clips;
 	std::vector<IDirect3DTexture9*> textures;
-
-#ifdef USE_CUSTOM_COMMAND_OPERATORS
-	USE_CUSTOM_COMMAND_OPERATORS
-#endif
 };
 
 class DrawCommand {
 public:
 	int8_t primitive;
-	std::vector<Vertex> vertices;
-	std::vector<std::int32_t> indices;
+	std::vector<Vertex> Vertices;
+	std::vector<std::int32_t> Indices;
 	Command command;
-	int vertices_count,
-		indices_count;
+	int VerticesCount;
+	int IndicesCount;
 
-	constexpr DrawCommand( ) noexcept = default;
-	constexpr DrawCommand( const int8_t primitive, const std::vector<Vertex> vertices, const std::vector<std::int32_t> indices, Command command, const int vertices_count, const int indices_count ) noexcept
-		: primitive( primitive ), vertices( vertices ), indices( indices ), command( command ), vertices_count( vertices_count ), indices_count( indices_count ) {}
-
-#ifdef USE_CUSTOM_DRAW_DRAW_COMMAND_OPERATORS
-	USE_CUSTOM_DRAW_DRAW_COMMAND_OPERATORS
-#endif
+	constexpr DrawCommand() noexcept = default;
+	constexpr DrawCommand(int8_t primitive, std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, Command command, int VerticesCount, int IndicesCount) noexcept
+		: primitive(primitive), Vertices(Vertices), Indices(Indices), command(command), VerticesCount(VerticesCount), IndicesCount(IndicesCount) {}
 };
 
 class CompiledDrawCommand {
 public:
-	std::vector<Vertex> vertices;
-	std::vector<std::int32_t> indices;
-	int vertices_count,
-		indices_count;
+	std::vector<Vertex> Vertices;
+	std::vector<std::int32_t> Indices;
+	int VerticesCount;
+	int IndicesCount;
 
-	constexpr CompiledDrawCommand( ) noexcept = default;
-	constexpr CompiledDrawCommand( const std::vector<Vertex> vertices, const std::vector<std::int32_t> indices, const int vertices_count, const int indices_count ) noexcept
-		: vertices( vertices ), indices( indices ), vertices_count( vertices_count ), indices_count( indices_count ) {}
+	constexpr CompiledDrawCommand() noexcept = default;
+	constexpr CompiledDrawCommand(std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, int VerticesCount, int IndicesCount) noexcept
+		: Vertices(Vertices), Indices(Indices), VerticesCount(VerticesCount), IndicesCount(IndicesCount) {}
 
-	void reset( ) {
-		vertices.clear( );
-		indices.clear( );
-		vertices_count = 0;
-		indices_count = 0;
+	void reset() {
+		Vertices.clear();
+		Indices.clear();
+		VerticesCount = 0;
+		IndicesCount = 0;
 	}
-
-#ifdef USE_CUSTOM_DRAW_COMPILED_DRAW_COMMAND_OPERATORS
-	USE_CUSTOM_DRAW_COMPILED_DRAW_COMMAND_OPERATORS
-#endif
 };
