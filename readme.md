@@ -1,4 +1,4 @@
-# DirectX9 GUI Renderer
+# DirectX9 Renderer & Game hacking package
 
 A lightweight and easy-to-use DirectX9 renderer for building graphical user interfaces (GUIs). This project provides a simple and efficient way to integrate GUI elements into your DirectX9 applications.
 
