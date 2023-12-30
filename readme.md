@@ -15,7 +15,7 @@ Follow these steps to integrate the DirectX9 GUI renderer into your project:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/directx9-gui-renderer.git
+   git clone https://github.com/EdwinS7/untitled_project
    ```
 
 2. **Include the Renderer in Your Project:**
