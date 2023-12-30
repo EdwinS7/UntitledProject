@@ -11,7 +11,7 @@ void cBuffer::Init( bool ApplyDefaults ) {
 	//Apply default settings.
 	if ( ApplyDefaults ) {
 		m_CircleSegments = 64, m_RectangleSegments = 16;
-		m_BezierCubicSegments, m_BezierQuadraticSegments = 128;
+		m_BezierCubicSegments = 128, m_BezierQuadraticSegments = 128;
 	}
 }
 
@@ -120,9 +120,9 @@ void cBuffer::Rectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, 
 			int Angle = std::get<2>( Corner );
 
 			std::vector<Vec2<int16_t>> CornerPoints;
-			CornerPoints.reserve( ( m_RectangleSegments ) +1 );
+			CornerPoints.reserve( m_RectangleSegments + 1 );
 
-			GenerateArcPoints( &CornerPoints, &CornerRounded, Rounding, 25, Angle, 64 );
+			GenerateArcPoints( &CornerPoints, &CornerRounded, Rounding, 25, Angle, m_RectangleSegments );
 
 			Points.insert( Points.end( ), 
 				std::make_move_iterator( CornerPoints.begin( ) ), std::make_move_iterator( CornerPoints.end( ) )
@@ -159,9 +159,9 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > 
 			int Angle = std::get<2>( Corner );
 
 			std::vector<Vec2<int16_t>> CornerPoints;
-			CornerPoints.reserve( ( m_RectangleSegments ) +1 );
+			CornerPoints.reserve( m_RectangleSegments + 1 );
 
-			GenerateArcPoints( &CornerPoints, &CornerRounded, Rounding, 25, Angle, 64 );
+			GenerateArcPoints( &CornerPoints, &CornerRounded, Rounding, 25, Angle, m_RectangleSegments );
 
 			Points.insert( Points.end( ),
 				std::make_move_iterator( CornerPoints.begin( ) ), std::make_move_iterator( CornerPoints.end( ) )
@@ -344,10 +344,10 @@ Vec2<int16_t> cBuffer::GetStringSize( const Font* Font, const std::string& Strin
 
 void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* Pos, const int16_t Radius, const int16_t Completion, const int16_t Rotation, const int16_t Segments ) {
 	double Angle = static_cast< double >( Rotation * M_PI ) / 180.0;
-	double Coversion = ( Completion * 0.01 );
+	double Conversion = ( Completion * 0.01 );
 
 	auto get_point = [ & ] ( int16_t i ) {
-		double theta = Angle + 2.0 * Coversion * M_PI * static_cast< double >( i ) / static_cast< double >( Segments );
+		double theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( Segments );
 		return Vec2<double>( static_cast< double >( Pos->x ) + Radius * cos( theta ), static_cast< double >( Pos->y ) + Radius * sin( theta ) );
 	};
 

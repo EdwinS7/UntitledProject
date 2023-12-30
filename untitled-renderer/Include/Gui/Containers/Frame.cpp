@@ -1,8 +1,6 @@
 #include "Containers.hpp"
 
-void Window::Begin( ) {
-	HandleInput( );
-
+void Window::Render( ) {
 	m_HeaderSize = 18;
 	m_FooterSize = 18;
 
@@ -30,35 +28,7 @@ void Window::Begin( ) {
 	}
 }
 
-void Window::Destroy( ) {
-	delete this;
-}
-
-Tab* Window::AddTab( const char* Title ) {
-	m_Tabs.push_back( Tab( Title ) );
-	return &m_Tabs.back( );
-}
-
-WindowColorPalate Window::GetColorPalate( ) {
-	return m_ColorPalate;
-}
-
-void Window::SetColorPalate( WindowColorPalate Palate ) {
-	m_ColorPalate = Palate;
-}
-
-Vec2<int16_t> Window::GetElementFramePos( ) {
-	return Vec2<int16_t>( m_Pos.x, m_Pos.y + m_HeaderSize );
-}
-
-Vec2<int16_t> Window::GetElementFrameSize( ) {
-	return Vec2<int16_t>( m_Size.x, m_Size.y - m_HeaderSize - m_FooterSize );
-}
-
 void Window::HandleInput( ) {
-	//if ( !gInput->AnyKeyPressed( ) ) //IDK WHY BUT MY MOUSE GOES BOOM BOOM BYE BYE WITH THIS???
-	//	return;
-
 	//Dragging.
 	if ( gInput->KeyHeld( KEY_LMOUSE ) && !m_Dragging.StartedOutside ) {
 		if ( gInput->MouseHoveringRect( m_Pos, Vec2<int16_t>( m_Size.x, m_HeaderSize ) ) && !m_Dragging.Active ) {
@@ -100,4 +70,29 @@ void Window::HandleInput( ) {
 
 	m_Size.x = std::clamp( m_Size.x, m_MinSize.x, m_MaxSize.x );
 	m_Size.y = std::clamp( m_Size.y, m_MinSize.y, m_MaxSize.y );
+}
+
+Tab* Window::AddTab( const char* Title ) {
+	m_Tabs.push_back( Tab( Title ) );
+	return &m_Tabs.back( );
+}
+
+inline WindowColorPalate Window::GetColorPalate( ) {
+	return m_ColorPalate;
+}
+
+void Window::SetColorPalate( WindowColorPalate Palate ) {
+	m_ColorPalate = Palate;
+}
+
+Vec2<int16_t> Window::GetElementFramePos( ) {
+	return Vec2<int16_t>( m_Pos.x, m_Pos.y + m_HeaderSize );
+}
+
+Vec2<int16_t> Window::GetElementFrameSize( ) {
+	return Vec2<int16_t>( m_Size.x, m_Size.y - m_HeaderSize - m_FooterSize );
+}
+
+void Window::Destroy( ) {
+	delete this;
 }

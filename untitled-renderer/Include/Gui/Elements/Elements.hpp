@@ -3,6 +3,7 @@
 #include "../Gui.hpp"
 
 extern class Group;
+extern class Window;
 
 class Tab {
 public:
@@ -13,11 +14,11 @@ public:
 
 	void Destroy( );
 
-	Group* NewGroup( const char* Title, Vec2<int16_t> Pos, Vec2<int16_t> Size );
+	Group* NewGroup( const char* Title, Window* Window, Vec2<int16_t> Padding );
 
 	std::string Title;
+
 private:
 	std::vector<Group> m_Groups;
-	int m_Padding;
-
+	
 };

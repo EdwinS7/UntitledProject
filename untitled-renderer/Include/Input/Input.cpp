@@ -5,13 +5,11 @@ void cInput::PoolInput( ) {
 	m_AnyKeyPressed = false;
 
     for ( size_t i = 0; i < 255; i++ ) {
-        bool is_pressed = ( GetAsyncKeyState( i ) & 0x8000 ) != 0;
-
-		if ( is_pressed )
+        bool IsPressed = ( GetAsyncKeyState( i ) & 0x8000 ) != 0;
+		if ( IsPressed )
 			m_AnyKeyPressed = true;
 
-		m_KeyStates[ i ] = std::make_pair( is_pressed, is_pressed != m_PreviousKeyStates[ i ].first );
-
+		m_KeyStates[ i ] = std::make_pair( IsPressed, IsPressed != m_PreviousKeyStates[ i ].first );
 		m_PreviousKeyStates[ i ] = m_KeyStates[ i ];
     }
 }

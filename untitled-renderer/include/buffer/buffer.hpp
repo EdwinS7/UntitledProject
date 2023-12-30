@@ -67,7 +67,7 @@ private:
 	CompiledDrawCommand m_DrawCommand;
 	Command m_Command;
 
-    void GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* Pos, const int16_t Radius, const int16_t Completion, const int16_t Rotation, const int16_t Segments );
+    void GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* Pos, const int16_t Radius, const int16_t Completion, const int16_t Rotation, int16_t Segments );
     void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3 );
 
 	void MakeVertices(  std::vector<Vertex>* Vertices,  const std::vector<Vec2<int16_t>>* points,  const Color* color );

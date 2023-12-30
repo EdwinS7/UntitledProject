@@ -160,7 +160,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Include\Config\Config.cpp" />
     <ClCompile Include="Include\Gui\Gui.cpp" />
     <ClCompile Include="Include\Window\Graphics.cpp" />
     <ClCompile Include="Include\Window\Window.cpp" />
@@ -182,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
-    <ClInclude Include="Include\Config\Config.hpp" />
     <ClInclude Include="Include\Context\Context.hpp" />
     <ClInclude Include="Include\Gui\Gui.hpp" />
     <ClInclude Include="Include\Window\Graphics.hpp" />

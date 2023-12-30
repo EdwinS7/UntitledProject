@@ -37,7 +37,7 @@ private:
 	IDirect3DVertexBuffer9* m_vertex_buffer;
 	IDirect3DIndexBuffer9* m_index_buffer;
 
-	Color m_clear_color{ 120, 120, 120, 255 };
+	Color m_clear_color{ 0, 0, 0, 255 };
 
 	HWND m_hwnd;
 

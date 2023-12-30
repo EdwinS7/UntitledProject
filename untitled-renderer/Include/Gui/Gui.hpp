@@ -10,8 +10,10 @@ extern class Window;
 
 class cGui {
 public:
-	Window* NewWindow( const char* Title, const char* Description, Vec2<int16_t> Size );
+	void DemoWindow( );
 
+	Window* NewWindow( const char* Title, const char* Description, Vec2<int16_t> Size );
+	
 private:
 	std::vector<Window> m_Windows;
 };

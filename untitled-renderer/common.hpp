@@ -1,3 +1,4 @@
+#include <functional>
 #include <algorithm>
 #include <windows.h>
 #include <Uxtheme.h>

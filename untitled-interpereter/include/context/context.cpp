@@ -24,8 +24,8 @@ int Untitled::Context::Execute( const char* Environment, const std::string& Sour
         return 0;*/
     }
 
-    //Config::Backend::SavedInterpreter = Interpreter;
-    Config::Backend::SavedLexer = Lexer;
+    //Cfg.Backend.SavedInterpreter = Interpreter;
+    Cfg.Backend.SavedLexer = Lexer;
 
     AddLog( 4, "Script executed!" );
 
@@ -33,9 +33,9 @@ int Untitled::Context::Execute( const char* Environment, const std::string& Sour
 }
 
 void Untitled::Context::AddLog( int Level, std::string Message ) {
-    Config::Backend::Output.push_back( std::make_pair( Level, Message ) );
+    Cfg.Backend.Output.push_back( std::make_pair( Level, Message ) );
 }
 
 void Untitled::Context::ClearLog( ) {
-    Config::Backend::Output.clear( );
+    Cfg.Backend.Output.clear( );
 }
