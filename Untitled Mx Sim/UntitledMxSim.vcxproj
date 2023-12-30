@@ -24,7 +24,7 @@
     <ProjectGuid>{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}</ProjectGuid>
     <RootNamespace>untitledmxsim</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>untitled-mxsim</ProjectName>
+    <ProjectName>Untitled Mx Sim</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
