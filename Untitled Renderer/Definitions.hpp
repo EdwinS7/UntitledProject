@@ -1,11 +1,6 @@
 #pragma once
 
 #define UNTITLED_SHOW_STATS
-#define UNTITLED_USE_INPUT
-#define UNTITLED_USE_WIN32
-#define UNTITLED_USE_LOGS
-#define UNTITLED_USE_DX9
-#define UNTITLED_USE_GUI
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b)
 #define MAX(a, b) ((a) > (b) ? (a) : (b)

@@ -345,6 +345,8 @@ void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<
 	double Conversion = Completion * 0.01;
 
 	int16_t SegmentCount = m_DynamicArcSegments ? Segments > Radius ? Radius : max( Segments, 8 ) : Segments;
+	if ( SegmentCount )
+
 	Points->reserve( SegmentCount + 1 );
 
 	auto GetPoint = [ & ] ( int16_t i ) {
@@ -361,11 +363,11 @@ void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<
 
 void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3 ) {
 	for ( int i = 0; i < m_BezierQuadraticSegments; i++ ) {
-		double val = static_cast< double >( i ) / static_cast< double >( ( m_BezierQuadraticSegments ) -1 );
-
+		int CompletionFactor = static_cast< double >( i ) / static_cast< double >( m_BezierQuadraticSegments );
+		
 		Points->push_back( {
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( Point1.x, Point3.x, val ), std::lerp( Point3.x, Point2.x, val ), val ) ) ),
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( Point1.y, Point3.y, val ), std::lerp( Point3.y, Point2.y, val ), val ) ) )
+			static_cast< int16_t >( std::round( std::lerp( std::lerp( Point1.x, Point3.x, CompletionFactor ), std::lerp( Point3.x, Point2.x, CompletionFactor ), CompletionFactor ) ) ),
+			static_cast< int16_t >( std::round( std::lerp( std::lerp( Point1.y, Point3.y, CompletionFactor ), std::lerp( Point3.y, Point2.y, CompletionFactor ), CompletionFactor ) ) )
 		} );
 	}
 }
