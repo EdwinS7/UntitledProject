@@ -16,7 +16,6 @@ enum CornerFlags {
 	CornerAll = CornerTopLeft | CornerTopRight | CornerBottomLeft | CornerBottomRight
 };
 
-
 template <typename T = int16_t>
 class Vec2 {
 public:
@@ -86,15 +85,38 @@ public:
 	constexpr Vec4& operator*=(const T& val) noexcept { w *= val; x *= val; y *= val; z *= val; return *this; }
 };
 
+template <typename T = int16_t>
+class Rect {
+public:
+	T x, y, w, h;
+
+	constexpr Rect( ) noexcept = default;
+	constexpr Rect( T x, T y, T w, T h ) noexcept : x( x ), y( y ), w( w ), h( h ) {}
+
+	constexpr Rect operator+( const Rect& v ) const noexcept { return { static_cast< T >( x + v.x ), static_cast< T >( y + v.y ), static_cast< T >( w + v.w ), static_cast< T >( h + v.h ) }; }
+	constexpr Rect operator-( const Rect& v ) const noexcept { return { static_cast< T >( x - v.x ), static_cast< T >( y - v.y ), static_cast< T >( w - v.w ), static_cast< T >( h - v.h ) }; }
+	constexpr Rect operator*( const Rect& v ) const noexcept { return { static_cast< T >( x * v.x ), static_cast< T >( y * v.y ), static_cast< T >( w * v.w ), static_cast< T >( h * v.h ) }; }
+	constexpr Rect operator/( const Rect& v ) const noexcept { return { static_cast< T >( x / v.x ), static_cast< T >( y / v.y ), static_cast< T >( w / v.w ), static_cast< T >( h / v.h ) }; }
+
+	constexpr bool operator>( const Rect& v ) const noexcept { return x > v.x && y > v.y && w > v.w && h > v.h; }
+	constexpr bool operator>=( const Rect& v ) const noexcept { return x >= v.x && y >= v.y && w >= v.w && h >= v.h; }
+	constexpr bool operator<( const Rect& v ) const noexcept { return x < v.x && y < v.y && w < v.w && h < v.h; }
+	constexpr bool operator<=( const Rect& v ) const noexcept { return x <= v.x && y <= v.y && w <= v.w && h <= v.h; }
+
+	constexpr bool operator==( const Rect& v ) const noexcept { return x == v.x && y == v.y && w == v.w && h == v.h; }
+
+	constexpr Rect& operator*=( const T& val ) noexcept { x *= val; y *= val; w *= val; h *= val; return *this; }
+};
+
 class Vertex {
 public:
 	float x, y, z, rhw;
-	uint32_t color;
+	uint32_t Color;
 	float u, v;
 
 	constexpr Vertex() noexcept = default;
-	constexpr Vertex(float x, float y, float z, float rhw, uint32_t color, float u = 0.0f, float v = 0.0f) noexcept
-		: x(x), y(y), z(z), rhw(rhw), color(color), u(u), v(v) {}
+	constexpr Vertex(float x, float y, float z, float rhw, uint32_t Color, float u = 0.0f, float v = 0.0f) noexcept
+		: x(x), y(y), z(z), rhw(rhw), Color(Color), u(u), v(v) {}
 };
 
 #define COLOR(r,g,b,a) ((DWORD)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
@@ -131,32 +153,30 @@ public:
 	}
 };
 
-class Command {
+class CommandResources {
 public:
-	std::vector<RECT> clips;
-	std::vector<IDirect3DTexture9*> textures;
+	std::vector<IDirect3DTexture9*> Textures;
+	std::vector<RECT> Clips;
 };
 
 class DrawCommand {
 public:
-	int8_t primitive;
+	int8_t Primitive;
+	CommandResources Resources;
 	std::vector<Vertex> Vertices;
 	std::vector<std::int32_t> Indices;
-	Command command;
-	int VerticesCount;
-	int IndicesCount;
+	int VerticesCount, IndicesCount;
 
 	constexpr DrawCommand() noexcept = default;
-	constexpr DrawCommand(int8_t primitive, std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, Command command, int VerticesCount, int IndicesCount) noexcept
-		: primitive(primitive), Vertices(Vertices), Indices(Indices), command(command), VerticesCount(VerticesCount), IndicesCount(IndicesCount) {}
+	constexpr DrawCommand( int8_t Primitive, std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, CommandResources Resources, int VerticesCount, int IndicesCount ) noexcept
+		: Primitive( Primitive ), Vertices( Vertices ), Indices( Indices ), Resources( Resources ), VerticesCount( VerticesCount ), IndicesCount( IndicesCount ) {}
 };
 
 class CompiledDrawCommand {
 public:
 	std::vector<Vertex> Vertices;
 	std::vector<std::int32_t> Indices;
-	int VerticesCount;
-	int IndicesCount;
+	int VerticesCount, IndicesCount;
 
 	constexpr CompiledDrawCommand() noexcept = default;
 	constexpr CompiledDrawCommand(std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, int VerticesCount, int IndicesCount) noexcept

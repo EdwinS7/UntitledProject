@@ -2,21 +2,24 @@
 
 bool cGraphics::Init( HWND hwnd, const bool device_only ) {
     if ( !device_only ) {
-        m_hwnd = hwnd;
-        m_d3d = Direct3DCreate9( D3D_SDK_VERSION );
+        m_Hwnd = hwnd;
+        m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
 
-        m_parameters.Windowed = TRUE;
-        m_parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
-        m_parameters.BackBufferFormat = D3DFMT_UNKNOWN;
-        m_parameters.EnableAutoDepthStencil = TRUE;
-        m_parameters.AutoDepthStencilFormat = D3DFMT_D16;
-        m_parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+        m_Parameters.Windowed = TRUE;
+        m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+        m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
+        m_Parameters.EnableAutoDepthStencil = TRUE;
+        m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
+        m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
+        m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
+        m_Parameters.MultiSampleQuality = 0;
     }
 
-    if ( m_d3d->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_parameters, &m_device ) < D3D_OK )
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_Hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
         std::printf( "[ Graphics ] CreateDevice Failed!" );
 
-    UpdateRenderStates( m_device );
+    UpdateRenderStates( m_Device );
 
     return true;
 }
@@ -24,14 +27,14 @@ bool cGraphics::Init( HWND hwnd, const bool device_only ) {
 void cGraphics::Reset( const LPARAM lParam ) {
     gBuffer->Destroy( );
 
-    m_parameters.BackBufferWidth = LOWORD( lParam );
-    m_parameters.BackBufferHeight = HIWORD( lParam );
+    m_Parameters.BackBufferWidth = LOWORD( lParam );
+    m_Parameters.BackBufferHeight = HIWORD( lParam );
 
-    safe_release( m_vertex_buffer );
-    safe_release( m_index_buffer );
-    safe_release( m_device );
+    SafeRelease( m_VertexBuffer );
+    SafeRelease( m_IndexBuffer );
+    SafeRelease( m_Device );
 
-    Init( m_hwnd, true );
+    Init( m_Hwnd, true );
 
     gBuffer->Init( false );
 }
@@ -39,14 +42,14 @@ void cGraphics::Reset( const LPARAM lParam ) {
 void cGraphics::Release( ) {
     gBuffer->ClearCommands( );
 
-    safe_release( m_vertex_buffer );
-    safe_release( m_index_buffer );
-    safe_release( m_device );
-    safe_release( m_d3d );
+    SafeRelease( m_VertexBuffer );
+    SafeRelease( m_IndexBuffer );
+    SafeRelease( m_Direct3D );
+    SafeRelease( m_Device );
 }
 
 bool cGraphics::Valid( ) {
-    return m_device != nullptr;
+    return m_Device != nullptr;
 }
 
 void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
@@ -94,97 +97,97 @@ void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
 }
 
 void cGraphics::RenderDrawData( ) {
-    UpdateRenderStates( m_device );
+    UpdateRenderStates( m_Device );
 
-    auto draw_commands = gBuffer->GetDrawCommands( );
+    auto DrawCommands = gBuffer->GetDrawCommands( );
     gBuffer->BuildDrawCommands( gBuffer->GetDrawCommands() );
-    auto draw_command = gBuffer->GetDrawCommand( );
+    auto DrawCommand = gBuffer->GetDrawCommand( );
 
-    if ( !m_vertex_buffer || draw_command.VerticesCount * sizeof( Vertex ) > m_vertex_buffer_size ) {
-        if ( m_vertex_buffer ) {
-            m_vertex_buffer->Release( );
-            m_vertex_buffer = nullptr;
+    if ( !m_VertexBuffer || DrawCommand.VerticesCount * sizeof( Vertex ) > m_VertexBufferSize ) {
+        if ( m_VertexBuffer ) {
+            m_VertexBuffer->Release( );
+            m_VertexBuffer = nullptr;
         }
 
-        m_vertex_buffer_size = draw_command.VerticesCount + 5000;
+        m_VertexBufferSize = DrawCommand.VerticesCount + 5000;
 
-        if ( m_device->CreateVertexBuffer( m_vertex_buffer_size * sizeof( Vertex ), 
-            D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1,  D3DPOOL_DEFAULT, &m_vertex_buffer, nullptr ) < D3D_OK )
+        if ( m_Device->CreateVertexBuffer( m_VertexBufferSize * sizeof( Vertex ), 
+            D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1,  D3DPOOL_DEFAULT, &m_VertexBuffer, nullptr ) < D3D_OK )
             std::printf( "[ Graphics ] CreateVertexBuffer Failed!" );
     }
 
-    if ( !m_index_buffer || draw_command.IndicesCount * sizeof( std::int32_t ) > m_index_buffer_size ) {
-        if ( m_index_buffer ) {
-            m_index_buffer->Release( );
-            m_index_buffer = nullptr;
+    if ( !m_IndexBuffer || DrawCommand.IndicesCount * sizeof( std::int32_t ) > m_IndexBufferSize ) {
+        if ( m_IndexBuffer ) {
+            m_IndexBuffer->Release( );
+            m_IndexBuffer = nullptr;
         }
 
-        m_index_buffer_size = draw_command.IndicesCount + 10000;
+        m_IndexBufferSize = DrawCommand.IndicesCount + 10000;
 
-        if ( m_device->CreateIndexBuffer( m_index_buffer_size * sizeof( std::int32_t ), 
-            D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_index_buffer, nullptr ) < D3D_OK )
+        if ( m_Device->CreateIndexBuffer( m_IndexBufferSize * sizeof( std::int32_t ),
+            D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_IndexBuffer, nullptr ) < D3D_OK )
             std::printf( "[ Graphics ] CreateIndexBuffer Failed!" );
     }
 
     Vertex* vertex_data{ };
     int32_t* index_data{ };
 
-    if ( m_vertex_buffer->Lock( 0, ( int ) ( draw_command.VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_VertexBuffer->Lock( 0, ( int ) ( DrawCommand.VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
         std::printf( "[ Graphics ] m_vertex_buffer->Lock Failed!" );
 
-    if ( m_index_buffer->Lock( 0, ( int ) ( draw_command.IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_IndexBuffer->Lock( 0, ( int ) ( DrawCommand.IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
         std::printf( "[ Graphics ] m_index_buffer->Lock Failed!" );
 
-    memcpy( vertex_data, draw_command.Vertices.data( ), draw_command.VerticesCount * sizeof( Vertex ) );
-    memcpy( index_data, draw_command.Indices.data( ), draw_command.IndicesCount * sizeof( int32_t ) );
+    memcpy( vertex_data, DrawCommand.Vertices.data( ), DrawCommand.VerticesCount * sizeof( Vertex ) );
+    memcpy( index_data, DrawCommand.Indices.data( ), DrawCommand.IndicesCount * sizeof( int32_t ) );
 
-    m_vertex_buffer->Unlock( );
-    m_index_buffer->Unlock( );
+    m_VertexBuffer->Unlock( );
+    m_IndexBuffer->Unlock( );
 
-    m_device->SetStreamSource( 0, m_vertex_buffer, 0, sizeof( Vertex ) );
-    m_device->SetIndices( m_index_buffer );
+    m_Device->SetStreamSource( 0, m_VertexBuffer, 0, sizeof( Vertex ) );
+    m_Device->SetIndices( m_IndexBuffer );
 
     int start_vertex = 0, 
         start_index = 0;
 
-    for ( const DrawCommand& command : draw_commands ) {
-        m_device->SetScissorRect( &command.command.clips.back( ) );
-        m_device->SetTexture( 0, command.command.textures.back( ) );
+    for ( const auto& Command : DrawCommands ) {
+        m_Device->SetScissorRect( &Command.Resources.Clips.back( ) );
+        m_Device->SetTexture( 0, Command.Resources.Textures.back( ) );
 
-        m_device->DrawIndexedPrimitive( D3DPRIMITIVETYPE(command.primitive), start_vertex, 0, command.VerticesCount, start_index, command.IndicesCount / 3 );
+        m_Device->DrawIndexedPrimitive( D3DPRIMITIVETYPE( Command.Primitive), start_vertex, 0, Command.VerticesCount, start_index, Command.IndicesCount / 3 );
 
-        start_vertex += command.VerticesCount;
-        start_index += command.IndicesCount;
+        start_vertex += Command.VerticesCount;
+        start_index += Command.IndicesCount;
     }
 
     gBuffer->ClearCommands( );
 }
 
 void cGraphics::SetVSync( const bool state ) {
+    m_Parameters.PresentationInterval = state ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+    
     gBuffer->Destroy( );
 
-    m_parameters.PresentationInterval = state ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+    SafeRelease( m_VertexBuffer );
+    SafeRelease( m_IndexBuffer );
+    SafeRelease( m_Device );
 
-    safe_release( m_vertex_buffer );
-    safe_release( m_index_buffer );
-    safe_release( m_device );
-
-    Init( m_hwnd, true );
+    Init( m_Hwnd, true );
 
     gBuffer->Init( false );
 }
 
 void cGraphics::SetClearColor( const Color clear_color ) {
-    m_clear_color = clear_color;
+    m_ClearColor = clear_color;
 }
 
 void cGraphics::Draw( ) {
     if ( !Valid( ) )
         return;
 
-    m_device->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, m_clear_color.hex, 1.f, 0 );
+    m_Device->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, m_ClearColor.hex, 1.f, 0 );
 
-    if ( m_device->BeginScene( ) >= 0 ) {
+    if ( m_Device->BeginScene( ) >= 0 ) {
 #ifdef UNTITLED_SHOW_STATS
         auto display_info = std::vformat(
             "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES",
@@ -203,14 +206,14 @@ void cGraphics::Draw( ) {
 #endif
 
         RenderDrawData( );
-        m_device->EndScene( );
+        m_Device->EndScene( );
     }
 
-    m_device->Present( nullptr, nullptr, nullptr, nullptr );
+    m_Device->Present( nullptr, nullptr, nullptr, nullptr );
 }
 
 template <typename type>
-void cGraphics::safe_release( type*& obj ) {
+void cGraphics::SafeRelease( type*& obj ) {
     if ( obj ) {
         obj->Release( );
         obj = nullptr;
@@ -218,14 +221,14 @@ void cGraphics::safe_release( type*& obj ) {
 }
 
 void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* resource, const std::vector<BYTE>* bytes, const Vec2<int16_t> size ) {
-    if ( D3DXCreateTextureFromFileInMemoryEx( m_device, bytes->data( ), bytes->size( ), size.x, size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &resource ) != D3D_OK )
+    if ( D3DXCreateTextureFromFileInMemoryEx( m_Device, bytes->data( ), bytes->size( ), size.x, size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &resource ) != D3D_OK )
         std::printf( std::vformat( "[ Graphics ] Failed to create resource from bytes\n", std::make_format_args( bytes->size( ) ) ).c_str( ) );
     else
         std::printf( "[ Graphics ] Created resource from bytes\n" );
 }
 
 void cGraphics::CreateTextureFromFile( IDirect3DTexture9* resource, const char* file_name ) {
-    if ( D3DXCreateTextureFromFile( m_device, file_name, &resource ) != D3D_OK )
+    if ( D3DXCreateTextureFromFile( m_Device, file_name, &resource ) != D3D_OK )
         std::printf( std::vformat( "[ Graphics ] Failed to create resource ( filename: {} )\n", std::make_format_args( file_name ) ).c_str( ) );
     else
         std::printf( std::vformat( "[ Graphics ] Created resource ( filename: {} )\n", std::make_format_args( file_name ) ).c_str( ) );

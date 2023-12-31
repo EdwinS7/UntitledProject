@@ -1,7 +1,7 @@
 #include "buffer.hpp"
 
 void cBuffer::Init( bool ApplyDefaults ) {
-	PushClip( gWin32->GetCanvasRect( ) );
+	PushClip( gWin32->GetClipRect( ) );
 	PushTexture( nullptr );
 
 	// Create font objects.
@@ -16,8 +16,8 @@ void cBuffer::Init( bool ApplyDefaults ) {
 }
 
 void cBuffer::Destroy( ) {
-	m_Command.textures.clear( );
-	m_Command.clips.clear( );
+	m_CommandResources.Textures.clear( );
+	m_CommandResources.Clips.clear( );
 
 	// Release Fonts.
 	Fonts.Default.Release( );
@@ -37,7 +37,7 @@ void cBuffer::WriteToBuffer( const int8_t Primitive, const std::vector< Vertex >
 	m_VerticesCount += VerticesCount;
 	m_IndicesCount += IndicesCount;
 
-	m_draw_commands.push_back( DrawCommand( Primitive, *Vertices, Indices == nullptr ? DynamicIndices : *Indices, m_Command, VerticesCount, Indices != nullptr ? Indices->size( ) : IndicesCount ) );
+	m_DrawCommands.push_back( DrawCommand( Primitive, *Vertices, Indices == nullptr ? DynamicIndices : *Indices, m_CommandResources, VerticesCount, Indices != nullptr ? Indices->size( ) : IndicesCount ) );
 }
 
 void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& DrawCommands ) {
@@ -47,7 +47,7 @@ void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& DrawCommands ) 
 		m_DrawCommand.Vertices.insert( m_DrawCommand.Vertices.end( ),
 				std::make_move_iterator( DrawCommand.Vertices.begin( ) ), std::make_move_iterator( DrawCommand.Vertices.end( ) )
 		);
-
+		
 		m_DrawCommand.Indices.insert( m_DrawCommand.Indices.end( ),
 			std::make_move_iterator( DrawCommand.Indices.begin( ) ), std::make_move_iterator( DrawCommand.Indices.end( ) )
 		);
@@ -275,7 +275,6 @@ void cBuffer::Circle( const Vec2< int16_t > Pos, const int16_t Radius, const Col
 	points.reserve( m_CircleSegments + 1 );
 
 	GenerateArcPoints( &points, &Pos, Radius, 100, 0, m_CircleSegments );
-
 	Polyline( points, Color );
 }
 
@@ -284,7 +283,6 @@ void cBuffer::FilledCircle( const Vec2< int16_t > Pos, const int16_t Radius, con
 	points.reserve( m_CircleSegments + 1 );
 
 	GenerateArcPoints( &points, &Pos, Radius, 100, 0, m_CircleSegments );
-
 	Polygon( points, Color );
 }
 
@@ -334,25 +332,28 @@ Vec2<int16_t> cBuffer::GetStringSize( const Font* Font, const std::string& Strin
 	if ( !Font || String.empty( ) )
 		return Vec2<int16_t>( );
 
-	Vec2<int16_t> size{ 0, static_cast< int16_t >( Font->Size * 1.5f ) };
+	Vec2<int16_t> Size{ 0, static_cast< int16_t >( Font->Size * 1.5f ) };
 
-	for ( char letter : String )
-		size.x += Font->CharSet.at( letter ).Advance / 64;
+	for ( char Letter : String )
+		Size.x += Font->CharSet.at( Letter ).Advance / 64;
 
-	return size;
+	return Size;
 }
 
 void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* Pos, const int16_t Radius, const int16_t Completion, const int16_t Rotation, const int16_t Segments ) {
-	double Angle = static_cast< double >( Rotation * M_PI ) / 180.0;
-	double Conversion = ( Completion * 0.01 );
+	double Angle = ( static_cast< double >( Rotation ) * M_PI ) / 180.0;
+	double Conversion = Completion * 0.01;
 
-	auto get_point = [ & ] ( int16_t i ) {
-		double theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( Segments );
-		return Vec2<double>( static_cast< double >( Pos->x ) + Radius * cos( theta ), static_cast< double >( Pos->y ) + Radius * sin( theta ) );
+	int16_t SegmentCount = m_DynamicArcSegments ? Segments > Radius ? Radius : max( Segments, 8 ) : Segments;
+	Points->reserve( SegmentCount + 1 );
+
+	auto GetPoint = [ & ] ( int16_t i ) {
+		double Theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( SegmentCount );
+		return Vec2<double>( static_cast< double >( Pos->x ) + Radius * cos( Theta ), static_cast< double >( Pos->y ) + Radius * sin( Theta ) );
 	};
 
-	for ( int i = 0; i <= Segments; ++i ) {
-		Vec2<double> point = get_point( i );
+	for ( int i = 0; i < SegmentCount; i++ ) {
+		Vec2<double> point = GetPoint( i );
 
 		Points->push_back( Vec2<int16_t>( std::round( point.x ), std::round( point.y ) ) );
 	}

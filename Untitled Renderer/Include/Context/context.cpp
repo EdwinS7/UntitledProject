@@ -1,7 +1,8 @@
 #include "context.hpp"
 
 void cContext::Update( ) {
-    gInput->PoolInput( );
+    if ( GetFocus() == gWin32->GetHwnd( ) )
+        gInput->PoolInput( );
 
     m_TimePoint = std::chrono::high_resolution_clock::now( );
 
@@ -16,4 +17,4 @@ void cContext::Update( ) {
     }
     else
         m_FrameCount++;
-} 
+}

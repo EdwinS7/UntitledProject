@@ -33,7 +33,7 @@ public:
     void RotateObject( float Degrees );
 
     inline void ClearCommands( );
-    inline Command GetCommand( );
+    inline CommandResources GetCommand( );
     inline CompiledDrawCommand GetDrawCommand( );
     inline std::vector<DrawCommand> GetDrawCommands( );
 
@@ -41,7 +41,7 @@ public:
     inline int GetVerticesCount( );
     inline int GetIndicesCount( );
 
-    inline void PushClip( RECT Rect );
+    inline void PushClip( Rect<int16_t> Rect );
     inline void PopClip( );
 
     inline void PushTexture( IDirect3DTexture9* Resource );
@@ -63,9 +63,11 @@ private:
     int m_CircleSegments, m_RectangleSegments;
     int m_BezierCubicSegments, m_BezierQuadraticSegments;
 
-	std::vector < DrawCommand > m_draw_commands;
+    bool m_DynamicArcSegments;
+
+	std::vector < DrawCommand > m_DrawCommands;
+    CommandResources m_CommandResources;
 	CompiledDrawCommand m_DrawCommand;
-	Command m_Command;
 
     void GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* Pos, const int16_t Radius, const int16_t Completion, const int16_t Rotation, int16_t Segments );
     void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3 );

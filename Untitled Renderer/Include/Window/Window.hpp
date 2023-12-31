@@ -16,8 +16,8 @@ public:
 
 	inline Vec2<int16_t> GetPos( );
 	inline Vec2<int16_t> GetSize( );
-	inline RECT GetCanvasRect( );
-	inline RECT GetRect( );
+	inline Rect<int16_t> GetClipRect( );
+	inline Rect<int16_t> GetRect( );
 	inline HWND GetHwnd( );
 private:
 

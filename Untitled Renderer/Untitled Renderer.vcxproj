@@ -72,26 +72,26 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
-    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
+    <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
+    <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
     <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
-    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
+    <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
+    <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
     <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
-    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
+    <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
+    <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
     <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)compiled\$(ProjectName)\output\</OutDir>
-    <IntDir>$(SolutionDir)compiled\$(ProjectName)\others\</IntDir>
+    <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
+    <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
     <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>

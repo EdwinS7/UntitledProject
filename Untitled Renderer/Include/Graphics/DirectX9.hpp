@@ -27,22 +27,22 @@ public:
 	inline IDirect3DDevice9* GetDevice( );
 
 private:
-	IDirect3D9* m_d3d;
-	IDirect3DDevice9* m_device;
-	D3DPRESENT_PARAMETERS m_parameters;
+	IDirect3D9* m_Direct3D;
+	IDirect3DDevice9* m_Device;
+	D3DPRESENT_PARAMETERS m_Parameters;
 
-	int	m_vertex_buffer_size{ 5000 },
-		m_index_buffer_size{ 10000 };
+	int	m_VertexBufferSize{ 5000 },
+		m_IndexBufferSize{ 10000 };
 
-	IDirect3DVertexBuffer9* m_vertex_buffer;
-	IDirect3DIndexBuffer9* m_index_buffer;
+	IDirect3DVertexBuffer9* m_VertexBuffer;
+	IDirect3DIndexBuffer9* m_IndexBuffer;
 
-	Color m_clear_color{ 0, 0, 0, 255 };
+	Color m_ClearColor{ 0, 0, 0, 255 };
 
-	HWND m_hwnd;
+	HWND m_Hwnd;
 
 	template <typename type>
-	void safe_release( type*& obj );
+	void SafeRelease( type*& obj );
 };
 
 inline const auto gGraphics = std::make_unique<cGraphics>( );

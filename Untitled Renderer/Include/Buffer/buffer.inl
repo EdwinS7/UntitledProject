@@ -1,15 +1,15 @@
 #include "buffer.hpp"
 
 inline void cBuffer::ClearCommands( ) {
-    m_draw_commands.clear( );
+    m_DrawCommands.clear( );
     m_DrawCommand.reset( );
 
     m_VerticesCount = 0;
     m_IndicesCount = 0;
 }
 
-inline Command cBuffer::GetCommand( ) {
-    return m_Command;
+inline CommandResources cBuffer::GetCommand( ) {
+    return m_CommandResources;
 }
 
 inline CompiledDrawCommand cBuffer::GetDrawCommand( ) {
@@ -17,11 +17,11 @@ inline CompiledDrawCommand cBuffer::GetDrawCommand( ) {
 }
 
 inline std::vector<DrawCommand> cBuffer::GetDrawCommands( ) {
-    return m_draw_commands;
+    return m_DrawCommands;
 }
 
 inline int cBuffer::GetCommandsCount( ) {
-    return m_draw_commands.size();
+    return m_DrawCommands.size();
 }
 
 inline int cBuffer::GetVerticesCount( ) {
@@ -32,20 +32,20 @@ inline int cBuffer::GetIndicesCount( ) {
     return m_IndicesCount;
 }
 
-inline void cBuffer::PushClip( RECT Rect ) {
-    m_Command.clips.push_back( Rect );
+inline void cBuffer::PushClip( Rect<int16_t> Rect ) {
+	m_CommandResources.Clips.push_back( RECT( Rect.x, Rect.y, Rect.w, Rect.h ) );
 }
 
 inline void cBuffer::PopClip( ) {
-    m_Command.clips.pop_back( );
+	m_CommandResources.Clips.pop_back( );
 }
 
 inline void cBuffer::PushTexture( IDirect3DTexture9* resource ) {
-    m_Command.textures.push_back( resource );
+	m_CommandResources.Textures.push_back( resource );
 }
 
 inline void cBuffer::PopTexture( ) {
-    m_Command.textures.pop_back( );
+	m_CommandResources.Textures.pop_back( );
 }
 
 inline std::string cBuffer::GetFontPath( const char* FontName ) {
