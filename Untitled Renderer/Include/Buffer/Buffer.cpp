@@ -137,7 +137,7 @@ void cBuffer::Rectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, 
 
 void cBuffer::FilledRectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, const Color Color, const int16_t Rounding, const CornerFlags Flags ) {
 	const bool RoundTopLeft = ( Flags & CornerTopLeft ) && Rounding;
-	const bool RoundTop_right = ( Flags & CornerTopRight ) && Rounding;
+	const bool RoundTopRight = ( Flags & CornerTopRight ) && Rounding;
 	const bool RoundBottomLeft = ( Flags & CornerBottomLeft ) && Rounding;
 	const bool RoundBottomRight = ( Flags & CornerBottomRight ) && Rounding;
 
@@ -145,7 +145,7 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > 
 
 	std::initializer_list<std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>> Corners = {
 		std::tuple{Vec2<int16_t>( Pos.x, Pos.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Rounding ), 180, RoundTopLeft},
-		std::tuple{Vec2<int16_t>( Pos.x + Size.x, Pos.y ), Vec2<int16_t>( Pos.x + Size.x - Rounding, Pos.y + Rounding ), 270, RoundTop_right},
+		std::tuple{Vec2<int16_t>( Pos.x + Size.x, Pos.y ), Vec2<int16_t>( Pos.x + Size.x - Rounding, Pos.y + Rounding ), 270, RoundTopRight},
 		std::tuple{Vec2<int16_t>( Pos.x + Size.x, Pos.y + Size.y ), Vec2<int16_t>( Pos.x + Size.x - Rounding, Pos.y + Size.y - Rounding ), 0, RoundBottomRight},
 		std::tuple{Vec2<int16_t>( Pos.x, Pos.y + Size.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Size.y - Rounding ), 90, RoundBottomLeft},
 		std::tuple{Vec2<int16_t>( Pos.x, Pos.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Rounding ), 180, RoundTopLeft}
