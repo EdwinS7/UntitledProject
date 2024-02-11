@@ -29,7 +29,7 @@ public:
 	Window( ) = default;
 
 	Window( const char* Title, const char* Description, Vec2<int16_t> Pos, Vec2<int16_t> Size, Vec2<int16_t> MinSize, Vec2<int16_t> MaxSize )
-		: m_Title( Title ), m_Description( Description ), m_Pos( Pos ), m_Size( Size ), m_MinSize( MinSize ), m_MaxSize( MaxSize ) { }
+		: m_Title( Title ), m_Description( Description ), m_Pos( Pos ), m_LerpPos( Pos.AsFloat( ) ), m_Size( Size ), m_LerpSize( Size.AsFloat( ) ), m_MinSize( MinSize ), m_MaxSize( MaxSize ) { }
 
 	void Render( );
 	void HandleInput( );
@@ -48,6 +48,7 @@ private:
 	std::string m_Title, m_Description;
 
 	Vec2<int16_t> m_MinSize, m_MaxSize;
+	Vec2<float> m_LerpPos, m_LerpSize;
 	Vec2<int16_t> m_Pos, m_Size;
 
 	WindowColorPalate m_ColorPalate;
@@ -61,6 +62,7 @@ private:
 
 	std::vector<Tab> m_Tabs;
 
+	float m_AnimationSpeed{ 100 };
 	int m_CurrentTab{ 0 };
 };
 

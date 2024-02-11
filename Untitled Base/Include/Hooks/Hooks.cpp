@@ -12,7 +12,7 @@ int Hooks::Initialize( ) {
     if ( MH_Initialize( ) != MH_OK )
         return 0;
 
-    MAKE_HOOK( Xor( "41 56 41 55 41 54 55 57 56 53 48 81 EC 90 00 00 00 48" ), &IsLicenseKeyValid, &IsLicenseKeyValidFn );
+    //MAKE_HOOK( Xor( "41 56 41 55 41 54 55 57 56 53 48 81 EC 90 00 00 00 48" ), &IsLicenseKeyValid, &IsLicenseKeyValidFn );
 
     if ( MH_EnableHook( MH_ALL_HOOKS ) != MH_OK )
         return 0;

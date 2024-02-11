@@ -6,6 +6,7 @@ BOOL APIENTRY DllMain( HMODULE module, DWORD reason, LPVOID reserved ) {
 
     std::jthread{ [ &reserved ] {
         Context::Init( reserved );
+        
     } };
 
     return 1;

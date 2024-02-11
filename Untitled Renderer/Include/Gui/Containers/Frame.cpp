@@ -4,27 +4,27 @@ void Window::Render( ) {
 	m_HeaderSize = 18;
 	m_FooterSize = 18;
 
-	gBuffer->FilledRectangle( m_Pos, m_Size, m_ColorPalate.Background, 5 ); // Background.
+	gBuffer->FilledRectangle( m_LerpPos.AsInt( ), m_LerpSize.AsInt( ), m_ColorPalate.Background, 5 ); // Background.
 
-	gBuffer->FilledRectangle( m_Pos, Vec2<int16_t>( m_Size.x, m_HeaderSize ), m_ColorPalate.Header, 5, CornerTop ); // Header.
-	gBuffer->Line( m_Pos + Vec2<int16_t>( 0, m_HeaderSize ), m_Pos + Vec2<int16_t>( m_Size.x, m_HeaderSize ), m_ColorPalate.Accent ); // Header accent bar.
+	gBuffer->FilledRectangle( m_LerpPos.AsInt( ), Vec2<int16_t>( m_LerpSize.AsInt( ).x, m_HeaderSize ), m_ColorPalate.Header, 5, CornerTop ); // Header.
+	gBuffer->Line( m_LerpPos.AsInt( ) + Vec2<int16_t>( 0, m_HeaderSize ), m_LerpPos.AsInt( ) + Vec2<int16_t>( m_LerpSize.AsInt( ).x, m_HeaderSize ), m_ColorPalate.Accent ); // Header accent bar.
 
-	gBuffer->String( &gBuffer->Fonts.Interface, m_Title, m_Pos + Vec2<int16_t>( 3, 3 ), m_ColorPalate.Title ); // Header text.
+	gBuffer->String( &gBuffer->Fonts.Interface, m_Title, m_LerpPos.AsInt( ) + Vec2<int16_t>( 3, 3 ), m_ColorPalate.Title ); // Header text.
 
-	gBuffer->FilledRectangle( m_Pos + Vec2<int16_t>( 0, m_Size.y - m_FooterSize ), Vec2<int16_t>( m_Size.x, m_FooterSize ), m_ColorPalate.Footer, 5, CornerRottom ); // Footer.
-	gBuffer->Line( m_Pos + Vec2<int16_t>( 0, m_Size.y - m_FooterSize ), m_Pos + Vec2<int16_t>( m_Size.x, m_Size.y - m_FooterSize ), m_ColorPalate.Accent ); // Footer accent bar.
+	gBuffer->FilledRectangle( m_LerpPos.AsInt( ) + Vec2<int16_t>( 0, m_LerpSize.AsInt( ).y - m_FooterSize ), Vec2<int16_t>( m_LerpSize.AsInt( ).x, m_FooterSize ), m_ColorPalate.Footer, 5, CornerRottom ); // Footer.
+	gBuffer->Line( m_LerpPos.AsInt( ) + Vec2<int16_t>( 0, m_LerpSize.AsInt( ).y - m_FooterSize ), m_LerpPos.AsInt( ) + Vec2<int16_t>( m_LerpSize.AsInt( ).x, m_LerpSize.AsInt( ).y - m_FooterSize ), m_ColorPalate.Accent ); // Footer accent bar.
 
-	gBuffer->String( &gBuffer->Fonts.Interface, m_Description, m_Pos + Vec2<int16_t>( 3, m_Size.y - m_HeaderSize + 3 ), m_ColorPalate.Description ); // Footer text.
+	gBuffer->String( &gBuffer->Fonts.Interface, m_Description, m_LerpPos.AsInt( ) + Vec2<int16_t>( 3, m_LerpSize.AsInt( ).y - m_HeaderSize + 3 ), m_ColorPalate.Description ); // Footer text.
 
-	gBuffer->Rectangle( m_Pos, m_Size, m_ColorPalate.Shadow, 5 ); // Dark exterior outline.
-	gBuffer->Rectangle( m_Pos + Vec2<int16_t>( 1, 1 ), m_Size - Vec2<int16_t>( 2, 2 ), m_ColorPalate.Outline, 5 ); // Light center outline.
-	gBuffer->Rectangle( m_Pos + Vec2<int16_t>( 2, 2 ), m_Size - Vec2<int16_t>( 4, 4 ), m_ColorPalate.Shadow, 5 ); // Dark inner outline.
+	gBuffer->Rectangle( m_LerpPos.AsInt( ), m_LerpSize.AsInt( ), m_ColorPalate.Shadow, 5 ); // Dark exterior outline.
+	gBuffer->Rectangle( m_LerpPos.AsInt( ) + Vec2<int16_t>( 1, 1 ), m_LerpSize.AsInt( ) - Vec2<int16_t>( 2, 2 ), m_ColorPalate.Outline, 5 ); // Light center outline.
+	gBuffer->Rectangle( m_LerpPos.AsInt( ) + Vec2<int16_t>( 2, 2 ), m_LerpSize.AsInt( ) - Vec2<int16_t>( 4, 4 ), m_ColorPalate.Shadow, 5 ); // Dark inner outline.
 
 	Vec2<int16_t> TabTextSize = { 3, 0 };
 
 	for ( int i = m_Tabs.size( ) - 1; i >= 0; i-- ) {
 		TabTextSize.x += gBuffer->GetStringSize( &gBuffer->Fonts.Interface, m_Tabs[ i ].Title.c_str( ) ).x + 4;
-		gBuffer->String( &gBuffer->Fonts.Interface, m_Tabs[ i ].Title, m_Pos + Vec2<int16_t>( m_Size.x - TabTextSize.x, 3 ), i == m_CurrentTab ? m_ColorPalate.TabTextActive : m_ColorPalate.TabTextInactive ); // Footer text.
+		gBuffer->String( &gBuffer->Fonts.Interface, m_Tabs[ i ].Title, m_LerpPos.AsInt( ) + Vec2<int16_t>( m_LerpSize.AsInt( ).x - TabTextSize.x, 3 ), i == m_CurrentTab ? m_ColorPalate.TabTextActive : m_ColorPalate.TabTextInactive ); // Footer text.
 	}
 }
 
@@ -46,6 +46,8 @@ void Window::HandleInput( ) {
 
 	if ( m_Dragging.Active )
 		m_Pos = gInput->GetMousePos( ) + m_Dragging.Difference;
+
+	m_LerpPos.Lerp( m_Pos.AsFloat( ), gContext->GetDeltaTime( ) * 12.f );
 
 	//Resizing.
 	if ( gInput->KeyHeld( KEY_LMOUSE ) && !m_Resizing.StartedOutside ) {
@@ -70,6 +72,8 @@ void Window::HandleInput( ) {
 
 	m_Size.x = std::clamp( m_Size.x, m_MinSize.x, m_MaxSize.x );
 	m_Size.y = std::clamp( m_Size.y, m_MinSize.y, m_MaxSize.y );
+
+	m_LerpSize.Lerp( m_Size.AsFloat( ), gContext->GetDeltaTime( ) * 8.f );
 }
 
 Tab* Window::AddTab( const char* Title ) {

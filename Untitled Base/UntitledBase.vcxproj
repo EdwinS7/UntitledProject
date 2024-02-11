@@ -82,15 +82,17 @@
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
     <TargetName>$(ProjectName)64</TargetName>
-    <LibraryPath>$(ProjectDir)Thirdparty\MinHook\Bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Thirdparty\MinHook\Bin;$(ProjectDir)Thirdparty\;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)Thirdparty\MinHook\Include;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <TargetName>$(ProjectName)64</TargetName>
-    <LibraryPath>$(ProjectDir)Thirdparty\MinHook\Bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)Thirdparty\MinHook\Bin;$(ProjectDir)Thirdparty\;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)Thirdparty\MinHook\Include;$(IncludePath)</IncludePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
@@ -148,12 +150,14 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>$(ProjectDir)Thirdparty\GLFW\Include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>MinHook64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MinHook64.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Thirdparty/GLFW/Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -169,6 +173,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)Thirdparty\GLFW\Include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -176,7 +181,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>MinHook64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MinHook64.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Thirdparty/GLFW/Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -184,8 +190,19 @@
     <ClCompile Include="Include\Context\Context.cpp" />
     <ClCompile Include="Include\Hooks\Hooks.cpp" />
     <ClCompile Include="Include\Hooks\Hooks\IsLicenseKeyValid.cpp" />
+    <ClCompile Include="Include\Interface\Interface.cpp" />
     <ClCompile Include="include\memory\Memory.cpp" />
     <ClCompile Include="DLLMain.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\Backend\imgui_impl_opengl2.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\Backend\imgui_impl_win32.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_stdlib.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="Thirdparty\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Thirdparty\KieroHook\imgui_hook.cpp" />
+    <ClCompile Include="Thirdparty\KieroHook\kiero\kiero.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
@@ -193,7 +210,19 @@
     <ClInclude Include="Include\Console\Console.hpp" />
     <ClInclude Include="Include\Context\Context.hpp" />
     <ClInclude Include="Include\Hooks\Hooks.hpp" />
+    <ClInclude Include="Include\Interface\Interface.hpp" />
     <ClInclude Include="Include\Memory\Memory.hpp" />
+    <ClInclude Include="Thirdparty\ImGui\Backend\imgui_impl_opengl2.h" />
+    <ClInclude Include="Thirdparty\ImGui\Backend\imgui_impl_win32.h" />
+    <ClInclude Include="Thirdparty\ImGui\imconfig.h" />
+    <ClInclude Include="Thirdparty\ImGui\imgui.h" />
+    <ClInclude Include="Thirdparty\ImGui\imgui_internal.h" />
+    <ClInclude Include="Thirdparty\ImGui\imgui_stdlib.h" />
+    <ClInclude Include="Thirdparty\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Thirdparty\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Thirdparty\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Thirdparty\KieroHook\imgui_hook.h" />
+    <ClInclude Include="Thirdparty\KieroHook\kiero\kiero.h" />
     <ClInclude Include="Thirdparty\MinHook\MinHook.h" />
     <ClInclude Include="Thirdparty\Xorstr.hpp" />
   </ItemGroup>

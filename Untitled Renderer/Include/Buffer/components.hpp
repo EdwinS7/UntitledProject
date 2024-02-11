@@ -37,6 +37,19 @@ public:
 	constexpr bool operator==(const Vec2& v) const noexcept { return x == v.x && y == v.y; }
 
 	constexpr Vec2& operator*=(const T& val) noexcept { x *= val; y *= val; return *this; }
+
+	constexpr void Lerp( const Vec2& v, const float& t ) {
+		x = static_cast< T >( x + ( v.x - x ) * t );
+		y = static_cast< T >( y + ( v.y - y ) * t );
+	}
+
+	constexpr Vec2<int16_t> AsInt( ) {
+		return Vec2<int16_t>( std::round( x ), std::round( y ) );
+	}
+
+	constexpr Vec2<float> AsFloat( ) {
+		return Vec2<float>( x, y );
+	}
 };
 
 template <typename T = int16_t>

@@ -11,6 +11,10 @@ void Context::Init( void* Reserved ) {
     if ( Hooks::Initialize( ) )
         LOG( Xor( "[Hooks] Initialized!" ) );
 
+    if ( !Interface::Init( ) )
+        LOG( Xor( "[Interface] Failed!" ) );
+    
+
     while ( !GetAsyncKeyState( VK_DELETE ) && !GetAsyncKeyState( VK_END ) )
         std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
 

@@ -6,6 +6,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
     gBuffer->Init( true );
 
     while ( gWin32->Dispatch( ) ) {
+        gWin32->SetRenderEnvironmentTitle( std::vformat("Delta time: {}", std::make_format_args( gContext->GetDeltaTime( ) ) ).c_str( ) );
         gContext->Update( );
         gGui->DemoWindow( );
         gGraphics->Draw( );
