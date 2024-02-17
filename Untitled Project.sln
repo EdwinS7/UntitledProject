@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Untitled Renderer", "Untitl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Untitled Interpreter", "Untitled Interpereter\Untitled Interpereter.vcxproj", "{91E21870-EA62-4A54-BFD2-5CCC19539E2E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Untitled Mx Sim", "Untitled Mx Sim\UntitledMxSim.vcxproj", "{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Untitled Base", "Untitled Base\UntitledBase.vcxproj", "{C19D14F9-ED21-434B-AD68-D379BA085DC2}"
 EndProject
 Global
@@ -35,14 +33,6 @@ Global
 		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x64.Build.0 = Release|x64
 		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x86.ActiveCfg = Release|Win32
 		{91E21870-EA62-4A54-BFD2-5CCC19539E2E}.release|x86.Build.0 = Release|Win32
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.debug|x64.ActiveCfg = Debug|x64
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.debug|x64.Build.0 = Debug|x64
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.debug|x86.ActiveCfg = Debug|Win32
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.debug|x86.Build.0 = Debug|Win32
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.release|x64.ActiveCfg = Release|x64
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.release|x64.Build.0 = Release|x64
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.release|x86.ActiveCfg = Release|Win32
-		{C0AF7B7C-E1C1-44F6-983E-AA16CABE90A5}.release|x86.Build.0 = Release|Win32
 		{C19D14F9-ED21-434B-AD68-D379BA085DC2}.debug|x64.ActiveCfg = Debug|x64
 		{C19D14F9-ED21-434B-AD68-D379BA085DC2}.debug|x64.Build.0 = Debug|x64
 		{C19D14F9-ED21-434B-AD68-D379BA085DC2}.debug|x86.ActiveCfg = Debug|Win32
