@@ -11,7 +11,7 @@ extern class Window;
 class cGui {
 public:
 	void DemoWindow( );
-
+	
 	Window* NewWindow( const char* Title, const char* Description, Vec2<int16_t> Size );
 	
 private:

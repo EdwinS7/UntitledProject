@@ -14,7 +14,7 @@ public:
 
 	void Destroy( );
 
-	Group* NewGroup( const char* Title, Window* Window, Vec2<int16_t> Padding );
+	Group* NewGroup( const char* Title, Window** Window );
 
 	std::string Title;
 

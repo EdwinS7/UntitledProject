@@ -25,7 +25,7 @@ bool cGraphics::Init( HWND hwnd, const bool device_only ) {
 }
 
 void cGraphics::Reset( const LPARAM lParam ) {
-    gBuffer->Destroy( );
+    gBuffer->Release( );
 
     m_Parameters.BackBufferWidth = LOWORD( lParam );
     m_Parameters.BackBufferHeight = HIWORD( lParam );
@@ -36,12 +36,10 @@ void cGraphics::Reset( const LPARAM lParam ) {
 
     Init( m_Hwnd, true );
 
-    gBuffer->Init( false );
+    gBuffer->Init( );
 }
 
 void cGraphics::Release( ) {
-    gBuffer->ClearCommands( );
-
     SafeRelease( m_VertexBuffer );
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Direct3D );
@@ -166,7 +164,7 @@ void cGraphics::RenderDrawData( ) {
 void cGraphics::SetVSync( const bool state ) {
     m_Parameters.PresentationInterval = state ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
     
-    gBuffer->Destroy( );
+    gBuffer->Release( );
 
     SafeRelease( m_VertexBuffer );
     SafeRelease( m_IndexBuffer );
@@ -174,7 +172,7 @@ void cGraphics::SetVSync( const bool state ) {
 
     Init( m_Hwnd, true );
 
-    gBuffer->Init( false );
+    gBuffer->Init( );
 }
 
 void cGraphics::SetClearColor( const Color clear_color ) {

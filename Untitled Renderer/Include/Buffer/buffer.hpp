@@ -6,8 +6,8 @@
 
 class cBuffer {
 public:
-    void Init( bool ApplyDefaults );
-    void Destroy( );
+    void Init( );
+    void Release( );
 
     void WriteToBuffer( const int8_t Primitive, const std::vector<Vertex>* Vertices, const std::vector<int32_t>* Indices );
     void BuildDrawCommands( const std::vector<DrawCommand>& DrawCommands );
@@ -48,7 +48,7 @@ public:
     inline void PopTexture( );
     
     struct cFonts {
-        Font Default, Interface;
+        Font Default, Interface, SmallInterface;
     } Fonts;
 
     struct cTextures {
@@ -60,8 +60,8 @@ private:
 
     int m_VerticesCount, m_IndicesCount;
 
-    int m_CircleSegments, m_RectangleSegments;
-    int m_BezierCubicSegments, m_BezierQuadraticSegments;
+    int m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
+    int m_BezierCubicSegments{ 128 }, m_BezierQuadraticSegments{ 128 };
 
     bool m_DynamicArcSegments;
 

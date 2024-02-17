@@ -20,6 +20,10 @@ public:
 	Color Description = { 85, 85, 85, 255 };
 	Color TabTextActive = Accent;
 	Color TabTextInactive{ 140, 140, 140, 255 };
+	Color ElementBackground{ 25, 25, 25, 255 };
+	Color ElementOutline{ 40, 40, 40, 255 };
+	Color ElementTextOn{ 240, 240, 240, 255 };
+	Color ElementTextOff{ 85, 85, 85, 255 };
 };
 
 extern class Tab;
@@ -29,7 +33,7 @@ public:
 	Window( ) = default;
 
 	Window( const char* Title, const char* Description, Vec2<int16_t> Pos, Vec2<int16_t> Size, Vec2<int16_t> MinSize, Vec2<int16_t> MaxSize )
-		: m_Title( Title ), m_Description( Description ), m_Pos( Pos ), m_LerpPos( Pos.AsFloat( ) ), m_Size( Size ), m_LerpSize( Size.AsFloat( ) ), m_MinSize( MinSize ), m_MaxSize( MaxSize ) { }
+		: m_Title( Title ), m_Description( Description ), m_Pos( Pos ), m_LerpPos( Pos.As<float>( ) ), m_Size( Size ), m_LerpSize( Size.As<float>( ) ), m_MinSize( MinSize ), m_MaxSize( MaxSize ) { }
 
 	void Render( );
 	void HandleInput( );
@@ -41,6 +45,9 @@ public:
 
 	Vec2<int16_t> GetElementFramePos( );
 	Vec2<int16_t> GetElementFrameSize( );
+
+	Vec2<int16_t> GetLeftDock( );
+	Vec2<int16_t> GetRightDock( );
 
 	void Destroy( );
 
@@ -68,19 +75,21 @@ private:
 
 class Group {
 public:
-	void Begin( Vec2<int16_t> Size );
+	void Begin( Vec2<int16_t> Padding, Vec2<int16_t> Size );
 	void Destroy( );
+
+	void Checkbox( std::string Title, bool* State );
 
 	Group( ) = default;
 
-	Group( const char* Title, Window* Window, Vec2<int16_t> Padding )
-		: m_Title( Title ), m_Parent( Window ), m_Padding( Padding ) {}
+	Group( const char* Title, Window* ParentWindow )
+		: m_Title( Title ), m_Parent( ParentWindow ) {}
 
 private:
 	Window* m_Parent;
 	WindowColorPalate m_ColorPalate;
 
-	Vec2<int16_t> m_Padding;
+	Vec2<int16_t> m_ElementPadding, m_Padding;
 	std::string m_Title;
 
 	int m_HeaderSize;

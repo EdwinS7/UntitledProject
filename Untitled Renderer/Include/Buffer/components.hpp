@@ -19,83 +19,103 @@ enum CornerFlags {
 template <typename T = int16_t>
 class Vec2 {
 public:
-	T x, y;
+	T x{}, y{};
 
-	constexpr Vec2() noexcept = default;
-	constexpr Vec2(T x, T y) noexcept : x(x), y(y) {}
+	constexpr Vec2( ) noexcept = default;
+	constexpr Vec2( T x, T y ) noexcept : x( x ), y( y ) { }
 
-	constexpr Vec2 operator+(const Vec2& v) const noexcept { return { static_cast<T>(x + v.x), static_cast<T>(y + v.y) }; }
-	constexpr Vec2 operator-(const Vec2& v) const noexcept { return { static_cast<T>(x - v.x), static_cast<T>(y - v.y) }; }
-	constexpr Vec2 operator*(const Vec2& v) const noexcept { return { static_cast<T>(x * v.x), static_cast<T>(y * v.y) }; }
-	constexpr Vec2 operator/(const Vec2& v) const noexcept { return { static_cast<T>(x / v.x), static_cast<T>(y / v.y) }; }
+	constexpr Vec2 operator+( const Vec2& v ) const noexcept { return { static_cast< T >( x + v.x ), static_cast< T >( y + v.y ) }; }
+	constexpr Vec2 operator-( const Vec2& v ) const noexcept { return { static_cast< T >( x - v.x ), static_cast< T >( y - v.y ) }; }
+	constexpr Vec2 operator*( const Vec2& v ) const noexcept { return { static_cast< T >( x * v.x ), static_cast< T >( y * v.y ) }; }
+	constexpr Vec2 operator/( const Vec2& v ) const noexcept { return { static_cast< T >( x / v.x ), static_cast< T >( y / v.y ) }; }
 
-	constexpr bool operator>(const Vec2& v) const noexcept { return x > v.x && y > v.y; }
-	constexpr bool operator>=(const Vec2& v) const noexcept { return x >= v.x && y >= v.y; }
-	constexpr bool operator<(const Vec2& v) const noexcept { return x < v.x && y < v.y; }
-	constexpr bool operator<=(const Vec2& v) const noexcept { return x <= v.x && y <= v.y; }
+	constexpr bool operator>( const Vec2& v ) const noexcept { return x > v.x && y > v.y; }
+	constexpr bool operator>=( const Vec2& v ) const noexcept { return x >= v.x && y >= v.y; }
+	constexpr bool operator<( const Vec2& v ) const noexcept { return x < v.x && y < v.y; }
+	constexpr bool operator<=( const Vec2& v ) const noexcept { return x <= v.x && y <= v.y; }
 
-	constexpr bool operator==(const Vec2& v) const noexcept { return x == v.x && y == v.y; }
+	constexpr bool operator==( const Vec2& v ) const noexcept { return x == v.x && y == v.y; }
 
-	constexpr Vec2& operator*=(const T& val) noexcept { x *= val; y *= val; return *this; }
+	constexpr Vec2& operator*=( const T& val ) noexcept { x *= val; y *= val; return *this; }
 
-	constexpr void Lerp( const Vec2& v, const float& t ) {
-		x = static_cast< T >( x + ( v.x - x ) * t );
-		y = static_cast< T >( y + ( v.y - y ) * t );
+	constexpr void Lerp( const Vec2& v, const float& t ) noexcept {
+		x += static_cast< T >( ( v.x - x ) * t );
+		y += static_cast< T >( ( v.y - y ) * t );
 	}
 
-	constexpr Vec2<int16_t> AsInt( ) {
-		return Vec2<int16_t>( std::round( x ), std::round( y ) );
-	}
-
-	constexpr Vec2<float> AsFloat( ) {
-		return Vec2<float>( x, y );
+	template <typename U = T>
+	constexpr Vec2<U> As( ) const noexcept {
+		return { static_cast< U >( x ), static_cast< U >( y ) };
 	}
 };
 
 template <typename T = int16_t>
 class Vec3 {
 public:
-	T x, y, z;
+	T x{}, y{}, z{};
 
-	constexpr Vec3() noexcept = default;
-	constexpr Vec3(T x, T y, T z) noexcept : x(x), y(y), z(z) {}
+	constexpr Vec3( ) noexcept = default;
+	constexpr Vec3( T x, T y, T z ) noexcept : x( x ), y( y ), z( z ) { }
 
-	constexpr Vec3 operator+(const Vec3& v) const noexcept { return { static_cast<T>(x + v.x), static_cast<T>(y + v.y), static_cast<T>(z + v.z) }; }
-	constexpr Vec3 operator-(const Vec3& v) const noexcept { return { static_cast<T>(x - v.x), static_cast<T>(y - v.y), static_cast<T>(z - v.z) }; }
-	constexpr Vec3 operator*(const Vec3& v) const noexcept { return { static_cast<T>(x * v.x), static_cast<T>(y * v.y), static_cast<T>(z * v.z) }; }
-	constexpr Vec3 operator/(const Vec3& v) const noexcept { return { static_cast<T>(x / v.x), static_cast<T>(y / v.y), static_cast<T>(z / v.z) }; }
+	constexpr Vec3 operator+( const Vec3& v ) const noexcept { return { static_cast< T >( x + v.x ), static_cast< T >( y + v.y ), static_cast< T >( z + v.z ) }; }
+	constexpr Vec3 operator-( const Vec3& v ) const noexcept { return { static_cast< T >( x - v.x ), static_cast< T >( y - v.y ), static_cast< T >( z - v.z ) }; }
+	constexpr Vec3 operator*( const Vec3& v ) const noexcept { return { static_cast< T >( x * v.x ), static_cast< T >( y * v.y ), static_cast< T >( z * v.z ) }; }
+	constexpr Vec3 operator/( const Vec3& v ) const noexcept { return { static_cast< T >( x / v.x ), static_cast< T >( y / v.y ), static_cast< T >( z / v.z ) }; }
 
-	constexpr bool operator>(const Vec3& v) const noexcept { return x > v.x && y > v.y && z > v.z; }
-	constexpr bool operator>=(const Vec3& v) const noexcept { return x >= v.x && y >= v.y && z >= v.z; }
-	constexpr bool operator<(const Vec3& v) const noexcept { return x < v.x && y < v.y && z < v.z; }
-	constexpr bool operator<=(const Vec3& v) const noexcept { return x <= v.x && y <= v.y && z <= v.z; }
+	constexpr bool operator>( const Vec3& v ) const noexcept { return x > v.x && y > v.y && z > v.z; }
+	constexpr bool operator>=( const Vec3& v ) const noexcept { return x >= v.x && y >= v.y && z >= v.z; }
+	constexpr bool operator<( const Vec3& v ) const noexcept { return x < v.x && y < v.y && z < v.z; }
+	constexpr bool operator<=( const Vec3& v ) const noexcept { return x <= v.x && y <= v.y && z <= v.z; }
 
-	constexpr bool operator==(const Vec3& v) const noexcept { return x == v.x && y == v.y && z == v.z; }
+	constexpr bool operator==( const Vec3& v ) const noexcept { return x == v.x && y == v.y && z == v.z; }
 
-	constexpr Vec3& operator*=(const T& val) noexcept { x *= val; y *= val; z *= val; return *this; }
+	constexpr Vec3& operator*=( const T& val ) noexcept { x *= val; y *= val; z *= val; return *this; }
+
+	constexpr void Lerp( const Vec3& v, const float& t ) noexcept {
+		x += static_cast< T >( ( v.x - x ) * t );
+		y += static_cast< T >( ( v.y - y ) * t );
+		z += static_cast< T >( ( v.z - z ) * t );
+	}
+
+	template <typename U = T>
+	constexpr Vec3<U> As( ) const noexcept {
+		return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( z ) };
+	}
 };
 
 template <typename T = int16_t>
 class Vec4 {
 public:
-	T w, x, y, z;
+	T w{}, x{}, y{}, z{};
 
-	constexpr Vec4() noexcept = default;
-	constexpr Vec4(T w, T x, T y, T z) noexcept : w(w), x(x), y(y), z(z) {}
+	constexpr Vec4( ) noexcept = default;
+	constexpr Vec4( T w, T x, T y, T z ) noexcept : w( w ), x( x ), y( y ), z( z ) {}
 
-	constexpr Vec4 operator+(const Vec4& v) const noexcept { return { static_cast<T>(w + v.w), static_cast<T>(x + v.x), static_cast<T>(y + v.y), static_cast<T>(z + v.z) }; }
-	constexpr Vec4 operator-(const Vec4& v) const noexcept { return { static_cast<T>(w - v.w), static_cast<T>(x - v.x), static_cast<T>(y - v.y), static_cast<T>(z - v.z) }; }
-	constexpr Vec4 operator*(const Vec4& v) const noexcept { return { static_cast<T>(w * v.w), static_cast<T>(x * v.x), static_cast<T>(y * v.y), static_cast<T>(z * v.z) }; }
-	constexpr Vec4 operator/(const Vec4& v) const noexcept { return { static_cast<T>(w / v.w), static_cast<T>(x / v.x), static_cast<T>(y / v.y), static_cast<T>(z / v.z) }; }
+	constexpr Vec4 operator+( const Vec4& v ) const noexcept { return { static_cast< T >( w + v.w ), static_cast< T >( x + v.x ), static_cast< T >( y + v.y ), static_cast< T >( z + v.z ) }; }
+	constexpr Vec4 operator-( const Vec4& v ) const noexcept { return { static_cast< T >( w - v.w ), static_cast< T >( x - v.x ), static_cast< T >( y - v.y ), static_cast< T >( z - v.z ) }; }
+	constexpr Vec4 operator*( const Vec4& v ) const noexcept { return { static_cast< T >( w * v.w ), static_cast< T >( x * v.x ), static_cast< T >( y * v.y ), static_cast< T >( z * v.z ) }; }
+	constexpr Vec4 operator/( const Vec4& v ) const noexcept { return { static_cast< T >( w / v.w ), static_cast< T >( x / v.x ), static_cast< T >( y / v.y ), static_cast< T >( z / v.z ) }; }
 
-	constexpr bool operator>(const Vec4& v) const noexcept { return w > v.w && x > v.x && y > v.y && z > v.z; }
-	constexpr bool operator>=(const Vec4& v) const noexcept { return w >= v.w && x >= v.x && y >= v.y && z >= v.z; }
-	constexpr bool operator<(const Vec4& v) const noexcept { return w < v.w && x < v.x && y < v.y && z < v.z; }
-	constexpr bool operator<=(const Vec4& v) const noexcept { return w <= v.w && x <= v.x && y <= v.y && z <= v.z; }
+	constexpr bool operator>( const Vec4& v ) const noexcept { return w > v.w && x > v.x && y > v.y && z > v.z; }
+	constexpr bool operator>=( const Vec4& v ) const noexcept { return w >= v.w && x >= v.x && y >= v.y && z >= v.z; }
+	constexpr bool operator<( const Vec4& v ) const noexcept { return w < v.w && x < v.x && y < v.y && z < v.z; }
+	constexpr bool operator<=( const Vec4& v ) const noexcept { return w <= v.w && x <= v.x && y <= v.y && z <= v.z; }
 
-	constexpr bool operator==(const Vec4& v) const noexcept { return w == v.w && x == v.x && y == v.y && z == v.z; }
+	constexpr bool operator==( const Vec4& v ) const noexcept { return w == v.w && x == v.x && y == v.y && z == v.z; }
 
-	constexpr Vec4& operator*=(const T& val) noexcept { w *= val; x *= val; y *= val; z *= val; return *this; }
+	constexpr Vec4& operator*=( const T& val ) noexcept { w *= val; x *= val; y *= val; z *= val; return *this; }
+
+	constexpr void Lerp( const Vec4& v, const float& t ) noexcept {
+		x += static_cast< T >( ( v.x - x ) * t );
+		y += static_cast< T >( ( v.y - y ) * t );
+		z += static_cast< T >( ( v.z - z ) * t );
+		w += static_cast< T >( ( v.w - w ) * t );
+	}
+
+	template <typename U = T>
+	constexpr Vec4<U> As( ) const noexcept {
+		return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( z ), static_cast< U >( w ) };
+	}
 };
 
 template <typename T = int16_t>
@@ -119,6 +139,18 @@ public:
 	constexpr bool operator==( const Rect& v ) const noexcept { return x == v.x && y == v.y && w == v.w && h == v.h; }
 
 	constexpr Rect& operator*=( const T& val ) noexcept { x *= val; y *= val; w *= val; h *= val; return *this; }
+
+	constexpr void Lerp( const Rect& v, const float& t ) noexcept {
+		x += static_cast< T >( ( v.x - x ) * t );
+		y += static_cast< T >( ( v.y - y ) * t );
+		w += static_cast< T >( ( v.w - w ) * t );
+		h += static_cast< T >( ( v.h - h ) * t );
+	}
+
+	template <typename U = T>
+	constexpr Rect<U> As( ) const noexcept {
+		return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( w ), static_cast< U >( h ) };
+	}
 };
 
 class Vertex {
@@ -127,9 +159,9 @@ public:
 	uint32_t Color;
 	float u, v;
 
-	constexpr Vertex() noexcept = default;
-	constexpr Vertex(float x, float y, float z, float rhw, uint32_t Color, float u = 0.0f, float v = 0.0f) noexcept
-		: x(x), y(y), z(z), rhw(rhw), Color(Color), u(u), v(v) {}
+	constexpr Vertex( ) noexcept = default;
+	constexpr Vertex( float x, float y, float z, float rhw, uint32_t Color, float u = 0.f, float v = 0.f ) noexcept
+		: x( x ), y( y ), z( z ), rhw( rhw ), Color( Color ), u( u ), v( v ) {}
 };
 
 #define COLOR(r,g,b,a) ((DWORD)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
@@ -138,9 +170,9 @@ class Color {
 public:
 	DWORD hex;
 
-	constexpr Color() noexcept = default;
-	constexpr Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) noexcept
-		: hex(COLOR(r, g, b, a)) {}
+	constexpr Color( ) noexcept = default;
+	constexpr Color( uint8_t r, uint8_t g, uint8_t b, uint8_t a ) noexcept
+		: hex( COLOR( r, g, b, a ) ) {}
 };
 
 struct Glyph {
@@ -156,10 +188,10 @@ public:
 
 	std::vector<Glyph> CharSet{ 256 };
 
-	void Release() {
-		for (auto& glyph : CharSet) {
-			if (glyph.Resource)
-				glyph.Resource->Release();
+	void Release( ) {
+		for ( auto& glyph : CharSet ) {
+			if ( glyph.Resource )
+				glyph.Resource->Release( );
 
 			glyph.Resource = nullptr;
 		}
@@ -180,7 +212,7 @@ public:
 	std::vector<std::int32_t> Indices;
 	int VerticesCount, IndicesCount;
 
-	constexpr DrawCommand() noexcept = default;
+	constexpr DrawCommand( ) noexcept = default;
 	constexpr DrawCommand( int8_t Primitive, std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, CommandResources Resources, int VerticesCount, int IndicesCount ) noexcept
 		: Primitive( Primitive ), Vertices( Vertices ), Indices( Indices ), Resources( Resources ), VerticesCount( VerticesCount ), IndicesCount( IndicesCount ) {}
 };
@@ -191,13 +223,13 @@ public:
 	std::vector<std::int32_t> Indices;
 	int VerticesCount, IndicesCount;
 
-	constexpr CompiledDrawCommand() noexcept = default;
-	constexpr CompiledDrawCommand(std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, int VerticesCount, int IndicesCount) noexcept
-		: Vertices(Vertices), Indices(Indices), VerticesCount(VerticesCount), IndicesCount(IndicesCount) {}
+	constexpr CompiledDrawCommand( ) noexcept = default;
+	constexpr CompiledDrawCommand( std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, int VerticesCount, int IndicesCount ) noexcept
+		: Vertices( Vertices ), Indices( Indices ), VerticesCount( VerticesCount ), IndicesCount( IndicesCount ) {}
 
-	void reset() {
-		Vertices.clear();
-		Indices.clear();
+	void reset( ) {
+		Vertices.clear( );
+		Indices.clear( );
 		VerticesCount = 0;
 		IndicesCount = 0;
 	}

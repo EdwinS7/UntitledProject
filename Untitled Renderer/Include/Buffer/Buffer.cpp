@@ -1,27 +1,24 @@
 #include "buffer.hpp"
 
-void cBuffer::Init( bool ApplyDefaults ) {
+void cBuffer::Init( ) {
 	PushClip( gWin32->GetClipRect( ) );
 	PushTexture( nullptr );
 
 	// Create font objects.
 	CreateFontFromName( &Fonts.Default, "Segoe UI", 16, 400, 4, true );
 	CreateFontFromName( &Fonts.Interface, "Arial", 9, 100, 4, false );
-
-	//Apply default settings.
-	if ( ApplyDefaults ) {
-		m_CircleSegments = 64, m_RectangleSegments = 16;
-		m_BezierCubicSegments = 128, m_BezierQuadraticSegments = 128;
-	}
+	CreateFontFromName( &Fonts.SmallInterface, "Arial", 8, 100, 4, false );
 }
 
-void cBuffer::Destroy( ) {
+void cBuffer::Release( ) {
 	m_CommandResources.Textures.clear( );
 	m_CommandResources.Clips.clear( );
+	ClearCommands( );
 
 	// Release Fonts.
 	Fonts.Default.Release( );
 	Fonts.Interface.Release( );
+	Fonts.SmallInterface.Release( );
 }
 
 void cBuffer::WriteToBuffer( const int8_t Primitive, const std::vector< Vertex >* Vertices, const std::vector<int32_t>* Indices ) {
