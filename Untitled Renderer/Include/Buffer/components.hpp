@@ -164,20 +164,21 @@ public:
 		: x( x ), y( y ), z( z ), rhw( rhw ), Color( Color ), u( u ), v( v ) {}
 };
 
-#define COLOR(r,g,b,a) ((DWORD)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
+// Microsoft RGBA -> HEX
+#define CreateHexFromRGBA(r,g,b,a) ((DWORD)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
 
 class Color {
 public:
-	DWORD hex;
+	DWORD Hex;
 
 	constexpr Color( ) noexcept = default;
 	constexpr Color( uint8_t r, uint8_t g, uint8_t b, uint8_t a ) noexcept
-		: hex( COLOR( r, g, b, a ) ) {}
+		: Hex( CreateHexFromRGBA( r, g, b, a ) ) {}
 };
 
 struct Glyph {
-	IDirect3DTexture9* Resource = nullptr;
 	Vec2<int32_t> Size, Bearing;
+	LPDIRECT3DTEXTURE9 Texture;
 	int32_t Advance;
 };
 
@@ -189,11 +190,11 @@ public:
 	std::vector<Glyph> CharSet{ 256 };
 
 	void Release( ) {
-		for ( auto& glyph : CharSet ) {
-			if ( glyph.Resource )
-				glyph.Resource->Release( );
+		for ( auto& Glyph : CharSet ) {
+			if ( Glyph.Texture )
+				Glyph.Texture->Release( );
 
-			glyph.Resource = nullptr;
+			Glyph.Texture = nullptr;
 		}
 	}
 };

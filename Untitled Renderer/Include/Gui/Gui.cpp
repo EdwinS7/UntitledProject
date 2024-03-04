@@ -10,7 +10,7 @@ void cGui::DemoWindow( ) {
         Window->Render( );
         {
             static Group* GeneralGroup = GeneralTab->NewGroup( "General", &Window );
-            static Group* OtherGroup = OtherTab->NewGroup( "Other", &Window );
+            //static Group* OtherGroup = OtherTab->NewGroup( "Other", &Window );
 
             const auto GroupSize = Vec2<int16_t>(
                 Window->GetElementFrameSize( ).x / 2 - 30,

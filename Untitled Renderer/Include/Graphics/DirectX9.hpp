@@ -21,8 +21,8 @@ public:
 	void Draw( );
 
 	// utilities
-	void CreateTextureFromBytes( IDirect3DTexture9* Resource, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size );
-	void CreateTextureFromFile( IDirect3DTexture9* Resource, const char* FileName );
+	void CreateTextureFromBytes( IDirect3DTexture9* Texture, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size );
+	void CreateTextureFromFile( IDirect3DTexture9** Texture, const char* FileName );
 
 	inline IDirect3DDevice9* GetDevice( );
 

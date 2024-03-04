@@ -40,8 +40,8 @@ inline void cBuffer::PopClip( ) {
 	m_CommandResources.Clips.pop_back( );
 }
 
-inline void cBuffer::PushTexture( IDirect3DTexture9* resource ) {
-	m_CommandResources.Textures.push_back( resource );
+inline void cBuffer::PushTexture( IDirect3DTexture9* Texture ) {
+	m_CommandResources.Textures.push_back( Texture );
 }
 
 inline void cBuffer::PopTexture( ) {
