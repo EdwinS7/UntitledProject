@@ -20,6 +20,9 @@ void cBuffer::Release( ) {
 	Fonts.Default.Release( );
 	Fonts.Interface.Release( );
 	Fonts.SmallInterface.Release( );
+
+	Textures.Demo->Release( );
+	Textures.Demo = nullptr;
 }
 
 void cBuffer::WriteToBuffer( const int8_t Primitive, const std::vector< Vertex >* Vertices, const std::vector<int32_t>* Indices ) {
