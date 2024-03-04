@@ -316,6 +316,9 @@
   <ItemGroup>
     <Library Include="Thirdparty\freetype.lib" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Test.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

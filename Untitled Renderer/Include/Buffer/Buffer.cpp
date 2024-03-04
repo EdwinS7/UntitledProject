@@ -172,7 +172,7 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > 
 	Polygon( Points, Color );
 }
 
-void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9 Texture, const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color ) {
+void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* Texture, const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color.Hex ),
 		Vertex( Pos.x + Size.x, Pos.y, 0.f, 1.f, Color.Hex ),
@@ -182,7 +182,7 @@ void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9 Texture, const Vec2<int16_t>
 		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color.Hex )
 	};
 
-	PushTexture( Texture );
+	PushTexture( *Texture );
 	//RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 	PopTexture( );

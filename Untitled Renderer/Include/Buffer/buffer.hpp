@@ -17,7 +17,7 @@ public:
     void Polygon( const std::vector<Vec2<int16_t>> Points, const Color Color );
     void Rectangle( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
     void FilledRectangle( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
-    void TexturedRectangle( LPDIRECT3DTEXTURE9 Texture, const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color );
+    void TexturedRectangle( LPDIRECT3DTEXTURE9* Texture, const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color );
     void Gradient( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color ColorFrom, const Color ColorTo, const bool Vertical );
     void FilledGradient( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color ColorFrom, const Color ColorTo, const bool Vertical );
     void Gradient( const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color1, const Color Color2, const Color Color3, const Color Color4 );

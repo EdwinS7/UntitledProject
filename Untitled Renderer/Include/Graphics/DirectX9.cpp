@@ -77,7 +77,7 @@ void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
     device->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
     device->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
     device->SetTextureStageState( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
-    device->SetTextureStageState( 1, D3DTSS_COLOROP, D3DTOP_DISABLE );
+    device->SetTextureStageState( 1, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
     device->SetTextureStageState( 1, D3DTSS_COLORARG1, D3DTA_TEXTURE );
     device->SetTextureStageState( 1, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
     device->SetTextureStageState( 1, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
@@ -190,7 +190,6 @@ void cGraphics::Draw( ) {
     m_Device->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, m_ClearColor.Hex, 1.f, 0 );
 
     if ( m_Device->BeginScene( ) >= 0 ) {
-#ifdef UNTITLED_SHOW_STATS
         auto display_info = std::vformat(
             "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES",
 
@@ -205,7 +204,6 @@ void cGraphics::Draw( ) {
         gBuffer->String(
             &gBuffer->Fonts.Default, display_info, Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
         );
-#endif
 
         RenderDrawData( );
         m_Device->EndScene( );

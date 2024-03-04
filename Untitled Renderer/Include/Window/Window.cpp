@@ -43,8 +43,12 @@ int cWindow::CreateRenderEnvironment( const char* title, const Vec2< int16_t > s
 
 	RegisterClassEx( &m_WindowClass );
 
+	RECT DesktopResolution;
+	const HWND Desktop = GetDesktopWindow( );
+	GetWindowRect( Desktop, &DesktopResolution );
+
 	m_Hwnd = CreateWindow( m_WindowClass.lpszClassName, title,
-		WS_OVERLAPPEDWINDOW, NULL, NULL, size.x, size.y, NULL, NULL, m_WindowClass.hInstance, NULL );
+		WS_OVERLAPPEDWINDOW, ( DesktopResolution.right / 2 ) - ( size.x / 2 ), ( DesktopResolution.bottom / 2 ) - ( size.y / 2 ), size.x, size.y, NULL, NULL, m_WindowClass.hInstance, NULL );
 
 	return ( ShowWindow( m_Hwnd, SW_SHOWDEFAULT ) && UpdateWindow( m_Hwnd ) );
 }
