@@ -1,14 +1,14 @@
 #include "buffer.hpp"
 
 void cBuffer::Init( ) {
-	PushClip( gWin32->GetClipRect( ) );
-	PushTexture( nullptr );
-
 	// Create font objects.
 	CreateFontFromName( &Fonts.Default, "Segoe UI", 16, 400, 4, true );
 	CreateFontFromName( &Fonts.Interface, "Arial", 9, 100, 4, false );
 	CreateFontFromName( &Fonts.SmallInterface, "Arial", 8, 100, 4, false );
-	gGraphics->CreateTextureFromFile( &Textures.Demo, "Test.png" );
+	gGraphics->CreateTextureFromFile( &Textures.Default, "Default.png" );
+
+	PushClip( gWin32->GetClipRect( ) );
+	PushTexture( gBuffer->Textures.Default );
 }
 
 void cBuffer::Release( ) {
@@ -21,8 +21,8 @@ void cBuffer::Release( ) {
 	Fonts.Interface.Release( );
 	Fonts.SmallInterface.Release( );
 
-	Textures.Demo->Release( );
-	Textures.Demo = nullptr;
+	Textures.Default->Release( );
+	Textures.Default = nullptr;
 }
 
 void cBuffer::WriteToBuffer( const int8_t Primitive, const std::vector< Vertex >* Vertices, const std::vector<int32_t>* Indices ) {

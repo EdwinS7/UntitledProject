@@ -52,7 +52,7 @@ public:
     } Fonts;
 
     struct cTextures {
-        IDirect3DTexture9* Demo;
+        IDirect3DTexture9* Default;
     } Textures;
 
 private:

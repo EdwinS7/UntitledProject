@@ -16,7 +16,7 @@ bool cGraphics::Init( HWND hwnd, const bool device_only ) {
         m_Parameters.MultiSampleQuality = 0;
     }
 
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_Hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_Hwnd, D3DCREATE_MIXED_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
         std::printf( "[ Graphics ] CreateDevice Failed!" );
 
     UpdateRenderStates( m_Device );
@@ -93,7 +93,7 @@ void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
 
     device->SetVertexShader( nullptr );
     device->SetPixelShader( nullptr );
-    device->SetTexture( NULL, NULL );
+    device->SetTexture( NULL, nullptr );
     device->SetFVF( VERTEX );
 }
 
