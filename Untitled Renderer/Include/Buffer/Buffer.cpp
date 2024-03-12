@@ -1,49 +1,51 @@
 #include "buffer.hpp"
 
 void cBuffer::Init( ) {
-	// Create font objects.
-	CreateFontFromName( &Fonts.Default, "Segoe UI", 16, 400, 4, true );
-	CreateFontFromName( &Fonts.Interface, "Arial", 9, 100, 4, false );
-	CreateFontFromName( &Fonts.SmallInterface, "Arial", 8, 100, 4, false );
+	gGraphics->CreateFontFromName( &Fonts.Default, "Segoe UI", 16, 400, 4, true );
+	gGraphics->CreateFontFromName( &Fonts.Interface, "Arial", 9, 100, 4, false );
+	gGraphics->CreateFontFromName( &Fonts.SmallInterface, "Arial", 8, 100, 4, false );
 	gGraphics->CreateTextureFromFile( &Textures.Default, "Default.png" );
 
 	PushClip( gWin32->GetClipRect( ) );
-	PushTexture( gBuffer->Textures.Default );
+	PushTexture( gBuffer->Textures.Default ); // @note: this is some ghetto bs, please fix lmao
 }
 
 void cBuffer::Release( ) {
-	m_CommandResources.Textures.clear( );
-	m_CommandResources.Clips.clear( );
-	ClearCommands( );
-
-	// Release Fonts.
 	Fonts.Default.Release( );
 	Fonts.Interface.Release( );
 	Fonts.SmallInterface.Release( );
 
 	Textures.Default->Release( );
 	Textures.Default = nullptr;
+
+	m_CommandResources.Textures.clear( );
+	m_CommandResources.Clips.clear( );
+
+	ClearCommands( );
 }
 
-void cBuffer::WriteToBuffer( const int8_t Primitive, const std::vector< Vertex >* Vertices, const std::vector<int32_t>* Indices ) {
-	int VerticesCount = Vertices->size( ),
-		IndicesCount = Indices == nullptr ? ( VerticesCount * 3 ) - 1 : Indices->size( );
+void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< Vertex >* vertices, const std::vector<int32_t>* indices ) {
+	int VerticesCount = vertices->size( ),
+		IndicesCount = indices == nullptr ? ( VerticesCount * 3 ) - 1 : indices->size( );
 
 	std::vector < int32_t > DynamicIndices( IndicesCount );
 
-	if ( Indices == nullptr )
+	if ( indices == nullptr )
 		for ( int32_t i = 0; i < VerticesCount; ++i )
 			DynamicIndices[ i ] = i;
 
 	m_VerticesCount += VerticesCount;
 	m_IndicesCount += IndicesCount;
 
-	m_DrawCommands.push_back( DrawCommand( Primitive, *Vertices, Indices == nullptr ? DynamicIndices : *Indices, m_CommandResources, VerticesCount, Indices != nullptr ? Indices->size( ) : IndicesCount ) );
+	m_DrawCommands.push_back( DrawCommand( 
+		primitive, *vertices, indices == nullptr ? DynamicIndices : *indices,
+		m_CommandResources, VerticesCount, indices != nullptr ? indices->size( ) : IndicesCount )
+	);
 }
 
-void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& DrawCommands ) {
-	for ( int i = 0; i < DrawCommands.size( ); ++i ) {
-		auto& DrawCommand = DrawCommands[ i ];
+void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& draw_commands ) {
+	for ( int i = 0; i < draw_commands.size( ); ++i ) {
+		auto& DrawCommand = draw_commands[ i ];
 
 		m_DrawCommand.Vertices.insert( m_DrawCommand.Vertices.end( ),
 				std::make_move_iterator( DrawCommand.Vertices.begin( ) ), std::make_move_iterator( DrawCommand.Vertices.end( ) )
@@ -58,31 +60,31 @@ void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& DrawCommands ) 
 	}
 }
 
-void cBuffer::Line( const Vec2< int16_t > From, const Vec2< int16_t > To, const Color Color ) {
+void cBuffer::Line( const Vec2< int16_t > from, const Vec2< int16_t > to, const Color color ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( From.x, From.y, 0.f, 1.f, Color.Hex ),
-		Vertex( To.x, To.y, 0.f, 1.f, Color.Hex )
+		Vertex( from.x, from.y, 0.f, 1.f, color.Hex ),
+		Vertex( to.x, to.y, 0.f, 1.f, color.Hex )
 	};
 
 	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::Polyline( const std::vector< Vec2< int16_t > > Points, const Color Color ) {
+void cBuffer::Polyline( const std::vector< Vec2< int16_t > > points, const Color color ) {
 	std::vector<Vertex> Vertices;
-	Vertices.reserve( Points.size( ) );
+	Vertices.reserve( points.size( ) );
 
-	MakeVertices( &Vertices, &Points, &Color );
+	MakeVertices( &Vertices, &points, &color );
 	RotateVertices( &Vertices );
 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::Polygon( const std::vector<Vec2<int16_t>> Points, const Color Color ) {
+void cBuffer::Polygon( const std::vector<Vec2<int16_t>> points, const Color color ) {
 	std::vector<Vertex> Vertices;
-	Vertices.reserve( Points.size( ) );
+	Vertices.reserve( points.size( ) );
 
-	MakeVertices( &Vertices, &Points, &Color );
+	MakeVertices( &Vertices, &points, &color );
 
 	std::vector<int32_t> Indices;
 	Indices.reserve( Vertices.size( ) * 3 );
@@ -97,20 +99,20 @@ void cBuffer::Polygon( const std::vector<Vec2<int16_t>> Points, const Color Colo
 	WriteToBuffer( TRIANGLE, &Vertices, &Indices );
 }
 
-void cBuffer::Rectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, const Color Color, const int16_t Rounding, const CornerFlags Flags ) {
-	const bool RoundTopLeft = ( Flags & CornerTopLeft ) && Rounding;
-	const bool RoundTop_right = ( Flags & CornerTopRight ) && Rounding;
-	const bool RoundBottomLeft = ( Flags & CornerBottomLeft ) && Rounding;
-	const bool RoundBottomRight = ( Flags & CornerBottomRight ) && Rounding;
+void cBuffer::Rectangle( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color, const int16_t rounding, const CornerFlags flags ) {
+	const bool RoundTopLeft = ( flags & CornerTopLeft ) && rounding;
+	const bool RoundTopRight = ( flags & CornerTopRight ) && rounding;
+	const bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
+	const bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
 
 	std::vector<Vec2<int16_t>> Points;
 
 	std::initializer_list<std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>> Corners = {
-		std::tuple{Vec2<int16_t>( Pos.x, Pos.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Rounding ), 180, RoundTopLeft},
-		std::tuple{Vec2<int16_t>( Pos.x + Size.x, Pos.y ), Vec2<int16_t>( Pos.x + Size.x - Rounding, Pos.y + Rounding ), 270, RoundTop_right},
-		std::tuple{Vec2<int16_t>( Pos.x + Size.x, Pos.y + Size.y ), Vec2<int16_t>( Pos.x + Size.x - Rounding, Pos.y + Size.y - Rounding ), 0, RoundBottomRight},
-		std::tuple{Vec2<int16_t>( Pos.x, Pos.y + Size.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Size.y - Rounding ), 90, RoundBottomLeft},
-		std::tuple{Vec2<int16_t>( Pos.x, Pos.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Rounding ), 180, RoundTopLeft}
+		std::tuple{Vec2<int16_t>( position.x, position.y ), Vec2<int16_t>( position.x + rounding, position.y + rounding ), 180, RoundTopLeft},
+		std::tuple{Vec2<int16_t>( position.x + size.x, position.y ), Vec2<int16_t>( position.x + size.x - rounding, position.y + rounding ), 270, RoundTopRight},
+		std::tuple{Vec2<int16_t>( position.x + size.x, position.y + size.y ), Vec2<int16_t>( position.x + size.x - rounding, position.y + size.y - rounding ), 0, RoundBottomRight},
+		std::tuple{Vec2<int16_t>( position.x, position.y + size.y ), Vec2<int16_t>( position.x + rounding, position.y + size.y - rounding ), 90, RoundBottomLeft},
+		std::tuple{Vec2<int16_t>( position.x, position.y ), Vec2<int16_t>( position.x + rounding, position.y + rounding ), 180, RoundTopLeft}
 	};
 
 	for ( const std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>& Corner : Corners ) {
@@ -123,46 +125,7 @@ void cBuffer::Rectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, 
 			std::vector<Vec2<int16_t>> CornerPoints;
 			CornerPoints.reserve( m_RectangleSegments + 1 );
 
-			GenerateArcPoints( &CornerPoints, &CornerRounded, Rounding, 25, Angle, m_RectangleSegments );
-
-			Points.insert( Points.end( ), 
-				std::make_move_iterator( CornerPoints.begin( ) ), std::make_move_iterator( CornerPoints.end( ) )
-			);
-		}
-		else
-			Points.push_back( std::get<0>( Corner ) );
-	}
-
-	Polyline( Points, Color );
-}
-
-void cBuffer::FilledRectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, const Color Color, const int16_t Rounding, const CornerFlags Flags ) {
-	const bool RoundTopLeft = ( Flags & CornerTopLeft ) && Rounding;
-	const bool RoundTopRight = ( Flags & CornerTopRight ) && Rounding;
-	const bool RoundBottomLeft = ( Flags & CornerBottomLeft ) && Rounding;
-	const bool RoundBottomRight = ( Flags & CornerBottomRight ) && Rounding;
-
-	std::vector<Vec2<int16_t>> Points;
-
-	std::initializer_list<std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>> Corners = {
-		std::tuple{Vec2<int16_t>( Pos.x, Pos.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Rounding ), 180, RoundTopLeft},
-		std::tuple{Vec2<int16_t>( Pos.x + Size.x, Pos.y ), Vec2<int16_t>( Pos.x + Size.x - Rounding, Pos.y + Rounding ), 270, RoundTopRight},
-		std::tuple{Vec2<int16_t>( Pos.x + Size.x, Pos.y + Size.y ), Vec2<int16_t>( Pos.x + Size.x - Rounding, Pos.y + Size.y - Rounding ), 0, RoundBottomRight},
-		std::tuple{Vec2<int16_t>( Pos.x, Pos.y + Size.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Size.y - Rounding ), 90, RoundBottomLeft},
-		std::tuple{Vec2<int16_t>( Pos.x, Pos.y ), Vec2<int16_t>( Pos.x + Rounding, Pos.y + Rounding ), 180, RoundTopLeft}
-	};
-
-	for ( const std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>& Corner : Corners ) {
-		bool should_round = std::get<3>( Corner );
-
-		if ( should_round ) {
-			Vec2<int16_t> CornerRounded = std::get<1>( Corner );
-			int Angle = std::get<2>( Corner );
-
-			std::vector<Vec2<int16_t>> CornerPoints;
-			CornerPoints.reserve( m_RectangleSegments + 1 );
-
-			GenerateArcPoints( &CornerPoints, &CornerRounded, Rounding, 25, Angle, m_RectangleSegments );
+			GenerateArcPoints( &CornerPoints, &CornerRounded, rounding, 25, Angle, m_RectangleSegments );
 
 			Points.insert( Points.end( ),
 				std::make_move_iterator( CornerPoints.begin( ) ), std::make_move_iterator( CornerPoints.end( ) )
@@ -172,185 +135,224 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > Pos, const Vec2< int16_t > 
 			Points.push_back( std::get<0>( Corner ) );
 	}
 
-	Polygon( Points, Color );
+	Polyline( Points, color );
 }
 
-void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* Texture, const Vec2<int16_t> Pos, const Vec2<int16_t> Size, const Color Color ) {
-	std::vector<Vertex> Vertices = {
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Pos.x, Pos.y + Size.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color.Hex )
+void cBuffer::FilledRectangle( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color, const int16_t rounding, const CornerFlags flags ) {
+	const bool RoundTopLeft = ( flags & CornerTopLeft ) && rounding;
+	const bool RoundTopRight = ( flags & CornerTopRight ) && rounding;
+	const bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
+	const bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
+
+	std::vector<Vec2<int16_t>> Points;
+
+	std::initializer_list<std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>> Corners = {
+		std::tuple{Vec2<int16_t>( position.x, position.y ), Vec2<int16_t>( position.x + rounding, position.y + rounding ), 180, RoundTopLeft},
+		std::tuple{Vec2<int16_t>( position.x + size.x, position.y ), Vec2<int16_t>( position.x + size.x - rounding, position.y + rounding ), 270, RoundTopRight},
+		std::tuple{Vec2<int16_t>( position.x + size.x, position.y + size.y ), Vec2<int16_t>( position.x + size.x - rounding, position.y + size.y - rounding ), 0, RoundBottomRight},
+		std::tuple{Vec2<int16_t>( position.x, position.y + size.y ), Vec2<int16_t>( position.x + rounding, position.y + size.y - rounding ), 90, RoundBottomLeft},
+		std::tuple{Vec2<int16_t>( position.x, position.y ), Vec2<int16_t>( position.x + rounding, position.y + rounding ), 180, RoundTopLeft}
 	};
 
-	PushTexture( *Texture );
-	//RotateVertices( &Vertices );
+	for ( const std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>& Corner : Corners ) {
+		bool should_round = std::get<3>( Corner );
+
+		if ( should_round ) {
+			Vec2<int16_t> CornerRounded = std::get<1>( Corner );
+			int Angle = std::get<2>( Corner );
+
+			std::vector<Vec2<int16_t>> CornerPoints;
+			CornerPoints.reserve( m_RectangleSegments + 1 );
+
+			GenerateArcPoints( &CornerPoints, &CornerRounded, rounding, 25, Angle, m_RectangleSegments );
+
+			Points.insert( Points.end( ),
+				std::make_move_iterator( CornerPoints.begin( ) ), std::make_move_iterator( CornerPoints.end( ) )
+			);
+		}
+		else
+			Points.push_back( std::get<0>( Corner ) );
+	}
+
+	Polygon( Points, color );
+}
+
+void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color ) {
+	std::vector<Vertex> Vertices = {
+		Vertex( position.x, position.y, 0.f, 1.f, color.Hex ),
+		Vertex( position.x + size.x, position.y, 0.f, 1.f, color.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color.Hex ),
+		Vertex( position.x, position.y + size.y, 0.f, 1.f, color.Hex ),
+		Vertex( position.x, position.y, 0.f, 1.f, color.Hex )
+	};
+
+	PushTexture( *texture );
+	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 	PopTexture( );
 }
 
-void cBuffer::Gradient( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, const Color Color1, const Color Color2, const bool Vertical ) {
+void cBuffer::Gradient( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color1, const Color color2, const bool vertical ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color1.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y, 0.f, 1.f, Vertical ? Color1.Hex : Color2.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, Color2.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, Color2.Hex ),
-		Vertex( Pos.x, Pos.y + Size.y, 0.f, 1.f, Vertical ? Color2.Hex : Color1.Hex ),
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color1.Hex )
+		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex ),
+		Vertex( position.x + size.x, position.y, 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
+		Vertex( position.x, position.y + size.y, 0.f, 1.f, vertical ? color2.Hex : color1.Hex ),
+		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex )
 	};
 
 	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledGradient( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, const Color Color1, const Color Color2, const bool Vertical ) {
+void cBuffer::FilledGradient( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color1, const Color color2, const bool vertical ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color1.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y, 0.f, 1.f, Vertical ? Color1.Hex : Color2.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, Color2.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, Color2.Hex ),
-		Vertex( Pos.x, Pos.y + Size.y, 0.f, 1.f, Vertical ? Color2.Hex : Color1.Hex ),
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, Color1.Hex )
+		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex ),
+		Vertex( position.x + size.x, position.y, 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
+		Vertex( position.x, position.y + size.y, 0.f, 1.f, vertical ? color2.Hex : color1.Hex ),
+		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex )
 	};
 
 	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Gradient( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, const Color ColorTL, const Color ColorTR, const Color ColorBR, const Color ColorBL ) {
+void cBuffer::Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, ColorTL.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y, 0.f, 1.f, ColorTR.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, ColorBR.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, ColorBR.Hex ),
-		Vertex( Pos.x, Pos.y + Size.y, 0.f, 1.f, ColorBL.Hex ),
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, ColorTL.Hex )
+		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex ),
+		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_top_right.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( position.x, position.y + size.y, 0.f, 1.f, color_bottom_left.Hex ),
+		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex )
 	};
 
 	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledGradient( const Vec2< int16_t > Pos, const Vec2< int16_t > Size, const Color ColorTL, const Color ColorTR, const Color ColorBR, const Color ColorBL ) {
+void cBuffer::FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, ColorTL.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y, 0.f, 1.f, ColorTR.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, ColorBR.Hex ),
-		Vertex( Pos.x + Size.x, Pos.y + Size.y, 0.f, 1.f, ColorBR.Hex ),
-		Vertex( Pos.x, Pos.y + Size.y, 0.f, 1.f, ColorBL.Hex ),
-		Vertex( Pos.x, Pos.y, 0.f, 1.f, ColorTL.Hex )
+		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex ),
+		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_top_right.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( position.x, position.y + size.y, 0.f, 1.f, color_bottom_left.Hex ),
+		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex )
 	};
 
 	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Triangle( const Vec2< int16_t > Point1, const Vec2< int16_t > Point2, const Vec2< int16_t > Point3, const Color Color ) {
+void cBuffer::Triangle( const Vec2< int16_t > point1, const Vec2< int16_t > point2, const Vec2< int16_t > point3, const Color color ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( Point1.x, Point1.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Point2.x, Point2.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Point3.x, Point3.y, 0.f, 1.f, Color.Hex )
+		Vertex( point1.x, point1.y, 0.f, 1.f, color.Hex ),
+		Vertex( point2.x, point2.y, 0.f, 1.f, color.Hex ),
+		Vertex( point3.x, point3.y, 0.f, 1.f, color.Hex )
 	};
 
 	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledTriangle( const Vec2< int16_t > Point1, const Vec2< int16_t > Point2, const Vec2< int16_t > Point3, const Color Color ) {
+void cBuffer::FilledTriangle( const Vec2< int16_t > point1, const Vec2< int16_t > point2, const Vec2< int16_t > point3, const Color color ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( Point1.x, Point1.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Point2.x, Point2.y, 0.f, 1.f, Color.Hex ),
-		Vertex( Point3.x, Point3.y, 0.f, 1.f, Color.Hex )
+		Vertex( point1.x, point1.y, 0.f, 1.f, color.Hex ),
+		Vertex( point2.x, point2.y, 0.f, 1.f, color.Hex ),
+		Vertex( point3.x, point3.y, 0.f, 1.f, color.Hex )
 	};
 
 	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Circle( const Vec2< int16_t > Pos, const int16_t Radius, const Color Color ) {
+void cBuffer::Circle( const Vec2< int16_t > pos, const int16_t radius, const Color color ) {
 	std::vector<Vec2<int16_t>> points;
 	points.reserve( m_CircleSegments + 1 );
 
-	GenerateArcPoints( &points, &Pos, Radius, 100, 0, m_CircleSegments );
-	Polyline( points, Color );
+	GenerateArcPoints( &points, &pos, radius, 100, 0, m_CircleSegments );
+	Polyline( points, color );
 }
 
-void cBuffer::FilledCircle( const Vec2< int16_t > Pos, const int16_t Radius, const Color Color ) {
+void cBuffer::FilledCircle( const Vec2< int16_t > pos, const int16_t radius, const Color color ) {
 	std::vector<Vec2<int16_t>> points;
 	points.reserve( m_CircleSegments + 1 );
 
-	GenerateArcPoints( &points, &Pos, Radius, 100, 0, m_CircleSegments );
-	Polygon( points, Color );
+	GenerateArcPoints( &points, &pos, radius, 100, 0, m_CircleSegments );
+	Polygon( points, color );
 }
 
-void cBuffer::String( const Font* Font, const std::string& String, const Vec2<int16_t> Pos, const Color Color ) {
-	if ( !Font || String.empty( ) )
+void cBuffer::String( const Font* font, const std::string& str, const Vec2<int16_t> pos, const Color color ) {
+	if ( !font || str.empty( ) )
 		return;
 
-	Vec2<int16_t> TextSize = GetStringSize( Font, String ), Advance = { 0, 0 };
-	int RowHeight = 0;
+	Vec2<int16_t> advance = { 0, 0 };
+	int rowHeight = 0;
 
-	for ( auto& Letter : String ) {
-		if ( !std::isprint( Letter ) && Letter != '\n' || Letter == ' ' ) {
-			Advance.x += Font->CharSet[ Letter ].Advance / 64;
+	for ( const auto& character : str ) {
+		if ( !std::isprint( character ) && character != '\n' || character == ' ' ) {
+			advance.x += font->CharSet[ character ].Advance / 64;
 			continue;
 		}
 
-		const Glyph* Glyph = &Font->CharSet[ Letter ];
-		RowHeight = max( RowHeight, static_cast< int >( Glyph->Size.y ) );
+		const auto* glyph = &font->CharSet[ character ];
+		rowHeight = max( rowHeight, static_cast< int >( glyph->Size.y ) );
 
-		if ( Letter == '\n' ) {
-			Advance.y += RowHeight + Font->Padding;
-			Advance.x = 0;
+		if ( character == '\n' ) {
+			advance.y += rowHeight + font->Padding;
+			advance.x = 0;
 			continue;
 		}
 
-		Vec2<float> LetterPos = {
-			std::round( static_cast< float >( Pos.x ) + Advance.x + Glyph->Bearing.x ) + 0.5f,
-			std::round( static_cast< float >( Pos.y ) + ( TextSize.y * 0.75f ) + Advance.y - Glyph->Bearing.y ) + 0.5f
+		Vec2<float> letterPos = {
+			std::round( static_cast< float >( pos.x ) + advance.x + glyph->Bearing.x ) + 0.5f,
+			std::round( static_cast< float >( pos.y ) + ( GetStringSize( font, str ).y * 0.75f ) + advance.y - glyph->Bearing.y ) + 0.5f
 		};
 
-		std::vector<Vertex> Vertices = {
-			{LetterPos.x, LetterPos.y, 0.f, 1.f, Color.Hex, 0.f, 0.f},
-			{LetterPos.x + Glyph->Size.x, LetterPos.y, 0.f, 1.f, Color.Hex, 1.f, 0.f},
-			{LetterPos.x + Glyph->Size.x, LetterPos.y + Glyph->Size.y, 0.f, 1.f, Color.Hex, 1.f, 1.f},
-			{LetterPos.x, LetterPos.y + Glyph->Size.y, 0.f, 1.f, Color.Hex, 0.f, 1.f}
+		std::vector<Vertex> vertices = {
+			{letterPos.x, letterPos.y, 0.f, 1.f, color.Hex, 0.f, 0.f},
+			{letterPos.x + glyph->Size.x, letterPos.y, 0.f, 1.f, color.Hex, 1.f, 0.f},
+			{letterPos.x + glyph->Size.x, letterPos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 1.f, 1.f},
+			{letterPos.x, letterPos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 0.f, 1.f}
 		};
 
-		PushTexture( Glyph->Texture );
-		WriteToBuffer( TRIANGLE, &Vertices, nullptr );
+		PushTexture( glyph->Texture );
+		WriteToBuffer( TRIANGLE, &vertices, nullptr );
 		PopTexture( );
 
-		Advance.x += Glyph->Advance / 64;
+		advance.x += glyph->Advance / 64;
 	}
 }
 
-Vec2<int16_t> cBuffer::GetStringSize( const Font* Font, const std::string& String ) {
-	if ( !Font || String.empty( ) )
+Vec2<int16_t> cBuffer::GetStringSize( const Font* font, const std::string& string ) {
+	if ( !font || string.empty( ) )
 		return Vec2<int16_t>( );
 
-	Vec2<int16_t> Size{ 0, static_cast< int16_t >( Font->Size * 1.5f ) };
+	Vec2<int16_t> Size{ 0, static_cast< int16_t >( font->Size * 1.5f ) };
 
-	for ( char Letter : String )
-		Size.x += Font->CharSet.at( Letter ).Advance / 64;
+	for ( char Letter : string )
+		Size.x += font->CharSet.at( Letter ).Advance / 64;
 
 	return Size;
 }
 
-void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* Pos, const int16_t Radius, const int16_t Completion, const int16_t Rotation, const int16_t Segments ) {
-	double Angle = ( static_cast< double >( Rotation ) * M_PI ) / 180.0;
-	double Conversion = Completion * 0.01;
+void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, const int16_t radius, const int16_t completion, const int16_t rotation, const int16_t segments ) {
+	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
+	double Conversion = completion * 0.01;
 
-	int16_t SegmentCount = m_DynamicArcSegments ? Segments > Radius ? Radius : max( Segments, 8 ) : Segments;
+	int16_t SegmentCount = m_DynamicArcSegments ? segments > radius ? radius : max( segments, 8 ) : segments;
 	if ( SegmentCount )
 
 	Points->reserve( SegmentCount + 1 );
 
 	auto GetPoint = [ & ] ( int16_t i ) {
 		double Theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( SegmentCount );
-		return Vec2<double>( static_cast< double >( Pos->x ) + Radius * cos( Theta ), static_cast< double >( Pos->y ) + Radius * sin( Theta ) );
+		return Vec2<double>( static_cast< double >( position->x ) + radius * cos( Theta ), static_cast< double >( position->y ) + radius * sin( Theta ) );
 	};
 
 	for ( int i = 0; i < SegmentCount; i++ ) {
@@ -360,38 +362,38 @@ void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<
 	}
 }
 
-void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t> Point1, const Vec2<int16_t> Point2, const Vec2<int16_t> Point3 ) {
+void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3 ) {
 	for ( int i = 0; i < m_BezierQuadraticSegments; i++ ) {
 		int CompletionFactor = static_cast< double >( i ) / static_cast< double >( m_BezierQuadraticSegments );
 		
-		Points->push_back( {
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( Point1.x, Point3.x, CompletionFactor ), std::lerp( Point3.x, Point2.x, CompletionFactor ), CompletionFactor ) ) ),
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( Point1.y, Point3.y, CompletionFactor ), std::lerp( Point3.y, Point2.y, CompletionFactor ), CompletionFactor ) ) )
+		points->push_back( {
+			static_cast< int16_t >( std::round( std::lerp( std::lerp( point1.x, point3.x, CompletionFactor ), std::lerp( point3.x, point2.x, CompletionFactor ), CompletionFactor ) ) ),
+			static_cast< int16_t >( std::round( std::lerp( std::lerp( point1.y, point3.y, CompletionFactor ), std::lerp( point3.y, point2.y, CompletionFactor ), CompletionFactor ) ) )
 		} );
 	}
 }
 
-void cBuffer::MakeVertices( std::vector<Vertex>* Vertices, const std::vector<Vec2<int16_t>>* points, const Color* clr ) {
+void cBuffer::MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color ) {
 	for ( const Vec2<int16_t>& point : *points )
-		Vertices->push_back( Vertex( point.x, point.y, 0.f, 1.f, clr->Hex ) );
+		vertices->push_back( Vertex( point.x, point.y, 0.f, 1.f, color->Hex ) );
 }
 
 void cBuffer::RotateObject( float val ) {
 	m_Rotation = val;
 }
 
-void cBuffer::RotateVertices( std::vector<Vertex>* Vertices, Vec2<int16_t> CenterPoint ) {
-	if ( Vertices->empty( ) )
+void cBuffer::RotateVertices( std::vector<Vertex>* vertices, Vec2<int16_t> center ) {
+	if ( vertices->empty( ) )
 		return;
 
 	Vec2<int16_t> Center( 0, 0 );
 
-	for ( const auto& Vertex : *Vertices ) {
+	for ( const auto& Vertex : *vertices ) {
 		Center.x += Vertex.x;
 		Center.y += Vertex.y;
 	}
-	Center.x /= static_cast< float >( Vertices->size( ) );
-	Center.y /= static_cast< float >( Vertices->size( ) );
+	Center.x /= static_cast< float >( vertices->size( ) );
+	Center.y /= static_cast< float >( vertices->size( ) );
 
 SKIP_CENTER:
 
@@ -399,7 +401,7 @@ SKIP_CENTER:
 	float CosValue = cosf( Radians );
 	float SinValue = sinf( Radians );
 
-	for ( auto& vertex : *Vertices ) {
+	for ( auto& vertex : *vertices ) {
 		float translatedX = vertex.x - Center.x;
 		float translatedY = vertex.y - Center.y;
 
@@ -411,81 +413,4 @@ SKIP_CENTER:
 		vertex.x = NewPos.x + Center.x;
 		vertex.y = NewPos.y + Center.y;
 	}
-}
-
-void cBuffer::CreateFontFromName( Font* Font, const char* FontName, const int16_t Size, const int16_t Weight, const int16_t Padding, const bool Antialiased ) {
-	FT_Library lib;
-	FT_Face face;
-
-	Font->Path = GetFontPath( FontName );
-	Font->Padding = Padding;
-	Font->Size = Size;
-
-	if ( FT_Init_FreeType( &lib ) != FT_Err_Ok )
-		std::printf( std::vformat( "[ Buffer ] FT_Init_FreeType failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
-
-	if ( FT_New_Face( lib, Font->Path.c_str( ), 0, &face ) )
-		std::printf( std::vformat( "[ Buffer ] FT_New_Face failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
-
-	FT_Set_Char_Size( face, Size * 64, 0, GetDpiForWindow( gWin32->GetHwnd( ) ), 0 );
-	FT_Select_Charmap( face, FT_ENCODING_UNICODE );
-
-	for ( unsigned char i = 0; i < 128; i++ ) {
-		if ( FT_Load_Char( face, i, Antialiased ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) )
-			std::printf( std::vformat( "[ Buffer ] FT_Load_Char failed, font most likely does not exist! ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
-
-		int32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
-		int32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
-
-		if ( gGraphics->GetDevice( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &Font->CharSet[ i ].Texture, NULL ) )
-			std::printf( std::vformat( "[ Buffer ] CreateTexture failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
-
-		D3DLOCKED_RECT locked_rect;
-		Font->CharSet[ i ].Texture->LockRect( 0, &locked_rect, nullptr, D3DLOCK_DISCARD );
-
-		UCHAR* source = face->glyph->bitmap.buffer;
-		UCHAR* destination = reinterpret_cast< UCHAR* >( locked_rect.pBits );
-
-		if ( source && destination ) {
-			switch ( face->glyph->bitmap.pixel_mode ) {
-			case FT_PIXEL_MODE_MONO:
-				for ( int32_t y = 0; y < height; y++, source += face->glyph->bitmap.pitch, destination += locked_rect.Pitch ) {
-					int8_t bits = 0;
-					const uint8_t* bits_ptr = source;
-
-					for ( int32_t x = 0; x < width; x++, bits <<= 1 ) {
-						if ( ( x & 7 ) == 0 )
-							bits = *bits_ptr++;
-
-						destination[ x ] = ( bits & 0x80 ) ? 255 : 0;
-					}
-				}
-
-				break;
-			case FT_PIXEL_MODE_GRAY:
-				for ( int32_t i = 0; i < height; ++i ) {
-					memcpy( destination, source, width );
-
-					source += face->glyph->bitmap.pitch;
-					destination += locked_rect.Pitch;
-				}
-
-				break;
-			}
-		}
-
-		Font->CharSet[ i ].Texture->UnlockRect( 0 );
-
-		D3DSURFACE_DESC description;
-		Font->CharSet[ i ].Texture->GetLevelDesc( 0, &description );
-
-		Font->CharSet[ i ].Size = { width, height };
-		Font->CharSet[ i ].Bearing = { static_cast< int32_t >( face->glyph->bitmap_left ), static_cast< int32_t >( face->glyph->bitmap_top ) };
-		Font->CharSet[ i ].Advance = face->glyph->advance.x;
-	}
-
-	FT_Done_Face( face );
-	FT_Done_FreeType( lib );
-
-	std::printf( std::vformat( "[ Buffer ] Created font ( name: {}, size: {}, weight: {}, antialiasing: {} )\n", std::make_format_args( FontName, Size, Weight, Antialiased ) ).c_str( ) );
 }

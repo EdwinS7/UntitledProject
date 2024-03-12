@@ -5,7 +5,7 @@
 
 class cGraphics {
 public:
-	bool Init( HWND hwnd, const bool device_only = false );
+	bool Init( HWND hwnd, const bool init = true );
 	void Reset( const LPARAM lParam );
 	void Release( );
 	bool Valid( );
@@ -24,6 +24,9 @@ public:
 	void CreateTextureFromBytes( IDirect3DTexture9* Texture, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size );
 	void CreateTextureFromFile( IDirect3DTexture9** Texture, const char* FileName );
 
+	void CreateFontFromName( Font* font, const char* font_name, const int16_t size, const int16_t weight, const int16_t padding, const bool antialiasing );
+
+	inline std::string GetFontPath( const char* font_name );
 	inline IDirect3DDevice9* GetDevice( );
 
 private:

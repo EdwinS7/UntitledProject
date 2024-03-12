@@ -1,7 +1,7 @@
 #include "DirectX9.hpp"
 
-bool cGraphics::Init( HWND hwnd, const bool device_only ) {
-    if ( !device_only ) {
+bool cGraphics::Init( HWND hwnd, const bool init ) {
+    if ( init ) {
         m_Hwnd = hwnd;
         m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
 
@@ -34,7 +34,7 @@ void cGraphics::Reset( const LPARAM lParam ) {
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Device );
 
-    Init( m_Hwnd, true );
+    Init( m_Hwnd, false );
 
     gBuffer->Init( );
 }
@@ -174,7 +174,7 @@ void cGraphics::SetVSync( const bool state ) {
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Device );
 
-    Init( m_Hwnd, true );
+    Init( m_Hwnd, false );
 
     gBuffer->Init( );
 }
@@ -233,4 +233,81 @@ void cGraphics::CreateTextureFromFile( IDirect3DTexture9** Texture, const char* 
         std::printf( std::vformat( "[ Graphics ] Failed to create resource ( name: {} )\n", std::make_format_args( FileName ) ).c_str( ) );
     else
         std::printf( std::vformat( "[ Graphics ] Created resource ( name: {} )\n", std::make_format_args( FileName ) ).c_str( ) );
+}
+
+void cGraphics::CreateFontFromName( Font* Font, const char* FontName, const int16_t Size, const int16_t Weight, const int16_t Padding, const bool Antialiasing ) {
+    FT_Library lib;
+    FT_Face face;
+
+    Font->Path = GetFontPath( FontName );
+    Font->Padding = Padding;
+    Font->Size = Size;
+
+    if ( FT_Init_FreeType( &lib ) != FT_Err_Ok )
+        std::printf( std::vformat( "[ Buffer ] FT_Init_FreeType failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+
+    if ( FT_New_Face( lib, Font->Path.c_str( ), 0, &face ) )
+        std::printf( std::vformat( "[ Buffer ] FT_New_Face failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+
+    FT_Set_Char_Size( face, Size * 64, 0, GetDpiForWindow( gWin32->GetHwnd( ) ), 0 );
+    FT_Select_Charmap( face, FT_ENCODING_UNICODE );
+
+    for ( unsigned char i = 0; i < 128; i++ ) {
+        if ( FT_Load_Char( face, i, Antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) )
+            std::printf( std::vformat( "[ Buffer ] FT_Load_Char failed, font most likely does not exist! ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+
+        int32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
+        int32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
+
+        if ( gGraphics->GetDevice( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &Font->CharSet[ i ].Texture, NULL ) )
+            std::printf( std::vformat( "[ Buffer ] CreateTexture failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+
+        D3DLOCKED_RECT locked_rect;
+        Font->CharSet[ i ].Texture->LockRect( 0, &locked_rect, nullptr, D3DLOCK_DISCARD );
+
+        UCHAR* source = face->glyph->bitmap.buffer;
+        UCHAR* destination = reinterpret_cast< UCHAR* >( locked_rect.pBits );
+
+        if ( source && destination ) {
+            switch ( face->glyph->bitmap.pixel_mode ) {
+            case FT_PIXEL_MODE_MONO:
+                for ( int32_t y = 0; y < height; y++, source += face->glyph->bitmap.pitch, destination += locked_rect.Pitch ) {
+                    int8_t bits = 0;
+                    const uint8_t* bits_ptr = source;
+
+                    for ( int32_t x = 0; x < width; x++, bits <<= 1 ) {
+                        if ( ( x & 7 ) == 0 )
+                            bits = *bits_ptr++;
+
+                        destination[ x ] = ( bits & 0x80 ) ? 255 : 0;
+                    }
+                }
+
+                break;
+            case FT_PIXEL_MODE_GRAY:
+                for ( int32_t i = 0; i < height; ++i ) {
+                    memcpy( destination, source, width );
+
+                    source += face->glyph->bitmap.pitch;
+                    destination += locked_rect.Pitch;
+                }
+
+                break;
+            }
+        }
+
+        Font->CharSet[ i ].Texture->UnlockRect( 0 );
+
+        D3DSURFACE_DESC description;
+        Font->CharSet[ i ].Texture->GetLevelDesc( 0, &description );
+
+        Font->CharSet[ i ].Size = { width, height };
+        Font->CharSet[ i ].Bearing = { static_cast< int32_t >( face->glyph->bitmap_left ), static_cast< int32_t >( face->glyph->bitmap_top ) };
+        Font->CharSet[ i ].Advance = face->glyph->advance.x;
+    }
+
+    FT_Done_Face( face );
+    FT_Done_FreeType( lib );
+
+    std::printf( std::vformat( "[ Graphics ] Created font ( name: {}, size: {}, weight: {}, antialiasing: {} )\n", std::make_format_args( FontName, Size, Weight, Antialiasing ) ).c_str( ) );
 }

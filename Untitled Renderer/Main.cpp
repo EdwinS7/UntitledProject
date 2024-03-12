@@ -8,7 +8,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     while ( gWin32->Dispatch( ) ) {
         gContext->Update( );
-        //gBuffer->TexturedRectangle( &gBuffer->Textures.Demo, { 200, 200 }, { 300, 300 }, { 255, 255, 255, 255 } );
+        gGui->DemoWindow( );
         gGraphics->Draw( );
     }
 

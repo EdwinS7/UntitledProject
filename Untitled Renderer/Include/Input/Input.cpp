@@ -14,14 +14,14 @@ void cInput::PoolInput( ) {
     }
 }
 
-void cInput::SetMousePos( Vec2<int16_t> pos ) {
-	m_MousePos = pos;
+void cInput::SetMousePos( Vec2<int16_t> position ) {
+	m_MousePos = position;
 }
 
-bool cInput::MouseHoveringRect( Vec2<int16_t> pos, Vec2<int16_t> size ) {
+bool cInput::MouseHoveringRect( Vec2<int16_t> position, Vec2<int16_t> size ) {
 	std::pair<bool, bool> m_hovered {
-		GetMousePos( ).x > pos.x && GetMousePos( ).y > pos.y,
-		GetMousePos( ).x < pos.x + size.x && GetMousePos( ).y < pos.y + size.y
+		GetMousePos( ).x > position.x && GetMousePos( ).y > position.y,
+		GetMousePos( ).x < position.x + size.x && GetMousePos( ).y < position.y + size.y
 	};
 
 	return m_hovered.first && m_hovered.second;
@@ -36,6 +36,6 @@ bool cInput::KeyHeld( int8_t key ) {
 }
 
 
-void cInput::SetCursorStyle( LPSTR ID ) {
-	m_CursorStyle = ID;
+void cInput::SetCursorStyle( LPSTR id ) {
+	m_CursorStyle = id;
 }
