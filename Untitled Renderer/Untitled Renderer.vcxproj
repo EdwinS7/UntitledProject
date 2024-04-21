@@ -180,10 +180,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Include\Gui\Containers\Frame.cpp" />
-    <ClCompile Include="Include\Gui\Containers\Group.cpp" />
-    <ClCompile Include="Include\Gui\Gui.cpp" />
-    <ClCompile Include="Include\Gui\Elements\Tab.cpp" />
+    <ClCompile Include="Include\Interface\Interface.cpp" />
+    <ClCompile Include="Include\Window\Logger\Logger.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Include\Buffer\Buffer.cpp" />
     <ClCompile Include="Include\Context\Context.cpp" />
@@ -198,11 +196,10 @@
     <ClInclude Include="Include\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Buffer\Buffer.hpp" />
     <ClInclude Include="Include\Buffer\Components.hpp" />
-    <ClInclude Include="Include\Gui\Containers\Containers.hpp" />
-    <ClInclude Include="Include\Gui\Elements\Elements.hpp" />
-    <ClInclude Include="Include\Gui\Gui.hpp" />
+    <ClInclude Include="Include\Interface\Interface.hpp" />
     <ClInclude Include="Include\Input\Input.hpp" />
     <ClInclude Include="Include\Input\KeyDefinitions.hpp" />
+    <ClInclude Include="Include\Window\Logger\Logger.hpp" />
     <ClInclude Include="Thirdparty\freetype\config\ftconfig.h" />
     <ClInclude Include="Thirdparty\freetype\config\ftheader.h" />
     <ClInclude Include="Thirdparty\freetype\config\ftmodule.h" />
@@ -309,15 +306,13 @@
     <None Include="Include\Buffer\Buffer.inl" />
     <None Include="Include\Context\Context.inl" />
     <None Include="Include\Graphics\DirectX9.inl" />
-    <None Include="Include\Gui\Gui.inl" />
+    <None Include="Include\Interface\Interface.inl" />
     <None Include="Include\Input\Input.inl" />
+    <None Include="Include\Window\Logger\Logger.inl" />
     <None Include="Include\Window\Window.inl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Thirdparty\freetype.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Test.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

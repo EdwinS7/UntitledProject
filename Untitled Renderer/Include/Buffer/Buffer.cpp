@@ -2,21 +2,17 @@
 
 void cBuffer::Init( ) {
 	gGraphics->CreateFontFromName( &Fonts.Default, "Segoe UI", 16, 400, 4, true );
-	gGraphics->CreateFontFromName( &Fonts.Interface, "Arial", 9, 100, 4, false );
-	gGraphics->CreateFontFromName( &Fonts.SmallInterface, "Arial", 8, 100, 4, false );
-	gGraphics->CreateTextureFromFile( &Textures.Default, "Default.png" );
+	//gGraphics->CreateFontFromName( &Fonts.Interface, "Arial", 9, 100, 4, false );
+	//gGraphics->CreateFontFromName( &Fonts.SmallInterface, "Arial", 8, 100, 4, false );
 
-	PushClip( gWin32->GetClipRect( ) );
-	PushTexture( gBuffer->Textures.Default ); // @note: this is some ghetto bs, please fix lmao
+	PushClip( gWindow->GetClipRect( ) );
+	PushTexture( nullptr );
 }
 
 void cBuffer::Release( ) {
 	Fonts.Default.Release( );
 	Fonts.Interface.Release( );
 	Fonts.SmallInterface.Release( );
-
-	Textures.Default->Release( );
-	Textures.Default = nullptr;
 
 	m_CommandResources.Textures.clear( );
 	m_CommandResources.Clips.clear( );
@@ -66,7 +62,6 @@ void cBuffer::Line( const Vec2< int16_t > from, const Vec2< int16_t > to, const 
 		Vertex( to.x, to.y, 0.f, 1.f, color.Hex )
 	};
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
@@ -75,7 +70,6 @@ void cBuffer::Polyline( const std::vector< Vec2< int16_t > > points, const Color
 	Vertices.reserve( points.size( ) );
 
 	MakeVertices( &Vertices, &points, &color );
-	RotateVertices( &Vertices );
 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
@@ -95,7 +89,6 @@ void cBuffer::Polygon( const std::vector<Vec2<int16_t>> points, const Color colo
 		Indices.push_back( i + 1 );
 	}
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, &Indices );
 }
 
@@ -188,7 +181,6 @@ void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t
 	};
 
 	PushTexture( *texture );
-	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 	PopTexture( );
 }
@@ -203,7 +195,6 @@ void cBuffer::Gradient( const Vec2< int16_t > position, const Vec2< int16_t > si
 		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex )
 	};
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
@@ -217,7 +208,6 @@ void cBuffer::FilledGradient( const Vec2< int16_t > position, const Vec2< int16_
 		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex )
 	};
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
@@ -231,7 +221,6 @@ void cBuffer::Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, 
 		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex )
 	};
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
@@ -245,7 +234,6 @@ void cBuffer::FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> 
 		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex )
 	};
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
@@ -256,7 +244,6 @@ void cBuffer::Triangle( const Vec2< int16_t > point1, const Vec2< int16_t > poin
 		Vertex( point3.x, point3.y, 0.f, 1.f, color.Hex )
 	};
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
@@ -267,7 +254,6 @@ void cBuffer::FilledTriangle( const Vec2< int16_t > point1, const Vec2< int16_t 
 		Vertex( point3.x, point3.y, 0.f, 1.f, color.Hex )
 	};
 
-	RotateVertices( &Vertices );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
@@ -376,41 +362,4 @@ void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points,
 void cBuffer::MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color ) {
 	for ( const Vec2<int16_t>& point : *points )
 		vertices->push_back( Vertex( point.x, point.y, 0.f, 1.f, color->Hex ) );
-}
-
-void cBuffer::RotateObject( float val ) {
-	m_Rotation = val;
-}
-
-void cBuffer::RotateVertices( std::vector<Vertex>* vertices, Vec2<int16_t> center ) {
-	if ( vertices->empty( ) )
-		return;
-
-	Vec2<int16_t> Center( 0, 0 );
-
-	for ( const auto& Vertex : *vertices ) {
-		Center.x += Vertex.x;
-		Center.y += Vertex.y;
-	}
-	Center.x /= static_cast< float >( vertices->size( ) );
-	Center.y /= static_cast< float >( vertices->size( ) );
-
-SKIP_CENTER:
-
-	float Radians = m_Rotation * M_PI / 180.0f;
-	float CosValue = cosf( Radians );
-	float SinValue = sinf( Radians );
-
-	for ( auto& vertex : *vertices ) {
-		float translatedX = vertex.x - Center.x;
-		float translatedY = vertex.y - Center.y;
-
-		Vec2<float> NewPos = {
-			translatedX * CosValue - translatedY * SinValue,
-			translatedX * SinValue + translatedY * CosValue
-		};
-
-		vertex.x = NewPos.x + Center.x;
-		vertex.y = NewPos.y + Center.y;
-	}
 }

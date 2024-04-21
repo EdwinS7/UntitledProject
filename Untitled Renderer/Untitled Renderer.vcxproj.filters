@@ -33,16 +33,10 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Gui\Gui.cpp">
+    <ClCompile Include="Include\Interface\Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Gui\Elements\Tab.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\Gui\Containers\Group.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Include\Gui\Containers\Frame.cpp">
+    <ClCompile Include="Include\Window\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -374,13 +368,10 @@
     <ClInclude Include="Definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Gui\Gui.hpp">
+    <ClInclude Include="Include\Interface\Interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Gui\Elements\Elements.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Gui\Containers\Containers.hpp">
+    <ClInclude Include="Include\Window\Logger\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -400,16 +391,14 @@
     <None Include="Include\Input\Input.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Gui\Gui.inl">
+    <None Include="Include\Interface\Interface.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Window\Logger\Logger.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Thirdparty\freetype.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Test.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>

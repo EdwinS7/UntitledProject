@@ -1,14 +1,14 @@
 #include "Common.hpp"
 
 int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int show_cmd ) {
-    gWin32->CreateRenderEnvironment( "Untitled Renderer", { 1280, 720 } );
-    //gWin32->CreateLoggingEnvironment( "Untitled Logs" );
-    gGraphics->Init( gWin32->GetHwnd( ) );
+    gWindow->InitWindow( "Untitled Renderer", { 1280, 720 } );
+    //gConsole->InitConsole( "Developer Console" );
+    gGraphics->Init( gWindow->GetHwnd( ) );
     gBuffer->Init( );
 
-    while ( gWin32->Dispatch( ) ) {
+    while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );
-        gGui->DemoWindow( );
+        
         gGraphics->Draw( );
     }
 

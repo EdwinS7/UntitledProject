@@ -35,8 +35,6 @@ public:
     void String( const Font* font, const std::string& string, const Vec2<int16_t> Pos, const Color color );
     Vec2<int16_t> GetStringSize( const Font* font, const std::string& string );
 
-    void RotateObject( float Degrees );
-
     inline void ClearCommands( );
     inline CommandResources GetCommand( );
     inline CompiledDrawCommand GetDrawCommand( );
@@ -57,12 +55,10 @@ public:
     } Fonts;
 
     struct cTextures {
-        IDirect3DTexture9* Default;
+
     } Textures;
 
 private:
-    float m_Rotation;
-
     int m_VerticesCount, m_IndicesCount;
 
     int m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
@@ -78,7 +74,6 @@ private:
     void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3 );
 
 	void MakeVertices(  std::vector<Vertex>* vertices,  const std::vector<Vec2<int16_t>>* points, const Color* color );
-    void RotateVertices( std::vector<Vertex>* vertices, Vec2<int16_t> center = { -1, -1 } );
 };
 
 inline const auto gBuffer = std::make_unique<cBuffer>( );

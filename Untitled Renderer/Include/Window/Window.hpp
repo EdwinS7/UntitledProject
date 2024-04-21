@@ -1,18 +1,12 @@
 #pragma once
 #include "../../common.hpp"
 
-class cWindow {
+class cWin32 {
 public:
-
-	int CreateRenderEnvironment( const char* title, const Vec2< int16_t > size );
-	void SetRenderEnvironmentTitle( const char* title );
-	void DestroyRenderEnvironment( );
-
-	int CreateLoggingEnvironment( const char* title );
-	void SetLoggingEnvironmentTitle( const char* title );
-	void DestroyLoggingEnvironment();
-
-	bool Dispatch( );
+	int InitWindow( const char* title, const Vec2<int16_t> size );
+	void SetWindowTitle( const char* title );
+	bool DispatchMessages( );
+	void ExitWindow( );
 
 	inline Vec2<int16_t> GetPos( );
 	inline Vec2<int16_t> GetSize( );
@@ -25,6 +19,6 @@ private:
 	WNDCLASSEX m_WindowClass;
 };
 
-inline const auto gWin32 = std::make_unique<cWindow>( );
+inline const auto gWindow = std::make_unique<cWin32>( );
 
 #include "Window.inl"

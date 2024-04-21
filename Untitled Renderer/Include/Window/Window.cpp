@@ -21,11 +21,11 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 
-void cWindow::SetRenderEnvironmentTitle(const char* title) {
+void cWin32::SetWindowTitle(const char* title) {
 	SetWindowTextA( m_Hwnd, title );
 }
 
-int cWindow::CreateRenderEnvironment( const char* title, const Vec2< int16_t > size ) {
+int cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
 	m_WindowClass = {
 		sizeof( m_WindowClass ),
 		CS_CLASSDC,
@@ -53,37 +53,11 @@ int cWindow::CreateRenderEnvironment( const char* title, const Vec2< int16_t > s
 	return ( ShowWindow( m_Hwnd, SW_SHOWDEFAULT ) && UpdateWindow( m_Hwnd ) );
 }
 
-void cWindow::DestroyRenderEnvironment( ) {
+void cWin32::ExitWindow( ) {
 	::UnregisterClass( m_WindowClass.lpszClassName, m_WindowClass.hInstance );
 }
 
-int cWindow::CreateLoggingEnvironment( const char* title ) {
-	if ( !title )
-		return 0;
-
-	AllocConsole( );
-	SetConsoleTitleA( title );
-
-	FILE* fp = nullptr;
-	freopen_s( &fp, "CONIN$", "r", stdin );
-	freopen_s( &fp, "CONOUT$", "w", stdout );
-	freopen_s( &fp, "CONOUT$", "w", stderr );
-
-	std::printf( std::vformat( "[ Win32 ] Console created ( name: {} )\n", std::make_format_args( title ) ).c_str( ) );
-
-	return 1;
-}
-
-void cWindow::SetLoggingEnvironmentTitle( const char* title ) {
-	SetConsoleTitle( title );
-}
-
-void cWindow::DestroyLoggingEnvironment( ) {
-	ShowWindow( GetConsoleWindow( ), SW_HIDE );
-	FreeConsole( );
-}
-
-bool cWindow::Dispatch( ) {
+bool cWin32::DispatchMessages( ) {
 	MSG msg;
 
 	std::memset( &msg, 0, sizeof( MSG ) );

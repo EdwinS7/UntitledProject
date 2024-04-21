@@ -17,7 +17,7 @@ bool cGraphics::Init( HWND hwnd, const bool init ) {
     }
 
     if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_Hwnd, D3DCREATE_MIXED_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
-        std::printf( "[ Graphics ] CreateDevice Failed!" );
+        gConsole->Print( 2, "Graphics", "CreateDevice Failed!" );
 
     UpdateRenderStates( m_Device );
 
@@ -71,25 +71,25 @@ void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
     device->SetRenderState( D3DRS_MULTISAMPLEANTIALIAS, TRUE );
     device->SetRenderState( D3DRS_VERTEXBLEND, FALSE );
 
-    device->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG2 );
+    // textured
+    device->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_MODULATE );
     device->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
     device->SetTextureStageState( 0, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
     device->SetTextureStageState( 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
     device->SetTextureStageState( 0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
     device->SetTextureStageState( 0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
-    device->SetTextureStageState( 1, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
-    device->SetTextureStageState( 1, D3DTSS_COLORARG1, D3DTA_TEXTURE );
-    device->SetTextureStageState( 1, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
-    device->SetTextureStageState( 1, D3DTSS_ALPHAOP, D3DTOP_MODULATE );
-    device->SetTextureStageState( 1, D3DTSS_ALPHAARG1, D3DTA_TEXTURE );
-    device->SetTextureStageState( 1, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE );
+    device->SetTextureStageState( 1, D3DTSS_COLOROP, D3DTOP_DISABLE );
+    device->SetTextureStageState( 1, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
 
-    device->SetSamplerState( 0, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
+    // non-textured
+    device->SetTextureStageState( 1, D3DTSS_COLOROP, D3DTOP_SELECTARG2 );
+    device->SetTextureStageState( 1, D3DTSS_COLORARG1, D3DTA_DIFFUSE );
+    device->SetTextureStageState( 1, D3DTSS_COLORARG2, D3DTA_DIFFUSE );
+    device->SetTextureStageState( 1, D3DTSS_ALPHAOP, D3DTOP_DISABLE );
+
+
     device->SetSamplerState( 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
     device->SetSamplerState( 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
-    device->SetSamplerState( 1, D3DSAMP_MIPFILTER, D3DTEXF_NONE );
-    device->SetSamplerState( 1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR );
-    device->SetSamplerState( 1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR );
 
     device->SetVertexShader( nullptr );
     device->SetPixelShader( nullptr );
@@ -112,7 +112,7 @@ void cGraphics::RenderDrawData( ) {
 
         if ( m_Device->CreateVertexBuffer( m_VertexBufferSize * sizeof( Vertex ), 
             D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, VERTEX,  D3DPOOL_DEFAULT, &m_VertexBuffer, nullptr ) < D3D_OK )
-            std::printf( "[ Graphics ] CreateVertexBuffer Failed!" );
+            gConsole->Print( 2, "Graphics", "CreateVertexBuffer Failed!" );
     }
 
     if ( !m_IndexBuffer || DrawCommand.IndicesCount * sizeof( std::int32_t ) > m_IndexBufferSize ) {
@@ -125,17 +125,17 @@ void cGraphics::RenderDrawData( ) {
 
         if ( m_Device->CreateIndexBuffer( m_IndexBufferSize * sizeof( std::int32_t ),
             D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_IndexBuffer, nullptr ) < D3D_OK )
-            std::printf( "[ Graphics ] CreateIndexBuffer Failed!" );
+            gConsole->Print( 2, "Graphics", "CreateIndexBuffer Failed!" );
     }
 
     Vertex* vertex_data{ };
     int32_t* index_data{ };
 
     if ( m_VertexBuffer->Lock( 0, ( int ) ( DrawCommand.VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
-        std::printf( "[ Graphics ] m_vertex_buffer->Lock Failed!" );
+        gConsole->Print( 2, "Graphics", "m_VertexBuffer->Lock Failed!" );
 
     if ( m_IndexBuffer->Lock( 0, ( int ) ( DrawCommand.IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
-        std::printf( "[ Graphics ] m_index_buffer->Lock Failed!" );
+        gConsole->Print( 2, "Graphics", "m_IndexBuffer->Lock Failed!" );
 
     memcpy( vertex_data, DrawCommand.Vertices.data( ), DrawCommand.VerticesCount * sizeof( Vertex ) );
     memcpy( index_data, DrawCommand.Indices.data( ), DrawCommand.IndicesCount * sizeof( int32_t ) );
@@ -222,92 +222,100 @@ void cGraphics::SafeRelease( type*& obj ) {
 
 void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* Texture, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size ) {
     if ( D3DXCreateTextureFromFileInMemoryEx( m_Device, Bytes->data( ), Bytes->size( ), Size.x, Size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &Texture ) != D3D_OK )
-        std::printf( std::vformat( "[ Graphics ] Failed to create resource from bytes ( {}kb )\n", std::make_format_args( Bytes->size( ) ) ).c_str( ) );
+        gConsole->Print( 2, "Graphics", std::vformat( "Failed to create Texture from bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ) );
     else
-        std::printf( std::vformat( "[ Graphics ] Created resource from bytes ( {}kb )\n", std::make_format_args( Bytes->size( ) ) ).c_str( ) );
-
+        gConsole->Print( 2, "Graphics", std::vformat( "Created Texture from bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ) );
 }
 
 void cGraphics::CreateTextureFromFile( IDirect3DTexture9** Texture, const char* FileName ) {
     if ( D3DXCreateTextureFromFile( m_Device, FileName, Texture ) != D3D_OK )
-        std::printf( std::vformat( "[ Graphics ] Failed to create resource ( name: {} )\n", std::make_format_args( FileName ) ).c_str( ) );
+        gConsole->Print( 2, "Graphics", std::vformat( "Failed to create Texture ({})", std::make_format_args( FileName ) ).c_str( ) );
     else
-        std::printf( std::vformat( "[ Graphics ] Created resource ( name: {} )\n", std::make_format_args( FileName ) ).c_str( ) );
+        gConsole->Print( 2, "Graphics", std::vformat( "Created Texture ({})", std::make_format_args( FileName ) ).c_str( ) );
 }
 
-void cGraphics::CreateFontFromName( Font* Font, const char* FontName, const int16_t Size, const int16_t Weight, const int16_t Padding, const bool Antialiasing ) {
+void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t size, int16_t weight, int16_t padding, bool antialiasing ) {
     FT_Library lib;
     FT_Face face;
 
-    Font->Path = GetFontPath( FontName );
-    Font->Padding = Padding;
-    Font->Size = Size;
+    font->Path = GetFontPath( font_name );
+    font->Padding = padding;
+    font->Size = size;
 
-    if ( FT_Init_FreeType( &lib ) != FT_Err_Ok )
-        std::printf( std::vformat( "[ Buffer ] FT_Init_FreeType failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+    if ( FT_Init_FreeType( &lib ) != FT_Err_Ok ) {
+        gConsole->Print( 2, "Graphics", "FT_Init_FreeType Failed!" );
+        return;
+    }
 
-    if ( FT_New_Face( lib, Font->Path.c_str( ), 0, &face ) )
-        std::printf( std::vformat( "[ Buffer ] FT_New_Face failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+    if ( FT_New_Face( lib, font->Path.c_str( ), 0, &face ) ) {
+        gConsole->Print( 2, "Graphics", "FT_New_Face Failed!" );
+        FT_Done_FreeType( lib );
+        return;
+    }
 
-    FT_Set_Char_Size( face, Size * 64, 0, GetDpiForWindow( gWin32->GetHwnd( ) ), 0 );
+    FT_Set_Char_Size( face, size * 64, 0, GetDpiForWindow( gWindow->GetHwnd( ) ), 0 );
     FT_Select_Charmap( face, FT_ENCODING_UNICODE );
 
-    for ( unsigned char i = 0; i < 128; i++ ) {
-        if ( FT_Load_Char( face, i, Antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) )
-            std::printf( std::vformat( "[ Buffer ] FT_Load_Char failed, font most likely does not exist! ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+    for ( unsigned char i = 0; i < 128; ++i ) {
+        if ( FT_Load_Char( face, i, antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) ) {
+            gConsole->Print( 2, "Graphics", "FT_Load_Char failed, Font does not exist!" );
+            continue;
+        }
 
         int32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
         int32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
 
-        if ( gGraphics->GetDevice( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &Font->CharSet[ i ].Texture, NULL ) )
-            std::printf( std::vformat( "[ Buffer ] CreateTexture failed ( {} )\n", std::make_format_args( FontName ) ).c_str( ) );
+        if ( gGraphics->GetDevice( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
+            gConsole->Print( 2, "Graphics", "CreateTexture Failed!" );
+            continue;
+        }
 
-        D3DLOCKED_RECT locked_rect;
-        Font->CharSet[ i ].Texture->LockRect( 0, &locked_rect, nullptr, D3DLOCK_DISCARD );
+        D3DLOCKED_RECT lockedRect;
+        font->CharSet[ i ].Texture->LockRect( 0, &lockedRect, nullptr, D3DLOCK_DISCARD );
 
         UCHAR* source = face->glyph->bitmap.buffer;
-        UCHAR* destination = reinterpret_cast< UCHAR* >( locked_rect.pBits );
+        UCHAR* destination = reinterpret_cast< UCHAR* >( lockedRect.pBits );
 
         if ( source && destination ) {
             switch ( face->glyph->bitmap.pixel_mode ) {
             case FT_PIXEL_MODE_MONO:
-                for ( int32_t y = 0; y < height; y++, source += face->glyph->bitmap.pitch, destination += locked_rect.Pitch ) {
+                for ( int32_t y = 0; y < height; ++y, source += face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
                     int8_t bits = 0;
-                    const uint8_t* bits_ptr = source;
+                    const uint8_t* bitsPtr = source;
 
-                    for ( int32_t x = 0; x < width; x++, bits <<= 1 ) {
+                    for ( int32_t x = 0; x < width; ++x, bits <<= 1 ) {
                         if ( ( x & 7 ) == 0 )
-                            bits = *bits_ptr++;
+                            bits = *bitsPtr++;
 
                         destination[ x ] = ( bits & 0x80 ) ? 255 : 0;
                     }
                 }
-
                 break;
+
             case FT_PIXEL_MODE_GRAY:
-                for ( int32_t i = 0; i < height; ++i ) {
+                for ( int32_t j = 0; j < height; ++j ) {
                     memcpy( destination, source, width );
 
                     source += face->glyph->bitmap.pitch;
-                    destination += locked_rect.Pitch;
+                    destination += lockedRect.Pitch;
                 }
-
                 break;
             }
         }
 
-        Font->CharSet[ i ].Texture->UnlockRect( 0 );
+        font->CharSet[ i ].Texture->UnlockRect( 0 );
 
-        D3DSURFACE_DESC description;
-        Font->CharSet[ i ].Texture->GetLevelDesc( 0, &description );
-
-        Font->CharSet[ i ].Size = { width, height };
-        Font->CharSet[ i ].Bearing = { static_cast< int32_t >( face->glyph->bitmap_left ), static_cast< int32_t >( face->glyph->bitmap_top ) };
-        Font->CharSet[ i ].Advance = face->glyph->advance.x;
+        font->CharSet[ i ].Size = { width, height };
+        font->CharSet[ i ].Bearing = { static_cast< int32_t >( face->glyph->bitmap_left ), static_cast< int32_t >( face->glyph->bitmap_top ) };
+        font->CharSet[ i ].Advance = face->glyph->advance.x;
     }
 
     FT_Done_Face( face );
     FT_Done_FreeType( lib );
 
-    std::printf( std::vformat( "[ Graphics ] Created font ( name: {}, size: {}, weight: {}, antialiasing: {} )\n", std::make_format_args( FontName, Size, Weight, Antialiasing ) ).c_str( ) );
+    gConsole->Print( 
+        3, "Graphics", std::vformat( "Created Font ({}, {}px, {}, {})",
+            std::make_format_args( font_name, size, weight, antialiasing )
+        ).c_str( )
+    );
 }
