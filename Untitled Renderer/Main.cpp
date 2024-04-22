@@ -8,7 +8,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );
-        
+        gBuffer->FilledRectangle( { 200, 200 }, { 100, 100 }, { 255, 0, 0, 255 }, 15 );
         gGraphics->Draw( );
     }
 

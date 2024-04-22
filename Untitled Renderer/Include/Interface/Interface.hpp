@@ -5,9 +5,9 @@
 
 class cInterface {
 public:
-	
-private:
 
+private:
+	
 };
 
 inline const auto gInterface = std::make_unique<cInterface>( );
