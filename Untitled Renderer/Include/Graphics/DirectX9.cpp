@@ -17,7 +17,7 @@ bool cGraphics::Init( HWND hwnd, const bool init ) {
     }
 
     if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_Hwnd, D3DCREATE_MIXED_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
-        gConsole->Print( 2, "Graphics", "CreateDevice Failed!" );
+        throw std::runtime_error( "[cGraphics::Init] CreateDevice Failed?" );
 
     UpdateRenderStates( m_Device );
 
@@ -112,7 +112,7 @@ void cGraphics::RenderDrawData( ) {
 
         if ( m_Device->CreateVertexBuffer( m_VertexBufferSize * sizeof( Vertex ), 
             D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, VERTEX,  D3DPOOL_DEFAULT, &m_VertexBuffer, nullptr ) < D3D_OK )
-            gConsole->Print( 2, "Graphics", "CreateVertexBuffer Failed!" );
+            throw std::runtime_error( "[cGraphics::RenderDrawData] CreateVertexBuffer Failed?" );
     }
 
     if ( !m_IndexBuffer || DrawCommand.IndicesCount * sizeof( std::int32_t ) > m_IndexBufferSize ) {
@@ -125,17 +125,17 @@ void cGraphics::RenderDrawData( ) {
 
         if ( m_Device->CreateIndexBuffer( m_IndexBufferSize * sizeof( std::int32_t ),
             D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_IndexBuffer, nullptr ) < D3D_OK )
-            gConsole->Print( 2, "Graphics", "CreateIndexBuffer Failed!" );
+            throw std::runtime_error( "[cGraphics::RenderDrawData] CreateIndexBuffer Failed?" );
     }
 
     Vertex* vertex_data{ };
     int32_t* index_data{ };
 
     if ( m_VertexBuffer->Lock( 0, ( int ) ( DrawCommand.VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
-        gConsole->Print( 2, "Graphics", "m_VertexBuffer->Lock Failed!" );
+        throw std::runtime_error( "[cGraphics::RenderDrawData] m_VertexBuffer->Lock Failed?" );
 
     if ( m_IndexBuffer->Lock( 0, ( int ) ( DrawCommand.IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
-        gConsole->Print( 2, "Graphics", "m_IndexBuffer->Lock Failed!" );
+        throw std::runtime_error( "[cGraphics::RenderDrawData] m_IndexBuffer->Lock Failed?" );
 
     memcpy( vertex_data, DrawCommand.Vertices.data( ), DrawCommand.VerticesCount * sizeof( Vertex ) );
     memcpy( index_data, DrawCommand.Indices.data( ), DrawCommand.IndicesCount * sizeof( int32_t ) );
@@ -222,16 +222,12 @@ void cGraphics::SafeRelease( type*& obj ) {
 
 void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* Texture, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size ) {
     if ( D3DXCreateTextureFromFileInMemoryEx( m_Device, Bytes->data( ), Bytes->size( ), Size.x, Size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &Texture ) != D3D_OK )
-        gConsole->Print( 2, "Graphics", std::vformat( "Failed to create Texture from bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ) );
-    else
-        gConsole->Print( 2, "Graphics", std::vformat( "Created Texture from bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ) );
+        MessageBoxA(nullptr, "Graphics", std::vformat( "Failed To Create Texture From Bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ), 0 );
 }
 
 void cGraphics::CreateTextureFromFile( IDirect3DTexture9** Texture, const char* FileName ) {
     if ( D3DXCreateTextureFromFile( m_Device, FileName, Texture ) != D3D_OK )
-        gConsole->Print( 2, "Graphics", std::vformat( "Failed to create Texture ({})", std::make_format_args( FileName ) ).c_str( ) );
-    else
-        gConsole->Print( 2, "Graphics", std::vformat( "Created Texture ({})", std::make_format_args( FileName ) ).c_str( ) );
+        MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Texture ({})", std::make_format_args( FileName ) ).c_str( ), 0 );
 }
 
 void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t size, int16_t weight, int16_t padding, bool antialiasing ) {
@@ -243,12 +239,12 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
     font->Size = size;
 
     if ( FT_Init_FreeType( &lib ) != FT_Err_Ok ) {
-        gConsole->Print( 2, "Graphics", "FT_Init_FreeType Failed!" );
+        throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Init_FreeType Failed?" );
         return;
     }
 
     if ( FT_New_Face( lib, font->Path.c_str( ), 0, &face ) ) {
-        gConsole->Print( 2, "Graphics", "FT_New_Face Failed!" );
+        throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_New_Face Failed?" );
         FT_Done_FreeType( lib );
         return;
     }
@@ -258,7 +254,7 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
 
     for ( unsigned char i = 0; i < 128; ++i ) {
         if ( FT_Load_Char( face, i, antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) ) {
-            gConsole->Print( 2, "Graphics", "FT_Load_Char failed, Font does not exist!" );
+            throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Load_Char Failed, Font Does Not Exist!" );
             continue;
         }
 
@@ -266,7 +262,7 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
         int32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
 
         if ( gGraphics->GetDevice( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
-            gConsole->Print( 2, "Graphics", "CreateTexture Failed!" );
+            throw std::runtime_error( "[cGraphics::CreateFontFromName] CreateTexture Failed?" );
             continue;
         }
 
@@ -312,10 +308,4 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
 
     FT_Done_Face( face );
     FT_Done_FreeType( lib );
-
-    gConsole->Print( 
-        3, "Graphics", std::vformat( "Created Font ({}, {}px, {}, {})",
-            std::make_format_args( font_name, size, weight, antialiasing )
-        ).c_str( )
-    );
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-// includes
 #include "../../common.hpp"
 
 class cGraphics {
@@ -17,12 +16,10 @@ public:
 	void SetVSync( const bool state );
 	void SetClearColor( const Color clear_color );
 
-	// Shortcuts
 	void Draw( );
 
-	// utilities
-	void CreateTextureFromBytes( IDirect3DTexture9* Texture, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size );
-	void CreateTextureFromFile( IDirect3DTexture9** Texture, const char* FileName );
+	void CreateTextureFromBytes( IDirect3DTexture9* texture, const std::vector<BYTE>* bytes, const Vec2<int16_t> size );
+	void CreateTextureFromFile( IDirect3DTexture9** texture, const char* file_name );
 
 	void CreateFontFromName( Font* font, const char* font_name, const int16_t size, const int16_t weight, const int16_t padding, const bool antialiasing );
 

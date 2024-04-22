@@ -181,7 +181,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Include\Interface\Interface.cpp" />
-    <ClCompile Include="Include\Window\Logger\Logger.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Include\Buffer\Buffer.cpp" />
     <ClCompile Include="Include\Context\Context.cpp" />
@@ -199,7 +198,6 @@
     <ClInclude Include="Include\Interface\Interface.hpp" />
     <ClInclude Include="Include\Input\Input.hpp" />
     <ClInclude Include="Include\Input\KeyDefinitions.hpp" />
-    <ClInclude Include="Include\Window\Logger\Logger.hpp" />
     <ClInclude Include="Thirdparty\freetype\config\ftconfig.h" />
     <ClInclude Include="Thirdparty\freetype\config\ftheader.h" />
     <ClInclude Include="Thirdparty\freetype\config\ftmodule.h" />
@@ -308,7 +306,6 @@
     <None Include="Include\Graphics\DirectX9.inl" />
     <None Include="Include\Interface\Interface.inl" />
     <None Include="Include\Input\Input.inl" />
-    <None Include="Include\Window\Logger\Logger.inl" />
     <None Include="Include\Window\Window.inl" />
   </ItemGroup>
   <ItemGroup>

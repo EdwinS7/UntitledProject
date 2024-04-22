@@ -3,7 +3,7 @@
 
 class cWin32 {
 public:
-	int InitWindow( const char* title, const Vec2<int16_t> size );
+	HWND InitWindow( const char* title, const Vec2<int16_t> size = { 1280, 720 } );
 	void SetWindowTitle( const char* title );
 	bool DispatchMessages( );
 	void ExitWindow( );

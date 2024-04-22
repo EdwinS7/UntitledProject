@@ -32,7 +32,6 @@
 #include "Include/Buffer/Components.hpp"
 
 #include "Include/Input/Input.hpp"
-#include "Include/Window/Logger/Logger.hpp"
 #include "Include/Window/Window.hpp"
 #include "Include/Interface/Interface.hpp"
 

@@ -5,6 +5,7 @@
 
 class cInterface {
 public:
+	void Draw( );
 
 private:
 	

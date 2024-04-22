@@ -25,7 +25,7 @@ void cWin32::SetWindowTitle(const char* title) {
 	SetWindowTextA( m_Hwnd, title );
 }
 
-int cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
+HWND cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
 	m_WindowClass = {
 		sizeof( m_WindowClass ),
 		CS_CLASSDC,
@@ -50,7 +50,10 @@ int cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
 	m_Hwnd = CreateWindow( m_WindowClass.lpszClassName, title,
 		WS_OVERLAPPEDWINDOW, ( DesktopResolution.right / 2 ) - ( size.x / 2 ), ( DesktopResolution.bottom / 2 ) - ( size.y / 2 ), size.x, size.y, NULL, NULL, m_WindowClass.hInstance, NULL );
 
-	return ( ShowWindow( m_Hwnd, SW_SHOWDEFAULT ) && UpdateWindow( m_Hwnd ) );
+	ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
+	UpdateWindow( m_Hwnd );
+
+	return m_Hwnd;
 }
 
 void cWin32::ExitWindow( ) {

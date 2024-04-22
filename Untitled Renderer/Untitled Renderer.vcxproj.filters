@@ -36,9 +36,6 @@
     <ClCompile Include="Include\Interface\Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Window\Logger\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Window\Window.hpp">
@@ -371,9 +368,6 @@
     <ClInclude Include="Include\Interface\Interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Window\Logger\Logger.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Buffer\Buffer.inl">
@@ -392,9 +386,6 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Interface\Interface.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Include\Window\Logger\Logger.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
