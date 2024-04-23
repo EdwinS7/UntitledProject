@@ -167,7 +167,7 @@ FT_BEGIN_HEADER
    */
   typedef struct  TT_LongMetricsRec_
   {
-    FT_UShort  advance;
+    FT_UShort  Advance;
     FT_Short   bearing;
 
   } TT_LongMetricsRec, *TT_LongMetrics;
@@ -478,7 +478,7 @@ FT_BEGIN_HEADER
 
     FT_Char  bearingX;
     FT_Char  bearingY;
-    FT_Byte  advance;
+    FT_Byte  Advance;
 
   } TT_SBit_SmallMetricsRec, *TT_SBit_SmallMetrics;
 
@@ -1712,7 +1712,7 @@ FT_BEGIN_HEADER
     FT_Short         n_contours;
     FT_BBox          bbox;
     FT_Int           left_bearing;
-    FT_Int           advance;
+    FT_Int           Advance;
     FT_Int           linear;
     FT_Bool          linear_def;
     FT_Vector        pp1;

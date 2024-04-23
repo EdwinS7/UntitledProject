@@ -114,7 +114,7 @@ FT_BEGIN_HEADER
     FT_Library             library;
     const FT_Glyph_Class*  clazz;
     FT_Glyph_Format        format;
-    FT_Vector              advance;
+    FT_Vector              Advance;
 
   } FT_GlyphRec;
 

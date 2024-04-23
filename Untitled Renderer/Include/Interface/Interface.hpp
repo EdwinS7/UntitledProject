@@ -5,7 +5,8 @@
 
 class cInterface {
 public:
-	void Draw( );
+	virtual void Init( );
+	virtual void Draw( );
 
 private:
 	

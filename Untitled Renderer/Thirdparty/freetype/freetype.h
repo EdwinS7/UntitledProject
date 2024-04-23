@@ -2268,7 +2268,7 @@ FT_BEGIN_HEADER
     FT_Glyph_Metrics  metrics;
     FT_Fixed          linearHoriAdvance;
     FT_Fixed          linearVertAdvance;
-    FT_Vector         advance;
+    FT_Vector         Advance;
 
     FT_Glyph_Format   format;
 

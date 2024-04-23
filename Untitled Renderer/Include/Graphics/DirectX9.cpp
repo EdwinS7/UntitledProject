@@ -201,8 +201,8 @@ void cGraphics::Draw( ) {
             )
         );
 
-        gBuffer->String(
-            &gBuffer->Fonts.Default, display_info, Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
+        gBuffer->Text(
+            gBuffer->GetDefaultFont( ), display_info, Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
         );
 
         RenderDrawData( );
@@ -303,7 +303,7 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
 
         font->CharSet[ i ].Size = { width, height };
         font->CharSet[ i ].Bearing = { static_cast< int32_t >( face->glyph->bitmap_left ), static_cast< int32_t >( face->glyph->bitmap_top ) };
-        font->CharSet[ i ].Advance = face->glyph->advance.x;
+        font->CharSet[ i ].Advance = face->glyph->Advance.x;
     }
 
     FT_Done_Face( face );

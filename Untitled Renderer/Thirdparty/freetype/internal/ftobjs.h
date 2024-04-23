@@ -691,7 +691,7 @@ FT_BEGIN_HEADER
   /* If `advance' is zero, it is also synthesized.                  */
   FT_BASE( void )
   ft_synthesize_vertical_metrics( FT_Glyph_Metrics*  metrics,
-                                  FT_Pos             advance );
+                                  FT_Pos             Advance );
 
 
   /* Free the bitmap of a given glyphslot when needed (i.e., only when it */

@@ -569,7 +569,7 @@ FT_BEGIN_HEADER
     FT_Pos*  pos_y;
 
     FT_Vector*  left_bearing;
-    FT_Vector*  advance;
+    FT_Vector*  Advance;
 
     FT_BBox*  bbox;          /* bounding box */
     FT_Bool   path_begun;
@@ -833,7 +833,7 @@ FT_BEGIN_HEADER
     FT_Pos          pos_y;
 
     FT_Vector       left_bearing;
-    FT_Vector       advance;
+    FT_Vector       Advance;
 
     FT_BBox         bbox;          /* bounding box */
     T1_ParseState   parse_state;
@@ -1113,7 +1113,7 @@ FT_BEGIN_HEADER
     FT_Pos  pos_y;
 
     FT_Vector  left_bearing;
-    FT_Vector  advance;
+    FT_Vector  Advance;
 
     FT_BBox  bbox;          /* bounding box */
 

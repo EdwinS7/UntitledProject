@@ -1,59 +1,17 @@
 #include "buffer.hpp"
 
 void cBuffer::Init( ) {
-	gGraphics->CreateFontFromName( &Fonts.Default, "Segoe UI", 16, 400, 4, true );
-	//gGraphics->CreateFontFromName( &Fonts.Interface, "Arial", 9, 100, 4, false );
-	//gGraphics->CreateFontFromName( &Fonts.SmallInterface, "Arial", 8, 100, 4, false );
-
 	PushClip( gWindow->GetClipRect( ) );
 	PushTexture( nullptr );
+
+	gInterface->Init( );
 }
 
 void cBuffer::Release( ) {
-	Fonts.Default.Release( );
-	Fonts.Interface.Release( );
-	Fonts.SmallInterface.Release( );
-
 	m_CommandResources.Textures.clear( );
 	m_CommandResources.Clips.clear( );
 
 	ClearCommands( );
-}
-
-void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< Vertex >* vertices, const std::vector<int32_t>* indices ) {
-	int VerticesCount = vertices->size( ),
-		IndicesCount = indices == nullptr ? ( VerticesCount * 3 ) - 1 : indices->size( );
-
-	std::vector < int32_t > DynamicIndices( IndicesCount );
-
-	if ( indices == nullptr )
-		for ( int32_t i = 0; i < VerticesCount; ++i )
-			DynamicIndices[ i ] = i;
-
-	m_VerticesCount += VerticesCount;
-	m_IndicesCount += IndicesCount;
-
-	m_DrawCommands.push_back( DrawCommand( 
-		primitive, *vertices, indices == nullptr ? DynamicIndices : *indices,
-		m_CommandResources, VerticesCount, indices != nullptr ? indices->size( ) : IndicesCount )
-	);
-}
-
-void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& draw_commands ) {
-	for ( int i = 0; i < draw_commands.size( ); ++i ) {
-		auto& DrawCommand = draw_commands[ i ];
-
-		m_DrawCommand.Vertices.insert( m_DrawCommand.Vertices.end( ),
-				std::make_move_iterator( DrawCommand.Vertices.begin( ) ), std::make_move_iterator( DrawCommand.Vertices.end( ) )
-		);
-		
-		m_DrawCommand.Indices.insert( m_DrawCommand.Indices.end( ),
-			std::make_move_iterator( DrawCommand.Indices.begin( ) ), std::make_move_iterator( DrawCommand.Indices.end( ) )
-		);
-
-		m_DrawCommand.VerticesCount += DrawCommand.VerticesCount;
-		m_DrawCommand.IndicesCount += DrawCommand.IndicesCount;
-	}
 }
 
 void cBuffer::Line( const Vec2< int16_t > from, const Vec2< int16_t > to, const Color color ) {
@@ -273,93 +231,43 @@ void cBuffer::FilledCircle( const Vec2< int16_t > pos, const int16_t radius, con
 	Polygon( points, color );
 }
 
-void cBuffer::String( const Font* font, const std::string& str, const Vec2<int16_t> pos, const Color color ) {
-	if ( !font || str.empty( ) )
+void cBuffer::Text( const Font* font, const std::string& str, const Vec2<int16_t> pos, const Color color ) {
+	if ( !font || str.empty( ) || ( ( ( color.Hex >> 24 ) & 0xFF ) ) < 255 )
 		return;
 
-	Vec2<int16_t> advance = { 0, 0 };
-	int rowHeight = 0;
+	Vec2<int16_t> Advance = { 0, 0 }, TextSize = GetTextSize( font, str );
+	int RowHeight = 0;
 
-	for ( const auto& character : str ) {
-		if ( !std::isprint( character ) && character != '\n' || character == ' ' ) {
-			advance.x += font->CharSet[ character ].Advance / 64;
+	for ( const auto& Char : str ) {
+		if ( !std::isprint( Char ) && Char != '\n' || Char == ' ' ) {
+			Advance.x += font->CharSet[ Char ].Advance / 64;
 			continue;
 		}
 
-		const auto* glyph = &font->CharSet[ character ];
-		rowHeight = max( rowHeight, static_cast< int >( glyph->Size.y ) );
+		const auto* glyph = &font->CharSet[ Char ];
+		RowHeight = max( RowHeight, static_cast< int >( glyph->Size.y ) );
 
-		if ( character == '\n' ) {
-			advance.y += rowHeight + font->Padding;
-			advance.x = 0;
+		if ( Char == '\n' ) {
+			Advance = Vec2<int16_t>( 0, Advance.y + RowHeight + font->Padding );
 			continue;
 		}
 
-		Vec2<float> letterPos = {
-			std::round( static_cast< float >( pos.x ) + advance.x + glyph->Bearing.x ) + 0.5f,
-			std::round( static_cast< float >( pos.y ) + ( GetStringSize( font, str ).y * 0.75f ) + advance.y - glyph->Bearing.y ) + 0.5f
+		Vec2<float> Pos = {
+			std::round( static_cast< float >( pos.x ) + Advance.x + glyph->Bearing.x ) + 0.5f,
+			std::round( static_cast< float >( pos.y ) + ( TextSize.y * 0.75f ) + Advance.y - glyph->Bearing.y ) + 0.5f
 		};
 
-		std::vector<Vertex> vertices = {
-			{letterPos.x, letterPos.y, 0.f, 1.f, color.Hex, 0.f, 0.f},
-			{letterPos.x + glyph->Size.x, letterPos.y, 0.f, 1.f, color.Hex, 1.f, 0.f},
-			{letterPos.x + glyph->Size.x, letterPos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 1.f, 1.f},
-			{letterPos.x, letterPos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 0.f, 1.f}
+		std::vector<Vertex> Vertices = {
+			{Pos.x, Pos.y, 0.f, 1.f, color.Hex, 0.f, 0.f},
+			{Pos.x + glyph->Size.x, Pos.y, 0.f, 1.f, color.Hex, 1.f, 0.f},
+			{Pos.x + glyph->Size.x, Pos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 1.f, 1.f},
+			{Pos.x, Pos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 0.f, 1.f}
 		};
 
 		PushTexture( glyph->Texture );
-		WriteToBuffer( TRIANGLE, &vertices, nullptr );
+		WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 		PopTexture( );
 
-		advance.x += glyph->Advance / 64;
+		Advance.x += glyph->Advance / 64;
 	}
-}
-
-Vec2<int16_t> cBuffer::GetStringSize( const Font* font, const std::string& string ) {
-	if ( !font || string.empty( ) )
-		return Vec2<int16_t>( );
-
-	Vec2<int16_t> Size{ 0, static_cast< int16_t >( font->Size * 1.5f ) };
-
-	for ( char Letter : string )
-		Size.x += font->CharSet.at( Letter ).Advance / 64;
-
-	return Size;
-}
-
-void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, const int16_t radius, const int16_t completion, const int16_t rotation, const int16_t segments ) {
-	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
-	double Conversion = completion * 0.01;
-
-	int16_t SegmentCount = m_DynamicArcSegments ? segments > radius ? radius : max( segments, 8 ) : segments;
-	if ( SegmentCount )
-
-	Points->reserve( SegmentCount + 1 );
-
-	auto GetPoint = [ & ] ( int16_t i ) {
-		double Theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( SegmentCount );
-		return Vec2<double>( static_cast< double >( position->x ) + radius * cos( Theta ), static_cast< double >( position->y ) + radius * sin( Theta ) );
-	};
-
-	for ( int i = 0; i < SegmentCount; i++ ) {
-		Vec2<double> point = GetPoint( i );
-
-		Points->push_back( Vec2<int16_t>( std::round( point.x ), std::round( point.y ) ) );
-	}
-}
-
-void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3 ) {
-	for ( int i = 0; i < m_BezierQuadraticSegments; i++ ) {
-		int CompletionFactor = static_cast< double >( i ) / static_cast< double >( m_BezierQuadraticSegments );
-		
-		points->push_back( {
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( point1.x, point3.x, CompletionFactor ), std::lerp( point3.x, point2.x, CompletionFactor ), CompletionFactor ) ) ),
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( point1.y, point3.y, CompletionFactor ), std::lerp( point3.y, point2.y, CompletionFactor ), CompletionFactor ) ) )
-		} );
-	}
-}
-
-void cBuffer::MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color ) {
-	for ( const Vec2<int16_t>& point : *points )
-		vertices->push_back( Vertex( point.x, point.y, 0.f, 1.f, color->Hex ) );
 }

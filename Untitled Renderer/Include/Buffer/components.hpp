@@ -29,14 +29,18 @@ public:
 	constexpr Vec2 operator*( const Vec2& v ) const noexcept { return { static_cast< T >( x * v.x ), static_cast< T >( y * v.y ) }; }
 	constexpr Vec2 operator/( const Vec2& v ) const noexcept { return { static_cast< T >( x / v.x ), static_cast< T >( y / v.y ) }; }
 
+	constexpr Vec2& operator*=( const Vec2& v ) noexcept { x *= v.x; y *= v.y; return *this; }
+	constexpr Vec2& operator+=( const Vec2& v ) noexcept { x += v.x; y += v.y; return *this; }
+	constexpr Vec2& operator-=( const Vec2& v ) noexcept { x -= v.x; y -= v.y; return *this; }
+	constexpr Vec2& operator/=( const Vec2& v ) noexcept { x /= v.x; y /= v.y; return *this; }
+
 	constexpr bool operator>( const Vec2& v ) const noexcept { return x > v.x && y > v.y; }
-	constexpr bool operator>=( const Vec2& v ) const noexcept { return x >= v.x && y >= v.y; }
 	constexpr bool operator<( const Vec2& v ) const noexcept { return x < v.x && y < v.y; }
+
+	constexpr bool operator>=( const Vec2& v ) const noexcept { return x >= v.x && y >= v.y; }
 	constexpr bool operator<=( const Vec2& v ) const noexcept { return x <= v.x && y <= v.y; }
 
 	constexpr bool operator==( const Vec2& v ) const noexcept { return x == v.x && y == v.y; }
-
-	constexpr Vec2& operator*=( const T& val ) noexcept { x *= val; y *= val; return *this; }
 
 	constexpr void Lerp( const Vec2& v, const float& t ) noexcept {
 		x += static_cast< T >( ( v.x - x ) * t );
@@ -173,7 +177,7 @@ public:
 
 	constexpr Color( ) noexcept = default;
 	constexpr Color( uint8_t r, uint8_t g, uint8_t b, uint8_t a ) noexcept
-		: Hex( CreateHexFromRGBA( r, g, b, a ) ) {}
+		: Hex( CreateHexFromRGBA( r, g, b, a ) ) { }
 };
 
 struct Glyph {
