@@ -14,8 +14,8 @@ public:
 	inline std::chrono::steady_clock::time_point getTimePoint( );
 
 private:
-	int m_Fps, m_FrameCount;
-	float m_RealTime, m_DeltaTime, m_WhenToUpdate;
+	int m_Fps{ 0 }, m_FrameCount{ 0 };
+	float m_RealTime{ 0 }, m_DeltaTime{ 0 }, m_WhenToUpdate{ 0 };
 
 	std::chrono::steady_clock::time_point m_TimePoint, m_FrameTime;
 };

@@ -236,10 +236,10 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
             continue;
         }
 
-        int32_t width = Face->glyph->bitmap.width ? Face->glyph->bitmap.width : 16;
-        int32_t height = Face->glyph->bitmap.rows ? Face->glyph->bitmap.rows : 16;
+        int width = Face->glyph->bitmap.width ? Face->glyph->bitmap.width : 16;
+        int height = Face->glyph->bitmap.rows ? Face->glyph->bitmap.rows : 16;
 
-        if ( gGraphics->GetDevice( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
+        if ( gGraphics->GetDevice( )->CreateTexture( static_cast< UINT >( width ), static_cast< UINT >( height ), 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
             throw std::runtime_error( "[cGraphics::CreateFontFromName] CreateTexture Failed?" );
             continue;
         }
@@ -253,11 +253,11 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
         if ( source && destination ) {
             switch ( Face->glyph->bitmap.pixel_mode ) {
             case FT_PIXEL_MODE_MONO:
-                for ( int32_t y = 0; y < height; ++y, source += Face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
+                for ( size_t y = 0; y < height; ++y, source += Face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
                     int8_t bits = 0;
                     const uint8_t* bitsPtr = source;
 
-                    for ( int32_t x = 0; x < width; ++x, bits <<= 1 ) {
+                    for ( size_t x = 0; x < width; ++x, bits <<= 1 ) {
                         if ( ( x & 7 ) == 0 )
                             bits = *bitsPtr++;
 
@@ -267,7 +267,7 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
                 break;
 
             case FT_PIXEL_MODE_GRAY:
-                for ( int32_t j = 0; j < height; ++j ) {
+                for ( size_t j = 0; j < height; ++j ) {
                     memcpy( destination, source, width );
 
                     source += Face->glyph->bitmap.pitch;

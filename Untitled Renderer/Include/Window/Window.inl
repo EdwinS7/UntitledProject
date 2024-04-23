@@ -1,31 +1,34 @@
 #include "Window.hpp"
 
-inline Vec2< int16_t > cWin32::GetPos( ) {
-	RECT rect{ };
+inline Vec2<int16_t> cWin32::GetPos( ) {
+	RECT Rect{ };
 
-	if ( GetWindowRect( m_Hwnd, &rect ) )
-		return Vec2< int16_t >( rect.left, rect.top );
+	if ( GetWindowRect( m_Hwnd, &Rect ) )
+		return Vec2<int16_t>( static_cast< int16_t >( Rect.left ), static_cast< int16_t >( Rect.top ) );
 
-	return Vec2< int16_t >( );
+	return Vec2<int16_t>( );
 }
 
-inline Vec2< int16_t > cWin32::GetSize( ) {
-	RECT rect{ };
+inline Vec2<int16_t> cWin32::GetSize( ) {
+    RECT Rect{};
 
-	if ( GetClientRect( m_Hwnd, &rect ) )
-		return Vec2< int16_t >( rect.right - rect.left, rect.bottom - rect.top );
+    if ( GetClientRect( m_Hwnd, &Rect ) )
+        return Vec2<int16_t>( static_cast< int16_t >( Rect.right - Rect.left ), static_cast< int16_t >( Rect.bottom - Rect.top ) );
 
-	return Vec2< int16_t >( );
+    return Vec2<int16_t>( );
 }
 
 inline Rect<int16_t> cWin32::GetRect( ) {
-	return Rect<int16_t>( GetPos().x, GetPos().y, GetPos( ).x + GetSize( ).x, GetPos( ).y + GetSize( ).y );
+    Vec2<int16_t> pos = GetPos( );
+    Vec2<int16_t> size = GetSize( );
+    return Rect<int16_t>( pos.x, pos.y, static_cast< int16_t >( pos.x + size.x ), static_cast< int16_t >( pos.y + size.y ) );
 }
 
 inline Rect<int16_t> cWin32::GetClipRect( ) {
-	return Rect<int16_t>( 0, 0, GetSize( ).x, GetSize( ).y );
+    Vec2<int16_t> Size = GetSize( );
+    return Rect<int16_t>( 0, 0, Size.x, Size.y );
 }
 
 inline HWND cWin32::GetHwnd( ) {
-	return m_Hwnd;
+    return m_Hwnd;
 }

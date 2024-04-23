@@ -24,13 +24,13 @@ public:
 	inline bool AnyKeyPressed( );
 
 private:
-	bool m_AnyKeyPressed;
+	bool m_AnyKeyPressed{};
 	Vec2<int16_t> m_MousePos;
 
 	std::pair<bool, bool> m_PreviousKeyStates[ 255 ];
 	std::pair<bool, bool> m_KeyStates[ 255 ];
 
-	LPSTR m_CursorStyle;
+	LPSTR m_CursorStyle{};
 };
 
 inline const auto gInput = std::make_unique<cInput>( );

@@ -53,7 +53,7 @@ public:
     Font* GetDefaultFont( );
 
 private:
-    int m_VerticesCount, m_IndicesCount;
+    int m_VerticesCount{ 0 }, m_IndicesCount{ 0 };
 
     int m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
     int m_BezierCubicSegments{ 128 }, m_BezierQuadraticSegments{ 128 };

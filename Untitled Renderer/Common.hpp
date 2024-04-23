@@ -27,7 +27,6 @@
 #include "Definitions.hpp"
 #include "Include/Graphics/DirectX9.hpp"
 
-// includes
 #include "Include/Buffer/Buffer.hpp"
 #include "Include/Buffer/Components.hpp"
 

@@ -158,9 +158,9 @@ public:
 
 class Vertex {
 public:
-	float x, y, z, rhw;
-	uint32_t Color;
-	float u, v;
+	float x{ 0 }, y{ 0 }, z{ 0 }, rhw{ 0 };
+	uint32_t Color{ };
+	float u{ 0 }, v{ 0 };
 
 	constexpr Vertex( ) noexcept = default;
 	constexpr Vertex( float x, float y, float z, float rhw, uint32_t Color, float u = 0.f, float v = 0.f ) noexcept
@@ -172,7 +172,7 @@ public:
 
 class Color {
 public:
-	DWORD Hex;
+	DWORD Hex{};
 
 	constexpr Color( ) noexcept = default;
 	constexpr Color( uint8_t r, uint8_t g, uint8_t b, uint8_t a ) noexcept
@@ -181,14 +181,14 @@ public:
 
 struct Glyph {
 	Vec2<int32_t> Size, Bearing;
-	LPDIRECT3DTEXTURE9 Texture;
-	int32_t Advance;
+	LPDIRECT3DTEXTURE9 Texture{};
+	int32_t Advance{};
 };
 
 class Font {
 public:
 	std::string Path;
-	int16_t Padding, Size;
+	int16_t Padding{ 0 }, Size{ 0 };
 
 	std::vector<Glyph> CharSet{ 256 };
 
@@ -210,11 +210,11 @@ public:
 
 class DrawCommand {
 public:
-	int8_t Primitive;
+	int8_t Primitive{ 0 };
 	CommandResources Resources;
 	std::vector<Vertex> Vertices;
 	std::vector<std::int32_t> Indices;
-	int VerticesCount, IndicesCount;
+	int VerticesCount{ 0 }, IndicesCount{ 0 };
 
 	constexpr DrawCommand( ) noexcept = default;
 	constexpr DrawCommand( int8_t Primitive, std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, CommandResources Resources, int VerticesCount, int IndicesCount ) noexcept
@@ -225,7 +225,7 @@ class CompiledDrawCommand {
 public:
 	std::vector<Vertex> Vertices;
 	std::vector<std::int32_t> Indices;
-	int VerticesCount, IndicesCount;
+	int VerticesCount{ 0 }, IndicesCount{ 0 };
 
 	constexpr CompiledDrawCommand( ) noexcept = default;
 	constexpr CompiledDrawCommand( std::vector<Vertex> Vertices, std::vector<std::int32_t> Indices, int VerticesCount, int IndicesCount ) noexcept

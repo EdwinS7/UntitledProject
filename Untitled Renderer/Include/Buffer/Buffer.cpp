@@ -43,7 +43,7 @@ void cBuffer::Polygon( const std::vector<Vec2<int16_t>> points, const Color colo
 	std::vector<int32_t> Indices;
 	Indices.reserve( Vertices.size( ) * 3 );
 
-	for ( int32_t i = 1; i < ( Vertices.size( ) - 2 ) * 3; i++ ) {
+	for ( size_t i = 1; i < ( Vertices.size( ) - 2 ) * 3; i++ ) {
 		Indices.push_back( 0 );
 		Indices.push_back( i );
 		Indices.push_back( i + 1 );

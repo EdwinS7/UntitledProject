@@ -7,7 +7,7 @@ inline void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< V
 	std::vector < int32_t > DynamicIndices( IndicesCount );
 
 	if ( indices == nullptr )
-		for ( int32_t i = 0; i < VerticesCount; ++i )
+		for ( size_t i = 0; i < VerticesCount; ++i ) 
 			DynamicIndices[ i ] = i;
 
 	m_VerticesCount += VerticesCount;
@@ -20,7 +20,7 @@ inline void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< V
 }
 
 inline void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& draw_commands ) {
-	for ( int i = 0; i < draw_commands.size( ); ++i ) {
+	for ( size_t i = 0; i < draw_commands.size( ); ++i ) {
 		auto& DrawCommand = draw_commands[ i ];
 
 		m_DrawCommand.Vertices.insert( m_DrawCommand.Vertices.end( ),
@@ -60,7 +60,7 @@ inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, cons
 		return Vec2<double>( static_cast< double >( position->x ) + radius * cos( Theta ), static_cast< double >( position->y ) + radius * sin( Theta ) );
 	};
 
-	for ( int i = 0; i < SegmentCount; i++ ) {
+	for ( size_t i = 0; i < SegmentCount; i++ ) {
 		Vec2<double> point = GetPoint( i );
 
 		Points->push_back( Vec2<int16_t>( std::round( point.x ), std::round( point.y ) ) );
@@ -68,7 +68,7 @@ inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, cons
 }
 
 inline void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3 ) {
-	for ( int i = 0; i < m_BezierQuadraticSegments; i++ ) {
+	for ( size_t i = 0; i < m_BezierQuadraticSegments; i++ ) {
 		int CompletionFactor = static_cast< double >( i ) / static_cast< double >( m_BezierQuadraticSegments );
 
 		points->push_back( {

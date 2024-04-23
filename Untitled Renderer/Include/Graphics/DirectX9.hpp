@@ -28,19 +28,19 @@ public:
 	inline IDirect3DDevice9* GetDevice( );
 
 private:
-	IDirect3D9* m_Direct3D;
-	IDirect3DDevice9* m_Device;
-	D3DPRESENT_PARAMETERS m_Parameters;
+	IDirect3D9* m_Direct3D{};
+	IDirect3DDevice9* m_Device{};
+	D3DPRESENT_PARAMETERS m_Parameters{};
 
 	int	m_VertexBufferSize{ 5000 },
 		m_IndexBufferSize{ 10000 };
 
-	IDirect3DVertexBuffer9* m_VertexBuffer;
-	IDirect3DIndexBuffer9* m_IndexBuffer;
+	IDirect3DVertexBuffer9* m_VertexBuffer{};
+	IDirect3DIndexBuffer9* m_IndexBuffer{};
 
 	Color m_ClearColor{ 20, 20, 20, 255 };
 
-	HWND m_Hwnd;
+	HWND m_Hwnd{};
 
 	template <typename type>
 	void SafeRelease( type*& obj );
