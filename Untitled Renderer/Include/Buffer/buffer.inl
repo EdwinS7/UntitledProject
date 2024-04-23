@@ -7,7 +7,7 @@ inline void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< V
 	std::vector < int32_t > DynamicIndices( IndicesCount );
 
 	if ( indices == nullptr )
-		for ( size_t i = 0; i < VerticesCount; ++i ) 
+		for ( size_t i = 0; i < VerticesCount; ++i )
 			DynamicIndices[ i ] = i;
 
 	m_VerticesCount += VerticesCount;
@@ -24,7 +24,7 @@ inline void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& draw_com
 		auto& DrawCommand = draw_commands[ i ];
 
 		m_DrawCommand.Vertices.insert( m_DrawCommand.Vertices.end( ),
-				std::make_move_iterator( DrawCommand.Vertices.begin( ) ), std::make_move_iterator( DrawCommand.Vertices.end( ) )
+			std::make_move_iterator( DrawCommand.Vertices.begin( ) ), std::make_move_iterator( DrawCommand.Vertices.end( ) )
 		);
 
 		m_DrawCommand.Indices.insert( m_DrawCommand.Indices.end( ),
@@ -60,7 +60,7 @@ inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, cons
 		return Vec2<double>( static_cast< double >( position->x ) + radius * cos( Theta ), static_cast< double >( position->y ) + radius * sin( Theta ) );
 	};
 
-	for ( size_t i = 0; i < SegmentCount; i++ ) {
+	for ( size_t i = 0; i <= SegmentCount; i++ ) {
 		Vec2<double> point = GetPoint( i );
 
 		Points->push_back( Vec2<int16_t>( std::round( point.x ), std::round( point.y ) ) );

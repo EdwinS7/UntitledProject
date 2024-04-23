@@ -3,8 +3,8 @@
 inline LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 	switch ( msg ) {
 	case WM_SIZE:
-		if ( gGraphics->Valid( ) && wParam != SIZE_MINIMIZED )
-			gGraphics->Reset( lParam );
+		if ( gGraphics->IsDeviceValid( ) && wParam != SIZE_MINIMIZED )
+			gGraphics->ResetDevice( lParam );
 
 		return 0;
 	case WM_MOUSEMOVE:

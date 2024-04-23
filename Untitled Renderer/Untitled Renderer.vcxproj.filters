@@ -36,6 +36,9 @@
     <ClCompile Include="Include\Interface\Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Include\Graphics\DirectX11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Window\Window.hpp">
@@ -368,6 +371,9 @@
     <ClInclude Include="Include\Interface\Interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Graphics\DirectX11.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Buffer\Buffer.inl">
@@ -386,6 +392,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Interface\Interface.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Graphics\DirectX11.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

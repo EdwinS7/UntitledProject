@@ -58,7 +58,7 @@ private:
     int m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
     int m_BezierCubicSegments{ 128 }, m_BezierQuadraticSegments{ 128 };
 
-    bool m_DynamicArcSegments{ true };
+    bool m_DynamicArcSegments{ false };
 
 	std::vector < DrawCommand > m_DrawCommands;
     CommandResources m_CommandResources;

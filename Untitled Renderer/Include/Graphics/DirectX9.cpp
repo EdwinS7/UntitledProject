@@ -21,7 +21,7 @@ bool cGraphics::Init( ) {
     return true;
 }
 
-void cGraphics::Reset( LPARAM lparam ) {
+void cGraphics::ResetDevice( LPARAM lparam ) {
     gBuffer->Release( );
 
     SafeRelease( m_VertexBuffer );
@@ -44,12 +44,8 @@ void cGraphics::Release( ) {
     SafeRelease( m_Device );
 }
 
-bool cGraphics::Valid( ) {
-    return m_Device != nullptr;
-}
-
 void cGraphics::Draw( ) {
-    if ( !Valid( ) )
+    if ( !IsDeviceValid( ) )
         return;
 
     m_Device->Clear( 0, nullptr, D3DCLEAR_TARGET, m_ClearColor.Hex, 1.f, 0 );
@@ -57,7 +53,6 @@ void cGraphics::Draw( ) {
     if ( m_Device->BeginScene( ) >= 0 ) {
         auto InfoString = std::vformat(
             "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES",
-
             std::make_format_args(
                 gContext->GetFrameRate( ),
                 gBuffer->GetCommandsCount( ),
@@ -66,12 +61,7 @@ void cGraphics::Draw( ) {
             )
         );
 
-        if ( !gInput->IsActive( ) )
-            InfoString.append( "\nNO INPUT" );
-
-        gBuffer->Text(
-            gBuffer->GetDefaultFont( ), InfoString, Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
-        );
+        gBuffer->Text( gBuffer->GetDefaultFont(), InfoString, Vec2<int16_t>(5, 5), Color(160, 217, 255, 255) );
 
         RenderDrawData( );
         m_Device->EndScene( );
@@ -80,7 +70,7 @@ void cGraphics::Draw( ) {
     m_Device->Present( nullptr, nullptr, nullptr, nullptr );
 }
 
-void cGraphics::UpdatePresentParamaters( LPARAM lparam ) {
+inline void cGraphics::UpdatePresentParamaters( LPARAM lparam ) {
     m_Parameters.Windowed = TRUE;
     m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
     m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
@@ -95,7 +85,7 @@ void cGraphics::UpdatePresentParamaters( LPARAM lparam ) {
     m_Parameters.MultiSampleQuality = 0;
 }
 
-void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
+inline void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
     device->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
     device->SetRenderState( D3DRS_SHADEMODE, D3DSHADE_GOURAUD );
     device->SetRenderState( D3DRS_ZWRITEENABLE, FALSE );
@@ -140,7 +130,7 @@ void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
     device->SetFVF( VERTEX );
 }
 
-void cGraphics::RenderDrawData( ) {
+inline void cGraphics::RenderDrawData( ) {
     auto DrawCommands = gBuffer->GetDrawCommands( );
     gBuffer->BuildDrawCommands( gBuffer->GetDrawCommands() );
     auto DrawCommand = gBuffer->GetDrawCommand( );
@@ -206,6 +196,10 @@ void cGraphics::RenderDrawData( ) {
     }
 
     gBuffer->ClearCommands( );
+}
+
+inline bool cGraphics::IsDeviceValid( ) {
+    return m_Device != nullptr;
 }
 
 void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t size, int16_t weight, int16_t padding, bool antialiasing ) {

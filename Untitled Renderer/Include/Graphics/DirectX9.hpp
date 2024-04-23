@@ -6,18 +6,21 @@
 
 #define VERTEX ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
 
+#define TRIANGLE D3DPT_TRIANGLESTRIP
+#define LINE D3DPT_LINESTRIP
+
 class cGraphics {
 public:
 	bool Init( );
-	void Reset( LPARAM lparam );
+	void ResetDevice( LPARAM lparam );
 	void Release( );
-	bool Valid( );
 	void Draw( );
 
-	void UpdateRenderStates( IDirect3DDevice9* device );
-	void UpdatePresentParamaters( LPARAM lparam );
+	inline void UpdateRenderStates( IDirect3DDevice9* device );
+	inline void UpdatePresentParamaters( LPARAM lparam );
 
-	void RenderDrawData( );
+	inline void RenderDrawData( );
+	inline bool IsDeviceValid( );
 	
 	void CreateFontFromName( Font* font, const char* font_name, const int16_t size, const int16_t weight, const int16_t padding, const bool antialiasing );
 
@@ -38,9 +41,7 @@ private:
 	IDirect3DVertexBuffer9* m_VertexBuffer{};
 	IDirect3DIndexBuffer9* m_IndexBuffer{};
 
-	Color m_ClearColor{ 20, 20, 20, 255 };
-
-	HWND m_Hwnd{};
+	Color m_ClearColor{ 0, 0, 0, 255 };
 
 	template <typename type>
 	void SafeRelease( type*& obj );

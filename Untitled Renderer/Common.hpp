@@ -1,12 +1,5 @@
-#include <functional>
-#include <algorithm>
-#include <windows.h>
-#include <Uxtheme.h>
-#include <dwmapi.h>
 #include <shlobj.h>
-#include <cassert>
 #include <thread>
-#include <chrono>
 #include <vector>
 #include <format>
 
@@ -18,11 +11,6 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
-
-#define TRIANGLE D3DPT_TRIANGLESTRIP
-#define LINE D3DPT_LINESTRIP
 
 #include "Definitions.hpp"
 #include "Include/Graphics/DirectX9.hpp"
