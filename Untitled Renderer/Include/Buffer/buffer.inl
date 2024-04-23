@@ -1,4 +1,4 @@
-#include "buffer.hpp"
+#include "Buffer.hpp"
 
 inline void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< Vertex >* vertices, const std::vector<int32_t>* indices ) {
 	int VerticesCount = vertices->size( ),
@@ -116,19 +116,19 @@ inline int cBuffer::GetIndicesCount( ) {
 }
 
 inline void cBuffer::PushClip( Rect<int16_t> Rect ) {
-	m_CommandResources.Clips.push_back( RECT( Rect.x, Rect.y, Rect.w, Rect.h ) );
+	m_CommandResources.ClipStack.push_back( RECT( Rect.x, Rect.y, Rect.w, Rect.h ) );
 }
 
 inline void cBuffer::PopClip( ) {
-	m_CommandResources.Clips.pop_back( );
+	m_CommandResources.ClipStack.pop_back( );
 }
 
 inline void cBuffer::PushTexture( IDirect3DTexture9* Texture ) {
-	m_CommandResources.Textures.push_back( Texture );
+	m_CommandResources.TextureStack.push_back( Texture );
 }
 
 inline void cBuffer::PopTexture( ) {
-	m_CommandResources.Textures.pop_back( );
+	m_CommandResources.TextureStack.pop_back( );
 }
 
 inline Font* cBuffer::GetDefaultFont( ) {

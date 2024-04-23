@@ -1,7 +1,8 @@
 #include "Common.hpp"
 
 int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int show_cmd ) {
-    gGraphics->Init( gWindow->InitWindow( "Untitled Renderer" ) );
+    gWindow->InitWindow( "Untitled Renderer" );
+    gGraphics->Init( );
     gBuffer->Init( );
 
     while ( gWindow->DispatchMessages( ) ) {

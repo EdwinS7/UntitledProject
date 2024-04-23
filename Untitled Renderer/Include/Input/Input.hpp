@@ -1,11 +1,14 @@
 #pragma once
+#ifndef INPUT_H
+#define INPUT_H
 
-#include "../../common.hpp"
+#include "../../Common.hpp"
 #include "KeyDefinitions.hpp"
 
 class cInput {
 public:
 	void PoolInput( );
+	bool IsActive( );
 
 	inline Vec2<int16_t> GetMousePos( );
 	void SetMousePos( Vec2<int16_t> position );
@@ -33,3 +36,4 @@ private:
 inline const auto gInput = std::make_unique<cInput>( );
 
 #include "Input.inl"
+#endif

@@ -1,7 +1,8 @@
 #pragma once
+#ifndef CONTEXT_H
+#define CONTEXT_H
 
-// includes
-#include "../../common.hpp"
+#include "../../Common.hpp"
 
 class cContext {
 public:
@@ -13,16 +14,13 @@ public:
 	inline std::chrono::steady_clock::time_point getTimePoint( );
 
 private:
-	int m_Fps;
-	int m_FrameCount;
-	float m_RealTime;
-	float m_DeltaTime;
-	float m_WhenToUpdate;
+	int m_Fps, m_FrameCount;
+	float m_RealTime, m_DeltaTime, m_WhenToUpdate;
 
-	std::chrono::steady_clock::time_point m_TimePoint;
-	std::chrono::steady_clock::time_point m_FrameTime;
+	std::chrono::steady_clock::time_point m_TimePoint, m_FrameTime;
 };
 
 inline const auto gContext = std::make_unique<cContext>( );
 
-#include "context.inl"
+#include "Context.inl"
+#endif

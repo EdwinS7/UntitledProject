@@ -1,6 +1,8 @@
-#include "buffer.hpp"
+#include "Buffer.hpp"
 
 void cBuffer::Init( ) {
+	gGraphics->CreateFontFromName( gBuffer->GetDefaultFont( ), "Segoe UI", 16, 400, 4, true );
+
 	PushClip( gWindow->GetClipRect( ) );
 	PushTexture( nullptr );
 
@@ -8,8 +10,8 @@ void cBuffer::Init( ) {
 }
 
 void cBuffer::Release( ) {
-	m_CommandResources.Textures.clear( );
-	m_CommandResources.Clips.clear( );
+	m_CommandResources.TextureStack.clear( );
+	m_CommandResources.ClipStack.clear( );
 
 	ClearCommands( );
 }

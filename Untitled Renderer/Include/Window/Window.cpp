@@ -1,6 +1,6 @@
 #include "Window.hpp"
 
-LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
+inline LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 	switch ( msg ) {
 	case WM_SIZE:
 		if ( gGraphics->Valid( ) && wParam != SIZE_MINIMIZED )
@@ -21,24 +21,12 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 
-void cWin32::SetWindowTitle(const char* title) {
-	SetWindowTextA( m_Hwnd, title );
-}
-
-HWND cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
+void cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
 	m_WindowClass = {
-		sizeof( m_WindowClass ),
-		CS_CLASSDC,
-		WndProc,
-		0L,
-		0L,
-		GetModuleHandle( NULL ),
-		NULL,
-		NULL,
-		NULL,
-		NULL,
-		title,
-		NULL
+		sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
+		0L, 0L, GetModuleHandle( NULL ),
+		NULL, NULL, NULL,
+		NULL, title, NULL
 	};
 
 	RegisterClassEx( &m_WindowClass );
@@ -47,13 +35,14 @@ HWND cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
 	const HWND Desktop = GetDesktopWindow( );
 	GetWindowRect( Desktop, &DesktopResolution );
 
-	m_Hwnd = CreateWindow( m_WindowClass.lpszClassName, title,
-		WS_OVERLAPPEDWINDOW, ( DesktopResolution.right / 2 ) - ( size.x / 2 ), ( DesktopResolution.bottom / 2 ) - ( size.y / 2 ), size.x, size.y, NULL, NULL, m_WindowClass.hInstance, NULL );
+	m_Hwnd = CreateWindow( 
+		m_WindowClass.lpszClassName, title, WS_OVERLAPPEDWINDOW, 
+		DesktopResolution.right / 2 - size.x / 2, DesktopResolution.bottom / 2 - size.y / 2,
+		size.x, size.y, NULL, NULL, m_WindowClass.hInstance, NULL
+	);
 
 	ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
 	UpdateWindow( m_Hwnd );
-
-	return m_Hwnd;
 }
 
 void cWin32::ExitWindow( ) {

@@ -18,12 +18,12 @@ inline Vec2< int16_t > cWin32::GetSize( ) {
 	return Vec2< int16_t >( );
 }
 
-inline Rect<int16_t> cWin32::GetClipRect( ) {
-	return Rect<int16_t>( 0, 0, GetSize( ).x, GetSize( ).y );
-}
-
 inline Rect<int16_t> cWin32::GetRect( ) {
 	return Rect<int16_t>( GetPos().x, GetPos().y, GetPos( ).x + GetSize( ).x, GetPos( ).y + GetSize( ).y );
+}
+
+inline Rect<int16_t> cWin32::GetClipRect( ) {
+	return Rect<int16_t>( 0, 0, GetSize( ).x, GetSize( ).y );
 }
 
 inline HWND cWin32::GetHwnd( ) {

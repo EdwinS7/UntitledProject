@@ -1,4 +1,4 @@
-#include "input.hpp"
+#include "Input.hpp"
 
 void cInput::PoolInput( ) {
 	m_CursorStyle = IDC_ARROW;
@@ -12,6 +12,10 @@ void cInput::PoolInput( ) {
 		m_KeyStates[ i ] = std::make_pair( IsPressed, IsPressed != m_PreviousKeyStates[ i ].first );
 		m_PreviousKeyStates[ i ] = m_KeyStates[ i ];
     }
+}
+
+bool cInput::IsActive( ) {
+	return GetFocus( ) == gWindow->GetHwnd( );
 }
 
 void cInput::SetMousePos( Vec2<int16_t> position ) {

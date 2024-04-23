@@ -1,5 +1,15 @@
 #include "DirectX9.hpp"
 
+inline void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* Texture, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size ) {
+	if ( D3DXCreateTextureFromFileInMemoryEx( m_Device, Bytes->data( ), Bytes->size( ), Size.x, Size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &Texture ) != D3D_OK )
+		MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Texture From Bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ), 0 );
+}
+
+inline void cGraphics::CreateTextureFromFile( IDirect3DTexture9** Texture, const char* FileName ) {
+	if ( D3DXCreateTextureFromFile( m_Device, FileName, Texture ) != D3D_OK )
+		MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Texture ({})", std::make_format_args( FileName ) ).c_str( ), 0 );
+}
+
 inline std::string cGraphics::GetFontPath( const char* FontName ) {
 	HKEY key;
 
@@ -32,4 +42,12 @@ inline std::string cGraphics::GetFontPath( const char* FontName ) {
 
 inline IDirect3DDevice9* cGraphics::GetDevice( ) {
     return m_Device;
+}
+
+template <typename type>
+inline void cGraphics::SafeRelease( type*& obj ) {
+	if ( obj ) {
+		obj->Release( );
+		obj = nullptr;
+	}
 }

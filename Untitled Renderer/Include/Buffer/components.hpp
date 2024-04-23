@@ -1,5 +1,4 @@
 #pragma once
-#include "buffer.hpp"
 
 enum CornerFlags {
 	CornerNone = 0 << 0,
@@ -205,8 +204,8 @@ public:
 
 class CommandResources {
 public:
-	std::vector<IDirect3DTexture9*> Textures;
-	std::vector<RECT> Clips;
+	std::vector<IDirect3DTexture9*> TextureStack;
+	std::vector<RECT> ClipStack;
 };
 
 class DrawCommand {

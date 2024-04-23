@@ -1,22 +1,19 @@
 #include "DirectX9.hpp"
 
-bool cGraphics::Init( HWND hwnd, const bool init ) {
-    if ( init ) {
-        m_Hwnd = hwnd;
-        m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
+bool cGraphics::Init( ) {
+    m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
 
-        m_Parameters.Windowed = TRUE;
-        m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
-        m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
-        m_Parameters.EnableAutoDepthStencil = TRUE;
-        m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
-        m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+    m_Parameters.Windowed = TRUE;
+    m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
+    m_Parameters.EnableAutoDepthStencil = TRUE;
+    m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
+    m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
-        m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
-        m_Parameters.MultiSampleQuality = 0;
-    }
+    m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
+    m_Parameters.MultiSampleQuality = 0;
 
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_Hwnd, D3DCREATE_MIXED_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHwnd( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
         throw std::runtime_error( "[cGraphics::Init] CreateDevice Failed?" );
 
     UpdateRenderStates( m_Device );
@@ -24,17 +21,18 @@ bool cGraphics::Init( HWND hwnd, const bool init ) {
     return true;
 }
 
-void cGraphics::Reset( const LPARAM lParam ) {
+void cGraphics::Reset( LPARAM lparam ) {
     gBuffer->Release( );
-
-    m_Parameters.BackBufferWidth = LOWORD( lParam );
-    m_Parameters.BackBufferHeight = HIWORD( lParam );
 
     SafeRelease( m_VertexBuffer );
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Device );
 
-    Init( m_Hwnd, false );
+    UpdatePresentParamaters( lparam );
+    UpdateRenderStates( m_Device );
+
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHwnd( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
+        throw std::runtime_error( "[cGraphics::Reset] CreateDevice Failed?" );
 
     gBuffer->Init( );
 }
@@ -50,7 +48,52 @@ bool cGraphics::Valid( ) {
     return m_Device != nullptr;
 }
 
-#define VERTEX ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
+void cGraphics::Draw( ) {
+    if ( !Valid( ) )
+        return;
+
+    m_Device->Clear( 0, nullptr, D3DCLEAR_TARGET, m_ClearColor.Hex, 1.f, 0 );
+
+    if ( m_Device->BeginScene( ) >= 0 ) {
+        auto InfoString = std::vformat(
+            "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES",
+
+            std::make_format_args(
+                gContext->GetFrameRate( ),
+                gBuffer->GetCommandsCount( ),
+                gBuffer->GetVerticesCount( ),
+                gBuffer->GetIndicesCount( )
+            )
+        );
+
+        if ( !gInput->IsActive( ) )
+            InfoString.append( "\nNO INPUT" );
+
+        gBuffer->Text(
+            gBuffer->GetDefaultFont( ), InfoString, Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
+        );
+
+        RenderDrawData( );
+        m_Device->EndScene( );
+    }
+
+    m_Device->Present( nullptr, nullptr, nullptr, nullptr );
+}
+
+void cGraphics::UpdatePresentParamaters( LPARAM lparam ) {
+    m_Parameters.Windowed = TRUE;
+    m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
+    m_Parameters.EnableAutoDepthStencil = TRUE;
+    m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
+    m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
+    m_Parameters.BackBufferWidth = LOWORD( lparam );
+    m_Parameters.BackBufferHeight = HIWORD( lparam );
+
+    m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
+    m_Parameters.MultiSampleQuality = 0;
+}
 
 void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
     device->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
@@ -153,8 +196,8 @@ void cGraphics::RenderDrawData( ) {
         StartIndex = 0;
 
     for ( const auto& Command : DrawCommands ) {
-        m_Device->SetScissorRect( &Command.Resources.Clips.back( ) );
-        m_Device->SetTexture( 0, Command.Resources.Textures.back( ) );
+        m_Device->SetScissorRect( &Command.Resources.ClipStack.back( ) );
+        m_Device->SetTexture( 0, Command.Resources.TextureStack.back( ) );
 
         m_Device->DrawIndexedPrimitive( D3DPRIMITIVETYPE( Command.Primitive), StartVertex, 0, Command.VerticesCount, StartIndex, Command.IndicesCount / 3 );
 
@@ -165,101 +208,36 @@ void cGraphics::RenderDrawData( ) {
     gBuffer->ClearCommands( );
 }
 
-void cGraphics::SetVSync( const bool state ) {
-    m_Parameters.PresentationInterval = state ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
-    
-    gBuffer->Release( );
-
-    SafeRelease( m_VertexBuffer );
-    SafeRelease( m_IndexBuffer );
-    SafeRelease( m_Device );
-
-    Init( m_Hwnd, false );
-
-    gBuffer->Init( );
-}
-
-void cGraphics::SetClearColor( const Color clear_color ) {
-    m_ClearColor = clear_color;
-}
-
-void cGraphics::Draw( ) {
-    if ( !Valid( ) )
-        return;
-
-    m_Device->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, m_ClearColor.Hex, 1.f, 0 );
-
-    if ( m_Device->BeginScene( ) >= 0 ) {
-        auto display_info = std::vformat(
-            "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES",
-
-            std::make_format_args(
-                gContext->GetFrameRate( ),
-                gBuffer->GetCommandsCount( ),
-                gBuffer->GetVerticesCount( ),
-                gBuffer->GetIndicesCount( )
-            )
-        );
-
-        gBuffer->Text(
-            gBuffer->GetDefaultFont( ), display_info, Vec2<int16_t>( 5, 5 ), Color( 160, 217, 255, 255 )
-        );
-
-        RenderDrawData( );
-        m_Device->EndScene( );
-    }
-
-    m_Device->Present( nullptr, nullptr, nullptr, nullptr );
-}
-
-template <typename type>
-void cGraphics::SafeRelease( type*& obj ) {
-    if ( obj ) {
-        obj->Release( );
-        obj = nullptr;
-    }
-}
-
-void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* Texture, const std::vector<BYTE>* Bytes, const Vec2<int16_t> Size ) {
-    if ( D3DXCreateTextureFromFileInMemoryEx( m_Device, Bytes->data( ), Bytes->size( ), Size.x, Size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &Texture ) != D3D_OK )
-        MessageBoxA(nullptr, "Graphics", std::vformat( "Failed To Create Texture From Bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ), 0 );
-}
-
-void cGraphics::CreateTextureFromFile( IDirect3DTexture9** Texture, const char* FileName ) {
-    if ( D3DXCreateTextureFromFile( m_Device, FileName, Texture ) != D3D_OK )
-        MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Texture ({})", std::make_format_args( FileName ) ).c_str( ), 0 );
-}
-
 void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t size, int16_t weight, int16_t padding, bool antialiasing ) {
-    FT_Library lib;
-    FT_Face face;
+    FT_Library Library;
+    FT_Face Face;
 
     font->Path = GetFontPath( font_name );
     font->Padding = padding;
     font->Size = size;
 
-    if ( FT_Init_FreeType( &lib ) != FT_Err_Ok ) {
+    if ( FT_Init_FreeType( &Library ) != FT_Err_Ok ) {
         throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Init_FreeType Failed?" );
         return;
     }
 
-    if ( FT_New_Face( lib, font->Path.c_str( ), 0, &face ) ) {
+    if ( FT_New_Face( Library, font->Path.c_str( ), 0, &Face ) ) {
         throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_New_Face Failed?" );
-        FT_Done_FreeType( lib );
+        FT_Done_FreeType( Library );
         return;
     }
 
-    FT_Set_Char_Size( face, size * 64, 0, GetDpiForWindow( gWindow->GetHwnd( ) ), 0 );
-    FT_Select_Charmap( face, FT_ENCODING_UNICODE );
+    FT_Set_Char_Size( Face, size * 64, 0, GetDpiForWindow( gWindow->GetHwnd( ) ), 0 );
+    FT_Select_Charmap( Face, FT_ENCODING_UNICODE );
 
     for ( unsigned char i = 0; i < 128; ++i ) {
-        if ( FT_Load_Char( face, i, antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) ) {
+        if ( FT_Load_Char( Face, i, antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) ) {
             throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Load_Char Failed, Font Does Not Exist!" );
             continue;
         }
 
-        int32_t width = face->glyph->bitmap.width ? face->glyph->bitmap.width : 16;
-        int32_t height = face->glyph->bitmap.rows ? face->glyph->bitmap.rows : 16;
+        int32_t width = Face->glyph->bitmap.width ? Face->glyph->bitmap.width : 16;
+        int32_t height = Face->glyph->bitmap.rows ? Face->glyph->bitmap.rows : 16;
 
         if ( gGraphics->GetDevice( )->CreateTexture( width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
             throw std::runtime_error( "[cGraphics::CreateFontFromName] CreateTexture Failed?" );
@@ -269,13 +247,13 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
         D3DLOCKED_RECT lockedRect;
         font->CharSet[ i ].Texture->LockRect( 0, &lockedRect, nullptr, D3DLOCK_DISCARD );
 
-        UCHAR* source = face->glyph->bitmap.buffer;
+        UCHAR* source = Face->glyph->bitmap.buffer;
         UCHAR* destination = reinterpret_cast< UCHAR* >( lockedRect.pBits );
 
         if ( source && destination ) {
-            switch ( face->glyph->bitmap.pixel_mode ) {
+            switch ( Face->glyph->bitmap.pixel_mode ) {
             case FT_PIXEL_MODE_MONO:
-                for ( int32_t y = 0; y < height; ++y, source += face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
+                for ( int32_t y = 0; y < height; ++y, source += Face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
                     int8_t bits = 0;
                     const uint8_t* bitsPtr = source;
 
@@ -292,7 +270,7 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
                 for ( int32_t j = 0; j < height; ++j ) {
                     memcpy( destination, source, width );
 
-                    source += face->glyph->bitmap.pitch;
+                    source += Face->glyph->bitmap.pitch;
                     destination += lockedRect.Pitch;
                 }
                 break;
@@ -302,10 +280,10 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
         font->CharSet[ i ].Texture->UnlockRect( 0 );
 
         font->CharSet[ i ].Size = { width, height };
-        font->CharSet[ i ].Bearing = { static_cast< int32_t >( face->glyph->bitmap_left ), static_cast< int32_t >( face->glyph->bitmap_top ) };
-        font->CharSet[ i ].Advance = face->glyph->Advance.x;
+        font->CharSet[ i ].Bearing = { static_cast< int32_t >( Face->glyph->bitmap_left ), static_cast< int32_t >( Face->glyph->bitmap_top ) };
+        font->CharSet[ i ].Advance = Face->glyph->Advance.x;
     }
 
-    FT_Done_Face( face );
-    FT_Done_FreeType( lib );
+    FT_Done_Face( Face );
+    FT_Done_FreeType( Library );
 }

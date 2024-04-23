@@ -1,13 +1,14 @@
 #pragma once
+#ifndef BUFFER_H
+#define BUFFER_H
 
-// includes
 #include "../../Common.hpp"
 #include "Components.hpp"
 
 class cBuffer {
 public:
-    virtual void Init( );
-    virtual void Release( );
+    void Init( );
+    void Release( );
 
     void Line( const Vec2<int16_t> from, const Vec2<int16_t> to, const Color color );
 
@@ -74,4 +75,5 @@ private:
 
 inline const auto gBuffer = std::make_unique<cBuffer>( );
 
-#include "buffer.inl"
+#include "Buffer.inl"
+#endif

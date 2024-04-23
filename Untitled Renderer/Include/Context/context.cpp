@@ -1,7 +1,7 @@
-#include "context.hpp"
+#include "Context.hpp"
 
 void cContext::Update( ) {
-    if ( GetFocus() == gWindow->GetHwnd( ) )
+    if ( gInput->IsActive( ) )
         gInput->PoolInput( );
 
     m_TimePoint = std::chrono::high_resolution_clock::now( );
