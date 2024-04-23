@@ -1,6 +1,4 @@
 #pragma once
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
 
 #include "../../Common.hpp"
 
@@ -8,6 +6,8 @@
 
 #define TRIANGLE D3DPT_TRIANGLESTRIP
 #define LINE D3DPT_LINESTRIP
+
+// FOR TEXTURES: IDirect3DTexture9
 
 class cGraphics {
 public:
@@ -50,4 +50,3 @@ private:
 inline const auto gGraphics = std::make_unique<cGraphics>( );
 
 #include "DirectX9.inl"
-#endif

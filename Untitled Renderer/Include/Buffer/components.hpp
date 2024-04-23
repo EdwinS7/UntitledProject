@@ -181,7 +181,7 @@ public:
 
 struct Glyph {
 	Vec2<int32_t> Size, Bearing;
-	LPDIRECT3DTEXTURE9 Texture{};
+	IDirect3DTexture9* Texture{};
 	int32_t Advance{};
 };
 

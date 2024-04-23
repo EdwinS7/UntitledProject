@@ -130,7 +130,7 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > position, const Vec2< int16
 	Polygon( Points, color );
 }
 
-void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color ) {
+/*void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( position.x, position.y, 0.f, 1.f, color.Hex ),
 		Vertex( position.x + size.x, position.y, 0.f, 1.f, color.Hex ),
@@ -143,7 +143,7 @@ void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t
 	PushTexture( *texture );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 	PopTexture( );
-}
+}*/
 
 void cBuffer::Gradient( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color1, const Color color2, const bool vertical ) {
 	std::vector<Vertex> Vertices = {

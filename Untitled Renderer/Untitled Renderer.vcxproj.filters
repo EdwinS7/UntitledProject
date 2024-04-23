@@ -24,9 +24,6 @@
     <ClCompile Include="Include\Context\Context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Graphics\DirectX9.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Include\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,7 +33,7 @@
     <ClCompile Include="Include\Interface\Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Graphics\DirectX11.cpp">
+    <ClCompile Include="Include\Graphics\DirectX9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -356,9 +353,6 @@
     <ClInclude Include="Include\Context\Context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Graphics\DirectX9.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Input\Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -371,7 +365,7 @@
     <ClInclude Include="Include\Interface\Interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Graphics\DirectX11.hpp">
+    <ClInclude Include="Include\Graphics\DirectX9.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -385,16 +379,13 @@
     <None Include="Include\Window\Window.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Graphics\DirectX9.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="Include\Input\Input.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Interface\Interface.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Graphics\DirectX11.inl">
+    <None Include="Include\Graphics\DirectX9.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

@@ -17,7 +17,7 @@ public:
 
     void Rectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
     void FilledRectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
-    void TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color );
+    /*void TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color );*/
 
     void Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_from, const Color color_to, const bool vertical );
     void FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_from, const Color color_to, const bool vertical );

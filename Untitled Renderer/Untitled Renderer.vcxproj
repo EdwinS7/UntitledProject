@@ -180,12 +180,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Include\Graphics\DirectX11.cpp" />
+    <ClCompile Include="Include\Graphics\DirectX9.cpp" />
     <ClCompile Include="Include\Interface\Interface.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Include\Buffer\Buffer.cpp" />
     <ClCompile Include="Include\Context\Context.cpp" />
-    <ClCompile Include="Include\Graphics\DirectX9.cpp" />
     <ClCompile Include="Include\Input\Input.cpp" />
     <ClCompile Include="Include\Window\Window.cpp" />
   </ItemGroup>
@@ -193,10 +192,9 @@
     <ClInclude Include="Common.hpp" />
     <ClInclude Include="Definitions.hpp" />
     <ClInclude Include="Include\Context\Context.hpp" />
-    <ClInclude Include="Include\Graphics\DirectX11.hpp" />
-    <ClInclude Include="Include\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Buffer\Buffer.hpp" />
     <ClInclude Include="Include\Buffer\Components.hpp" />
+    <ClInclude Include="Include\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Interface\Interface.hpp" />
     <ClInclude Include="Include\Input\Input.hpp" />
     <ClInclude Include="Include\Input\KeyDefinitions.hpp" />
@@ -305,7 +303,6 @@
   <ItemGroup>
     <None Include="Include\Buffer\Buffer.inl" />
     <None Include="Include\Context\Context.inl" />
-    <None Include="Include\Graphics\DirectX11.inl" />
     <None Include="Include\Graphics\DirectX9.inl" />
     <None Include="Include\Interface\Interface.inl" />
     <None Include="Include\Input\Input.inl" />
