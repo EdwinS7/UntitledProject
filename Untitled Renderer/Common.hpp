@@ -30,6 +30,8 @@
 
 #include "Include/Input/Input.hpp"
 #include "Include/Window/Window.hpp"
+
 #include "Include/Interface/Interface.hpp"
+#include "Include/World/World.hpp"
 
 #include "Include/context/Context.hpp"

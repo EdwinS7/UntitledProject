@@ -13,7 +13,7 @@ bool cGraphics::Init( ) {
     m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
     m_Parameters.MultiSampleQuality = 0;
 
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHwnd( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
         throw std::runtime_error( "[cGraphics::Init] CreateDevice Failed?" );
 
     UpdateRenderStates( m_Device );
@@ -31,7 +31,7 @@ void cGraphics::ResetDevice( LPARAM lparam ) {
     UpdatePresentParamaters( lparam );
     UpdateRenderStates( m_Device );
 
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHwnd( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
         throw std::runtime_error( "[cGraphics::Reset] CreateDevice Failed?" );
 
     gBuffer->Init( );
@@ -132,29 +132,30 @@ inline void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
 
 inline void cGraphics::RenderDrawData( ) {
     auto DrawCommands = gBuffer->GetDrawCommands( );
-    gBuffer->BuildDrawCommands( gBuffer->GetDrawCommands() );
+    gBuffer->BuildDrawCommands( DrawCommands );
+
     auto DrawCommand = gBuffer->GetDrawCommand( );
 
-    if ( !m_VertexBuffer || DrawCommand.VerticesCount * sizeof( Vertex ) > m_VertexBufferSize ) {
+    if ( !m_VertexBuffer || DrawCommand->VerticesCount * sizeof( Vertex ) > m_VertexBufferSize ) {
         if ( m_VertexBuffer ) {
             m_VertexBuffer->Release( );
             m_VertexBuffer = nullptr;
         }
 
-        m_VertexBufferSize = DrawCommand.VerticesCount + 5000;
+        m_VertexBufferSize = DrawCommand->VerticesCount + 5000;
 
         if ( m_Device->CreateVertexBuffer( m_VertexBufferSize * sizeof( Vertex ), 
             D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, VERTEX,  D3DPOOL_DEFAULT, &m_VertexBuffer, nullptr ) < D3D_OK )
             throw std::runtime_error( "[cGraphics::RenderDrawData] CreateVertexBuffer Failed?" );
     }
 
-    if ( !m_IndexBuffer || DrawCommand.IndicesCount * sizeof( std::int32_t ) > m_IndexBufferSize ) {
+    if ( !m_IndexBuffer || DrawCommand->IndicesCount * sizeof( std::int32_t ) > m_IndexBufferSize ) {
         if ( m_IndexBuffer ) {
             m_IndexBuffer->Release( );
             m_IndexBuffer = nullptr;
         }
 
-        m_IndexBufferSize = DrawCommand.IndicesCount + 10000;
+        m_IndexBufferSize = DrawCommand->IndicesCount + 10000;
 
         if ( m_Device->CreateIndexBuffer( m_IndexBufferSize * sizeof( std::int32_t ),
             D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_IndexBuffer, nullptr ) < D3D_OK )
@@ -164,14 +165,14 @@ inline void cGraphics::RenderDrawData( ) {
     Vertex* vertex_data{ };
     int32_t* index_data{ };
 
-    if ( m_VertexBuffer->Lock( 0, ( int ) ( DrawCommand.VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_VertexBuffer->Lock( 0, ( int ) ( DrawCommand->VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
         throw std::runtime_error( "[cGraphics::RenderDrawData] m_VertexBuffer->Lock Failed?" );
 
-    if ( m_IndexBuffer->Lock( 0, ( int ) ( DrawCommand.IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
+    if ( m_IndexBuffer->Lock( 0, ( int ) ( DrawCommand->IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
         throw std::runtime_error( "[cGraphics::RenderDrawData] m_IndexBuffer->Lock Failed?" );
 
-    memcpy( vertex_data, DrawCommand.Vertices.data( ), DrawCommand.VerticesCount * sizeof( Vertex ) );
-    memcpy( index_data, DrawCommand.Indices.data( ), DrawCommand.IndicesCount * sizeof( int32_t ) );
+    memcpy( vertex_data, DrawCommand->Vertices.data( ), DrawCommand->VerticesCount * sizeof( Vertex ) );
+    memcpy( index_data, DrawCommand->Indices.data( ), DrawCommand->IndicesCount * sizeof( int32_t ) );
 
     m_VertexBuffer->Unlock( );
     m_IndexBuffer->Unlock( );
@@ -185,7 +186,7 @@ inline void cGraphics::RenderDrawData( ) {
     int StartVertex = 0, 
         StartIndex = 0;
 
-    for ( const auto& Command : DrawCommands ) {
+    for ( const auto& Command : *DrawCommands ) {
         m_Device->SetScissorRect( &Command.Resources.ClipStack.back( ) );
         m_Device->SetTexture( 0, Command.Resources.TextureStack.back( ) );
 
@@ -221,7 +222,7 @@ void cGraphics::CreateFontFromName( Font* font, const char* font_name, int16_t s
         return;
     }
 
-    FT_Set_Char_Size( Face, size * 64, 0, GetDpiForWindow( gWindow->GetHwnd( ) ), 0 );
+    FT_Set_Char_Size( Face, size * 64, 0, GetDpiForWindow( gWindow->GetHandle( ) ), 0 );
     FT_Select_Charmap( Face, FT_ENCODING_UNICODE );
 
     for ( unsigned char i = 0; i < 128; ++i ) {

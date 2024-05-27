@@ -12,8 +12,8 @@ public:
 
     void Line( const Vec2<int16_t> from, const Vec2<int16_t> to, const Color color );
 
-    void Polyline( const std::vector<Vec2<int16_t>> points, const Color color );
-    void Polygon( const std::vector<Vec2<int16_t>> points, const Color color );
+    void Polyline( const std::vector<Vec2<int16_t>>& points, const Color color );
+    void Polygon( const std::vector<Vec2<int16_t>>& points, const Color color );
 
     void Rectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
     void FilledRectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
@@ -34,10 +34,10 @@ public:
 
     inline Vec2<int16_t> GetTextSize( const Font* font, const std::string& string );
 
-    inline void BuildDrawCommands( const std::vector<DrawCommand>& draw_commands );
-    inline std::vector<DrawCommand> GetDrawCommands( );
-    inline CompiledDrawCommand GetDrawCommand( );
-    inline CommandResources GetCommand( );
+    inline void BuildDrawCommands( const std::vector<DrawCommand>* draw_commands );
+    inline std::vector<DrawCommand>* GetDrawCommands( );
+    inline CompiledDrawCommand* GetDrawCommand( );
+    inline CommandResources* GetCommand( );
     inline void ClearCommands( );
 
     inline int GetCommandsCount( );

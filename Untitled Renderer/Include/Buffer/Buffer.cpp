@@ -7,6 +7,7 @@ void cBuffer::Init( ) {
 	PushTexture( nullptr );
 
 	gInterface->Init( );
+	gWorld->Init( );
 }
 
 void cBuffer::Release( ) {
@@ -25,7 +26,7 @@ void cBuffer::Line( const Vec2< int16_t > from, const Vec2< int16_t > to, const 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::Polyline( const std::vector< Vec2< int16_t > > points, const Color color ) {
+void cBuffer::Polyline( const std::vector< Vec2< int16_t > >& points, const Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( points.size( ) );
 
@@ -34,7 +35,7 @@ void cBuffer::Polyline( const std::vector< Vec2< int16_t > > points, const Color
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::Polygon( const std::vector<Vec2<int16_t>> points, const Color color ) {
+void cBuffer::Polygon( const std::vector<Vec2<int16_t>>& points, const Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( points.size( ) );
 
@@ -85,7 +86,7 @@ void cBuffer::Rectangle( const Vec2< int16_t > position, const Vec2< int16_t > s
 			);
 		}
 		else
-			Points.push_back( std::get<0>( Corner ) );
+			Points.emplace_back( std::get<0>( Corner ) );
 	}
 
 	Polyline( Points, color );
@@ -124,7 +125,7 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > position, const Vec2< int16
 			);
 		}
 		else
-			Points.push_back( std::get<0>( Corner ) );
+			Points.emplace_back( std::get<0>( Corner ) );
 	}
 
 	Polygon( Points, color );
@@ -234,7 +235,7 @@ void cBuffer::FilledCircle( const Vec2< int16_t > pos, const int16_t radius, con
 }
 
 void cBuffer::Text( const Font* font, const std::string& str, const Vec2<int16_t> pos, const Color color ) {
-	if ( !font || str.empty( ) || ( ( ( color.Hex >> 24 ) & 0xFF ) ) < 255 )
+	if ( !font || str.empty( ) || ( ( ( color.Hex >> 24 ) & 0xFF ) ) < 1 )
 		return;
 
 	Vec2<int16_t> Advance = { 0, 0 }, TextSize = GetTextSize( font, str );

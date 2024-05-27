@@ -7,7 +7,12 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );
-        gInterface->DrawAllShapes( );
+
+        if ( gInput->AnyKeyPressed( ) ) {
+            gInterface->Init( );
+            gWorld->Init( );
+        }
+
         gGraphics->Draw( );
     }
 

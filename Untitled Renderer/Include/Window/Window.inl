@@ -1,20 +1,31 @@
 #include "Window.hpp"
 
+inline bool cWin32::DispatchMessages( ) {
+    MSG msg;
+
+    std::memset( &msg, 0, sizeof( MSG ) );
+    if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
+        TranslateMessage( &msg );
+        DispatchMessage( &msg );
+
+        if ( msg.message == WM_QUIT )
+            return false;
+    }
+
+    return true;
+}
+
 inline Vec2<int16_t> cWin32::GetPos( ) {
-	RECT Rect{ };
-
-	if ( GetWindowRect( m_Hwnd, &Rect ) )
-		return Vec2<int16_t>( static_cast< int16_t >( Rect.left ), static_cast< int16_t >( Rect.top ) );
-
-	return Vec2<int16_t>( );
+    RECT rect{};
+    if ( GetWindowRect( m_Hwnd, &rect ) )
+        return Vec2<int16_t>( static_cast< int16_t >( rect.left ), static_cast< int16_t >( rect.top ) );
+    return Vec2<int16_t>( );
 }
 
 inline Vec2<int16_t> cWin32::GetSize( ) {
-    RECT Rect{};
-
-    if ( GetClientRect( m_Hwnd, &Rect ) )
-        return Vec2<int16_t>( static_cast< int16_t >( Rect.right - Rect.left ), static_cast< int16_t >( Rect.bottom - Rect.top ) );
-
+    RECT rect{};
+    if ( GetClientRect( m_Hwnd, &rect ) )
+        return Vec2<int16_t>( static_cast< int16_t >( rect.right - rect.left ), static_cast< int16_t >( rect.bottom - rect.top ) );
     return Vec2<int16_t>( );
 }
 
@@ -25,10 +36,14 @@ inline Rect<int16_t> cWin32::GetRect( ) {
 }
 
 inline Rect<int16_t> cWin32::GetClipRect( ) {
-    Vec2<int16_t> Size = GetSize( );
-    return Rect<int16_t>( 0, 0, Size.x, Size.y );
+    Vec2<int16_t> size = GetSize( );
+    return Rect<int16_t>( 0, 0, size.x, size.y );
 }
 
-inline HWND cWin32::GetHwnd( ) {
+inline HWND cWin32::GetHandle( ) {
     return m_Hwnd;
+}
+
+inline bool cWin32::IsFocused( ) {
+    return IsIconic( m_Hwnd );
 }

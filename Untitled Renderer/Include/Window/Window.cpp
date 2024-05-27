@@ -21,7 +21,7 @@ inline LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 
-void cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
+void cWin32::InitWindow( const char* title, const Vec2<int16_t>& position, const Vec2<int16_t>& size ) {
 	m_WindowClass = {
 		sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
 		0L, 0L, GetModuleHandle( NULL ),
@@ -31,13 +31,9 @@ void cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
 
 	RegisterClassEx( &m_WindowClass );
 
-	RECT DesktopResolution;
-	const HWND Desktop = GetDesktopWindow( );
-	GetWindowRect( Desktop, &DesktopResolution );
-
-	m_Hwnd = CreateWindow( 
-		m_WindowClass.lpszClassName, title, WS_OVERLAPPEDWINDOW, 
-		DesktopResolution.right / 2 - size.x / 2, DesktopResolution.bottom / 2 - size.y / 2,
+	m_Hwnd = CreateWindow(
+		m_WindowClass.lpszClassName, title, WS_OVERLAPPEDWINDOW,
+		position.x, position.y,
 		size.x, size.y, NULL, NULL, m_WindowClass.hInstance, NULL
 	);
 
@@ -47,19 +43,4 @@ void cWin32::InitWindow( const char* title, const Vec2< int16_t > size ) {
 
 void cWin32::ExitWindow( ) {
 	::UnregisterClass( m_WindowClass.lpszClassName, m_WindowClass.hInstance );
-}
-
-bool cWin32::DispatchMessages( ) {
-	MSG msg;
-
-	std::memset( &msg, 0, sizeof( MSG ) );
-	if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
-		TranslateMessage( &msg );
-		DispatchMessage( &msg );
-
-		if ( msg.message == WM_QUIT )
-			return false;
-	}
-
-	return true;
 }

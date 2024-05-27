@@ -232,8 +232,12 @@ public:
 		: Vertices( Vertices ), Indices( Indices ), VerticesCount( VerticesCount ), IndicesCount( IndicesCount ) {}
 
 	void reset( ) {
-		Vertices.clear( );
-		Indices.clear( );
+		if ( !Vertices.empty( ) )
+			Vertices.clear( );
+
+		if ( !Indices.empty( ) )
+			Indices.clear( );
+
 		VerticesCount = 0;
 		IndicesCount = 0;
 	}

@@ -4,18 +4,22 @@ void cInput::PoolInput( ) {
 	m_CursorStyle = IDC_ARROW;
 	m_AnyKeyPressed = false;
 
-    for ( size_t i = 0; i < 255; i++ ) {
-        bool IsPressed = ( GetAsyncKeyState( i ) & 0x8000 ) != 0;
-		if ( IsPressed )
-			m_AnyKeyPressed = true;
+	char Buffer[ 256 ];
+    if ( GetKeyboardState( ( PBYTE ) Buffer ) ) {
+        for (size_t i = 0; i < 256; i++) {
+            bool isPressed = ( Buffer[ i ] & 0x80 ) != 0;
 
-		m_KeyStates[ i ] = std::make_pair( IsPressed, IsPressed != m_PreviousKeyStates[ i ].first );
-		m_PreviousKeyStates[ i ] = m_KeyStates[ i ];
+            if (isPressed)
+                m_AnyKeyPressed = true;
+
+			m_KeyStates[ i ] = { isPressed, ( isPressed != m_PreviousKeyStates[ i ].first ) };
+			m_PreviousKeyStates[ i ] = m_KeyStates[ i ];
+        }
     }
 }
 
 bool cInput::IsActive( ) {
-	return GetFocus( ) == gWindow->GetHwnd( );
+	return GetFocus( ) == gWindow->GetHandle( );
 }
 
 void cInput::SetMousePos( Vec2<int16_t> position ) {

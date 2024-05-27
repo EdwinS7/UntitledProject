@@ -19,20 +19,22 @@ inline void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< V
 	);
 }
 
-inline void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>& draw_commands ) {
-	for ( size_t i = 0; i < draw_commands.size( ); ++i ) {
-		auto& DrawCommand = draw_commands[ i ];
+inline void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>* draw_commands ) {
+	for ( size_t i = 0; i < draw_commands->size( ); ++i ) {
+		const DrawCommand* drawCommand = &( ( *draw_commands )[ i ] );
 
 		m_DrawCommand.Vertices.insert( m_DrawCommand.Vertices.end( ),
-			std::make_move_iterator( DrawCommand.Vertices.begin( ) ), std::make_move_iterator( DrawCommand.Vertices.end( ) )
+			std::make_move_iterator( drawCommand->Vertices.begin( ) ),
+			std::make_move_iterator( drawCommand->Vertices.end( ) )
 		);
 
 		m_DrawCommand.Indices.insert( m_DrawCommand.Indices.end( ),
-			std::make_move_iterator( DrawCommand.Indices.begin( ) ), std::make_move_iterator( DrawCommand.Indices.end( ) )
+			std::make_move_iterator( drawCommand->Indices.begin( ) ),
+			std::make_move_iterator( drawCommand->Indices.end( ) )
 		);
 
-		m_DrawCommand.VerticesCount += DrawCommand.VerticesCount;
-		m_DrawCommand.IndicesCount += DrawCommand.IndicesCount;
+		m_DrawCommand.VerticesCount += drawCommand->VerticesCount;
+		m_DrawCommand.IndicesCount += drawCommand->IndicesCount;
 	}
 }
 
@@ -91,16 +93,16 @@ inline void cBuffer::ClearCommands( ) {
     m_IndicesCount = 0;
 }
 
-inline CommandResources cBuffer::GetCommand( ) {
-    return m_CommandResources;
+inline CommandResources* cBuffer::GetCommand( ) {
+    return &m_CommandResources;
 }
 
-inline CompiledDrawCommand cBuffer::GetDrawCommand( ) {
-    return m_DrawCommand;
+inline CompiledDrawCommand* cBuffer::GetDrawCommand( ) {
+    return &m_DrawCommand;
 }
 
-inline std::vector<DrawCommand> cBuffer::GetDrawCommands( ) {
-    return m_DrawCommands;
+inline std::vector<DrawCommand>* cBuffer::GetDrawCommands( ) {
+    return &m_DrawCommands;
 }
 
 inline int cBuffer::GetCommandsCount( ) {
