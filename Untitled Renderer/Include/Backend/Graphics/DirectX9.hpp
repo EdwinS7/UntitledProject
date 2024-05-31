@@ -7,8 +7,6 @@
 #define TRIANGLE D3DPT_TRIANGLESTRIP
 #define LINE D3DPT_LINESTRIP
 
-// FOR TEXTURES: IDirect3DTexture9
-
 class cGraphics {
 public:
 	bool Init( HWND hwnd );
@@ -25,13 +23,15 @@ public:
 	void SetClearColor( const Color clear_color );
 	Color GetClearColor( );
 
-	void CreateFontFromName( Font* font, const char* font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing );
+	void CreateFontFromName( Font* font, std::string font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing );
 
 	inline void CreateTextureFromBytes( IDirect3DTexture9* texture, const std::vector<BYTE>* bytes, const Vec2<int16_t> size );
-	inline void CreateTextureFromFile( IDirect3DTexture9** texture, const char* file_name );
+	inline void CreateTextureFromFile( IDirect3DTexture9* texture, const char* file_name );
 
 	inline std::string GetFontPath( const char* font_name );
 	inline IDirect3DDevice9* GetDevice( );
+
+	std::vector<std::string> RegistryFontList;
 
 private:
 	IDirect3D9* m_Direct3D{};
@@ -43,6 +43,8 @@ private:
 
 	IDirect3DVertexBuffer9* m_VertexBuffer{};
 	IDirect3DIndexBuffer9* m_IndexBuffer{};
+
+	std::vector<Font*> m_Fonts;
 
 	Color m_ClearColor{ 0, 0, 0, 255 };
 

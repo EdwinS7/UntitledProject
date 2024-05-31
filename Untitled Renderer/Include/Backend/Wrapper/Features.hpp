@@ -1,8 +1,8 @@
-#include <random>
 std::vector<std::string> CallbackIdentifiers{
     "OnInterfacePaint",
     "OnWorldPaint",
-    "OnInputUpdate"
+    "OnInputUpdate",
+    "OnObjectCreation"
 };
 
 namespace Client {
@@ -20,6 +20,10 @@ namespace Client {
 
     float GetDeltaTime( ) {
         return gContext->GetDeltaTime( );
+    }
+
+    std::vector<std::string> GetFontList( ) {
+        return gGraphics->RegistryFontList;
     }
 };
 
@@ -133,10 +137,10 @@ namespace Renderer {
         return gWindow->GetSize( );
     }
 
-    Font* CreateFont_( const char* font_name, int16_t size, int16_t weight, Vec2<int16_t> padding, bool antialiasing ) {
-        Font font;
-        gGraphics->CreateFontFromName( &font, font_name, size, weight, padding, antialiasing );
-        return &font;
+    std::unique_ptr<Font> CreateFont_( std::string font_name, int16_t size, int16_t weight, Vec2<int16_t> padding, bool antialiasing ) {
+        auto font = std::make_unique<Font>( );
+        gGraphics->CreateFontFromName( font.get( ), font_name, size, weight, padding, antialiasing );
+        return font;
     }
 
     Font* GetDefaultFont( ) {
@@ -177,7 +181,7 @@ namespace Math {
 };
 
 void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {
-    if ( CallbackIdentifiers.data( )->find( event_name ) ) {
+    if ( std::find( CallbackIdentifiers.begin( ), CallbackIdentifiers.end( ), event_name ) == CallbackIdentifiers.end( ) ) {
         std::cout << "Lua error: invalid callback \"" + event_name + '\"' << std::endl;
         return;
     }
