@@ -74,25 +74,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -180,26 +180,62 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Include\Graphics\DirectX9.cpp" />
-    <ClCompile Include="Include\Interface\Interface.cpp" />
-    <ClCompile Include="Include\World\World.cpp" />
+    <ClCompile Include="Include\Backend\Graphics\DirectX9.cpp" />
+    <ClCompile Include="Include\Backend\Wrapper\Wrapper.cpp" />
+    <ClCompile Include="Include\Scenes\Interface\Interface.cpp" />
+    <ClCompile Include="Include\Scenes\World\World.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Include\Buffer\Buffer.cpp" />
-    <ClCompile Include="Include\Context\Context.cpp" />
-    <ClCompile Include="Include\Input\Input.cpp" />
-    <ClCompile Include="Include\Window\Window.cpp" />
+    <ClCompile Include="Include\Backend\Buffer\Buffer.cpp" />
+    <ClCompile Include="Include\Backend\Context\Context.cpp" />
+    <ClCompile Include="Include\Backend\Input\Input.cpp" />
+    <ClCompile Include="Include\Backend\Window\Window.cpp" />
+    <ClCompile Include="Thirdparty\lua\lapi.c" />
+    <ClCompile Include="Thirdparty\lua\lauxlib.c" />
+    <ClCompile Include="Thirdparty\lua\lbaselib.c" />
+    <ClCompile Include="Thirdparty\lua\lcode.c" />
+    <ClCompile Include="Thirdparty\lua\lcorolib.c" />
+    <ClCompile Include="Thirdparty\lua\lctype.c" />
+    <ClCompile Include="Thirdparty\lua\ldblib.c" />
+    <ClCompile Include="Thirdparty\lua\ldebug.c" />
+    <ClCompile Include="Thirdparty\lua\ldo.c" />
+    <ClCompile Include="Thirdparty\lua\ldump.c" />
+    <ClCompile Include="Thirdparty\lua\lfunc.c" />
+    <ClCompile Include="Thirdparty\lua\lgc.c" />
+    <ClCompile Include="Thirdparty\lua\linit.c" />
+    <ClCompile Include="Thirdparty\lua\liolib.c" />
+    <ClCompile Include="Thirdparty\lua\llex.c" />
+    <ClCompile Include="Thirdparty\lua\lmathlib.c" />
+    <ClCompile Include="Thirdparty\lua\lmem.c" />
+    <ClCompile Include="Thirdparty\lua\loadlib.c" />
+    <ClCompile Include="Thirdparty\lua\lobject.c" />
+    <ClCompile Include="Thirdparty\lua\lopcodes.c" />
+    <ClCompile Include="Thirdparty\lua\loslib.c" />
+    <ClCompile Include="Thirdparty\lua\lparser.c" />
+    <ClCompile Include="Thirdparty\lua\lstate.c" />
+    <ClCompile Include="Thirdparty\lua\lstring.c" />
+    <ClCompile Include="Thirdparty\lua\lstrlib.c" />
+    <ClCompile Include="Thirdparty\lua\ltable.c" />
+    <ClCompile Include="Thirdparty\lua\ltablib.c" />
+    <ClCompile Include="Thirdparty\lua\ltm.c" />
+    <ClCompile Include="Thirdparty\lua\lua.c" />
+    <ClCompile Include="Thirdparty\lua\luac.c" />
+    <ClCompile Include="Thirdparty\lua\lundump.c" />
+    <ClCompile Include="Thirdparty\lua\lutf8lib.c" />
+    <ClCompile Include="Thirdparty\lua\lvm.c" />
+    <ClCompile Include="Thirdparty\lua\lzio.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
-    <ClInclude Include="Definitions.hpp" />
-    <ClInclude Include="Include\Context\Context.hpp" />
-    <ClInclude Include="Include\Buffer\Buffer.hpp" />
-    <ClInclude Include="Include\Buffer\Components.hpp" />
-    <ClInclude Include="Include\Graphics\DirectX9.hpp" />
-    <ClInclude Include="Include\Interface\Interface.hpp" />
-    <ClInclude Include="Include\Input\Input.hpp" />
-    <ClInclude Include="Include\Input\KeyDefinitions.hpp" />
-    <ClInclude Include="Include\World\World.hpp" />
+    <ClInclude Include="Include\Backend\Context\Context.hpp" />
+    <ClInclude Include="Include\Backend\Buffer\Buffer.hpp" />
+    <ClInclude Include="Include\Backend\Buffer\Components.hpp" />
+    <ClInclude Include="Include\Backend\Graphics\DirectX9.hpp" />
+    <ClInclude Include="Include\Backend\Wrapper\Features.hpp" />
+    <ClInclude Include="Include\Backend\Wrapper\Wrapper.hpp" />
+    <ClInclude Include="Include\Scenes\Interface\Interface.hpp" />
+    <ClInclude Include="Include\Backend\Input\Input.hpp" />
+    <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp" />
+    <ClInclude Include="Include\Scenes\World\World.hpp" />
     <ClInclude Include="Thirdparty\freetype\config\ftconfig.h" />
     <ClInclude Include="Thirdparty\freetype\config\ftheader.h" />
     <ClInclude Include="Thirdparty\freetype\config\ftmodule.h" />
@@ -300,16 +336,48 @@
     <ClInclude Include="Thirdparty\freetype\tttables.h" />
     <ClInclude Include="Thirdparty\freetype\tttags.h" />
     <ClInclude Include="Thirdparty\ft2build.h" />
-    <ClInclude Include="Include\Window\Window.hpp" />
+    <ClInclude Include="Include\Backend\Window\Window.hpp" />
+    <ClInclude Include="Thirdparty\lua\lapi.h" />
+    <ClInclude Include="Thirdparty\lua\lauxlib.h" />
+    <ClInclude Include="Thirdparty\lua\lcode.h" />
+    <ClInclude Include="Thirdparty\lua\lctype.h" />
+    <ClInclude Include="Thirdparty\lua\ldebug.h" />
+    <ClInclude Include="Thirdparty\lua\ldo.h" />
+    <ClInclude Include="Thirdparty\lua\lfunc.h" />
+    <ClInclude Include="Thirdparty\lua\lgc.h" />
+    <ClInclude Include="Thirdparty\lua\ljumptab.h" />
+    <ClInclude Include="Thirdparty\lua\llex.h" />
+    <ClInclude Include="Thirdparty\lua\llimits.h" />
+    <ClInclude Include="Thirdparty\lua\lmem.h" />
+    <ClInclude Include="Thirdparty\lua\lobject.h" />
+    <ClInclude Include="Thirdparty\lua\lopcodes.h" />
+    <ClInclude Include="Thirdparty\lua\lopnames.h" />
+    <ClInclude Include="Thirdparty\lua\lparser.h" />
+    <ClInclude Include="Thirdparty\lua\lprefix.h" />
+    <ClInclude Include="Thirdparty\lua\lstate.h" />
+    <ClInclude Include="Thirdparty\lua\lstring.h" />
+    <ClInclude Include="Thirdparty\lua\ltable.h" />
+    <ClInclude Include="Thirdparty\lua\ltm.h" />
+    <ClInclude Include="Thirdparty\lua\lua.h" />
+    <ClInclude Include="Thirdparty\lua\lua.hpp" />
+    <ClInclude Include="Thirdparty\lua\luaconf.h" />
+    <ClInclude Include="Thirdparty\lua\lualib.h" />
+    <ClInclude Include="Thirdparty\lua\lundump.h" />
+    <ClInclude Include="Thirdparty\lua\lvm.h" />
+    <ClInclude Include="Thirdparty\lua\lzio.h" />
+    <ClInclude Include="Thirdparty\sol\config.hpp" />
+    <ClInclude Include="Thirdparty\sol\forward.hpp" />
+    <ClInclude Include="Thirdparty\sol\sol.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Include\Buffer\Buffer.inl" />
-    <None Include="Include\Context\Context.inl" />
-    <None Include="Include\Graphics\DirectX9.inl" />
-    <None Include="Include\Interface\Interface.inl" />
-    <None Include="Include\Input\Input.inl" />
-    <None Include="Include\Window\Window.inl" />
-    <None Include="Include\World\World.inl" />
+    <None Include="Include\Backend\Buffer\Buffer.inl" />
+    <None Include="Include\Backend\Context\Context.inl" />
+    <None Include="Include\Backend\Graphics\DirectX9.inl" />
+    <None Include="Include\Scenes\Interface\Interface.inl" />
+    <None Include="Include\Backend\Input\Input.inl" />
+    <None Include="Include\Backend\Window\Window.inl" />
+    <None Include="Include\Scenes\World\World.inl" />
+    <None Include="Scripts\Test.lua" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Thirdparty\freetype.lib" />

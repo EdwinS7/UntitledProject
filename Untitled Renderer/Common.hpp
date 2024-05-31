@@ -1,5 +1,8 @@
 #include <corecrt_math_defines.h>
+#include <unordered_map>
+#include <filesystem>
 #include <shlobj.h>
+#include <fstream>
 #include <thread>
 #include <vector>
 #include <format>
@@ -18,20 +21,23 @@
 #define TRIANGLE D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP
 #define LINE D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP
 
+#include "Thirdparty/sol/sol.hpp"
+
 #include "Thirdparty/ft2build.h"
 #include FT_FREETYPE_H
 #include FT_BITMAP_H
 
-#include "Definitions.hpp"
-#include "Include/Graphics/DirectX9.hpp"
+#include "Include/Backend/Graphics/DirectX9.hpp"
 
-#include "Include/Buffer/Buffer.hpp"
-#include "Include/Buffer/Components.hpp"
+#include "Include/Backend/Buffer/Buffer.hpp"
+#include "Include/Backend/Buffer/Components.hpp"
 
-#include "Include/Input/Input.hpp"
-#include "Include/Window/Window.hpp"
+#include "Include/Backend/Input/Input.hpp"
+#include "Include/Backend/Window/Window.hpp"
 
-#include "Include/Interface/Interface.hpp"
-#include "Include/World/World.hpp"
+#include "Include/Backend/Wrapper/Wrapper.hpp"
 
-#include "Include/context/Context.hpp"
+#include "Include/Scenes/Interface/Interface.hpp"
+#include "Include/Scenes/World/World.hpp"
+
+#include "Include/Backend/Context/Context.hpp"
