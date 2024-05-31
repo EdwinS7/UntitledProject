@@ -62,7 +62,6 @@ void cWrapper::Init( ) {
     Client[ "GetFramerate" ] = Client::GetFPS;
     Client[ "GetRealtime" ] = Client::GetRealTime;
     Client[ "GetDeltaTime" ] = Client::GetDeltaTime;
-    Client[ "GetFontList" ] = Client::GetFontList;
 
     auto Input = Lua.create_table( );
     Input[ "IsMouseHoveringRect" ] = Input::IsMouseHoveringRect;

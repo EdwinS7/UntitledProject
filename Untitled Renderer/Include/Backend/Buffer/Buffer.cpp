@@ -8,13 +8,6 @@ void cBuffer::Init( ) {
 
 	gInterface->Init( );
 	gWorld->Init( );
-
-	for ( auto& Callback : gWrapper->GetCallbacks( "OnObjectCreation" ) ) {
-		auto Result = Callback.Function( );
-
-		if ( !Result.valid( ) )
-			std::cout << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
-	}
 }
 
 void cBuffer::Release( ) {

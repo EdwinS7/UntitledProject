@@ -6,7 +6,6 @@
 #include <thread>
 #include <vector>
 #include <format>
-#include <random>
 
 #include <d3d9.h>
 #include <d3dx9.h>

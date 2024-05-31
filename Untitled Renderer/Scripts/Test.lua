@@ -1,21 +1,24 @@
--- Set background to Black (0R, 0G, 0B, 255A)
 Graphics.SetClearColor(Color.new(0, 0, 0, 255))
 
--- Create Font
-local DefaultFont = Renderer.CreateFont( "HalfLife2", 14, 400, Vector2.new( 0, 0 ), false)
+local DefaultFont = Renderer.CreateFont( "Segoe UI", 16, 400, Vector2.new( 0, 0 ), false)
 
--- Our text
-local ASCII = [[ HALF-LIFE 2
+local ASCII = [[
+    ,'\
+    _.----.        ____         ,'  _\   ___    ___     ____
+_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
+\      __    \    '-.  | /   `.  ___    |    \/    |   '-.   \ |  |
+ \.    \ \   |  __  |  |/    ,','_  `.  |          | __  |    \|  |
+   \    \/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |
+    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |
+     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |
+      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |
+       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |
+        \_.-'       |__|    `-._ |              '-.|     '-.| |   |
+                                `'                            '-._|
 ]]
-
-function ObjectCreation()
-  DefaultFont = Renderer.CreateFont( "HalfLife2", 14, 400, Vector2.new( 0, 0 ), false)
-end
     
-function InterfacePaint ()   
+function Interface ()   
 	Renderer.Text(DefaultFont, ASCII, Vector2.new(5, 5), Color.new(204, 53, 53,255))
 end
 
--- Callbacks { OnInterfacePaint, OnWorldPaint, OnInputUpdate, OnObjectCreation }
-AddCallback("OnObjectCreation", ObjectCreation)
-AddCallback("OnInterfacePaint", InterfacePaint)
+AddCallback("OnInterfacePaint", Interface)

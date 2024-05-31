@@ -27,20 +27,12 @@ void cGraphics::ResetDevice( LPARAM lparam ) {
     SafeRelease( m_VertexBuffer );
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Device );
-    
-    if ( !m_Fonts.empty( ) ) {
-        for ( auto& font : m_Fonts )
-            SafeRelease( font );
 
-        m_Fonts.clear( );
-    }
-    
     UpdatePresentParamaters( lparam );
+    UpdateRenderStates( m_Device );
 
     if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
         throw std::runtime_error( "[cGraphics::Reset] CreateDevice Failed?" );
-
-    UpdateRenderStates( m_Device );
 
     gBuffer->Init( );
 }
@@ -50,13 +42,6 @@ void cGraphics::Release( ) {
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Direct3D );
     SafeRelease( m_Device );
-
-    if ( !m_Fonts.empty( ) ) {
-        for ( auto& font : m_Fonts )
-            SafeRelease( font );
-
-        m_Fonts.clear( );
-    }
 }
 
 void cGraphics::Draw( ) {
@@ -226,18 +211,21 @@ Color cGraphics::GetClearColor( ) {
     return m_ClearColor;
 }
 
-void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing ) {
+void cGraphics::CreateFontFromName( Font* font, const char* font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing ) {
     FT_Library Library;
     FT_Face Face;
 
-    font->Path = GetFontPath( font_name.c_str( ) );
+    font->Path = GetFontPath( font_name );
     font->Padding = padding;
     font->Size = size;
 
-    if ( FT_Init_FreeType( &Library ) != FT_Err_Ok )
+    if ( FT_Init_FreeType( &Library ) != FT_Err_Ok ) {
+        throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Init_FreeType Failed?" );
         return;
+    }
 
     if ( FT_New_Face( Library, font->Path.c_str( ), 0, &Face ) ) {
+        throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_New_Face Failed?" );
         FT_Done_FreeType( Library );
         return;
     }
@@ -246,14 +234,18 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
     FT_Select_Charmap( Face, FT_ENCODING_UNICODE );
 
     for ( unsigned char i = 0; i < 128; ++i ) {
-        if ( FT_Load_Char( Face, i, antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) )
+        if ( FT_Load_Char( Face, i, antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) ) {
+            throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Load_Char Failed, Font Does Not Exist!" );
             continue;
+        }
 
         int width = Face->glyph->bitmap.width ? Face->glyph->bitmap.width : 16;
         int height = Face->glyph->bitmap.rows ? Face->glyph->bitmap.rows : 16;
 
-        if ( gGraphics->GetDevice( )->CreateTexture( static_cast< UINT >( width ), static_cast< UINT >( height ), 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) )
+        if ( gGraphics->GetDevice( )->CreateTexture( static_cast< UINT >( width ), static_cast< UINT >( height ), 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
+            throw std::runtime_error( "[cGraphics::CreateFontFromName] CreateTexture Failed?" );
             continue;
+        }
 
         D3DLOCKED_RECT lockedRect;
         font->CharSet[ i ].Texture->LockRect( 0, &lockedRect, nullptr, D3DLOCK_DISCARD );
@@ -298,5 +290,4 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
 
     FT_Done_Face( Face );
     FT_Done_FreeType( Library );
-    m_Fonts.push_back( font );
 }
