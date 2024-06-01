@@ -237,6 +237,7 @@
     <ClInclude Include="Include\Backend\Input\Input.hpp" />
     <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp" />
     <ClInclude Include="Include\Scenes\World\World.hpp" />
+    <ClInclude Include="Thirdparty\Base64.hpp" />
     <ClInclude Include="Thirdparty\Curl\curl.h" />
     <ClInclude Include="Thirdparty\Curl\curlver.h" />
     <ClInclude Include="Thirdparty\Curl\easy.h" />
@@ -390,6 +391,7 @@
     <ClInclude Include="Thirdparty\Lua\lundump.h" />
     <ClInclude Include="Thirdparty\Lua\lvm.h" />
     <ClInclude Include="Thirdparty\Lua\lzio.h" />
+    <ClInclude Include="Thirdparty\Sha256.hpp" />
     <ClInclude Include="Thirdparty\Sol\Config.hpp" />
     <ClInclude Include="Thirdparty\Sol\Forward.hpp" />
     <ClInclude Include="Thirdparty\Sol\Sol.hpp" />

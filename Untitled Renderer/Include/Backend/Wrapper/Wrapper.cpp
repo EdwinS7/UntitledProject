@@ -120,6 +120,13 @@ void cWrapper::Init( ) {
     auto Http = Lua.create_table( );
     Http[ "Get" ] = Http::Get;
     Http[ "Post" ] = Http::Post;
+    Http[ "Put" ] = Http::Put;
+    Http[ "Delete" ] = Http::Delete;
+
+    auto Utils = Lua.create_table( );
+    Http[ "Sha256Encode" ] = Utils::SHA256;
+    Http[ "Base64Encode" ] = Utils::Base64Encode;
+    Http[ "Base64Decode" ] = Utils::Base64Decode;
 
     Lua[ "Client" ] = Client;
     Lua[ "Input" ] = Input;
@@ -127,6 +134,7 @@ void cWrapper::Init( ) {
     Lua[ "Renderer" ] = Renderer;
     Lua[ "Math" ] = Math;
     Lua[ "Http" ] = Http;
+    Lua[ "Utils" ] = Utils;
 }
 
 int cWrapper::LoadScript( const std::string& source ) {

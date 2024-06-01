@@ -24,6 +24,8 @@
 
 #define CURL_STATICLIB
 
+#include <Base64.hpp>
+#include <Sha256.hpp>
 #include <Sol/Sol.hpp>
 #include <Curl/Include/curl.h>
 

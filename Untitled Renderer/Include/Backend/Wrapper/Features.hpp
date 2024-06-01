@@ -229,6 +229,72 @@ namespace Http {
 
         return Response;
     }
+
+    std::string Put( const std::string& url, const std::string& put_data ) {
+        CURL* Curl;
+        std::string Response;
+
+        Curl = curl_easy_init( );
+        if ( Curl ) {
+            curl_easy_setopt( Curl, CURLOPT_CUSTOMREQUEST, "PUT" );
+            curl_easy_setopt( Curl, CURLOPT_URL, url.c_str( ) );
+            curl_easy_setopt( Curl, CURLOPT_WRITEDATA, &Response );
+            curl_easy_setopt( Curl, CURLOPT_POSTFIELDS, put_data.c_str( ) );
+            curl_easy_setopt( Curl, CURLOPT_WRITEFUNCTION, +[ ] ( void* contents, size_t size, size_t nmemb, std::string* s ) -> size_t {
+                s->append( ( char* ) contents, size * nmemb );
+                return size * nmemb;
+            } );
+
+            CURLcode Result = curl_easy_perform( Curl );
+            if ( Result != CURLE_OK )
+                std::cerr << curl_easy_strerror( Result ) << "\n";
+
+            curl_easy_cleanup( Curl );
+        }
+
+        return Response;
+    }
+
+    std::string Delete( const std::string& url ) {
+        CURL* Curl;
+        std::string Response;
+
+        Curl = curl_easy_init( );
+        if ( Curl ) {
+            curl_easy_setopt( Curl, CURLOPT_CUSTOMREQUEST, "DELETE" );
+            curl_easy_setopt( Curl, CURLOPT_URL, url.c_str( ) );
+            curl_easy_setopt( Curl, CURLOPT_WRITEDATA, &Response );
+            curl_easy_setopt( Curl, CURLOPT_WRITEFUNCTION, +[ ] ( void* contents, size_t size, size_t nmemb, std::string* s ) -> size_t {
+                s->append( ( char* ) contents, size * nmemb );
+                return size * nmemb;
+            } );
+
+            CURLcode Result = curl_easy_perform( Curl );
+            if ( Result != CURLE_OK )
+                std::cerr << curl_easy_strerror( Result ) << "\n";
+
+            curl_easy_cleanup( Curl );
+        }
+
+        return Response;
+    }
+};
+
+namespace Utils {
+    std::string SHA256( const std::string& str ) {
+        cSHA256 Sha256;
+        Sha256.update( str );
+        std::array<uint8_t, 32> digest = Sha256.digest( );
+        return Sha256.toString( digest );
+    }
+
+    std::string Base64Encode( const std::string& str ) {
+        return base64::to_base64( str );
+    }
+
+    std::string Base64Decode( const std::string& str ) {
+        return base64::from_base64( str );
+    }
 };
 
 void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {
