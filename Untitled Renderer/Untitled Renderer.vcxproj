@@ -39,6 +39,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -74,25 +75,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/Lua/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib/x86/;$(ProjectDir)Thirdparty/Curl/;$(ProjectDir)Thirdparty/FreeType/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x86;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/Lua/;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)lib/x86/;$(ProjectDir)Thirdparty/Curl/;$(ProjectDir)Thirdparty/FreeType/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/Lua/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/lua/;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/Lua/;$(IncludePath)</IncludePath>
     <LibraryPath>$(DXSDK_DIR)lib/x64;$(ProjectDir)Thirdparty;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -111,7 +112,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>freetype.lib;Dwmapi.lib;d3d9.lib;d3dx9.lib;d3d11.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;Dwmapi.lib;d3d9.lib;d3dx9.lib;d3d11.lib;Ws2_32.lib;Crypt32.lib;Wldap32.lib;advapi32.lib;Normaliz.lib;libcurl_debug.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,7 +134,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>freetype.lib;Dwmapi.lib;d3d9.lib;d3dx9.lib;d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;Dwmapi.lib;d3d9.lib;d3dx9.lib;d3d11.lib;Ws2_32.lib;Crypt32.lib;Wldap32.lib;advapi32.lib;Normaliz.lib;libcurl_release.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -189,40 +190,40 @@
     <ClCompile Include="Include\Backend\Context\Context.cpp" />
     <ClCompile Include="Include\Backend\Input\Input.cpp" />
     <ClCompile Include="Include\Backend\Window\Window.cpp" />
-    <ClCompile Include="Thirdparty\lua\lapi.c" />
-    <ClCompile Include="Thirdparty\lua\lauxlib.c" />
-    <ClCompile Include="Thirdparty\lua\lbaselib.c" />
-    <ClCompile Include="Thirdparty\lua\lcode.c" />
-    <ClCompile Include="Thirdparty\lua\lcorolib.c" />
-    <ClCompile Include="Thirdparty\lua\lctype.c" />
-    <ClCompile Include="Thirdparty\lua\ldblib.c" />
-    <ClCompile Include="Thirdparty\lua\ldebug.c" />
-    <ClCompile Include="Thirdparty\lua\ldo.c" />
-    <ClCompile Include="Thirdparty\lua\ldump.c" />
-    <ClCompile Include="Thirdparty\lua\lfunc.c" />
-    <ClCompile Include="Thirdparty\lua\lgc.c" />
-    <ClCompile Include="Thirdparty\lua\linit.c" />
-    <ClCompile Include="Thirdparty\lua\liolib.c" />
-    <ClCompile Include="Thirdparty\lua\llex.c" />
-    <ClCompile Include="Thirdparty\lua\lmathlib.c" />
-    <ClCompile Include="Thirdparty\lua\lmem.c" />
-    <ClCompile Include="Thirdparty\lua\loadlib.c" />
-    <ClCompile Include="Thirdparty\lua\lobject.c" />
-    <ClCompile Include="Thirdparty\lua\lopcodes.c" />
-    <ClCompile Include="Thirdparty\lua\loslib.c" />
-    <ClCompile Include="Thirdparty\lua\lparser.c" />
-    <ClCompile Include="Thirdparty\lua\lstate.c" />
-    <ClCompile Include="Thirdparty\lua\lstring.c" />
-    <ClCompile Include="Thirdparty\lua\lstrlib.c" />
-    <ClCompile Include="Thirdparty\lua\ltable.c" />
-    <ClCompile Include="Thirdparty\lua\ltablib.c" />
-    <ClCompile Include="Thirdparty\lua\ltm.c" />
-    <ClCompile Include="Thirdparty\lua\lua.c" />
-    <ClCompile Include="Thirdparty\lua\luac.c" />
-    <ClCompile Include="Thirdparty\lua\lundump.c" />
-    <ClCompile Include="Thirdparty\lua\lutf8lib.c" />
-    <ClCompile Include="Thirdparty\lua\lvm.c" />
-    <ClCompile Include="Thirdparty\lua\lzio.c" />
+    <ClCompile Include="Thirdparty\Lua\lapi.c" />
+    <ClCompile Include="Thirdparty\Lua\lauxlib.c" />
+    <ClCompile Include="Thirdparty\Lua\lbaselib.c" />
+    <ClCompile Include="Thirdparty\Lua\lcode.c" />
+    <ClCompile Include="Thirdparty\Lua\lcorolib.c" />
+    <ClCompile Include="Thirdparty\Lua\lctype.c" />
+    <ClCompile Include="Thirdparty\Lua\ldblib.c" />
+    <ClCompile Include="Thirdparty\Lua\ldebug.c" />
+    <ClCompile Include="Thirdparty\Lua\ldo.c" />
+    <ClCompile Include="Thirdparty\Lua\ldump.c" />
+    <ClCompile Include="Thirdparty\Lua\lfunc.c" />
+    <ClCompile Include="Thirdparty\Lua\lgc.c" />
+    <ClCompile Include="Thirdparty\Lua\linit.c" />
+    <ClCompile Include="Thirdparty\Lua\liolib.c" />
+    <ClCompile Include="Thirdparty\Lua\llex.c" />
+    <ClCompile Include="Thirdparty\Lua\lmathlib.c" />
+    <ClCompile Include="Thirdparty\Lua\lmem.c" />
+    <ClCompile Include="Thirdparty\Lua\loadlib.c" />
+    <ClCompile Include="Thirdparty\Lua\lobject.c" />
+    <ClCompile Include="Thirdparty\Lua\lopcodes.c" />
+    <ClCompile Include="Thirdparty\Lua\loslib.c" />
+    <ClCompile Include="Thirdparty\Lua\lparser.c" />
+    <ClCompile Include="Thirdparty\Lua\lstate.c" />
+    <ClCompile Include="Thirdparty\Lua\lstring.c" />
+    <ClCompile Include="Thirdparty\Lua\lstrlib.c" />
+    <ClCompile Include="Thirdparty\Lua\ltable.c" />
+    <ClCompile Include="Thirdparty\Lua\ltablib.c" />
+    <ClCompile Include="Thirdparty\Lua\ltm.c" />
+    <ClCompile Include="Thirdparty\Lua\lua.c" />
+    <ClCompile Include="Thirdparty\Lua\luac.c" />
+    <ClCompile Include="Thirdparty\Lua\lundump.c" />
+    <ClCompile Include="Thirdparty\Lua\lutf8lib.c" />
+    <ClCompile Include="Thirdparty\Lua\lvm.c" />
+    <ClCompile Include="Thirdparty\Lua\lzio.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
@@ -236,138 +237,162 @@
     <ClInclude Include="Include\Backend\Input\Input.hpp" />
     <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp" />
     <ClInclude Include="Include\Scenes\World\World.hpp" />
-    <ClInclude Include="Thirdparty\freetype\config\ftconfig.h" />
-    <ClInclude Include="Thirdparty\freetype\config\ftheader.h" />
-    <ClInclude Include="Thirdparty\freetype\config\ftmodule.h" />
-    <ClInclude Include="Thirdparty\freetype\config\ftoption.h" />
-    <ClInclude Include="Thirdparty\freetype\config\ftstdlib.h" />
-    <ClInclude Include="Thirdparty\freetype\config\integer-types.h" />
-    <ClInclude Include="Thirdparty\freetype\config\mac-support.h" />
-    <ClInclude Include="Thirdparty\freetype\config\public-macros.h" />
-    <ClInclude Include="Thirdparty\freetype\freetype.h" />
-    <ClInclude Include="Thirdparty\freetype\ftadvanc.h" />
-    <ClInclude Include="Thirdparty\freetype\ftbbox.h" />
-    <ClInclude Include="Thirdparty\freetype\ftbdf.h" />
-    <ClInclude Include="Thirdparty\freetype\ftbitmap.h" />
-    <ClInclude Include="Thirdparty\freetype\ftbzip2.h" />
-    <ClInclude Include="Thirdparty\freetype\ftcache.h" />
-    <ClInclude Include="Thirdparty\freetype\ftchapters.h" />
-    <ClInclude Include="Thirdparty\freetype\ftcid.h" />
-    <ClInclude Include="Thirdparty\freetype\ftcolor.h" />
-    <ClInclude Include="Thirdparty\freetype\ftdriver.h" />
-    <ClInclude Include="Thirdparty\freetype\fterrdef.h" />
-    <ClInclude Include="Thirdparty\freetype\fterrors.h" />
-    <ClInclude Include="Thirdparty\freetype\ftfntfmt.h" />
-    <ClInclude Include="Thirdparty\freetype\ftgasp.h" />
-    <ClInclude Include="Thirdparty\freetype\ftglyph.h" />
-    <ClInclude Include="Thirdparty\freetype\ftgxval.h" />
-    <ClInclude Include="Thirdparty\freetype\ftgzip.h" />
-    <ClInclude Include="Thirdparty\freetype\ftimage.h" />
-    <ClInclude Include="Thirdparty\freetype\ftincrem.h" />
-    <ClInclude Include="Thirdparty\freetype\ftlcdfil.h" />
-    <ClInclude Include="Thirdparty\freetype\ftlist.h" />
-    <ClInclude Include="Thirdparty\freetype\ftlogging.h" />
-    <ClInclude Include="Thirdparty\freetype\ftlzw.h" />
-    <ClInclude Include="Thirdparty\freetype\ftmac.h" />
-    <ClInclude Include="Thirdparty\freetype\ftmm.h" />
-    <ClInclude Include="Thirdparty\freetype\ftmodapi.h" />
-    <ClInclude Include="Thirdparty\freetype\ftmoderr.h" />
-    <ClInclude Include="Thirdparty\freetype\ftotval.h" />
-    <ClInclude Include="Thirdparty\freetype\ftoutln.h" />
-    <ClInclude Include="Thirdparty\freetype\ftparams.h" />
-    <ClInclude Include="Thirdparty\freetype\ftpfr.h" />
-    <ClInclude Include="Thirdparty\freetype\ftrender.h" />
-    <ClInclude Include="Thirdparty\freetype\ftsizes.h" />
-    <ClInclude Include="Thirdparty\freetype\ftsnames.h" />
-    <ClInclude Include="Thirdparty\freetype\ftstroke.h" />
-    <ClInclude Include="Thirdparty\freetype\ftsynth.h" />
-    <ClInclude Include="Thirdparty\freetype\ftsystem.h" />
-    <ClInclude Include="Thirdparty\freetype\fttrigon.h" />
-    <ClInclude Include="Thirdparty\freetype\fttypes.h" />
-    <ClInclude Include="Thirdparty\freetype\ftwinfnt.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\autohint.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\cffotypes.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\cfftypes.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\compiler-macros.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftcalc.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftdebug.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftdrv.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftgloadr.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\fthash.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftmemory.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftmmtypes.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftobjs.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftpsprop.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftrfork.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftserv.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftstream.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\fttrace.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\ftvalid.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\psaux.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\pshints.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svbdf.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svcfftl.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svcid.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svfntfmt.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svgldict.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svgxval.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svkern.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svmetric.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svmm.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svotval.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svpfr.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svpostnm.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svprop.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svpscmap.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svpsinfo.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svsfnt.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svttcmap.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svtteng.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svttglyf.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\services\svwinfnt.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\sfnt.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\svginterface.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\t1types.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\tttypes.h" />
-    <ClInclude Include="Thirdparty\freetype\internal\wofftypes.h" />
-    <ClInclude Include="Thirdparty\freetype\otsvg.h" />
-    <ClInclude Include="Thirdparty\freetype\t1tables.h" />
-    <ClInclude Include="Thirdparty\freetype\ttnameid.h" />
-    <ClInclude Include="Thirdparty\freetype\tttables.h" />
-    <ClInclude Include="Thirdparty\freetype\tttags.h" />
-    <ClInclude Include="Thirdparty\ft2build.h" />
+    <ClInclude Include="Thirdparty\Curl\curl.h" />
+    <ClInclude Include="Thirdparty\Curl\curlver.h" />
+    <ClInclude Include="Thirdparty\Curl\easy.h" />
+    <ClInclude Include="Thirdparty\Curl\header.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\curl.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\curlver.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\easy.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\header.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\mprintf.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\multi.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\options.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\stdcheaders.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\system.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\typecheck-gcc.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\urlapi.h" />
+    <ClInclude Include="Thirdparty\Curl\Include\websockets.h" />
+    <ClInclude Include="Thirdparty\Curl\mprintf.h" />
+    <ClInclude Include="Thirdparty\Curl\multi.h" />
+    <ClInclude Include="Thirdparty\Curl\options.h" />
+    <ClInclude Include="Thirdparty\Curl\stdcheaders.h" />
+    <ClInclude Include="Thirdparty\Curl\system.h" />
+    <ClInclude Include="Thirdparty\Curl\typecheck-gcc.h" />
+    <ClInclude Include="Thirdparty\Curl\urlapi.h" />
+    <ClInclude Include="Thirdparty\Curl\websockets.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\ftconfig.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\ftheader.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\ftmodule.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\ftoption.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\ftstdlib.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\integer-types.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\mac-support.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\config\public-macros.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\freetype.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftadvanc.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftbbox.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftbdf.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftbitmap.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftbzip2.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftcache.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftchapters.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftcid.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftcolor.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftdriver.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\fterrdef.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\fterrors.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftfntfmt.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftgasp.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftglyph.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftgxval.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftgzip.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftimage.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftincrem.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftlcdfil.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftlist.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftlogging.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftlzw.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftmac.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftmm.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftmodapi.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftmoderr.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftotval.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftoutln.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftparams.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftpfr.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftrender.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftsizes.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftsnames.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftstroke.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftsynth.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftsystem.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\fttrigon.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\fttypes.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ftwinfnt.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\autohint.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\cffotypes.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\cfftypes.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\compiler-macros.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftcalc.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftdebug.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftdrv.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\fthash.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftmemory.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftmmtypes.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftobjs.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftpsprop.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftrfork.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftserv.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftstream.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\fttrace.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\ftvalid.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\psaux.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\pshints.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svbdf.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svcfftl.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svcid.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svfntfmt.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svgldict.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svgxval.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svkern.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svmetric.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svmm.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svotval.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svpfr.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svpostnm.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svprop.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svpscmap.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svpsinfo.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svsfnt.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svttcmap.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svtteng.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svttglyf.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\services\svwinfnt.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\sfnt.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\svginterface.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\t1types.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\tttypes.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\internal\wofftypes.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\otsvg.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\t1tables.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\ttnameid.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\tttables.h" />
+    <ClInclude Include="Thirdparty\FreeType\freetype\tttags.h" />
+    <ClInclude Include="Thirdparty\FreeType\ft2build.h" />
     <ClInclude Include="Include\Backend\Window\Window.hpp" />
-    <ClInclude Include="Thirdparty\lua\lapi.h" />
-    <ClInclude Include="Thirdparty\lua\lauxlib.h" />
-    <ClInclude Include="Thirdparty\lua\lcode.h" />
-    <ClInclude Include="Thirdparty\lua\lctype.h" />
-    <ClInclude Include="Thirdparty\lua\ldebug.h" />
-    <ClInclude Include="Thirdparty\lua\ldo.h" />
-    <ClInclude Include="Thirdparty\lua\lfunc.h" />
-    <ClInclude Include="Thirdparty\lua\lgc.h" />
-    <ClInclude Include="Thirdparty\lua\ljumptab.h" />
-    <ClInclude Include="Thirdparty\lua\llex.h" />
-    <ClInclude Include="Thirdparty\lua\llimits.h" />
-    <ClInclude Include="Thirdparty\lua\lmem.h" />
-    <ClInclude Include="Thirdparty\lua\lobject.h" />
-    <ClInclude Include="Thirdparty\lua\lopcodes.h" />
-    <ClInclude Include="Thirdparty\lua\lopnames.h" />
-    <ClInclude Include="Thirdparty\lua\lparser.h" />
-    <ClInclude Include="Thirdparty\lua\lprefix.h" />
-    <ClInclude Include="Thirdparty\lua\lstate.h" />
-    <ClInclude Include="Thirdparty\lua\lstring.h" />
-    <ClInclude Include="Thirdparty\lua\ltable.h" />
-    <ClInclude Include="Thirdparty\lua\ltm.h" />
-    <ClInclude Include="Thirdparty\lua\lua.h" />
-    <ClInclude Include="Thirdparty\lua\lua.hpp" />
-    <ClInclude Include="Thirdparty\lua\luaconf.h" />
-    <ClInclude Include="Thirdparty\lua\lualib.h" />
-    <ClInclude Include="Thirdparty\lua\lundump.h" />
-    <ClInclude Include="Thirdparty\lua\lvm.h" />
-    <ClInclude Include="Thirdparty\lua\lzio.h" />
-    <ClInclude Include="Thirdparty\sol\config.hpp" />
-    <ClInclude Include="Thirdparty\sol\forward.hpp" />
-    <ClInclude Include="Thirdparty\sol\sol.hpp" />
+    <ClInclude Include="Thirdparty\Lua\lapi.h" />
+    <ClInclude Include="Thirdparty\Lua\lauxlib.h" />
+    <ClInclude Include="Thirdparty\Lua\lcode.h" />
+    <ClInclude Include="Thirdparty\Lua\lctype.h" />
+    <ClInclude Include="Thirdparty\Lua\ldebug.h" />
+    <ClInclude Include="Thirdparty\Lua\ldo.h" />
+    <ClInclude Include="Thirdparty\Lua\lfunc.h" />
+    <ClInclude Include="Thirdparty\Lua\lgc.h" />
+    <ClInclude Include="Thirdparty\Lua\ljumptab.h" />
+    <ClInclude Include="Thirdparty\Lua\llex.h" />
+    <ClInclude Include="Thirdparty\Lua\llimits.h" />
+    <ClInclude Include="Thirdparty\Lua\lmem.h" />
+    <ClInclude Include="Thirdparty\Lua\lobject.h" />
+    <ClInclude Include="Thirdparty\Lua\lopcodes.h" />
+    <ClInclude Include="Thirdparty\Lua\lopnames.h" />
+    <ClInclude Include="Thirdparty\Lua\lparser.h" />
+    <ClInclude Include="Thirdparty\Lua\lprefix.h" />
+    <ClInclude Include="Thirdparty\Lua\lstate.h" />
+    <ClInclude Include="Thirdparty\Lua\lstring.h" />
+    <ClInclude Include="Thirdparty\Lua\ltable.h" />
+    <ClInclude Include="Thirdparty\Lua\ltm.h" />
+    <ClInclude Include="Thirdparty\Lua\lua.h" />
+    <ClInclude Include="Thirdparty\Lua\lua.hpp" />
+    <ClInclude Include="Thirdparty\Lua\luaconf.h" />
+    <ClInclude Include="Thirdparty\Lua\lualib.h" />
+    <ClInclude Include="Thirdparty\Lua\lundump.h" />
+    <ClInclude Include="Thirdparty\Lua\lvm.h" />
+    <ClInclude Include="Thirdparty\Lua\lzio.h" />
+    <ClInclude Include="Thirdparty\Sol\Config.hpp" />
+    <ClInclude Include="Thirdparty\Sol\Forward.hpp" />
+    <ClInclude Include="Thirdparty\Sol\Sol.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Backend\Buffer\Buffer.inl" />
@@ -377,10 +402,11 @@
     <None Include="Include\Backend\Input\Input.inl" />
     <None Include="Include\Backend\Window\Window.inl" />
     <None Include="Include\Scenes\World\World.inl" />
-    <None Include="Scripts\Test.lua" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Thirdparty\freetype.lib" />
+    <Library Include="Thirdparty\Curl\libcurl_debug.lib" />
+    <Library Include="Thirdparty\Curl\libcurl_release.lib" />
+    <Library Include="Thirdparty\FreeType\freetype.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

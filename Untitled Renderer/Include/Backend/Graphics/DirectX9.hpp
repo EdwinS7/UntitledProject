@@ -25,13 +25,15 @@ public:
 	void SetClearColor( const Color clear_color );
 	Color GetClearColor( );
 
-	void CreateFontFromName( Font* font, const char* font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing );
+	void CreateFontFromName( Font* font, std::string font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing );
 
 	inline void CreateTextureFromBytes( IDirect3DTexture9* texture, const std::vector<BYTE>* bytes, const Vec2<int16_t> size );
-	inline void CreateTextureFromFile( IDirect3DTexture9** texture, const char* file_name );
+	inline void CreateTextureFromFile( IDirect3DTexture9* texture, const char* file_name );
 
-	inline std::string GetFontPath( const char* font_name );
+	inline std::string GetFontPath( std::string font_name );
 	inline IDirect3DDevice9* GetDevice( );
+
+	std::vector<std::string> RegistryFontList;
 
 private:
 	IDirect3D9* m_Direct3D{};
@@ -45,6 +47,8 @@ private:
 	IDirect3DIndexBuffer9* m_IndexBuffer{};
 
 	Color m_ClearColor{ 0, 0, 0, 255 };
+
+	std::vector<Font*> m_Fonts;
 
 	template <typename type>
 	void SafeRelease( type*& obj );

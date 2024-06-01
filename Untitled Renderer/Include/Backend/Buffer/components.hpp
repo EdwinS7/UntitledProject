@@ -43,9 +43,21 @@ public:
 
 	constexpr bool operator==( const Vec2& v ) const noexcept { return x == v.x && y == v.y; }
 
+	constexpr Vec2 Min( const Vec2& v ) const noexcept {
+		return { x < v.x ? x : v.x, y < v.y ? y : v.y };
+	}
+
+	constexpr Vec2 Max( const Vec2& v ) const noexcept {
+		return { x > v.x ? x : v.x, y > v.y ? y : v.y };
+	}
+
 	constexpr void Lerp( const Vec2& v, const float& t ) noexcept {
 		x += static_cast< T >( ( v.x - x ) * t );
 		y += static_cast< T >( ( v.y - y ) * t );
+	}
+
+	constexpr Vec2 DistanceTo( const Vec2& v ) const noexcept {
+		return { static_cast< int16_t >( v.x - x ), static_cast< int16_t >( v.y - y ) };
 	}
 
 	template <typename U = T>

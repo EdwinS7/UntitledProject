@@ -28,11 +28,20 @@ void cGraphics::ResetDevice( LPARAM lparam ) {
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Device );
 
+    if ( !m_Fonts.empty( ) ) {
+        for ( auto& font : m_Fonts )
+            SafeRelease( font );
+
+        m_Fonts.clear( );
+    }
+
     UpdatePresentParamaters( lparam );
-    UpdateRenderStates( m_Device );
+    
 
     if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
         throw std::runtime_error( "[cGraphics::Reset] CreateDevice Failed?" );
+
+    UpdateRenderStates( m_Device );
 
     gBuffer->Init( );
 }
@@ -211,7 +220,7 @@ Color cGraphics::GetClearColor( ) {
     return m_ClearColor;
 }
 
-void cGraphics::CreateFontFromName( Font* font, const char* font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing ) {
+void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing ) {
     FT_Library Library;
     FT_Face Face;
 

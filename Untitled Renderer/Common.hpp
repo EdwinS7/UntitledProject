@@ -6,6 +6,7 @@
 #include <thread>
 #include <vector>
 #include <format>
+#include <random>
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -21,9 +22,12 @@
 #define TRIANGLE D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP
 #define LINE D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP
 
-#include "Thirdparty/sol/sol.hpp"
+#define CURL_STATICLIB
 
-#include "Thirdparty/ft2build.h"
+#include <Sol/Sol.hpp>
+#include <Curl/Include/curl.h>
+
+#include <FreeType/ft2build.h>
 #include FT_FREETYPE_H
 #include FT_BITMAP_H
 

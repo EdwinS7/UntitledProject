@@ -4,7 +4,12 @@
 //Need more money for my drugs so I added all this stuff to start ig
 
 void cWrapper::Init( ) {
-    Lua.open_libraries( /*sol::lib::base, sol::lib::string, sol::lib::math, sol::lib::table, sol::lib::debug, sol::lib::package*/ );
+    Lua.open_libraries( 
+        sol::lib::base, sol::lib::package, sol::lib::coroutine,
+        sol::lib::string, sol::lib::math, sol::lib::table,
+        sol::lib::debug, sol::lib::bit32, sol::lib::utf8
+        /*sol::lib::ffi, sol::lib::jit*/
+    );
 
     // Disabled for user safety.
     Lua[ "collectgarbage" ] = sol::nil;
@@ -17,41 +22,49 @@ void cWrapper::Init( ) {
     Lua[ "setmetatable" ] = sol::nil;
     Lua[ "__nil_callback" ] = [ ] ( ) {};
 
-    Lua.new_usertype<Vec2<int16_t>>( "Vector2", sol::constructors<Vec2<int16_t>( ), Vec2<int16_t>( int16_t, int16_t )>( ),
+    Lua.new_usertype<Vec2<int16_t>>( 
+        "Vector2", sol::constructors<Vec2<int16_t>( ), Vec2<int16_t>( int16_t, int16_t )>( ),
         "x", &Vec2<int16_t>::x,
         "y", &Vec2<int16_t>::y,
-        "Lerp", &Vec2<int16_t>::Lerp
+        "Min", &Vec2<int16_t>::Min,
+        "Max", &Vec2<int16_t>::Max,
+        "Lerp", &Vec2<int16_t>::Lerp,
+        "DistanceTo", &Vec2<int16_t>::DistanceTo
     );
 
-    Lua.new_usertype <Vec3<int>>( "Vector3", sol::constructors<Vec3<int>( ), Vec3<int>( int, int, int )>( ),
-         "x", &Vec3<int>::x,
-         "y", &Vec3<int>::y,
-         "z", &Vec3<int>::z,
-         "Lerp", &Vec3<int>::Lerp
+    Lua.new_usertype <Vec3<int>>( 
+        "Vector3", sol::constructors<Vec3<int>( ), Vec3<int>( int, int, int )>( ),
+        "x", &Vec3<int>::x,
+        "y", &Vec3<int>::y,
+        "z", &Vec3<int>::z,
+        "Lerp", &Vec3<int>::Lerp
     );
 
-    Lua.new_usertype <Vec4<int>>( "Vector4", sol::constructors<Vec4<int>( ), Vec4<int>( int, int, int, int )>( ),
-         "x", &Vec4<int>::x,
-         "y", &Vec4<int>::y,
-         "z", &Vec4<int>::z,
-         "w", &Vec4<int>::w,
-         "Lerp", &Vec4<int>::Lerp
+    Lua.new_usertype <Vec4<int>>( 
+        "Vector4", sol::constructors<Vec4<int>( ), Vec4<int>( int, int, int, int )>( ),
+        "x", &Vec4<int>::x,
+        "y", &Vec4<int>::y,
+        "z", &Vec4<int>::z,
+        "w", &Vec4<int>::w,
+        "Lerp", &Vec4<int>::Lerp
     );
 
-    Lua.new_usertype <Rect<int>>( "Rect", sol::constructors<Rect<int>( ), Rect<int16_t>( int16_t, int16_t, int16_t, int16_t )>( ),
-         "x", &Rect<int>::x,
-         "y", &Rect<int>::y,
-         "w", &Rect<int>::w,
-         "h", &Rect<int>::h,
-         "Lerp", &Rect<int>::Lerp
+    Lua.new_usertype <Rect<int>>( 
+        "Rect", sol::constructors<Rect<int>( ), Rect<int16_t>( int16_t, int16_t, int16_t, int16_t )>( ),
+        "x", &Rect<int>::x,
+        "y", &Rect<int>::y,
+        "w", &Rect<int>::w,
+        "h", &Rect<int>::h,
+        "Lerp", &Rect<int>::Lerp
     );
 
-    Lua.new_usertype<Color>( "Color", sol::constructors<Color( ), Color( uint8_t, uint8_t, uint8_t, uint8_t )>( ),
-         "Hex", &Color::Hex,
-         "r", sol::property( &Color::getR ),
-         "g", sol::property( &Color::getG ),
-         "b", sol::property( &Color::getB ),
-         "a", sol::property( &Color::getA )
+    Lua.new_usertype<Color>( 
+        "Color", sol::constructors<Color( ), Color( uint8_t, uint8_t, uint8_t, uint8_t )>( ),
+        "Hex", &Color::Hex,
+        "r", sol::property( &Color::getR ),
+        "g", sol::property( &Color::getG ),
+        "b", sol::property( &Color::getB ),
+        "a", sol::property( &Color::getA )
     );
 
     // Globals
@@ -62,6 +75,7 @@ void cWrapper::Init( ) {
     Client[ "GetFramerate" ] = Client::GetFPS;
     Client[ "GetRealtime" ] = Client::GetRealTime;
     Client[ "GetDeltaTime" ] = Client::GetDeltaTime;
+    Client[ "GetFontList" ] = Client::GetFontList;
 
     auto Input = Lua.create_table( );
     Input[ "IsMouseHoveringRect" ] = Input::IsMouseHoveringRect;
@@ -103,28 +117,33 @@ void cWrapper::Init( ) {
     Math[ "RandomFloat" ] = Math::RandomFloat;
     Math[ "RandomInt" ] = Math::RandomInt;
 
+    auto Http = Lua.create_table( );
+    Http[ "Get" ] = Http::Get;
+    Http[ "Post" ] = Http::Post;
+
     Lua[ "Client" ] = Client;
     Lua[ "Input" ] = Input;
     Lua[ "Graphics" ] = Graphics;
     Lua[ "Renderer" ] = Renderer;
     Lua[ "Math" ] = Math;
+    Lua[ "Http" ] = Http;
 }
 
 int cWrapper::LoadScript( const std::string& source ) {
     if ( source.empty( ) )
         return 0;
 
-    bool encounteredError = false;
+    bool Error = false;
 
-    Lua.safe_script( source, [ &encounteredError ] ( lua_State*, sol::protected_function_result Result ) {
+    Lua.safe_script( source, [ &Error ] ( lua_State*, sol::protected_function_result Result ) {
         if ( !Result.valid( ) ) {
             std::cout << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) + "\n";
-            encounteredError = true;
+            Error = true;
         }
         return Result;
     } );
 
-    if ( encounteredError )
+    if ( Error )
         return 0;
 
     return 1;
