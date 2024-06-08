@@ -383,7 +383,17 @@ void cWrapper::Init( ) {
     Input[ "SetCursorStyle" ] = Input::SetCursorStyle;
     Input[ "GetCursorStyle" ] = Input::GetCursorStyle;
 
+    auto Window = Lua.create_table( );
+    Window[ "SetFullscreen" ] = Window::SetFullscreen;
+    Window[ "GetFullscreen" ] = Window::GetFullscreen;
+    Window[ "SetSize" ] = Window::SetSize;
+    Window[ "GetSize" ] = Window::GetSize;
+    Window[ "SetPos" ] = Window::SetPos;
+    Window[ "GetPos" ] = Window::GetPos;
+
     auto Graphics = Lua.create_table( );
+    Graphics[ "SetVerticalSync" ] = Graphics::SetVerticalSync;
+    Graphics[ "GetVerticalSync" ] = Graphics::GetVerticalSync;
     Graphics[ "SetClearColor" ] = Graphics::SetClearColor;
     Graphics[ "GetClearColor" ] = Graphics::GetClearColor;
 
@@ -431,6 +441,7 @@ void cWrapper::Init( ) {
     Lua[ "Client" ] = Client;
     Lua[ "Audio" ] = Audio;
     Lua[ "Input" ] = Input;
+    Lua[ "Window" ] = Window;
     Lua[ "Graphics" ] = Graphics;
     Lua[ "Renderer" ] = Renderer;
     Lua[ "Math" ] = Math;

@@ -38,6 +38,16 @@ inline std::string cGraphics::GetFontPath( std::string font_name ) {
     return std::string( fonts_directory ) + '\\' + font_path;
 }
 
+inline void cGraphics::SetVerticalSync(const bool vertical_sync) {
+    m_Parameters.PresentationInterval = vertical_sync ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+    m_VerticalSync = vertical_sync;
+    ResetDevice();
+}
+
+inline bool cGraphics::GetVerticalSync() {
+    return m_VerticalSync;
+}
+
 inline void cGraphics::SetDevice( IDirect3DDevice9* device ) {
     m_Device = device;
 }

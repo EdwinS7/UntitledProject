@@ -3,7 +3,7 @@
 int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int show_cmd ) {
     gFileSystem->Init( );
     
-    gWindow->Init( "Untitled Renderer", Vec2<int16_t>( 1280, 720 ), true );
+    gWindow->Init( "Untitled Renderer", Vec2<int16_t>( 1920, 1080 ), true );
     gGraphics->Init( gWindow->GetHandle( ) );
     gBuffer->Init( );
 

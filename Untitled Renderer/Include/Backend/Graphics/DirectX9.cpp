@@ -3,7 +3,7 @@
 bool cGraphics::Init( HWND hwnd ) {
     m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
     
-    m_Parameters.Windowed = TRUE;
+    m_Parameters.Windowed = gWindow->GetFullscreen( );
     m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
     m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
     m_Parameters.EnableAutoDepthStencil = TRUE;

@@ -92,9 +92,43 @@ namespace Input {
     }
 };
 
+namespace Window {
+    void SetFullscreen( const bool fullscreen ) {
+        gWindow->SetFullscreen( fullscreen );
+    }
+
+    bool GetFullscreen( ) {
+        return gWindow->GetFullscreen( );
+    }
+
+    void SetPos( const Vec2<int16_t>& position )  {
+        gWindow->SetPos( position );
+    }
+
+    Vec2<int16_t> GetPos( ) {
+        return gWindow->GetPos( );
+    }
+
+    void SetSize( const Vec2<int16_t>& size ) {
+        gWindow->SetSize( size );
+    }
+
+    Vec2<int16_t> GetSize( ) {
+        return gWindow->GetSize( );
+    }
+};
+
 namespace Graphics {
-    void SetClearColor( Color clear_color ) {
-        return gGraphics->SetClearColor( clear_color );
+    void SetVerticalSync( const bool vertical_sync ) {
+        gGraphics->SetVerticalSync( vertical_sync );
+    }
+
+    bool GetVerticalSync( ) {
+        return gGraphics->GetVerticalSync( );
+    }
+
+    void SetClearColor( const Color clear_color ) {
+        gGraphics->SetClearColor( clear_color );
     }
 
     Color GetClearColor( ) {

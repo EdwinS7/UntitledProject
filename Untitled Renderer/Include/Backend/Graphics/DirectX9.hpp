@@ -30,6 +30,9 @@ public:
 
 	inline std::string GetFontPath( std::string font_name );
 
+	inline void SetVerticalSync( const bool vertical_sync );
+	inline bool GetVerticalSync( );
+
 	inline void SetDevice( IDirect3DDevice9* device );
 	inline IDirect3DDevice9* GetDevice( ) const;
 
@@ -53,6 +56,8 @@ private:
 	IDirect3DIndexBuffer9* m_IndexBuffer{};
 
 	Color m_ClearColor{ 0, 0, 0, 255 };
+
+	bool m_VerticalSync{ false };
 
 	std::vector<Font*> m_Fonts;
 	std::vector<IDirect3DTexture9*> m_Textures;

@@ -6,23 +6,30 @@
 
 class cWin32 {
 public:
-	void Init( const char* title, const Vec2<int16_t>& size = { 1280, 720 }, const bool console = false );
+	void Init( const char* title, const Vec2<int16_t>& size = { 1280, 720 }, const bool fullscreen = true );
 
 	inline bool DispatchMessages( );
 	inline bool IsFocused( );
 
-	inline Vec2<int16_t> GetPos( );
-	inline Vec2<int16_t> GetSize( );
+	inline void SetFullscreen( const bool fullscreen );
+	inline bool GetFullscreen( );
 
-	inline Rect<int16_t> GetRect( );
-	inline Rect<int16_t> GetClipRect( );
+	inline void SetPos( const Vec2<int16_t>& pos );
+	inline Vec2<int16_t> GetPos( ) const;
 
-	inline HWND GetHandle( );
+	inline void SetSize( const Vec2<int16_t>& size );
+	inline Vec2<int16_t> GetSize( ) const;
+
+	inline Rect<int16_t> GetRect( ) const;
+	inline Rect<int16_t> GetClipRect( ) const;
+
+	inline HWND GetHandle( ) const;
 
 private:
-
 	HWND m_Hwnd;
 	WNDCLASSEX m_WindowClass;
+
+	bool m_Fullscreen{ true };
 };
 
 inline const auto gWindow = std::make_unique<cWin32>( );
