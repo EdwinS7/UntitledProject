@@ -11,10 +11,10 @@ void cLogger::Print( LogLevel level, const std::string& message ) {
 		fmt_message.append( "[?] " );
 		break;
 	case LogLevel::Warning:
-		fmt_message.append( "[*] " );
+		fmt_message.append( "[!] " );
 		break;
 	case LogLevel::Error:
-		fmt_message.append( "[!] " );
+		fmt_message.append( "[x] " );
 		break;
 	}
 

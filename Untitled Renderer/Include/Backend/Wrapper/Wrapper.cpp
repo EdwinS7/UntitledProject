@@ -39,7 +39,7 @@ void cWrapper::Init( ) {
     Lua[ "load" ] = sol::nil;
     Lua[ "loadfile" ] = sol::nil;
     Lua[ "pcall" ] = sol::nil;
-    Lua[ "print" ] = Client::Print;
+    Lua[ "print" ] = sol::nil;
     Lua[ "xpcall" ] = sol::nil;
     Lua[ "getmetatable" ] = sol::nil;
     Lua[ "setmetatable" ] = sol::nil;
@@ -242,6 +242,13 @@ void cWrapper::Init( ) {
     Lua.set( "KEY_RIGHT_BRACKET", KEY_RIGHT_BRACKET );
     Lua.set( "KEY_QUOTE", KEY_QUOTE );
     Lua.set( "KEY_LESS_THAN", KEY_LESS_THAN );
+
+    Lua.new_enum( "LogLevel",
+        "Normal", LogLevel::Normal,
+        "Information", LogLevel::Information,
+        "Warning", LogLevel::Warning,
+        "Error", LogLevel::Error
+    );
 
     Lua.new_usertype<Vec2<int16_t>>(
         "Vector2", sol::constructors<Vec2<int16_t>( ), Vec2<int16_t>( int16_t, int16_t )>( ),

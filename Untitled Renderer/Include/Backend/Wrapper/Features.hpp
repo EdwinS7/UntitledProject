@@ -1,3 +1,5 @@
+#include "../../Common.hpp"
+
 std::vector<std::string> CallbackIdentifiers{
     "OnInterfacePaint",
     "OnWorldPaint",
@@ -6,8 +8,14 @@ std::vector<std::string> CallbackIdentifiers{
 };
 
 namespace Client {
-    void Print( LogLevel log_level, const std::string& message ) {
-        gLogger->Print( log_level, message );
+    void Print( LogLevel log_level, const std::string& message, sol::variadic_args args ) {
+        std::ostringstream oss;
+        oss << message;
+
+        for ( auto arg : args )
+            oss << arg.as<std::string>( );
+
+        gLogger->Print( log_level, oss.str( ) );
     }
 
     std::string GetUsername( ) {
