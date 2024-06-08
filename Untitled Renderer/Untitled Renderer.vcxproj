@@ -408,6 +408,7 @@
     <None Include="Include\Backend\Camera\Camera.inl" />
     <None Include="Include\Backend\Context\Context.inl" />
     <None Include="Include\Backend\Graphics\DirectX9.inl" />
+    <None Include="Include\Backend\Wrapper\Wrapper.inl" />
     <None Include="Include\Scenes\Interface\Interface.inl" />
     <None Include="Include\Backend\Input\Input.inl" />
     <None Include="Include\Backend\Window\Window.inl" />

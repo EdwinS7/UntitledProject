@@ -429,16 +429,3 @@ int cWrapper::LoadScriptFromFile( const std::string& file_name ) {
 
     return LoadScript( scriptContent );
 }
-
-void cWrapper::RegisterCallback( std::string event_name, sol::protected_function Callback ) {
-    this->m_Callbacks[ event_name ].push_back( cLuaCallback( Callback ) );
-}
-
-void cWrapper::UnregisterCallbacks( ) {
-    if (!m_Callbacks.empty() )
-        m_Callbacks.clear( );
-}
-
-std::vector<cLuaCallback> cWrapper::GetCallbacks( std::string event_name ) {
-    return this->m_Callbacks[ event_name ];
-}
