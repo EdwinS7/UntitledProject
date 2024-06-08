@@ -1,16 +1,20 @@
 #include "Common.hpp"
 
 int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int show_cmd ) {
+    gFileSystem->Init( );
+    
     gWindow->Init( "Untitled Renderer", Vec2<int16_t>( 1280, 720 ), true );
     gGraphics->Init( gWindow->GetHandle( ) );
-    gWrapper->Init( );
     gBuffer->Init( );
 
+    gWrapper->Init( );
+    gAudio->Init( );
+    
     std::string Script = "";
     std::cin >> Script;
     system( "cls" );
 
-    gWrapper->LoadScriptFromFile( Script );
+    gWrapper->LoadScriptFromFile( "Scripts/", Script );
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );
@@ -26,4 +30,5 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     gGraphics->Release( );
     gBuffer->Release( );
+    gAudio->Release( );
 }

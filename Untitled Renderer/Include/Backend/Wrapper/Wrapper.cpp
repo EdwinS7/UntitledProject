@@ -39,6 +39,7 @@ void cWrapper::Init( ) {
     Lua[ "load" ] = sol::nil;
     Lua[ "loadfile" ] = sol::nil;
     Lua[ "pcall" ] = sol::nil;
+    Lua[ "print" ] = Client::Print;
     Lua[ "xpcall" ] = sol::nil;
     Lua[ "getmetatable" ] = sol::nil;
     Lua[ "setmetatable" ] = sol::nil;
@@ -352,6 +353,7 @@ void cWrapper::Init( ) {
     Lua[ "AddCallback" ] = AddCallback;
 
     auto Client = Lua.create_table( );
+    Client[ "Print" ] = Client::Print;
     Client[ "GetUsername" ] = Client::GetUsername;
     Client[ "GetFramerate" ] = Client::GetFPS;
     Client[ "GetRealtime" ] = Client::GetRealTime;
@@ -359,7 +361,7 @@ void cWrapper::Init( ) {
     Client[ "GetFontList" ] = Client::GetFontList;
 
     auto Audio = Lua.create_table( );
-    Audio[ "OpenSound" ] = Audio::OpenSound;
+    Audio[ "LoadSound" ] = Audio::LoadSound;
     Audio[ "PlaySound" ] = Audio::PlaySound_;
     Audio[ "StopSound" ] = Audio::StopSound;
     Audio[ "StopAllSounds" ] = Audio::StopAllSounds;
@@ -428,6 +430,11 @@ void cWrapper::Init( ) {
     Lua[ "Http" ] = Http;
     Lua[ "Json" ] = Json;
     Lua[ "Utils" ] = Utils;
+
+    // Run scripts located in the 'DefaultScripts/' Folder
+    for ( auto& File : gFileSystem->GetFilesInFolder( "DefaultScripts/" ) ) {
+        LoadScriptFromFile( "DefaultScripts/", File );
+    }
 }
 
 std::string FormatSolError( const std::string& error_message ) {
@@ -465,17 +472,6 @@ int cWrapper::LoadScript( const std::string& source ) {
     return 1;
 }
 
-int cWrapper::LoadScriptFromFile( const std::string& file_name ) {
-    std::string full_path = "Scripts/" + file_name;
-
-    std::ifstream inFile( full_path );
-    if ( !inFile.is_open( ) ) {
-        MessageBox( NULL, "Failed to open Lua script file?", "FileSystem Error!", MB_OK | MB_ICONERROR );
-        return false;
-    }
-
-    std::string scriptContent( ( std::istreambuf_iterator<char>( inFile ) ), std::istreambuf_iterator<char>( ) );
-    inFile.close( );
-
-    return LoadScript( scriptContent );
+int cWrapper::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
+    return LoadScript( gFileSystem->GetFileContent( folder_path, file_name ) );
 }

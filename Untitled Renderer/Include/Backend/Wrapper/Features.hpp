@@ -6,6 +6,10 @@ std::vector<std::string> CallbackIdentifiers{
 };
 
 namespace Client {
+    void Print( LogLevel log_level, const std::string& message ) {
+        gLogger->Print( log_level, message );
+    }
+
     std::string GetUsername( ) {
         return gContext->GetUsername( );
     }
@@ -28,16 +32,16 @@ namespace Client {
 };
 
 namespace Audio {
-    void OpenSound( const std::string& name ) {
-        gAudio->OpenSound( name );
+    int LoadSound( const std::string& file_name ) {
+        return gAudio->LoadSound( file_name );
     }
 
-    void PlaySound_( const std::string& name ) {
-        gAudio->PlaySound_( name );
+    void PlaySound_( const int sound_id ) {
+        gAudio->PlaySound_( sound_id );
     }
 
-    void StopSound( const std::string& name ) {
-        gAudio->StopSound( name );
+    void StopSound( const int sound_id ) {
+        gAudio->StopSound( sound_id );
     }
 
     void StopAllSounds( ) {

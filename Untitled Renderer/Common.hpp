@@ -35,6 +35,8 @@ using json = nlohmann::json;
 #include FT_FREETYPE_H
 #include FT_BITMAP_H
 
+#include "Include/Backend/FileSystem/FileSystem.hpp"
+
 #include "Include/Backend/Graphics/DirectX9.hpp"
 
 #include "Include/Backend/Buffer/Buffer.hpp"
@@ -42,6 +44,7 @@ using json = nlohmann::json;
 
 #include "Include/Backend/Audio/Audio.hpp"
 #include "Include/Backend/Input/Input.hpp"
+#include "Include/Backend/Logger/Logger.hpp"
 #include "Include/Backend/Window/Window.hpp"
 #include "Include/Backend/Camera/Camera.hpp"
 

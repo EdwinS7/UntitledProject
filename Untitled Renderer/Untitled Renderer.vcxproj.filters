@@ -150,6 +150,12 @@
     <ClCompile Include="Include\Backend\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Include\Backend\Logger\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Backend\FileSystem\FileSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Backend\Window\Window.hpp">
@@ -671,6 +677,12 @@
     <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Backend\Logger\Logger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Backend\FileSystem\FileSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Backend\Buffer\Buffer.inl">
@@ -701,6 +713,12 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Backend\Wrapper\Wrapper.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Backend\Logger\Logger.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Backend\FileSystem\FileSystem.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

@@ -6,14 +6,17 @@
 
 class cAudio {
 public:
-    void OpenSound( const std::string& file_name );
-    void PlaySound_( const std::string& name );
-    void StopSound( const std::string& name );
+    void Init( );
+    void Release( );
+
+    int LoadSound( const std::string& file_name );
+    void PlaySound_( const int sound_id );
+    void StopSound( const int sound_id );
 
     void StopAllSounds( );
 
 private:
-    std::unordered_map<std::string, std::vector<unsigned char>> m_Sounds;
+    std::vector<std::vector<float>> sounds;
 
 };
 

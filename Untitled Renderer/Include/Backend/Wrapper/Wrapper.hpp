@@ -13,7 +13,7 @@ public:
 	void Init( );
 
 	int LoadScript( const std::string& source );
-	int LoadScriptFromFile( const std::string& file_name );
+	int LoadScriptFromFile( const std::string& folder_path, const std::string& file_name );
 
 	inline void RegisterCallback( std::string eventName, sol::protected_function Callback );
 	inline void UnregisterCallbacks( );

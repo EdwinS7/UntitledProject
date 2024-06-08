@@ -183,7 +183,9 @@
   <ItemGroup>
     <ClCompile Include="Include\Backend\Audio\Audio.cpp" />
     <ClCompile Include="Include\Backend\Camera\Camera.cpp" />
+    <ClCompile Include="Include\Backend\FileSystem\FileSystem.cpp" />
     <ClCompile Include="Include\Backend\Graphics\DirectX9.cpp" />
+    <ClCompile Include="Include\Backend\Logger\Logger.cpp" />
     <ClCompile Include="Include\Backend\Wrapper\Wrapper.cpp" />
     <ClCompile Include="Include\Scenes\Interface\Interface.cpp" />
     <ClCompile Include="Include\Scenes\World\World.cpp" />
@@ -234,8 +236,10 @@
     <ClInclude Include="Include\Backend\Context\Context.hpp" />
     <ClInclude Include="Include\Backend\Buffer\Buffer.hpp" />
     <ClInclude Include="Include\Backend\Buffer\Components.hpp" />
+    <ClInclude Include="Include\Backend\FileSystem\FileSystem.hpp" />
     <ClInclude Include="Include\Backend\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp" />
+    <ClInclude Include="Include\Backend\Logger\Logger.hpp" />
     <ClInclude Include="Include\Backend\Wrapper\Features.hpp" />
     <ClInclude Include="Include\Backend\Wrapper\Wrapper.hpp" />
     <ClInclude Include="Include\Scenes\Interface\Interface.hpp" />
@@ -407,7 +411,9 @@
     <None Include="Include\Backend\Buffer\Buffer.inl" />
     <None Include="Include\Backend\Camera\Camera.inl" />
     <None Include="Include\Backend\Context\Context.inl" />
+    <None Include="Include\Backend\FileSystem\FileSystem.inl" />
     <None Include="Include\Backend\Graphics\DirectX9.inl" />
+    <None Include="Include\Backend\Logger\Logger.inl" />
     <None Include="Include\Backend\Wrapper\Wrapper.inl" />
     <None Include="Include\Scenes\Interface\Interface.inl" />
     <None Include="Include\Backend\Input\Input.inl" />
