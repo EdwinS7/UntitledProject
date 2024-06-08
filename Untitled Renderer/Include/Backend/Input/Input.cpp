@@ -19,7 +19,7 @@ void cInput::PoolInput( ) {
 }
 
 bool cInput::IsActive( ) {
-	return GetFocus( ) == gWindow->GetHandle( );
+	return gWindow->IsFocused( );
 }
 
 void cInput::SetMousePos( Vec2<int16_t> position ) {

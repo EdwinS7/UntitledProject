@@ -1,6 +1,65 @@
 #include "Window.hpp"
 
-inline LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
+LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
+
+void cWin32::Init( const char* title, const Vec2<int16_t>& size, const bool fullscreen ) {
+	m_WindowClass = {
+		sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
+		0L, 0L, GetModuleHandle( NULL ),
+		NULL, NULL, NULL,
+		NULL, title, NULL
+	};
+
+	RegisterClassEx( &m_WindowClass );
+
+    Vec2<int16_t> WindowSize;
+
+	RECT DesktopRect;
+	GetWindowRect( GetDesktopWindow( ), &DesktopRect );
+
+    WindowSize = { static_cast< int16_t >( DesktopRect.right ), static_cast< int16_t >( DesktopRect.bottom ) };
+
+	m_Hwnd = CreateWindow(
+		m_WindowClass.lpszClassName, title, WS_OVERLAPPEDWINDOW,
+        fullscreen ? 0 : ( WindowSize.y / 2 ) - (size.x / 2), fullscreen ? 0 : ( WindowSize.x / 2) - (size.y / 2), size.x, size.y, NULL, NULL,
+		m_WindowClass.hInstance, NULL
+	);
+
+    if ( fullscreen ) {
+        LONG_PTR Style = GetWindowLongPtr( m_Hwnd, GWL_STYLE );
+        Style &= ~( WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU );
+        SetWindowLongPtr( m_Hwnd, GWL_STYLE, Style );
+    }
+	
+	ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
+	UpdateWindow( m_Hwnd );
+
+    // Just for developers rn
+    AllocConsole( );
+    SetConsoleTitleA( title );
+
+    FILE* fp = nullptr;
+    freopen_s( &fp, "CONIN$", "r", stdin );
+    freopen_s( &fp, "CONOUT$", "w", stdout );
+    freopen_s( &fp, "CONOUT$", "w", stderr );
+}
+
+bool cWin32::DispatchMessages( ) {
+    MSG msg;
+
+    std::memset( &msg, 0, sizeof( MSG ) );
+    if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
+        TranslateMessage( &msg );
+        DispatchMessage( &msg );
+
+        if ( msg.message == WM_QUIT )
+            return false;
+    }
+
+    return true;
+}
+
+LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
     static bool isResizing = false;
 
     switch ( msg ) {
@@ -20,7 +79,7 @@ inline LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
             RECT Rect;
             GetClientRect( hwnd, &Rect );
 
-            gGraphics->UpdatePresentationParameters( 
+            gGraphics->UpdatePresentationParameters(
                 MAKELPARAM( Rect.right - Rect.left, Rect.bottom - Rect.top )
             );
 
@@ -43,41 +102,4 @@ inline LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
     }
 
     return DefWindowProc( hwnd, msg, wParam, lParam );
-}
-
-void cWin32::Init( const char* title, const Vec2<int16_t>& size, const bool fullscreen ) {
-	m_WindowClass = {
-		sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
-		0L, 0L, GetModuleHandle( NULL ),
-		NULL, NULL, NULL,
-		NULL, title, NULL
-	};
-
-	RegisterClassEx( &m_WindowClass );
-
-    Vec2<int16_t> WindowSize;
-
-	RECT DesktopRect;
-	GetWindowRect( GetDesktopWindow( ), &DesktopRect );
-
-    WindowSize = { static_cast< int16_t >( DesktopRect.right ), static_cast< int16_t >( DesktopRect.bottom ) };
-
-	m_Hwnd = CreateWindow(
-		m_WindowClass.lpszClassName, title, WS_OVERLAPPEDWINDOW,
-		( WindowSize.y / 2 ) - (size.x / 2), ( WindowSize.x / 2) - (size.y / 2), size.x, size.y, NULL, NULL,
-		m_WindowClass.hInstance, NULL
-	);
-	
-	ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
-	UpdateWindow( m_Hwnd );
-
-    SetFullscreen( fullscreen );
-
-    AllocConsole( );
-    SetConsoleTitleA( title );
-
-    FILE* fp = nullptr;
-    freopen_s( &fp, "CONIN$", "r", stdin );
-    freopen_s( &fp, "CONOUT$", "w", stdout );
-    freopen_s( &fp, "CONOUT$", "w", stderr );
 }

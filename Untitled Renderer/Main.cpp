@@ -20,7 +20,7 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
         gContext->Update( );
         gCamera->Update( );
 
-        if ( gWindow->IsFocused( ) ) {
+        if ( !gWindow->IsMinimized( ) ) {
             gInterface->Draw( );
             gWorld->Draw( );
         }

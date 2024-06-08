@@ -7,12 +7,13 @@
 class cWin32 {
 public:
 	void Init( const char* title, const Vec2<int16_t>& size = { 1280, 720 }, const bool fullscreen = true );
+	bool DispatchMessages( );
 
-	inline bool DispatchMessages( );
+	inline bool IsMinimized( );
 	inline bool IsFocused( );
 
-	inline void SetFullscreen( const bool fullscreen );
-	inline bool GetFullscreen( );
+	void SetFullscreen( const bool fullscreen );
+	inline bool GetFullscreen( ) const;
 
 	inline void SetPos( const Vec2<int16_t>& pos );
 	inline Vec2<int16_t> GetPos( ) const;

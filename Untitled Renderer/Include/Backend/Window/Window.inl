@@ -1,36 +1,21 @@
 #include "Window.hpp"
 
-inline bool cWin32::DispatchMessages( ) {
-    MSG msg;
-
-    std::memset( &msg, 0, sizeof( MSG ) );
-    if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
-        TranslateMessage( &msg );
-        DispatchMessage( &msg );
-
-        if ( msg.message == WM_QUIT )
-            return false;
-    }
-
-    return true;
+inline bool cWin32::IsMinimized() {
+    return IsIconic(m_Hwnd) != 0;
 }
 
-inline bool cWin32::IsFocused( ) {
-    return true; //IsIconic( m_Hwnd );
+inline bool cWin32::IsFocused() {
+    return m_Hwnd == GetForegroundWindow();
 }
 
 inline void cWin32::SetFullscreen(const bool fullscreen) {
-    m_Fullscreen = fullscreen;
-
-    if (m_Fullscreen) {
+    if (fullscreen) {
         LONG_PTR Style = GetWindowLongPtr(m_Hwnd, GWL_STYLE);
         Style &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
-
         SetWindowLongPtr(m_Hwnd, GWL_STYLE, Style);
 
         HMONITOR Monitor = MonitorFromWindow(m_Hwnd, MONITOR_DEFAULTTONEAREST);
         MONITORINFO MonitorInfo;
-
         MonitorInfo.cbSize = sizeof(MonitorInfo);
         GetMonitorInfo(Monitor, &MonitorInfo);
 
@@ -44,7 +29,7 @@ inline void cWin32::SetFullscreen(const bool fullscreen) {
     }
 }
 
-inline bool cWin32::GetFullscreen() {
+inline bool cWin32::GetFullscreen() const {
     return m_Fullscreen;
 }
 
@@ -54,8 +39,14 @@ inline void cWin32::SetPos(const Vec2<int16_t>& pos) {
 
 inline Vec2<int16_t> cWin32::GetPos( ) const {
     RECT rect{};
-    if ( GetWindowRect( m_Hwnd, &rect ) )
-        return Vec2<int16_t>( static_cast< int16_t >( rect.left ), static_cast< int16_t >( rect.top ) );
+
+    if (GetWindowRect(m_Hwnd, &rect)) {
+        return Vec2<int16_t>(
+            static_cast<int16_t>(rect.left),
+            static_cast<int16_t>(rect.top)
+        );
+    }
+        
     return Vec2<int16_t>( );
 }
 
@@ -65,15 +56,25 @@ inline void cWin32::SetSize(const Vec2<int16_t>& size) {
 
 inline Vec2<int16_t> cWin32::GetSize( ) const {
     RECT rect{};
-    if ( GetClientRect( m_Hwnd, &rect ) )
-        return Vec2<int16_t>( static_cast< int16_t >( rect.right - rect.left ), static_cast< int16_t >( rect.bottom - rect.top ) );
+
+    if (GetClientRect(m_Hwnd, &rect)) {
+        return Vec2<int16_t>(
+            static_cast<int16_t>(rect.right - rect.left),
+            static_cast<int16_t>(rect.bottom - rect.top)
+        );
+    }
+       
     return Vec2<int16_t>( );
 }
 
 inline Rect<int16_t> cWin32::GetRect( ) const {
     Vec2<int16_t> pos = GetPos( );
     Vec2<int16_t> size = GetSize( );
-    return Rect<int16_t>( pos.x, pos.y, static_cast< int16_t >( pos.x + size.x ), static_cast< int16_t >( pos.y + size.y ) );
+
+    return Rect<int16_t>( pos.x, pos.y, 
+        static_cast< int16_t >( pos.x + size.x ),
+        static_cast< int16_t >( pos.y + size.y )
+    );
 }
 
 inline Rect<int16_t> cWin32::GetClipRect( ) const {
