@@ -1,9 +1,41 @@
 #include "Wrapper.hpp"
 #include "Features.hpp"
 
-//Need more money for my drugs so I added all this stuff to start ig
+int lua_exception_handler( lua_State* L,
+    sol::optional<const std::exception&> maybe_exception, sol::string_view description )
+{
+    if ( maybe_exception )
+    {
+        // const std::exception& ex = *maybe_exception;
+        // obe::Debug::Log->error("<LuaError>[Exception] : {}", ex.what());
+        std::cout << "(straight from the exception): ";
+        const std::exception& ex = *maybe_exception;
+        std::cout << ex.what( ) << std::endl;
+    }
+    else
+    {
+        //obe::Debug::Log->error("<LuaError>[Error] : {}", description);
+        std::cout << "(from the description parameter): ";
+        std::cout.write( description.data( ), static_cast< std::streamsize >( description.size( ) ) );
+        std::cout << std::endl;
+    }
+    return sol::stack::push( L, description );
+}
+
+inline void lua_panic_handler( sol::optional<std::string> maybe_msg ) {
+    std::cerr << "Lua is in a panic state and will now abort() the application" << std::endl;
+    if ( maybe_msg ) {
+        const std::string& msg = maybe_msg.value( );
+        std::cerr << "\terror message: " << msg << std::endl;
+    }
+    // When this function exits, Lua will exhibit default behavior and abort()
+}
+
+
 
 void cWrapper::Init( ) {
+    Lua = sol::state( sol::c_call<decltype( &lua_panic_handler ), &lua_panic_handler> );
+
     Lua.open_libraries(
         sol::lib::base, sol::lib::package, sol::lib::coroutine,
         sol::lib::string, sol::lib::math, sol::lib::table,
@@ -149,15 +181,30 @@ void cWrapper::Init( ) {
     Lua[ "Utils" ] = Utils;
 }
 
+std::string FormatSolError( const std::string& error_message ) {
+    std::string ErrorMessage = error_message.substr( 9 );
+
+    std::smatch LineMatch;
+    std::regex LineRegex( ":([0-9]+):" );
+    if ( std::regex_search( ErrorMessage, LineMatch, LineRegex ) ) {
+        std::string LineNum = LineMatch.str( 1 );
+        ErrorMessage = "Lua Error (" + LineNum + "): " + ErrorMessage;
+    }
+
+    std::regex_replace( ErrorMessage, std::regex( " near " ), ": " );
+
+    return ErrorMessage;
+}
+
 int cWrapper::LoadScript( const std::string& source ) {
     if ( source.empty( ) )
         return 0;
 
     bool Error = false;
 
-    Lua.safe_script( source, [ &Error ] ( lua_State*, sol::protected_function_result Result ) {
+    Lua.script( source, [ &Error ] ( lua_State*, sol::protected_function_result Result ) {
         if ( !Result.valid( ) ) {
-            std::cout << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) + "\n";
+            std::cout << FormatSolError( static_cast< std::string >( Result.get<sol::error>( ).what( ) ) ) << "\n";
             Error = true;
         }
         return Result;
