@@ -17,7 +17,7 @@ void cInterface::Draw( ) {
             std::cout << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
     }
     
-    gBuffer->Picture( &gBuffer->TestImage, Vec2<int16_t>( 50, 50 ), Color( 255, 255, 255, 255 ) );
+    //gBuffer->Picture( &gBuffer->TestImage, Vec2<int16_t>( 50, 50 ), Color( 255, 255, 255, 255 ) );
 
     /*if ( gInput->KeyPressed( KEY_F1 ) )
         m_DebugConsole = !m_DebugConsole;
