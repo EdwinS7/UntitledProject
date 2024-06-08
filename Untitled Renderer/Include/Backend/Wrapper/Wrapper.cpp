@@ -320,7 +320,7 @@ void cWrapper::Init( ) {
     Input[ "SetMousePosition" ] = Input::SetMousePosition;
     Input[ "IsAnyKeyPressed" ] = Input::IsAnyKeyPressed;
     Input[ "IsKeyPressed" ] = Input::IsKeyPressed;
-    Input[ "IsKeyHeld" ] = Input::IsKeyPressed;
+    Input[ "IsKeyHeld" ] = Input::IsKeyHeld;
     Input[ "SetCursorStyle" ] = Input::SetCursorStyle;
     Input[ "GetCursorStyle" ] = Input::GetCursorStyle;
 
