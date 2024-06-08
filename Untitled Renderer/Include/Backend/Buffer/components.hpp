@@ -93,13 +93,27 @@ public:
 
 	constexpr bool operator==( const Vec3& v ) const noexcept { return x == v.x && y == v.y && z == v.z; }
 
-	template <typename U = T>
-	constexpr Vec3<U> As( ) const noexcept { return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( z ) }; }
+	constexpr Vec3 Min( const Vec3& v ) const noexcept {
+		return { x < v.x ? x : v.x, y < v.y ? y : v.y, z < v.z ? z : v.z };
+	}
+
+	constexpr Vec3 Max( const Vec3& v ) const noexcept {
+		return { x > v.x ? x : v.x, y > v.y ? y : v.y, z > v.z ? z : v.z };
+	}
 
 	constexpr void Lerp( const Vec3& v, const float& t ) noexcept {
 		x += static_cast< T >( ( v.x - x ) * t );
 		y += static_cast< T >( ( v.y - y ) * t );
 		z += static_cast< T >( ( v.z - z ) * t );
+	}
+
+	constexpr Vec3 DistanceTo( const Vec3& v ) const noexcept {
+		return { static_cast< int16_t >( v.x - x ), static_cast< int16_t >( v.y - y ), static_cast< int16_t >( v.z - z ) };
+	}
+
+	template<typename U = T>
+	constexpr Vec3<U> As( ) const noexcept {
+		return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( z ) };
 	}
 };
 
@@ -130,14 +144,28 @@ public:
 
 	constexpr bool operator==( const Vec4& v ) const noexcept { return x == v.x && y == v.y && z == v.z && w == v.w; }
 
-	template <typename U = T>
-	constexpr Vec4<U> As( ) const noexcept { return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( z ), static_cast< U >( w ) }; }
+	constexpr Vec4 Min( const Vec4& v ) const noexcept {
+		return { x < v.x ? x : v.x, y < v.y ? y : v.y, z < v.z ? z : v.z, w < v.w ? w : v.w };
+	}
+
+	constexpr Vec4 Max( const Vec4& v ) const noexcept {
+		return { x > v.x ? x : v.x, y > v.y ? y : v.y, z > v.z ? z : v.z, w > v.w ? w : v.w };
+	}
 
 	constexpr void Lerp( const Vec4& v, const float& t ) noexcept {
 		x += static_cast< T >( ( v.x - x ) * t );
 		y += static_cast< T >( ( v.y - y ) * t );
 		z += static_cast< T >( ( v.z - z ) * t );
 		w += static_cast< T >( ( v.w - w ) * t );
+	}
+
+	constexpr Vec4 DistanceTo( const Vec4& v ) const noexcept {
+		return { static_cast< int16_t >( v.x - x ), static_cast< int16_t >( v.y - y ), static_cast< int16_t >( v.z - z ), static_cast< int16_t >( v.w - w ) };
+	}
+
+	template<typename U = T>
+	constexpr Vec4<U> As( ) const noexcept {
+		return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( z ), static_cast< U >( w ) };
 	}
 };
 
@@ -167,14 +195,28 @@ public:
 
 	constexpr bool operator==( const Rect& v ) const noexcept { return x == v.x && y == v.y && w == v.w && h == v.h; }
 
-	template <typename U = T>
-	constexpr Rect<U> As( ) const noexcept { return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( w ), static_cast< U >( h ) }; }
+	constexpr Rect Min( const Rect& r ) const noexcept {
+		return { x < r.x ? x : r.x, y < r.y ? y : r.y, w < r.w ? w : r.w, h < r.h ? h : r.h };
+	}
 
-	constexpr void Lerp( const Rect& v, const float& t ) noexcept {
-		x += static_cast< T >( ( v.x - x ) * t );
-		y += static_cast< T >( ( v.y - y ) * t );
-		w += static_cast< T >( ( v.w - w ) * t );
-		h += static_cast< T >( ( v.h - h ) * t );
+	constexpr Rect Max( const Rect& r ) const noexcept {
+		return { x > r.x ? x : r.x, y > r.y ? y : r.y, w > r.w ? w : r.w, h > r.h ? h : r.h };
+	}
+
+	constexpr void Lerp( const Rect& r, const float& t ) noexcept {
+		x += static_cast< T >( ( r.x - x ) * t );
+		y += static_cast< T >( ( r.y - y ) * t );
+		w += static_cast< T >( ( r.w - w ) * t );
+		h += static_cast< T >( ( r.h - h ) * t );
+	}
+
+	constexpr Rect DistanceTo( const Rect& r ) const noexcept {
+		return { static_cast< int16_t >( r.x - x ), static_cast< int16_t >( r.y - y ), static_cast< int16_t >( r.w - w ), static_cast< int16_t >( r.h - h ) };
+	}
+
+	template<typename U = T>
+	constexpr Rect<U> As( ) const noexcept {
+		return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( w ), static_cast< U >( h ) };
 	}
 };
 

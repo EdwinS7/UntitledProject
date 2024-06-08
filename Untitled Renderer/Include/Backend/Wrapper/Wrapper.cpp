@@ -1,37 +1,27 @@
 #include "Wrapper.hpp"
 #include "Features.hpp"
 
-int lua_exception_handler( lua_State* L,
-    sol::optional<const std::exception&> maybe_exception, sol::string_view description )
-{
-    if ( maybe_exception )
-    {
-        // const std::exception& ex = *maybe_exception;
-        // obe::Debug::Log->error("<LuaError>[Exception] : {}", ex.what());
+int lua_exception_handler( lua_State* L, sol::optional<const std::exception&> maybe_exception, sol::string_view description ) {
+    if ( maybe_exception ) {
         std::cout << "(straight from the exception): ";
         const std::exception& ex = *maybe_exception;
-        std::cout << ex.what( ) << std::endl;
+        std::cout << ex.what( ) << "\n";
     }
-    else
-    {
-        //obe::Debug::Log->error("<LuaError>[Error] : {}", description);
+    else {
         std::cout << "(from the description parameter): ";
         std::cout.write( description.data( ), static_cast< std::streamsize >( description.size( ) ) );
-        std::cout << std::endl;
+        std::cout << "\n";
     }
     return sol::stack::push( L, description );
 }
 
 inline void lua_panic_handler( sol::optional<std::string> maybe_msg ) {
-    std::cerr << "Lua is in a panic state and will now abort() the application" << std::endl;
+    std::cerr << "Lua is in a panic state and will now abort() the application" << "\n";
     if ( maybe_msg ) {
         const std::string& msg = maybe_msg.value( );
-        std::cerr << "\terror message: " << msg << std::endl;
+        std::cerr << "\tLua Panic: " << msg << "\n";
     }
-    // When this function exits, Lua will exhibit default behavior and abort()
 }
-
-
 
 void cWrapper::Init( ) {
     Lua = sol::state( sol::c_call<decltype( &lua_panic_handler ), &lua_panic_handler> );
@@ -281,7 +271,10 @@ void cWrapper::Init( ) {
         "x", &Vec3<int>::x,
         "y", &Vec3<int>::y,
         "z", &Vec3<int>::z,
+        "Min", &Vec3<int>::Min,
+        "Max", &Vec3<int>::Max,
         "Lerp", &Vec3<int>::Lerp,
+        "DistanceTo", &Vec3<int>::DistanceTo,
         "__add", &Vec3<int>::operator+,
         "__sub", &Vec3<int>::operator-,
         "__mul", &Vec3<int>::operator*,
@@ -303,7 +296,10 @@ void cWrapper::Init( ) {
         "y", &Vec4<int>::y,
         "z", &Vec4<int>::z,
         "w", &Vec4<int>::w,
+        "Min", &Vec4<int>::Min,
+        "Max", &Vec4<int>::Max,
         "Lerp", &Vec4<int>::Lerp,
+        "DistanceTo", &Vec4<int>::DistanceTo,
         "__add", &Vec4<int>::operator+,
         "__sub", &Vec4<int>::operator-,
         "__mul", &Vec4<int>::operator*,
@@ -325,7 +321,10 @@ void cWrapper::Init( ) {
         "y", &Rect<int>::y,
         "w", &Rect<int>::w,
         "h", &Rect<int>::h,
+        "Min", &Rect<int>::Min,
+        "Max", &Rect<int>::Max,
         "Lerp", &Rect<int>::Lerp,
+        "DistanceTo", &Rect<int>::DistanceTo,
         "__add", &Rect<int>::operator+,
         "__sub", &Rect<int>::operator-,
         "__mul", &Rect<int>::operator*,
