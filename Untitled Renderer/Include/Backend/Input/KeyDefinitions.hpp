@@ -1,15 +1,19 @@
 #pragma once
 
-/* this is setup for a 75 % keyboard( no numpad )
-https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
-*/
+// Thanks microsoft but also fuck you no one on our developer team likes you
+// https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 
 #define KEY_LMOUSE 0x01
 #define KEY_RMOUSE 0x02
+#define KEY_CANCEL 0x03
 #define KEY_MMOUSE 0x04
 #define KEY_MOUSE_5 0x05
 #define KEY_MOUSE_6 0x06
 
+#define KEY_BACK 0x08
+#define KEY_TAB 0x09
+#define KEY_CLEAR 0x0C
+#define KEY_RETURN 0x0D
 #define KEY_SHIFT 0x10
 #define KEY_CONTROL 0x11
 #define KEY_ALT 0x12
@@ -25,9 +29,13 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 #define KEY_UP_ARROW 0x26
 #define KEY_RIGHT_ARROW 0x27
 #define KEY_DOWN_ARROW 0x28
+#define KEY_SELECT 0x29
+#define KEY_PRINT 0x2A
+#define KEY_EXECUTE 0x2B
 #define KEY_PRINT_SCREEN 0x2C
 #define KEY_INSERT 0x2D
 #define KEY_DELETE 0x2E
+#define KEY_HELP 0x2F
 #define KEY_0 0x30
 #define KEY_1 0x31
 #define KEY_2 0x32
@@ -98,3 +106,94 @@ https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 #define KEY_F12 0x7B
 #define KEY_NUMLOCK 0x90
 #define KEY_SCROLL_LOCK 0x91
+#define KEY_LSHIFT 0xA0
+#define KEY_RSHIFT 0xA1
+#define KEY_LCONTROL 0xA2
+#define KEY_RCONTROL 0xA3
+#define KEY_LMENU 0xA4
+#define KEY_RMENU 0xA5
+#define KEY_BROWSER_BACK 0xA6
+#define KEY_BROWSER_FORWARD 0xA7
+#define KEY_BROWSER_REFRESH 0xA8
+#define KEY_BROWSER_STOP 0xA9
+#define KEY_BROWSER_SEARCH 0xAA
+#define KEY_BROWSER_FAVORITES 0xAB
+#define KEY_BROWSER_HOME 0xAC
+#define KEY_VOLUME_MUTE 0xAD
+#define KEY_VOLUME_DOWN 0xAE
+#define KEY_VOLUME_UP 0xAF
+#define KEY_MEDIA_NEXT_TRACK 0xB0
+#define KEY_MEDIA_PREV_TRACK 0xB1
+#define KEY_MEDIA_STOP 0xB2
+#define KEY_MEDIA_PLAY_PAUSE 0xB3
+#define KEY_LAUNCH_MAIL 0xB4
+#define KEY_LAUNCH_MEDIA_SELECT 0xB5
+#define KEY_LAUNCH_APP1 0xB6
+#define KEY_LAUNCH_APP2 0xB7
+#define KEY_OEM_1 0xBA
+#define KEY_OEM_PLUS 0xBB
+#define KEY_OEM_COMMA 0xBC
+#define KEY_OEM_MINUS 0xBD
+#define KEY_OEM_PERIOD 0xBE
+#define KEY_OEM_2 0xBF
+#define KEY_OEM_3 0xC0
+#define KEY_OEM_4 0xDB
+#define KEY_OEM_5 0xDC
+#define KEY_OEM_6 0xDD
+#define KEY_OEM_7 0xDE
+#define KEY_OEM_8 0xDF
+#define KEY_OEM_102 0xE2
+#define KEY_PROCESSKEY 0xE5
+#define KEY_PACKET 0xE7
+#define KEY_ATTN 0xF6
+#define KEY_CRSEL 0xF7
+#define KEY_EXSEL 0xF8
+#define KEY_EREOF 0xF9
+#define KEY_PLAY 0xFA
+#define KEY_ZOOM 0xFB
+#define KEY_NONAME 0xFC
+#define KEY_PA1 0xFD
+#define KEY_OEM_CLEAR 0xFE
+
+#define KEY_ENTER KEY_RETURN
+#define KEY_BACKSPACE KEY_BACK
+#define KEY_LWIN KEY_LEFT_WIN
+#define KEY_RWIN KEY_RIGHT_WIN
+#define KEY_CONTEXT_MENU KEY_APPS
+#define KEY_PAUSE_BREAK KEY_PAUSE
+#define KEY_PAGE_UP KEY_PAGEUP
+#define KEY_PAGE_DOWN KEY_PAGEDOWN
+#define KEY_UP KEY_UP_ARROW
+#define KEY_DOWN KEY_DOWN_ARROW
+#define KEY_LEFT KEY_LEFT_ARROW
+#define KEY_RIGHT KEY_RIGHT_ARROW
+#define KEY_DECIMAL_POINT KEY_DECIMAL
+#define KEY_NUM_LOCK KEY_NUMLOCK
+#define KEY_CTRL_LEFT KEY_LCONTROL
+#define KEY_CTRL_RIGHT KEY_RCONTROL
+#define KEY_SHIFT_LEFT KEY_LSHIFT
+#define KEY_SHIFT_RIGHT KEY_RSHIFT
+#define KEY_ALT_LEFT KEY_LMENU
+#define KEY_ALT_RIGHT KEY_RMENU
+#define KEY_MUTE KEY_VOLUME_MUTE
+#define KEY_VOL_DOWN KEY_VOLUME_DOWN
+#define KEY_VOL_UP KEY_VOLUME_UP
+#define KEY_NEXT_TRACK KEY_MEDIA_NEXT_TRACK
+#define KEY_PREV_TRACK KEY_MEDIA_PREV_TRACK
+#define KEY_STOP_MEDIA KEY_MEDIA_STOP
+#define KEY_PLAY_PAUSE KEY_MEDIA_PLAY_PAUSE
+#define KEY_EMAIL KEY_LAUNCH_MAIL
+#define KEY_CALCULATOR KEY_LAUNCH_APP1
+#define KEY_MY_COMPUTER KEY_LAUNCH_APP2
+#define KEY_COLON KEY_OEM_1
+#define KEY_PLUS KEY_OEM_PLUS
+#define KEY_COMMA KEY_OEM_COMMA
+#define KEY_MINUS KEY_OEM_MINUS
+#define KEY_PERIOD KEY_OEM_PERIOD
+#define KEY_SLASH KEY_OEM_2
+#define KEY_TILDE KEY_OEM_3
+#define KEY_LEFT_BRACKET KEY_OEM_4
+#define KEY_BACKSLASH KEY_OEM_5
+#define KEY_RIGHT_BRACKET KEY_OEM_6
+#define KEY_QUOTE KEY_OEM_7
+#define KEY_LESS_THAN KEY_OEM_102

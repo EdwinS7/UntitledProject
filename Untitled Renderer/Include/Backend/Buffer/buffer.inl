@@ -117,16 +117,16 @@ inline int cBuffer::GetIndicesCount( ) {
     return m_IndicesCount;
 }
 
-inline void cBuffer::PushClip( Rect<int16_t> Rect ) {
-	m_CommandResources.ClipStack.push_back( RECT( Rect.x, Rect.y, Rect.w, Rect.h ) );
+inline void cBuffer::PushClip( Rect<int16_t> rect ) {
+	m_CommandResources.ClipStack.push_back( RECT( rect.x, rect.y, rect.w, rect.h ) );
 }
 
 inline void cBuffer::PopClip( ) {
 	m_CommandResources.ClipStack.pop_back( );
 }
 
-inline void cBuffer::PushTexture( IDirect3DTexture9* Texture ) {
-	m_CommandResources.TextureStack.push_back( Texture );
+inline void cBuffer::PushTexture( IDirect3DTexture9* texture ) {
+	m_CommandResources.TextureStack.push_back( texture );
 }
 
 inline void cBuffer::PopTexture( ) {

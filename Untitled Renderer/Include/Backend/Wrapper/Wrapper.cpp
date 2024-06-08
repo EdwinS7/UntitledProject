@@ -4,7 +4,7 @@
 //Need more money for my drugs so I added all this stuff to start ig
 
 void cWrapper::Init( ) {
-    Lua.open_libraries( 
+    Lua.open_libraries(
         sol::lib::base, sol::lib::package, sol::lib::coroutine,
         sol::lib::string, sol::lib::math, sol::lib::table,
         sol::lib::debug, sol::lib::bit32, sol::lib::utf8
@@ -22,7 +22,7 @@ void cWrapper::Init( ) {
     Lua[ "setmetatable" ] = sol::nil;
     Lua[ "__nil_callback" ] = [ ] ( ) {};
 
-    Lua.new_usertype<Vec2<int16_t>>( 
+    Lua.new_usertype<Vec2<int16_t>>(
         "Vector2", sol::constructors<Vec2<int16_t>( ), Vec2<int16_t>( int16_t, int16_t )>( ),
         "x", &Vec2<int16_t>::x,
         "y", &Vec2<int16_t>::y,
@@ -32,7 +32,7 @@ void cWrapper::Init( ) {
         "DistanceTo", &Vec2<int16_t>::DistanceTo
     );
 
-    Lua.new_usertype <Vec3<int>>( 
+    Lua.new_usertype <Vec3<int>>(
         "Vector3", sol::constructors<Vec3<int>( ), Vec3<int>( int, int, int )>( ),
         "x", &Vec3<int>::x,
         "y", &Vec3<int>::y,
@@ -76,6 +76,12 @@ void cWrapper::Init( ) {
     Client[ "GetRealtime" ] = Client::GetRealTime;
     Client[ "GetDeltaTime" ] = Client::GetDeltaTime;
     Client[ "GetFontList" ] = Client::GetFontList;
+
+    auto Audio = Lua.create_table( );
+    Audio[ "OpenSound" ] = Audio::OpenSound;
+    Audio[ "PlaySound" ] = Audio::PlaySound_;
+    Audio[ "StopSound" ] = Audio::StopSound;
+    Audio[ "StopAllSounds" ] = Audio::StopAllSounds;
 
     auto Input = Lua.create_table( );
     Input[ "IsMouseHoveringRect" ] = Input::IsMouseHoveringRect;
@@ -123,17 +129,23 @@ void cWrapper::Init( ) {
     Http[ "Put" ] = Http::Put;
     Http[ "Delete" ] = Http::Delete;
 
+    auto Json = Lua.create_table( );
+    Json[ "Serialize" ] = Json::Serialize;
+    Json[ "Deserialize" ] = Json::Deserialize;
+
     auto Utils = Lua.create_table( );
-    Http[ "Sha256Encode" ] = Utils::SHA256;
-    Http[ "Base64Encode" ] = Utils::Base64Encode;
-    Http[ "Base64Decode" ] = Utils::Base64Decode;
+    Utils[ "Sha256Encode" ] = Utils::SHA256;
+    Utils[ "Base64Encode" ] = Utils::Base64Encode;
+    Utils[ "Base64Decode" ] = Utils::Base64Decode;
 
     Lua[ "Client" ] = Client;
+    Lua[ "Audio" ] = Audio;
     Lua[ "Input" ] = Input;
     Lua[ "Graphics" ] = Graphics;
     Lua[ "Renderer" ] = Renderer;
     Lua[ "Math" ] = Math;
     Lua[ "Http" ] = Http;
+    Lua[ "Json" ] = Json;
     Lua[ "Utils" ] = Utils;
 }
 

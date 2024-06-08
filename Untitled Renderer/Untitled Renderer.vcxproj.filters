@@ -144,6 +144,12 @@
     <ClCompile Include="Include\Backend\Wrapper\Wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Include\Backend\Audio\Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\Backend\Camera\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Backend\Window\Window.hpp">
@@ -464,9 +470,6 @@
     <ClInclude Include="Include\Backend\Input\Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Scenes\Interface\Interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -653,6 +656,21 @@
     <ClInclude Include="Thirdparty\Sha256.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Backend\Audio\Audio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thirdparty\nlohmann\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Thirdparty\nlohmann\json_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Backend\Camera\Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Backend\Buffer\Buffer.inl">
@@ -674,6 +692,12 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Scenes\World\World.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Backend\Audio\Audio.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Backend\Camera\Camera.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

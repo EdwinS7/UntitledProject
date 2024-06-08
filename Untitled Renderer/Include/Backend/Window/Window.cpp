@@ -1,24 +1,48 @@
 #include "Window.hpp"
 
 inline LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
-	switch ( msg ) {
-	case WM_SIZE:
-		if ( gGraphics->IsDeviceValid( ) && wParam != SIZE_MINIMIZED )
-			gGraphics->ResetDevice( lParam );
+    static bool isResizing = false;
 
-		return 0;
-	case WM_MOUSEMOVE:
-		gInput->SetMousePos( Vec2<int16_t>( LOWORD( lParam ), HIWORD( lParam ) ) );
-		break;
-	case WM_SETCURSOR:
-		SetCursor( LoadCursorA( 0, gInput->GetCursorStyle( ) ) );
-		break;
-	case WM_DESTROY:
-		PostQuitMessage( 0 );
-		return 0;
-	}
+    switch ( msg ) {
+    case WM_SIZE:
+        if ( !isResizing && gGraphics->GetDevice( ) && wParam != SIZE_MINIMIZED ) {
+            gGraphics->UpdatePresentationParameters( lParam );
+            gGraphics->ResetDevice( );
+        }
+        return 0;
 
-	return DefWindowProc( hwnd, msg, wParam, lParam );
+    case WM_ENTERSIZEMOVE:
+        isResizing = true;
+        return 0;
+
+    case WM_EXITSIZEMOVE:
+        if ( gGraphics->GetDevice( ) ) {
+            RECT Rect;
+            GetClientRect( hwnd, &Rect );
+
+            gGraphics->UpdatePresentationParameters( 
+                MAKELPARAM( Rect.right - Rect.left, Rect.bottom - Rect.top )
+            );
+
+            gGraphics->ResetDevice( );
+        }
+        isResizing = false;
+        return 0;
+
+    case WM_MOUSEMOVE:
+        gInput->SetMousePos( Vec2<int16_t>( LOWORD( lParam ), HIWORD( lParam ) ) );
+        break;
+
+    case WM_SETCURSOR:
+        SetCursor( LoadCursorA( 0, gInput->GetCursorStyle( ) ) );
+        break;
+
+    case WM_DESTROY:
+        PostQuitMessage( 0 );
+        return 0;
+    }
+
+    return DefWindowProc( hwnd, msg, wParam, lParam );
 }
 
 void cWin32::Init( const char* title, const Vec2<int16_t>& size, const bool console ) {

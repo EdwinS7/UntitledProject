@@ -1,15 +1,5 @@
 #include "DirectX9.hpp"
 
-inline void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* texture, const std::vector<BYTE>* bytes, const Vec2<int16_t> size ) {
-	/*if ( D3DXCreateTextureFromFileInMemoryEx( m_Device, Bytes->data( ), Bytes->size( ), Size.x, Size.y, D3DX_DEFAULT, NULL, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, NULL, NULL, NULL, &Texture ) != D3D_OK )
-		MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Texture From Bytes ({}kb)", std::make_format_args( Bytes->size( ) ) ).c_str( ), 0 );*/
-}
-
-inline void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, const char* file_name ) {
-	if ( D3DXCreateTextureFromFile( m_Device, file_name, &texture ) != D3D_OK )
-		MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Texture ({})", std::make_format_args( file_name ) ).c_str( ), 0 );
-}
-
 inline std::string cGraphics::GetFontPath( std::string font_name ) {
 	RegistryFontList.clear( );
 
@@ -48,8 +38,20 @@ inline std::string cGraphics::GetFontPath( std::string font_name ) {
     return std::string( fonts_directory ) + '\\' + font_path;
 }
 
-inline IDirect3DDevice9* cGraphics::GetDevice( ) {
+inline void cGraphics::SetDevice( IDirect3DDevice9* device ) {
+    m_Device = device;
+}
+
+inline IDirect3DDevice9* cGraphics::GetDevice( ) const {
     return m_Device;
+}
+
+void cGraphics::SetClearColor( Color clear_color ) {
+    m_ClearColor = clear_color;
+}
+
+inline Color cGraphics::GetClearColor( ) const {
+    return m_ClearColor;
 }
 
 template <typename type>

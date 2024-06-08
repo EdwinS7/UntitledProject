@@ -1,7 +1,8 @@
 #include "Buffer.hpp"
 
 void cBuffer::Init( ) {
-	gGraphics->CreateFontFromName( &DefaultFont, "Segoe UI", 16, 400, Vec2<int16_t>( 0, 0 ), false );
+	gGraphics->CreateFontFromName( &DefaultFont, "Verdana", 12, 400, Vec2<int16_t>( 0, 0 ), true );
+	gGraphics->CreateImageFromFile( &TestImage, "test.png" );
 
 	PushClip( gWindow->GetClipRect( ) );
 	PushTexture( nullptr );
@@ -137,20 +138,71 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > position, const Vec2< int16
 	Polygon( Points, color );
 }
 
-/*void cBuffer::TexturedRectangle( LPDIRECT3DTEXTURE9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color ) {
+void cBuffer::TexturedRectangle( IDirect3DTexture9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_modulation ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( position.x, position.y, 0.f, 1.f, color.Hex ),
-		Vertex( position.x + size.x, position.y, 0.f, 1.f, color.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color.Hex ),
-		Vertex( position.x, position.y + size.y, 0.f, 1.f, color.Hex ),
-		Vertex( position.x, position.y, 0.f, 1.f, color.Hex )
+		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x, position.y + size.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex )
 	};
 
-	PushTexture( *texture );
+	PushTexture( texture );
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 	PopTexture( );
-}*/
+}
+
+void cBuffer::Picture( Image* image, const Vec2<int16_t> position, const Color color_modulation ) {
+	std::vector<Vertex> Vertices = {
+		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x + image->Size.x, position.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x + image->Size.x, position.y + image->Size.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x + image->Size.x, position.y + image->Size.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x, position.y + image->Size.y, 0.f, 1.f, color_modulation.Hex ),
+		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex )
+	};
+
+	PushTexture( image->Texture );
+	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
+	PopTexture( );
+}
+
+void cBuffer::Cube( const Vec3<float> position, float size, const Color color ) {
+	float halfSize = size / 2.0f;
+
+	std::vector<Vertex> Vertices = {
+		// Front face
+		Vertex( position.x - halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x - halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
+		// Back face
+		Vertex( position.x - halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
+		Vertex( position.x - halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex )
+	};
+
+	// Define the indices to create triangles (or quads) from the vertices
+	std::vector<int32_t> Indices = {
+		// Front face
+		0, 1, 2, 2, 3, 0,
+		// Right face
+		1, 5, 6, 6, 2, 1,
+		// Back face
+		5, 4, 7, 7, 6, 5,
+		// Left face
+		4, 0, 3, 3, 7, 4,
+		// Top face
+		3, 2, 6, 6, 7, 3,
+		// Bottom face
+		4, 5, 1, 1, 0, 4
+	};
+
+	WriteToBuffer( LINE, &Vertices, &Indices );
+}
+
 
 void cBuffer::Gradient( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color1, const Color color2, const bool vertical ) {
 	std::vector<Vertex> Vertices = {

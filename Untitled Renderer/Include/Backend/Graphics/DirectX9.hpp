@@ -7,31 +7,36 @@
 #define TRIANGLE D3DPT_TRIANGLESTRIP
 #define LINE D3DPT_LINESTRIP
 
-// FOR TEXTURES: IDirect3DTexture9
-
 class cGraphics {
 public:
 	bool Init( HWND hwnd );
-	void ResetDevice( LPARAM lparam );
 	void Release( );
-	void Draw( );
+
+	void ReleaseFonts( );
+	void ReleaseTextures( );
 
 	void UpdateRenderStates( IDirect3DDevice9* device );
-	void UpdatePresentParamaters( LPARAM lparam );
+	void UpdatePresentationParameters( LPARAM lparam );
 
 	void RenderDrawData( );
-	bool IsDeviceValid( );
-	
-	void SetClearColor( const Color clear_color );
-	Color GetClearColor( );
+	void DrawScene( );
 
-	void CreateFontFromName( Font* font, std::string font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing );
+	void CreateFontFromName( Font* font, std::string font_name, int16_t size, int16_t weight, Vec2<int16_t> padding, bool antialiasing );
 
-	inline void CreateTextureFromBytes( IDirect3DTexture9* texture, const std::vector<BYTE>* bytes, const Vec2<int16_t> size );
-	inline void CreateTextureFromFile( IDirect3DTexture9* texture, const char* file_name );
+	void CreateTextureFromBytes( IDirect3DTexture9* texture, std::vector<BYTE>* bytes, Vec2<int16_t> size );
+	void CreateTextureFromFile( IDirect3DTexture9* texture, std::string file_name );
+
+	void CreateImageFromFile( Image* image, std::string file_name );
 
 	inline std::string GetFontPath( std::string font_name );
-	inline IDirect3DDevice9* GetDevice( );
+
+	inline void SetDevice( IDirect3DDevice9* device );
+	inline IDirect3DDevice9* GetDevice( ) const;
+
+	inline void SetClearColor( Color clear_color );
+	inline Color GetClearColor( ) const;
+
+	void ResetDevice( );
 
 	std::vector<std::string> RegistryFontList;
 
@@ -49,6 +54,7 @@ private:
 	Color m_ClearColor{ 0, 0, 0, 255 };
 
 	std::vector<Font*> m_Fonts;
+	std::vector<IDirect3DTexture9*> m_Textures;
 
 	template <typename type>
 	void SafeRelease( type*& obj );

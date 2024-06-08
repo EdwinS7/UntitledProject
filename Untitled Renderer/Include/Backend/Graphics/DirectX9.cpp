@@ -2,7 +2,7 @@
 
 bool cGraphics::Init( HWND hwnd ) {
     m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
-
+    
     m_Parameters.Windowed = TRUE;
     m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
     m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
@@ -13,37 +13,19 @@ bool cGraphics::Init( HWND hwnd ) {
     m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
     m_Parameters.MultiSampleQuality = 0;
 
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
-        throw std::runtime_error( "[cGraphics::Init] CreateDevice Failed?" );
+
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
+        MessageBoxA( nullptr,
+            std::format( "Error at ({}), CreateDevice returned 0", static_cast< void* >( this ) ).c_str( ),
+            std::format( "Graphics->Init ({}) Error", static_cast< void* >( this ) ).c_str( ), 0
+        );
+
+        return false;
+    }
 
     UpdateRenderStates( m_Device );
 
     return true;
-}
-
-void cGraphics::ResetDevice( LPARAM lparam ) {
-    gBuffer->Release( );
-
-    SafeRelease( m_VertexBuffer );
-    SafeRelease( m_IndexBuffer );
-    SafeRelease( m_Device );
-
-    if ( !m_Fonts.empty( ) ) {
-        for ( auto& font : m_Fonts )
-            SafeRelease( font );
-
-        m_Fonts.clear( );
-    }
-
-    UpdatePresentParamaters( lparam );
-    
-
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ), D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK )
-        throw std::runtime_error( "[cGraphics::Reset] CreateDevice Failed?" );
-
-    UpdateRenderStates( m_Device );
-
-    gBuffer->Init( );
 }
 
 void cGraphics::Release( ) {
@@ -53,33 +35,23 @@ void cGraphics::Release( ) {
     SafeRelease( m_Device );
 }
 
-void cGraphics::Draw( ) {
-    if ( !IsDeviceValid( ) )
-        return;
-
-    m_Device->Clear( 0, nullptr, D3DCLEAR_TARGET, m_ClearColor.Hex, 1.f, 0 );
-
-    if ( m_Device->BeginScene( ) >= 0 ) {
-        /*auto InfoString = std::vformat(
-            "{} FPS\n{} COMMANDS\n{} VERTICES\n{} INDICES",
-            std::make_format_args(
-                gContext->GetFrameRate( ),
-                gBuffer->GetCommandsCount( ),
-                gBuffer->GetVerticesCount( ),
-                gBuffer->GetIndicesCount( )
-            )
-        );
-
-        gBuffer->Text( gBuffer->GetDefaultFont(), InfoString, Vec2<int16_t>(5, 5), Color(160, 217, 255, 255) );*/
-
-        RenderDrawData( );
-        m_Device->EndScene( );
+void cGraphics::ReleaseFonts( ) {
+    for ( auto& font : m_Fonts ) {
+        SafeRelease( font );
     }
 
-    m_Device->Present( nullptr, nullptr, nullptr, nullptr );
+    m_Fonts.clear( );
 }
 
-void cGraphics::UpdatePresentParamaters( LPARAM lparam ) {
+void cGraphics::ReleaseTextures( ) {
+    for ( auto& texture : m_Textures ) {
+        SafeRelease( texture );
+    }
+
+    m_Textures.clear( );
+}
+
+void cGraphics::UpdatePresentationParameters( LPARAM lparam ) {
     m_Parameters.Windowed = TRUE;
     m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
     m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
@@ -95,6 +67,10 @@ void cGraphics::UpdatePresentParamaters( LPARAM lparam ) {
 }
 
 void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
+    if ( !device ) {
+        throw std::invalid_argument( "Device is nullptr?" );
+    }
+
     device->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
     device->SetRenderState( D3DRS_SHADEMODE, D3DSHADE_GOURAUD );
     device->SetRenderState( D3DRS_ZWRITEENABLE, FALSE );
@@ -199,7 +175,7 @@ void cGraphics::RenderDrawData( ) {
         m_Device->SetScissorRect( &Command.Resources.ClipStack.back( ) );
         m_Device->SetTexture( 0, Command.Resources.TextureStack.back( ) );
 
-        m_Device->DrawIndexedPrimitive( D3DPRIMITIVETYPE( Command.Primitive), StartVertex, 0, Command.VerticesCount, StartIndex, Command.IndicesCount / 3 );
+        m_Device->DrawIndexedPrimitive( D3DPRIMITIVETYPE( Command.Primitive ), StartVertex, 0, Command.VerticesCount, StartIndex, Command.IndicesCount / 3 );
 
         StartVertex += Command.VerticesCount;
         StartIndex += Command.IndicesCount;
@@ -208,16 +184,15 @@ void cGraphics::RenderDrawData( ) {
     gBuffer->ClearCommands( );
 }
 
-inline bool cGraphics::IsDeviceValid( ) {
-    return m_Device != nullptr;
-}
+void cGraphics::DrawScene( ) {
+    m_Device->Clear( 0, nullptr, D3DCLEAR_TARGET, m_ClearColor.Hex, 1.f, 0 );
 
-void cGraphics::SetClearColor( const Color clear_color ) {
-    m_ClearColor = clear_color;
-}
+    if ( m_Device->BeginScene( ) >= 0 ) {
+        RenderDrawData( );
+        m_Device->EndScene( );
+    }
 
-Color cGraphics::GetClearColor( ) {
-    return m_ClearColor;
+    m_Device->Present( nullptr, nullptr, nullptr, nullptr );
 }
 
 void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing ) {
@@ -295,8 +270,65 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
         font->CharSet[ i ].Size = { width, height };
         font->CharSet[ i ].Bearing = { static_cast< int32_t >( Face->glyph->bitmap_left ), static_cast< int32_t >( Face->glyph->bitmap_top ) };
         font->CharSet[ i ].Advance = Face->glyph->Advance.x;
+        m_Fonts.emplace_back( font );
     }
 
     FT_Done_Face( Face );
     FT_Done_FreeType( Library );
+}
+
+void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* texture, std::vector<BYTE>* bytes, Vec2<int16_t> size ) {
+
+}
+
+void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, std::string file_name ) {
+    std::string full_path = TEXTURES_FOLDER + file_name;
+
+    if ( D3DXCreateTextureFromFile( m_Device, full_path.c_str( ), &texture ) != D3D_OK ) {
+        MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Image ({})", std::make_format_args( file_name ) ).c_str( ), 0 );
+        return;
+    }
+
+    m_Textures.push_back( texture );
+}
+
+void cGraphics::CreateImageFromFile( Image* image, std::string file_name ) {
+    std::string full_path = TEXTURES_FOLDER + file_name;
+    IDirect3DTexture9* Texture;
+
+    if ( D3DXCreateTextureFromFile( m_Device, full_path.c_str( ), &Texture ) != D3D_OK ) {
+        MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Image ({})", std::make_format_args( file_name ) ).c_str( ), 0 );
+        return;
+    }
+       
+
+    D3DSURFACE_DESC desc;
+    Texture->GetLevelDesc( 0, &desc );
+
+    m_Textures.push_back( Texture );
+    image->Texture = Texture;
+    image->Size = { 
+        static_cast< int16_t >( desc.Width ),
+        static_cast< int16_t >( desc.Height )
+    };
+}
+
+void cGraphics::ResetDevice( ) {
+    gBuffer->Release( );
+
+    SafeRelease( m_VertexBuffer );
+    SafeRelease( m_IndexBuffer );
+    SafeRelease( m_Device );
+
+    ReleaseFonts( );
+    ReleaseTextures( );
+
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ),
+        D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
+        throw std::runtime_error( "[cGraphics::ResetDevice] CreateDevice Failed" );
+    }
+
+    UpdateRenderStates( m_Device );
+
+    gBuffer->Init( );
 }

@@ -22,7 +22,8 @@ Our Game Engine is a project aimed at providing developers with a simple yet pow
 * **Script Editor UI:** An integrated environment for writing and debugging Lua scripts.
 
 # Installation
-`git clone https://github.com/yourusername/lightweight-game-engine.git`
+* Install the [DirectX SDK June 2010](https://www.microsoft.com/en-us/download/details.aspx?id=6812/)
+* Clone the project `git clone https://github.com/EdwinS7/UntitledProject/`
 
 # Building
 * **Only supported by MSVC at the moment!**

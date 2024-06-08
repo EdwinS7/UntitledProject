@@ -10,7 +10,8 @@ public:
 	void Draw( );
 
 private:
-	
+	bool m_DebugConsole{ true };
+
 };
 
 inline const auto gInterface = std::make_unique<cInterface>( );

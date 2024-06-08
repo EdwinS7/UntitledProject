@@ -1,4 +1,3 @@
-#include <random>
 std::vector<std::string> CallbackIdentifiers{
     "OnInterfacePaint",
     "OnWorldPaint",
@@ -25,6 +24,24 @@ namespace Client {
 
     std::vector<std::string> GetFontList( ) {
         return gGraphics->RegistryFontList;
+    }
+};
+
+namespace Audio {
+    void OpenSound( const std::string& name ) {
+        gAudio->OpenSound( name );
+    }
+
+    void PlaySound_( const std::string& name ) {
+        gAudio->PlaySound_( name );
+    }
+
+    void StopSound( const std::string& name ) {
+        gAudio->StopSound( name );
+    }
+
+    void StopAllSounds( ) {
+        gAudio->StopAllSounds( );
     }
 };
 
@@ -277,6 +294,56 @@ namespace Http {
         }
 
         return Response;
+    }
+};
+
+namespace Json {
+    std::string Serialize( sol::object value ) {
+        json j;
+
+        if ( value.is<bool>( ) )
+            j = value.as<bool>( );
+        else if ( value.is<int>( ) )
+            j = value.as<int>( );
+        else if ( value.is<double>( ) )
+            j = value.as<double>( );
+        else if ( value.is<std::string>( ) )
+            j = value.as<std::string>( );
+        else if ( value.is<sol::table>( ) ) {
+            sol::table table = value.as<sol::table>( );
+
+            for ( auto& pair : table )
+                j[ pair.first.as<std::string>( ) ] = Serialize( pair.second );
+        }
+        else
+            j = nullptr;
+
+        return j.dump( );
+    }
+
+    sol::object Deserialize( const std::string& json_str, sol::this_state L ) {
+        json j = json::parse( json_str );
+
+        if ( j.is_null( ) )
+            return sol::nil;
+        else if ( j.is_boolean( ) )
+            return sol::make_object( L, j.get<bool>( ) );
+        else if ( j.is_number_integer( ) )
+            return sol::make_object( L, j.get<int>( ) );
+        else if ( j.is_number_float( ) )
+            return sol::make_object( L, j.get<double>( ) );
+        else if ( j.is_string( ) )
+            return sol::make_object( L, j.get<std::string>( ) );
+        else if ( j.is_object( ) ) {
+            sol::table result = sol::state_view( L ).create_table( );
+
+            for ( auto it = j.begin( ); it != j.end( ); ++it )
+                result[ it.key( ) ] = Deserialize( it.value( ).dump( ), L );
+
+            return result;
+        }
+        else
+            return sol::nil;
     }
 };
 

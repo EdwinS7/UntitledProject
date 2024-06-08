@@ -237,6 +237,12 @@ public:
 	}
 };
 
+class Image {
+public:
+	IDirect3DTexture9* Texture;
+	Vec2<int16_t> Size;
+};
+
 class CommandResources {
 public:
 	std::vector<IDirect3DTexture9*> TextureStack;
