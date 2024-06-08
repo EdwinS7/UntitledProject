@@ -44,7 +44,6 @@ void cWrapper::Init( ) {
     Lua[ "setmetatable" ] = sol::nil;
     Lua[ "__nil_callback" ] = [ ] ( ) {};
 
-
     // Mouse VK Keys
     Lua.set( "KEY_LMOUSE", KEY_LMOUSE );
     Lua.set( "KEY_RMOUSE", KEY_RMOUSE );

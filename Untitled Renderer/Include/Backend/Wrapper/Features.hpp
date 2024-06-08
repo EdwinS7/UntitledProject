@@ -101,7 +101,7 @@ namespace Renderer {
         for ( const auto& kv_pair : points ) {
             int16_t x = kv_pair.second.as<sol::table>( ).get<int>( "x" );
             int16_t y = kv_pair.second.as<sol::table>( ).get<int>( "y" );
-            Points.emplace_back( x, y );
+            Points.emplace_back( Vec2<int16_t>( x, y ) );
         }
 
         gBuffer->Polyline( Points, color );
@@ -113,7 +113,7 @@ namespace Renderer {
         for ( const auto& kv_pair : points ) {
             int16_t x = kv_pair.second.as<sol::table>( ).get<int>( "x" );
             int16_t y = kv_pair.second.as<sol::table>( ).get<int>( "y" );
-            Points.emplace_back( x, y );
+            Points.emplace_back( Vec2<int16_t>( x, y ) );
         }
 
         gBuffer->Polygon( Points, color );
