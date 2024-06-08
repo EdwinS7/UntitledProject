@@ -7,8 +7,10 @@ void cContext::Update( ) {
         for ( auto& Callback : gWrapper->GetCallbacks( "OnInputUpdate" ) ) {
             auto Result = Callback.Function( );
 
-            if ( !Result.valid( ) )
+            if ( !Result.valid( ) ) {
                 std::cout << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
+                gWrapper->GetCallbacks( "OnInterfacePaint" ).clear( );
+            }
         }
     }
 
