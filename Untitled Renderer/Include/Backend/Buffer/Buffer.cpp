@@ -1,8 +1,7 @@
 #include "Buffer.hpp"
 
 void cBuffer::Init( ) {
-	gGraphics->CreateFontFromName( &DefaultFont, "Verdana", 12, 400, Vec2<int16_t>( 0, 0 ), true );
-	gGraphics->CreateImageFromFile( &TestImage, "test.png" );
+	gGraphics->CreateFontFromName( &DefaultFont, "Arial", 12, 400, Vec2<int16_t>( 0, 0 ), false );
 
 	PushClip( gWindow->GetClipRect( ) );
 	PushTexture( nullptr );
