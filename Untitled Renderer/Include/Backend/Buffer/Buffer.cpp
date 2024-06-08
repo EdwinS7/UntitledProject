@@ -6,18 +6,7 @@ void cBuffer::Init( ) {
 	PushClip( gWindow->GetClipRect( ) );
 	PushTexture( nullptr );
 
-	gInterface->Init( );
-	gWorld->Init( );
-
-
-	for ( auto& Callback : gWrapper->GetCallbacks( "OnObjectCreation" ) ) {
-		auto Result = Callback.Function( );
-
-		if ( !Result.valid( ) ) {
-			std::cout << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
-			gWrapper->GetCallbacks( "OnInterfacePaint" ).clear( );
-		}
-	}
+	gWrapper->RunCallback( "OnObjectCreation" );
 }
 
 void cBuffer::Release( ) {

@@ -1,7 +1,7 @@
 std::vector<std::string> CallbackIdentifiers{
     "OnInterfacePaint",
     "OnWorldPaint",
-     "OnInputUpdate",
+    "OnInputUpdate",
     "OnObjectCreation"
 };
 

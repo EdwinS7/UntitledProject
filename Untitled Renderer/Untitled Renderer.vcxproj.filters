@@ -700,6 +700,9 @@
     <None Include="Include\Backend\Camera\Camera.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Include\Backend\Wrapper\Wrapper.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Thirdparty\FreeType\freetype.lib" />

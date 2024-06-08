@@ -15,10 +15,11 @@ public:
 	int LoadScript( const std::string& source );
 	int LoadScriptFromFile( const std::string& file_name );
 
-	void RegisterCallback( std::string eventName, sol::protected_function Callback );
-	void UnregisterCallbacks( );
+	inline void RegisterCallback( std::string eventName, sol::protected_function Callback );
+	inline void UnregisterCallbacks( );
 
-	std::vector<cLuaCallback> GetCallbacks( std::string eventName );
+	inline std::vector<cLuaCallback> GetCallbacks( std::string eventName );
+	inline void RunCallback( const std::string& callback_name );
 
 private:
 	sol::state Lua;
@@ -28,4 +29,5 @@ private:
 
 inline const auto gWrapper = std::make_unique<cWrapper>( );
 
+#include "Wrapper.inl"
 #endif
