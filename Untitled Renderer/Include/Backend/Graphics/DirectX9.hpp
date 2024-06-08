@@ -43,6 +43,7 @@ public:
 private:
 	IDirect3D9* m_Direct3D{};
 	IDirect3DDevice9* m_Device{};
+	IDirect3DStateBlock9* m_StateBlock{};
 	D3DPRESENT_PARAMETERS m_Parameters{};
 
 	int	m_VertexBufferSize{ 5000 },

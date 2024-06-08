@@ -163,37 +163,41 @@ void cBuffer::Cube( const Vec3<float> position, float size, const Color color ) 
 	float halfSize = size / 2.0f;
 
 	std::vector<Vertex> Vertices = {
-		// Front face
+		// Front top line
+		Vertex( position.x - halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
+		// Front bottom line
 		Vertex( position.x - halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
 		Vertex( position.x + halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x - halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
-		// Back face
+		// Back top line
+		Vertex( position.x - halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
+		// Back bottom line
 		Vertex( position.x - halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
 		Vertex( position.x + halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
+		// Side lines
+		Vertex( position.x - halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x - halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x + halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
+		Vertex( position.x - halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
+		Vertex( position.x - halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
 		Vertex( position.x + halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
-		Vertex( position.x - halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex )
+		Vertex( position.x + halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex )
 	};
 
-	// Define the indices to create triangles (or quads) from the vertices
 	std::vector<int32_t> Indices = {
-		// Front face
-		0, 1, 2, 2, 3, 0,
-		// Right face
-		1, 5, 6, 6, 2, 1,
-		// Back face
-		5, 4, 7, 7, 6, 5,
-		// Left face
-		4, 0, 3, 3, 7, 4,
-		// Top face
-		3, 2, 6, 6, 7, 3,
-		// Bottom face
-		4, 5, 1, 1, 0, 4
+		// Front lines
+		0, 1, 1, 3, 3, 2, 2, 0,
+		// Back lines
+		4, 5, 5, 7, 7, 6, 6, 4,
+		// Side lines
+		8, 9, 9, 10, 10, 11, 11, 8,
+		12, 13, 13, 14, 14, 15, 15, 12
 	};
 
-	WriteToBuffer( LINE, &Vertices, &Indices );
+	WriteToBuffer( TRIANGLE, &Vertices, &Indices );
 }
-
 
 void cBuffer::Gradient( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color1, const Color color2, const bool vertical ) {
 	std::vector<Vertex> Vertices = {

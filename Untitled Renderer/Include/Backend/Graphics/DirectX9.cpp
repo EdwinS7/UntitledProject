@@ -147,6 +147,22 @@ void cGraphics::RenderDrawData( ) {
             throw std::runtime_error( "[cGraphics::RenderDrawData] CreateIndexBuffer Failed?" );
     }
 
+    if ( m_Device->CreateStateBlock( D3DSBT_ALL, &m_StateBlock ) < 0 )
+        throw std::runtime_error( "[cGraphics::RenderDrawData] CreateStateBlock Failed?" );
+
+    if ( m_StateBlock->Capture( ) < 0 ) {
+        m_StateBlock->Release( );
+    }
+
+    D3DMATRIX ViewMatrix = gCamera->GetViewMatrix( ), ProjectionMatrix = gCamera->GetProjectionMatrix( );
+    m_Device->SetTransform( D3DTS_VIEW, &ViewMatrix );
+    m_Device->SetTransform( D3DTS_PROJECTION, &ProjectionMatrix );
+
+    D3DMATRIX LastWorld, LastView, LastProjection;
+    m_Device->GetTransform( D3DTS_WORLD, &LastWorld );
+    m_Device->GetTransform( D3DTS_VIEW, &LastView );
+    m_Device->GetTransform( D3DTS_PROJECTION, &LastProjection );
+
     Vertex* vertex_data{ };
     int32_t* index_data{ };
 
@@ -180,6 +196,13 @@ void cGraphics::RenderDrawData( ) {
         StartVertex += Command.VerticesCount;
         StartIndex += Command.IndicesCount;
     }
+
+    m_Device->SetTransform( D3DTS_WORLD, &LastWorld );
+    m_Device->SetTransform( D3DTS_VIEW, &LastView );
+    m_Device->SetTransform( D3DTS_PROJECTION, &LastProjection );
+
+    m_StateBlock->Apply( );
+    m_StateBlock->Release( );
 
     gBuffer->ClearCommands( );
 }
