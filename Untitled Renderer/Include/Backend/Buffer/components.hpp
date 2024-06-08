@@ -154,14 +154,18 @@ public:
 	constexpr Rect operator*( const Rect& v ) const noexcept { return { static_cast< T >( x * v.x ), static_cast< T >( y * v.y ), static_cast< T >( w * v.w ), static_cast< T >( h * v.h ) }; }
 	constexpr Rect operator/( const Rect& v ) const noexcept { return { static_cast< T >( x / v.x ), static_cast< T >( y / v.y ), static_cast< T >( w / v.w ), static_cast< T >( h / v.h ) }; }
 
+	constexpr Rect& operator*=( const Rect& v ) noexcept { x *= v.x; y *= v.y; w *= v.w; h *= v.h; return *this; }
+	constexpr Rect& operator+=( const Rect& v ) noexcept { x += v.x; y += v.y; w += v.w; h += v.h; return *this; }
+	constexpr Rect& operator-=( const Rect& v ) noexcept { x -= v.x; y -= v.y; w -= v.w; h -= v.h; return *this; }
+	constexpr Rect& operator/=( const Rect& v ) noexcept { x /= v.x; y /= v.y; w /= v.w; h /= v.h; return *this; }
+
 	constexpr bool operator>( const Rect& v ) const noexcept { return x > v.x && y > v.y && w > v.w && h > v.h; }
-	constexpr bool operator>=( const Rect& v ) const noexcept { return x >= v.x && y >= v.y && w >= v.w && h >= v.h; }
 	constexpr bool operator<( const Rect& v ) const noexcept { return x < v.x && y < v.y && w < v.w && h < v.h; }
+
+	constexpr bool operator>=( const Rect& v ) const noexcept { return x >= v.x && y >= v.y && w >= v.w && h >= v.h; }
 	constexpr bool operator<=( const Rect& v ) const noexcept { return x <= v.x && y <= v.y && w <= v.w && h <= v.h; }
 
 	constexpr bool operator==( const Rect& v ) const noexcept { return x == v.x && y == v.y && w == v.w && h == v.h; }
-
-	constexpr Rect& operator*=( const T& val ) noexcept { x *= val; y *= val; w *= val; h *= val; return *this; }
 
 	template <typename U = T>
 	constexpr Rect<U> As( ) const noexcept { return { static_cast< U >( x ), static_cast< U >( y ), static_cast< U >( w ), static_cast< U >( h ) }; }

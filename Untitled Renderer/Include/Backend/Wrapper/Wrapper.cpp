@@ -260,7 +260,20 @@ void cWrapper::Init( ) {
         "Min", &Vec2<int16_t>::Min,
         "Max", &Vec2<int16_t>::Max,
         "Lerp", &Vec2<int16_t>::Lerp,
-        "DistanceTo", &Vec2<int16_t>::DistanceTo
+        "DistanceTo", &Vec2<int16_t>::DistanceTo,
+        "__add", &Vec2<int16_t>::operator+,
+        "__sub", &Vec2<int16_t>::operator-,
+        "__mul", &Vec2<int16_t>::operator*,
+        "__div", &Vec2<int16_t>::operator/,
+        "__iadd", &Vec2<int16_t>::operator+=,
+        "__isub", &Vec2<int16_t>::operator-=,
+        "__imul", &Vec2<int16_t>::operator*=,
+        "__idiv", &Vec2<int16_t>::operator/=,
+        "__lt", &Vec2<int16_t>::operator<,
+        "__le", &Vec2<int16_t>::operator<=,
+        "__gt", &Vec2<int16_t>::operator>,
+        "__ge", &Vec2<int16_t>::operator>=,
+        "__eq", &Vec2<int16_t>::operator==
     );
 
     Lua.new_usertype <Vec3<int>>(
@@ -268,7 +281,20 @@ void cWrapper::Init( ) {
         "x", &Vec3<int>::x,
         "y", &Vec3<int>::y,
         "z", &Vec3<int>::z,
-        "Lerp", &Vec3<int>::Lerp
+        "Lerp", &Vec3<int>::Lerp,
+        "__add", &Vec3<int>::operator+,
+        "__sub", &Vec3<int>::operator-,
+        "__mul", &Vec3<int>::operator*,
+        "__div", &Vec3<int>::operator/,
+        "__iadd", &Vec3<int>::operator+=,
+        "__isub", &Vec3<int>::operator-=,
+        "__imul", &Vec3<int>::operator*=,
+        "__idiv", &Vec3<int>::operator/=,
+        "__lt", &Vec3<int>::operator<,
+        "__le", &Vec3<int>::operator<=,
+        "__gt", &Vec3<int>::operator>,
+        "__ge", &Vec3<int>::operator>=,
+        "__eq", &Vec3<int>::operator==
     );
 
     Lua.new_usertype <Vec4<int>>( 
@@ -277,7 +303,20 @@ void cWrapper::Init( ) {
         "y", &Vec4<int>::y,
         "z", &Vec4<int>::z,
         "w", &Vec4<int>::w,
-        "Lerp", &Vec4<int>::Lerp
+        "Lerp", &Vec4<int>::Lerp,
+        "__add", &Vec4<int>::operator+,
+        "__sub", &Vec4<int>::operator-,
+        "__mul", &Vec4<int>::operator*,
+        "__div", &Vec4<int>::operator/,
+        "__iadd", &Vec4<int>::operator+=,
+        "__isub", &Vec4<int>::operator-=,
+        "__imul", &Vec4<int>::operator*=,
+        "__idiv", &Vec4<int>::operator/=,
+        "__lt", &Vec4<int>::operator<,
+        "__le", &Vec4<int>::operator<=,
+        "__gt", &Vec4<int>::operator>,
+        "__ge", &Vec4<int>::operator>=,
+        "__eq", &Vec4<int>::operator==
     );
 
     Lua.new_usertype <Rect<int>>( 
@@ -286,7 +325,20 @@ void cWrapper::Init( ) {
         "y", &Rect<int>::y,
         "w", &Rect<int>::w,
         "h", &Rect<int>::h,
-        "Lerp", &Rect<int>::Lerp
+        "Lerp", &Rect<int>::Lerp,
+        "__add", &Rect<int>::operator+,
+        "__sub", &Rect<int>::operator-,
+        "__mul", &Rect<int>::operator*,
+        "__div", &Rect<int>::operator/,
+        "__iadd", &Rect<int>::operator+=,
+        "__isub", &Rect<int>::operator-=,
+        "__imul", &Rect<int>::operator*=,
+        "__idiv", &Rect<int>::operator/=,
+        "__lt", &Rect<int>::operator<,
+        "__le", &Rect<int>::operator<=,
+        "__gt", &Rect<int>::operator>,
+        "__ge", &Rect<int>::operator>=,
+        "__eq", &Rect<int>::operator==
     );
 
     Lua.new_usertype<Color>( 
