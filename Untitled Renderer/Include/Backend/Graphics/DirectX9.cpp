@@ -10,9 +10,9 @@ bool cGraphics::Init( HWND hwnd ) {
     m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
     m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
-    m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
-    m_Parameters.MultiSampleQuality = 0;
-
+    // Anti-Aliasing ( Add Lua API option for turning it on/off )
+    //m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
+    //m_Parameters.MultiSampleQuality = 0;
 
     if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
         MessageBoxA( nullptr,
