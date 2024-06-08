@@ -95,12 +95,28 @@ namespace Renderer {
         gBuffer->Line( from, to, color );
     }
 
-    void Polyline( const std::vector<Vec2<int16_t>>& points, const Color color ) {
-        gBuffer->Polyline( points, color );
+    void Polyline( const sol::table& points, const Color& color ) {
+        std::vector<Vec2<int16_t>> Points;
+
+        for ( const auto& kv_pair : points ) {
+            int16_t x = kv_pair.second.as<sol::table>( ).get<int>( "x" );
+            int16_t y = kv_pair.second.as<sol::table>( ).get<int>( "y" );
+            Points.emplace_back( x, y );
+        }
+
+        gBuffer->Polyline( Points, color );
     }
 
-    void Polygon( const std::vector<Vec2<int16_t>>& points, const Color color ) {
-        gBuffer->Polygon( points, color );
+    void Polygon( const sol::table& points, const Color& color ) {
+        std::vector<Vec2<int16_t>> Points;
+
+        for ( const auto& kv_pair : points ) {
+            int16_t x = kv_pair.second.as<sol::table>( ).get<int>( "x" );
+            int16_t y = kv_pair.second.as<sol::table>( ).get<int>( "y" );
+            Points.emplace_back( x, y );
+        }
+
+        gBuffer->Polygon( Points, color );
     }
 
     void Rectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color, const int rounding ) {
