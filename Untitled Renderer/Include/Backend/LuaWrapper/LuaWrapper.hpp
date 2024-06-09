@@ -17,7 +17,7 @@ struct cLuaCallback {
 	sol::protected_function Function;
 };
 
-class cWrapper {
+class cLuaWrapper {
 public:
 	void Init( );
 
@@ -36,7 +36,7 @@ private:
 	std::unordered_map<std::string, std::vector<cLuaCallback>> m_Callbacks;
 };
 
-inline const auto gWrapper = std::make_unique<cWrapper>( );
+inline const auto gLuaWrapper = std::make_unique<cLuaWrapper>( );
 
-#include "Wrapper.inl"
+#include "LuaWrapper.inl"
 #endif

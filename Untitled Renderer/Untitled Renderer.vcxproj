@@ -191,7 +191,7 @@
     <ClCompile Include="Include\Backend\FileSystem\FileSystem.cpp" />
     <ClCompile Include="Include\Backend\Graphics\DirectX9.cpp" />
     <ClCompile Include="Include\Backend\Logger\Logger.cpp" />
-    <ClCompile Include="Include\Backend\Wrapper\Wrapper.cpp" />
+    <ClCompile Include="Include\Backend\LuaWrapper\LuaWrapper.cpp" />
     <ClCompile Include="Include\Scenes\Interface\Interface.cpp" />
     <ClCompile Include="Include\Scenes\World\World.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -212,8 +212,8 @@
     <ClInclude Include="Include\Backend\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp" />
     <ClInclude Include="Include\Backend\Logger\Logger.hpp" />
-    <ClInclude Include="Include\Backend\Wrapper\Features.hpp" />
-    <ClInclude Include="Include\Backend\Wrapper\Wrapper.hpp" />
+    <ClInclude Include="Include\Backend\LuaWrapper\LuaFeatures.hpp" />
+    <ClInclude Include="Include\Backend\LuaWrapper\LuaWrapper.hpp" />
     <ClInclude Include="Include\Scenes\Interface\Interface.hpp" />
     <ClInclude Include="Include\Backend\Input\Input.hpp" />
     <ClInclude Include="Include\Scenes\World\World.hpp" />
@@ -359,7 +359,7 @@
     <None Include="Include\Backend\FileSystem\FileSystem.inl" />
     <None Include="Include\Backend\Graphics\DirectX9.inl" />
     <None Include="Include\Backend\Logger\Logger.inl" />
-    <None Include="Include\Backend\Wrapper\Wrapper.inl" />
+    <None Include="Include\Backend\LuaWrapper\LuaWrapper.inl" />
     <None Include="Include\Scenes\Interface\Interface.inl" />
     <None Include="Include\Backend\Input\Input.inl" />
     <None Include="Include\Backend\Window\Window.inl" />

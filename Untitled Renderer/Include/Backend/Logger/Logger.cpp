@@ -39,23 +39,28 @@ void cLogger::Log( LogLevel log_level, const std::string& message ) {
     fmt_message.append( message );
     std::cout << fmt_message << "\n";
 
-    m_Logs[ log_level ].push_back( fmt_message );
+    SetConsoleTextAttribute( hStdOut, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE );
+
+    m_Logs[ log_level ].emplace_back( ColorMap.at( log_level ), fmt_message );
 }
 
-std::vector<std::string> cLogger::GetLogs( LogLevel log_level ) const {
-    auto it = m_Logs.find( log_level );
-
-    if ( it != m_Logs.end( ) )
-        return it->second;
-    else
-        return {};
-}
-
-void cLogger::ClearLogs( LogLevel log_level ) {
-    if ( log_level == LogLevel::END ) {
-        m_Logs.clear( );
-        return;
+std::vector<std::pair<DWORD, std::string>> cLogger::GetLogs( LogLevel level ) const {
+    if ( level == LogLevel::END ) {
+        std::vector<std::pair<DWORD, std::string>> all_logs;
+        for ( const auto& log_pair : m_Logs ) {
+            all_logs.insert( all_logs.end( ), log_pair.second.begin( ), log_pair.second.end( ) );
+        }
+        return all_logs;
     }
+    auto it = m_Logs.find( level );
+    return it != m_Logs.end( ) ? it->second : std::vector<std::pair<DWORD, std::string>>{};
+}
 
-    m_Logs[ log_level ].clear( );
+void cLogger::ClearLogs( LogLevel level ) {
+    if ( level == LogLevel::END ) {
+        m_Logs.clear( );
+    }
+    else {
+        m_Logs.erase( level );
+    }
 }

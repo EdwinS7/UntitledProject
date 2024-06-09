@@ -4,14 +4,7 @@ void cContext::Update( ) {
     if ( gInput->IsActive( ) ) {
         gInput->PoolInput( );
 
-        for ( auto& Callback : gWrapper->GetCallbacks( "OnInputUpdate" ) ) {
-            auto Result = Callback.Function( );
-
-            if ( !Result.valid( ) ) {
-                std::cout << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
-                gWrapper->GetCallbacks( "OnInterfacePaint" ).clear( );
-            }
-        }
+        gLuaWrapper->RunCallback( "OnInputUpdate" );
     }
 
     m_TimePoint = std::chrono::high_resolution_clock::now( );

@@ -9,23 +9,40 @@ inline bool cWin32::IsFocused() {
 }
 
 inline void cWin32::SetFullscreen( bool fullscreen ) {
-    if (fullscreen) {
-        LONG_PTR Style = GetWindowLongPtr(m_Hwnd, GWL_STYLE);
-        Style &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
-        SetWindowLongPtr(m_Hwnd, GWL_STYLE, Style);
+    static Rect<int16_t> PreviousRect;
+    static bool PreviousRectSet = false;
 
-        HMONITOR Monitor = MonitorFromWindow(m_Hwnd, MONITOR_DEFAULTTONEAREST);
+    if ( !gWindow->GetFullscreen( ) && fullscreen ) {
+        PreviousRect = gWindow->GetRect( );
+        PreviousRectSet = true;
+    }
+
+    if ( fullscreen ) {
+        LONG_PTR Style = GetWindowLongPtr( m_Hwnd, GWL_STYLE );
+        Style &= ~( WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU );
+        SetWindowLongPtr( m_Hwnd, GWL_STYLE, Style );
+
+        HMONITOR Monitor = MonitorFromWindow( m_Hwnd, MONITOR_DEFAULTTONEAREST );
         MONITORINFO MonitorInfo;
-        MonitorInfo.cbSize = sizeof(MonitorInfo);
-        GetMonitorInfo(Monitor, &MonitorInfo);
 
-        SetWindowPos(m_Hwnd, HWND_TOP, MonitorInfo.rcMonitor.left, MonitorInfo.rcMonitor.top,
+        MonitorInfo.cbSize = sizeof( MonitorInfo );
+        GetMonitorInfo( Monitor, &MonitorInfo );
+
+        SetWindowPos( m_Hwnd, HWND_TOP, MonitorInfo.rcMonitor.left, MonitorInfo.rcMonitor.top,
             MonitorInfo.rcMonitor.right - MonitorInfo.rcMonitor.left,
-            MonitorInfo.rcMonitor.bottom - MonitorInfo.rcMonitor.top, SWP_FRAMECHANGED);
+            MonitorInfo.rcMonitor.bottom - MonitorInfo.rcMonitor.top, SWP_FRAMECHANGED );
+
+        m_Fullscreen = true;
     }
     else {
-        SetWindowLongPtr(m_Hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW);
-        SetWindowPos(m_Hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        SetWindowLongPtr( m_Hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW );
+        SetWindowPos( m_Hwnd, HWND_TOP, PreviousRect.x, PreviousRect.y, PreviousRect.w, PreviousRect.h, SWP_NOZORDER | SWP_FRAMECHANGED );
+
+        ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
+        UpdateWindow( m_Hwnd );
+
+        PreviousRectSet = false;
+        m_Fullscreen = false;
     }
 }
 
@@ -70,13 +87,17 @@ inline Vec2<int16_t> cWin32::GetSize( ) const {
     return Vec2<int16_t>( );
 }
 
+inline void cWin32::SetRect( const Rect<int16_t>& rect ) {
+    SetWindowPos( m_Hwnd, NULL, rect.x, rect.y, rect.w, rect.h, SWP_NOZORDER );
+}
+
 inline Rect<int16_t> cWin32::GetRect( ) const {
     Vec2<int16_t> pos = GetPos( );
     Vec2<int16_t> size = GetSize( );
 
-    return Rect<int16_t>( pos.x, pos.y, 
-        static_cast< int16_t >( pos.x + size.x ),
-        static_cast< int16_t >( pos.y + size.y )
+    return Rect<int16_t>( 
+        pos.x, pos.y, 
+        size.x, size.y
     );
 }
 

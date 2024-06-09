@@ -5,5 +5,5 @@ void cInterface::Init( ) {
 }
 
 void cInterface::Draw( ) {
-    gWrapper->RunCallback( "OnInterfacePaint" );
+    gLuaWrapper->RunCallback( "OnInterfacePaint" );
 }

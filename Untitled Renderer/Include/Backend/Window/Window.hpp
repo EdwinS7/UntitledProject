@@ -6,7 +6,7 @@
 
 class cWin32 {
 public:
-	void Init( const char* title, Vec2<int16_t> size = { 1280, 720 }, bool fullscreen = true );
+	void Init( const std::string& title, Vec2<int16_t> size, bool fullscreen );
 	bool DispatchMessages( );
 
 	inline bool IsMinimized( );
@@ -21,7 +21,9 @@ public:
 	inline void SetSize( Vec2<int16_t>& size );
 	inline Vec2<int16_t> GetSize( ) const;
 
+	void SetRect( const Rect<int16_t>& rect );
 	inline Rect<int16_t> GetRect( ) const;
+
 	inline Rect<int16_t> GetClipRect( ) const;
 
 	inline HWND GetHandle( ) const;

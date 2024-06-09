@@ -1,9 +1,6 @@
-std::vector<std::string> CallbackIdentifiers{
-    "OnInterfacePaint",
-    "OnWorldPaint",
-    "OnInputUpdate",
-    "OnObjectCreation"
-};
+#pragma once
+
+#include "LuaWrapper.hpp"
 
 namespace Client {
     void Log( LogLevel log_level, const std::string& message, sol::variadic_args args ) {
@@ -20,8 +17,23 @@ namespace Client {
         gLogger->ClearLogs( log_level );
     }
 
-    std::vector<std::string> GetLogs( LogLevel log_level ) {
-        return gLogger->GetLogs( log_level );
+    // Helper function for GetLogs, you can't access pair's in lua I believe so we (ChatGPT) did this.
+    sol::table PairsToLua( sol::state_view lua, const std::vector<std::pair<DWORD, std::string>>& vec ) {
+        sol::table Table = lua.create_table( vec.size( ), 0 );
+
+        for ( std::size_t i = 0; i < vec.size( ); ++i ) {
+            sol::table Entry = lua.create_table( 0, 2 );
+            Entry[ "color" ] = vec[ i ].first;
+            Entry[ "message" ] = vec[ i ].second;
+            Table[ i + 1 ] = Entry;
+        }
+
+        return Table;
+    }
+
+    sol::table GetLogs( sol::this_state s, LogLevel log_level ) {
+        auto logs = gLogger->GetLogs( log_level );
+        return PairsToLua( sol::state_view( s ), logs );
     }
 
     std::string GetUsername( ) {
@@ -440,20 +452,27 @@ namespace Utils {
 };
 
 namespace Globals {
+    static std::vector<std::string> CallbackIdentifiers {
+        "OnInterfacePaint",
+        "OnWorldPaint",
+        "OnInputUpdate",
+        "OnObjectCreation"
+    };
+
     void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {
         if ( std::find( CallbackIdentifiers.begin( ), CallbackIdentifiers.end( ), event_name ) == CallbackIdentifiers.end( ) ) {
             std::cout << "Lua error: invalid callback \"" + event_name + '\"' << std::endl;
             return;
         }
 
-        gWrapper->RegisterCallback( event_name, function );
+        gLuaWrapper->RegisterCallback( event_name, function );
     }
 
     int LoadScript( const std::string& file_name ) {
-        return gWrapper->LoadScriptFromFile( FS_SCRIPTS_FOLDER, file_name );
+        return gLuaWrapper->LoadScriptFromFile( FS_SCRIPTS_FOLDER, file_name );
     }
 
     int LoadString( const std::string& source ) {
-        return gWrapper->LoadScript( source );
+        return gLuaWrapper->LoadScript( source );
     }
 };

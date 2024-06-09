@@ -39,7 +39,7 @@
     <ClCompile Include="Include\Scenes\World\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Wrapper\Wrapper.cpp">
+    <ClCompile Include="Include\Backend\LuaWrapper\LuaWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\Backend\Audio\Audio.cpp">
@@ -386,10 +386,10 @@
     <ClInclude Include="Include\Scenes\World\World.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Wrapper\Wrapper.hpp">
+    <ClInclude Include="Include\Backend\LuaWrapper\LuaWrapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Wrapper\Features.hpp">
+    <ClInclude Include="Include\Backend\LuaWrapper\LuaFeatures.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\Sol\Config.hpp">
@@ -532,7 +532,7 @@
     <None Include="Include\Backend\Camera\Camera.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Wrapper\Wrapper.inl">
+    <None Include="Include\Backend\LuaWrapper\LuaWrapper.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Backend\Logger\Logger.inl">

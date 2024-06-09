@@ -18,11 +18,11 @@ class cLogger {
 public:
 	void Log( LogLevel level, const std::string& message );
 
-	std::vector<std::string> GetLogs( LogLevel level ) const;
+	std::vector<std::pair<DWORD, std::string>> GetLogs( LogLevel level ) const;
 	void ClearLogs( LogLevel level );
 
 private:
-	std::unordered_map<LogLevel, std::vector<std::string>> m_Logs;
+	std::unordered_map<LogLevel, std::vector<std::pair<DWORD, std::string>>> m_Logs;
 };
 
 inline const auto gLogger = std::make_unique<cLogger>( );

@@ -1,64 +1,5 @@
 #include "Window.hpp"
 
-LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
-
-void cWin32::Init( const char* title, Vec2<int16_t> size, bool fullscreen ) {
-	m_WindowClass = {
-		sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
-		0L, 0L, GetModuleHandle( NULL ),
-		NULL, NULL, NULL,
-		NULL, title, NULL
-	};
-
-	RegisterClassEx( &m_WindowClass );
-
-    Vec2<int16_t> WindowSize;
-
-	RECT DesktopRect;
-	GetWindowRect( GetDesktopWindow( ), &DesktopRect );
-
-    WindowSize = { static_cast< int16_t >( DesktopRect.right ), static_cast< int16_t >( DesktopRect.bottom ) };
-
-	m_Hwnd = CreateWindow(
-		m_WindowClass.lpszClassName, title, WS_OVERLAPPEDWINDOW,
-        fullscreen ? 0 : ( WindowSize.y / 2 ) - (size.x / 2), fullscreen ? 0 : ( WindowSize.x / 2) - (size.y / 2), size.x, size.y, NULL, NULL,
-		m_WindowClass.hInstance, NULL
-	);
-
-    if ( fullscreen ) {
-        LONG_PTR Style = GetWindowLongPtr( m_Hwnd, GWL_STYLE );
-        Style &= ~( WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU );
-        SetWindowLongPtr( m_Hwnd, GWL_STYLE, Style );
-    }
-	
-	ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
-	UpdateWindow( m_Hwnd );
-
-    // Just for developers rn
-    AllocConsole( );
-    SetConsoleTitleA( title );
-
-    FILE* fp = nullptr;
-    freopen_s( &fp, "CONIN$", "r", stdin );
-    freopen_s( &fp, "CONOUT$", "w", stdout );
-    freopen_s( &fp, "CONOUT$", "w", stderr );
-}
-
-bool cWin32::DispatchMessages( ) {
-    MSG msg;
-
-    std::memset( &msg, 0, sizeof( MSG ) );
-    if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
-        TranslateMessage( &msg );
-        DispatchMessage( &msg );
-
-        if ( msg.message == WM_QUIT )
-            return false;
-    }
-
-    return true;
-}
-
 LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
     static bool isResizing = false;
 
@@ -102,4 +43,74 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
     }
 
     return DefWindowProc( hwnd, msg, wParam, lParam );
+}
+
+void cWin32::Init( const std::string& title, Vec2<int16_t> size, bool fullscreen ) {
+    AllocConsole( );
+    SetConsoleTitleA( title.c_str( ) );
+
+    FILE* fp = nullptr;
+    freopen_s( &fp, "CONIN$", "r", stdin );
+    freopen_s( &fp, "CONOUT$", "w", stdout );
+    freopen_s( &fp, "CONOUT$", "w", stderr );
+
+    HANDLE hStdOut = GetStdHandle( STD_OUTPUT_HANDLE );
+
+    auto AllLogs = gLogger->GetLogs( LogLevel::END );
+    if ( !AllLogs.empty( ) ) {
+        for ( const auto& Log : AllLogs ) {
+            SetConsoleTextAttribute( hStdOut, Log.first );
+            std::cout << Log.second << "\n";
+        }
+
+        SetConsoleTextAttribute( hStdOut, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE );
+    }
+
+    m_Fullscreen = fullscreen;
+
+    m_WindowClass = {
+        sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
+        0L, 0L, GetModuleHandle( NULL ),
+        NULL, NULL, NULL,
+        NULL, title.c_str( ), NULL
+    };
+
+    RegisterClassEx( &m_WindowClass );
+
+    RECT DesktopRect;
+    GetWindowRect( GetDesktopWindow( ), &DesktopRect );
+
+    Vec2<int16_t> WindowSize = { static_cast< int16_t >( DesktopRect.right ), static_cast< int16_t >( DesktopRect.bottom ) };
+
+    DWORD WindowStyle = fullscreen ? WS_POPUP : WS_OVERLAPPEDWINDOW;
+
+    m_Hwnd = CreateWindow(
+        m_WindowClass.lpszClassName, title.c_str( ), WindowStyle,
+        fullscreen ? 0 : ( WindowSize.x / 2 ) - ( size.x / 2 ),
+        fullscreen ? 0 : ( WindowSize.y / 2 ) - ( size.y / 2 ),
+        size.x, size.y, NULL, NULL, m_WindowClass.hInstance, NULL
+    );
+
+    if ( fullscreen ) {
+        SetWindowLongPtr( m_Hwnd, GWL_STYLE, WindowStyle & ~WS_CAPTION & ~WS_THICKFRAME );
+        SetWindowPos( m_Hwnd, HWND_NOTOPMOST, 0, 0, WindowSize.x, WindowSize.y, SWP_FRAMECHANGED | SWP_SHOWWINDOW );
+    }
+
+    ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
+    UpdateWindow( m_Hwnd );
+}
+
+bool cWin32::DispatchMessages( ) {
+    MSG msg;
+
+    std::memset( &msg, 0, sizeof( MSG ) );
+    if ( PeekMessage( &msg, nullptr, 0u, 0u, PM_REMOVE ) ) {
+        TranslateMessage( &msg );
+        DispatchMessage( &msg );
+
+        if ( msg.message == WM_QUIT )
+            return false;
+    }
+
+    return true;
 }

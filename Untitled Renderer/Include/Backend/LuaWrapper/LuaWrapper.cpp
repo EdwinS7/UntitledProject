@@ -1,5 +1,5 @@
-#include "Wrapper.hpp"
-#include "Features.hpp"
+#include "LuaWrapper.hpp"
+#include "LuaFeatures.hpp"
 
 int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> maybe_exception, sol::string_view description ) {
     if ( maybe_exception ) {
@@ -29,7 +29,7 @@ std::filesystem::path GetExecutableDirectory( ) {
     return std::filesystem::path( buffer ).parent_path( );
 }
 
-void cWrapper::Init( ) {
+void cLuaWrapper::Init( ) {
     Lua = sol::state( sol::c_call<decltype( &LuaPanicHandler ), &LuaPanicHandler> );
 
     Lua.open_libraries(
@@ -258,7 +258,7 @@ std::string FormatSolError( const std::string& error_message ) {
     return ErrorMessage;
 }
 
-int cWrapper::LoadScript( const std::string& source ) {
+int cLuaWrapper::LoadScript( const std::string& source ) {
     if ( source.empty( ) )
         return 0;
 
@@ -278,6 +278,6 @@ int cWrapper::LoadScript( const std::string& source ) {
     return 1;
 }
 
-int cWrapper::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
+int cLuaWrapper::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
     return LoadScript( gFileSystem->GetFileContent( folder_path, file_name ) );
 }

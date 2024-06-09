@@ -42,7 +42,7 @@
 #include "Include/Backend/Window/Window.hpp"
 #include "Include/Backend/Camera/Camera.hpp"
 
-#include "Include/Backend/Wrapper/Wrapper.hpp"
+#include "Include/Backend/LuaWrapper/LuaWrapper.hpp"
 
 #include "Include/Scenes/Interface/Interface.hpp"
 #include "Include/Scenes/World/World.hpp"
