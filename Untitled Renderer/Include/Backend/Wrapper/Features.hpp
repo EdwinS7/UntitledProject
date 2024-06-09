@@ -157,12 +157,12 @@ namespace Renderer {
         gBuffer->Polygon( Points, color );
     }
 
-    void Rectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color color, int rounding ) {
-        gBuffer->Rectangle( position, size, color, rounding, CornerAll );
+    void Rectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color color, int rounding, CornerFlags flags ) {
+        gBuffer->Rectangle( position, size, color, rounding, flags );
     }
 
-    void FilledRectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color color, int rounding ) {
-        gBuffer->FilledRectangle( position, size, color, rounding, CornerAll );
+    void FilledRectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color color, int rounding, CornerFlags flags ) {
+        gBuffer->FilledRectangle( position, size, color, rounding, flags );
     }
 
     void Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_from, Color color_to, bool vertical ) {
