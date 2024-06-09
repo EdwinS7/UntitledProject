@@ -374,7 +374,7 @@ namespace Http {
 
 namespace Json {
     std::string Serialize( sol::object value ) {
-        json j;
+        nlohmann::json j;
 
         if ( value.is<bool>( ) )
             j = value.as<bool>( );
@@ -397,7 +397,7 @@ namespace Json {
     }
 
     sol::object Deserialize( const std::string& json_str, sol::this_state L ) {
-        json j = json::parse( json_str );
+        nlohmann::json j = nlohmann::json::parse( json_str );
 
         if ( j.is_null( ) )
             return sol::nil;

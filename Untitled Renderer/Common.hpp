@@ -1,31 +1,27 @@
-#include <corecrt_math_defines.h>
 #include <filesystem>
-#include <Lmcons.h>
 #include <shlobj.h>
 #include <fstream>
-#include <thread>
 #include <vector>
-#include <format>
 #include <random>
+#include <math.h>
 #include <regex>
 #include <map>
+
+#define _USE_MATH_DEFINES
 
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <d3dx9tex.h>
 
-#define CURL_STATICLIB
-#define SOL_LUAJIT_VERSION 1
-
-#define FONTS_FOLDER "Fonts/"
-#define TEXTURES_FOLDER "Textures/"
-
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
-
 #include <Base64.hpp>
 #include <Sha256.hpp>
+
+#include <nlohmann/json.hpp>
+
+#define SOL_LUAJIT 1
 #include <Sol/Sol.hpp>
+
+#define CURL_STATICLIB
 #include <Curl/Include/curl.h>
 
 #include <FreeType/ft2build.h>

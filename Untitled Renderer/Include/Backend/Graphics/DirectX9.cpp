@@ -324,7 +324,7 @@ void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* texture, std::vector<
 }
 
 void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, std::string file_name ) {
-    std::string full_path = TEXTURES_FOLDER + file_name;
+    std::string full_path = FS_TEXTURES_FOLDER + file_name;
 
     if ( D3DXCreateTextureFromFile( m_Device, full_path.c_str( ), &texture ) != D3D_OK ) {
         MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Image ({})", std::make_format_args( file_name ) ).c_str( ), 0 );
@@ -335,7 +335,7 @@ void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, std::string f
 }
 
 void cGraphics::CreateImageFromFile( Image* image, std::string file_name ) {
-    std::string full_path = TEXTURES_FOLDER + file_name;
+    std::string full_path = FS_TEXTURES_FOLDER + file_name;
     IDirect3DTexture9* Texture;
 
     if ( D3DXCreateTextureFromFile( m_Device, full_path.c_str( ), &Texture ) != D3D_OK ) {
