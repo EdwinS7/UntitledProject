@@ -1,7 +1,7 @@
 #include "Wrapper.hpp"
 #include "Features.hpp"
 
-int lua_exception_handler( lua_State* L, sol::optional<const std::exception&> maybe_exception, sol::string_view description ) {
+int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> maybe_exception, sol::string_view description ) {
     if ( maybe_exception ) {
         std::cout << "(straight from the exception): ";
         const std::exception& ex = *maybe_exception;
@@ -15,7 +15,7 @@ int lua_exception_handler( lua_State* L, sol::optional<const std::exception&> ma
     return sol::stack::push( L, description );
 }
 
-inline void lua_panic_handler( sol::optional<std::string> maybe_msg ) {
+inline void LuaPanicHandler( sol::optional<std::string> maybe_msg ) {
     std::cerr << "Lua is in a panic state and will now abort() the application" << "\n";
     if ( maybe_msg ) {
         const std::string& msg = maybe_msg.value( );
@@ -23,15 +23,25 @@ inline void lua_panic_handler( sol::optional<std::string> maybe_msg ) {
     }
 }
 
+std::filesystem::path GetExecutableDirectory( ) {
+    char buffer[ MAX_PATH ];
+    GetModuleFileNameA( nullptr, buffer, MAX_PATH );
+    return std::filesystem::path( buffer ).parent_path( );
+}
+
 void cWrapper::Init( ) {
-    Lua = sol::state( sol::c_call<decltype( &lua_panic_handler ), &lua_panic_handler> );
+    Lua = sol::state( sol::c_call<decltype( &LuaPanicHandler ), &LuaPanicHandler> );
 
     Lua.open_libraries(
         sol::lib::base, sol::lib::package, sol::lib::coroutine,
         sol::lib::string, sol::lib::math, sol::lib::table,
-        sol::lib::debug, sol::lib::bit32, sol::lib::utf8
-        /*sol::lib::ffi, sol::lib::jit*/
+        sol::lib::debug, sol::lib::bit32, sol::lib::utf8,
+        sol::lib::ffi, sol::lib::jit
     );
+
+    // Update the path for require packages location (Scripts/Libraries)
+    std::string packagePath = ( gFileSystem->GetExecutableDirectory( ) + "/Scripts/Libraries" ) + "/?.lua";
+    Lua[ "package" ][ "path" ] = packagePath;
 
     // Disabled for user safety.
     std::vector<std::string> DisabledBaseLuaFunctions = {

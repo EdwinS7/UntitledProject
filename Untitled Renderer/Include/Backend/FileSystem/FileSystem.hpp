@@ -24,6 +24,8 @@ public:
     std::string GetFileLastModifiedDate( const std::string& folder_path, const std::string& file_name ) const;
     std::size_t GetFileSize( const std::string& folder_path, const std::string& file_name ) const;
 
+    std::string GetExecutableDirectory( ) const;
+
 private:
 	
 };

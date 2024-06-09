@@ -34,7 +34,7 @@
 
 // beginning of sol/version.hpp
 
-#include <Sol/Config.hpp>
+#include <sol/config.hpp>
 
 #define SOL_VERSION_MAJOR 3
 #define SOL_VERSION_MINOR 2
@@ -8750,8 +8750,8 @@ namespace sol {
 			return name;
 		}
 
-			// must push at least 1 object on the stack
-			inline int default_exception_handler( lua_State* L, optional<const std::exception&>, string_view what ) {
+		// must push at least 1 object on the stack
+		inline int default_exception_handler( lua_State* L, optional<const std::exception&>, string_view what ) {
 #if SOL_IS_ON(SOL_PRINT_ERRORS)
 			std::cerr << "[sol2] An exception occurred: ";
 			std::cerr.write( what.data( ), static_cast< std::streamsize >( what.size( ) ) );
@@ -11040,11 +11040,11 @@ namespace sol {
 				( std::alignment_of<void*>::value > 1 )
 #endif
 				>;
-			if ( !use_align::value ) {
-				return ptr;
-			}
-			std::size_t space = ( std::numeric_limits<std::size_t>::max )( );
-			return align( std::alignment_of<void*>::value, ptr, space );
+				if ( !use_align::value ) {
+					return ptr;
+				}
+				std::size_t space = ( std::numeric_limits<std::size_t>::max )( );
+				return align( std::alignment_of<void*>::value, ptr, space );
 		}
 
 		template <bool pre_aligned = false, bool pre_shifted = false>
@@ -20798,7 +20798,7 @@ namespace sol {
 			return name;
 		}
 
-			template <bool ShouldPush, typename Target = reference>
+		template <bool ShouldPush, typename Target = reference>
 		struct protected_handler {
 			lua_State* m_L;
 			const Target& target;

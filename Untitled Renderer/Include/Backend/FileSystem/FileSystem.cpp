@@ -3,6 +3,7 @@
 void cFileSystem::Init( ) {
     CreateFolder( "DefaultScripts/" );
     CreateFolder( "Scripts/" );
+    CreateFolder( "Scripts/Libraries/" );
 
     CreateFolder( "Sounds/" );
     CreateFolder( "Textures/" );
@@ -111,4 +112,12 @@ std::string cFileSystem::GetFileLastModifiedDate( const std::string& folder_path
 
 std::size_t cFileSystem::GetFileSize( const std::string& folder_path, const std::string& file_name ) const {
     return std::filesystem::file_size( folder_path + "/" + file_name );
+}
+
+std::string cFileSystem::GetExecutableDirectory( ) const {
+    char buffer[ MAX_PATH ];
+    GetModuleFileNameA( NULL, buffer, MAX_PATH );
+    std::string execDir( buffer );
+    size_t pos = execDir.find_last_of( "\\/" );
+    return execDir.substr( 0, pos );
 }

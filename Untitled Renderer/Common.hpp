@@ -15,6 +15,7 @@
 #include <d3dx9tex.h>
 
 #define CURL_STATICLIB
+#define SOL_LUAJIT_VERSION 1
 
 #define FONTS_FOLDER "Fonts/"
 #define TEXTURES_FOLDER "Textures/"

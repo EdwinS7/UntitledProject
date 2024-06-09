@@ -6,7 +6,6 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
     gWindow->Init( "Untitled Renderer", Vec2<int16_t>( 1920, 1080 ), true );
     gGraphics->Init( gWindow->GetHandle( ) );
     gBuffer->Init( );
-
     gWrapper->Init( );
     gAudio->Init( );
 
