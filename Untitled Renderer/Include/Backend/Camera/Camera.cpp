@@ -105,7 +105,7 @@ void cCamera::Update( ) {
     if ( gInput->KeyHeld( KEY_SPACE ) ) {
         MoveUp( SpeedFactor );
     }
-    if ( gInput->KeyHeld( KEY_CONTROL ) ) {
+    if ( gInput->KeyHeld( KEY_CTRL ) ) {
         MoveDown( SpeedFactor );
     }
     if ( gInput->KeyHeld( KEY_UP_ARROW ) ) {

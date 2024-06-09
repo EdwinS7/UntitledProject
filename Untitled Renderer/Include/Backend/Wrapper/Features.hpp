@@ -1,5 +1,3 @@
-#include "../../Common.hpp"
-
 std::vector<std::string> CallbackIdentifiers{
     "OnInterfacePaint",
     "OnWorldPaint",

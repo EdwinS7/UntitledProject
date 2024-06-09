@@ -10,6 +10,7 @@ enum class LogLevel {
 	Warning,
 	Error,
 	Success,
+	Unknown,
 	END
 };
 

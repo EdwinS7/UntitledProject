@@ -113,6 +113,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>freetype.lib;Dwmapi.lib;d3d9.lib;d3dx9.lib;d3d11.lib;Ws2_32.lib;Crypt32.lib;Wldap32.lib;advapi32.lib;Normaliz.lib;lua51.lib;libcurl_debug.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <HeapReserveSize>20000000</HeapReserveSize>
+      <HeapCommitSize>800000</HeapCommitSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,6 +138,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>freetype.lib;Dwmapi.lib;d3d9.lib;d3dx9.lib;d3d11.lib;Ws2_32.lib;Crypt32.lib;Wldap32.lib;advapi32.lib;Normaliz.lib;lua51.lib;libcurl_release.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir).hpp/gfx/lib</AdditionalLibraryDirectories>
+      <HeapReserveSize>20000000</HeapReserveSize>
+      <HeapCommitSize>800000</HeapCommitSize>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
