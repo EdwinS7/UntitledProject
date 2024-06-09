@@ -6,17 +6,9 @@
 
 class cAudio {
 public:
-    void Init( );
-    void Release( );
-
-    int LoadSound( const std::string& file_name );
-    void PlaySound_( const int sound_id );
-    void StopSound( const int sound_id );
-
-    void StopAllSounds( );
 
 private:
-    std::vector<std::vector<float>> sounds;
+    
 
 };
 

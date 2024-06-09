@@ -8,14 +8,22 @@ std::vector<std::string> CallbackIdentifiers{
 };
 
 namespace Client {
-    void Print( LogLevel log_level, const std::string& message, sol::variadic_args args ) {
+    void Log( LogLevel log_level, const std::string& message, sol::variadic_args args ) {
         std::ostringstream oss;
         oss << message;
 
         for ( auto arg : args )
             oss << arg.as<std::string>( );
 
-        gLogger->Print( log_level, oss.str( ) );
+        gLogger->Log( log_level, oss.str( ) );
+    }
+
+    void ClearLogs( LogLevel log_level ) {
+        gLogger->ClearLogs( log_level );
+    }
+
+    std::vector<std::string> GetLogs( LogLevel log_level ) {
+        return gLogger->GetLogs( log_level );
     }
 
     std::string GetUsername( ) {
@@ -40,21 +48,7 @@ namespace Client {
 };
 
 namespace Audio {
-    int LoadSound( const std::string& file_name ) {
-        return gAudio->LoadSound( file_name );
-    }
-
-    void PlaySound_( const int sound_id ) {
-        gAudio->PlaySound_( sound_id );
-    }
-
-    void StopSound( const int sound_id ) {
-        gAudio->StopSound( sound_id );
-    }
-
-    void StopAllSounds( ) {
-        gAudio->StopAllSounds( );
-    }
+    
 };
 
 namespace Input {
@@ -458,7 +452,7 @@ namespace Globals {
     }
 
     int LoadScript( const std::string& file_name ) {
-        return gWrapper->LoadScriptFromFile( "Scripts/", file_name );
+        return gWrapper->LoadScriptFromFile( FS_SCRIPTS_FOLDER, file_name );
     }
 
     int LoadString( const std::string& source ) {

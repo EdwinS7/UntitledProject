@@ -1,12 +1,18 @@
 #include "FileSystem.hpp"
 
 void cFileSystem::Init( ) {
-    CreateFolder( "DefaultScripts/" );
-    CreateFolder( "Scripts/" );
-    CreateFolder( "Scripts/Libraries/" );
+    CreateFolder( FS_LUA_FOLDER );
+    CreateFolder( FS_SCRIPTS_FOLDER );
+    CreateFolder( FS_LIBRARY_SCRIPTS_FOLDER );
+    CreateFolder( FS_DEFAULT_SCRIPTS_FOLDER );
 
-    CreateFolder( "Sounds/" );
-    CreateFolder( "Textures/" );
+    CreateFolder( FS_GAME_FOLDER );
+    CreateFolder( FS_SOUND_FOLDER );
+    CreateFolder( FS_TEXTURES_FOLDER );
+
+    if ( !DoesFileExist( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME ) ) {
+        WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME, WRAPPER_DEFAULT_SCRIPT );
+    }
 }
 
 void cFileSystem::CreateFolder( const std::string& folder_path ) {
@@ -14,12 +20,16 @@ void cFileSystem::CreateFolder( const std::string& folder_path ) {
         return;
 
     if ( !std::filesystem::create_directory( folder_path ) ) {
-        gLogger->Print( LogLevel::Error, "Failed to create folder!" );
+        gLogger->Log( LogLevel::Error, "Failed to create folder!" );
     }
 }
 
-bool cFileSystem::DoesFolderExist( const std::string& folder_path ) {
+bool cFileSystem::DoesFolderExist( const std::string& folder_path ) const {
     return std::filesystem::exists( folder_path ) && std::filesystem::is_directory( folder_path );
+}
+
+bool cFileSystem::DoesFileExist( const std::string& folder_path, const std::string& file_name ) const {
+    return std::filesystem::exists( folder_path + "/" + file_name ) && std::filesystem::is_regular_file( folder_path + "/" + file_name );
 }
 
 std::string cFileSystem::GetFileContent( const std::string& folder_path, const std::string& file_name ) const {
@@ -29,18 +39,18 @@ std::string cFileSystem::GetFileContent( const std::string& folder_path, const s
         return content;
     }
     else {
-        gLogger->Print( LogLevel::Error, "Failed to open file: " + folder_path + "/" + file_name );
+        gLogger->Log( LogLevel::Error, "Failed to open file: " + folder_path + "/" + file_name );
         return "";
     }
 }
 
 void cFileSystem::WriteToFile( const std::string& folder_path, const std::string& file_name, const std::string& content ) {
     std::ofstream file( folder_path + "/" + file_name );
-   
+
     if ( file )
         file << content;
     else
-        gLogger->Print( LogLevel::Error, "Failed to write to file:" + folder_path + "/" + file_name );
+        gLogger->Log( LogLevel::Error, "Failed to write to file:" + folder_path + "/" + file_name );
 }
 
 void cFileSystem::AppendToFile( const std::string& folder_path, const std::string& file_name, const std::string& content ) {
@@ -49,17 +59,17 @@ void cFileSystem::AppendToFile( const std::string& folder_path, const std::strin
     if ( file )
         file << content;
     else
-        gLogger->Print( LogLevel::Error, "Failed to write to file:" + folder_path + "/" + file_name );
+        gLogger->Log( LogLevel::Error, "Failed to write to file:" + folder_path + "/" + file_name );
 }
 
 void cFileSystem::DeleteFile( const std::string& folder_path, const std::string& file_name ) {
     if ( !std::filesystem::remove( folder_path + "/" + file_name ) )
-        gLogger->Print( LogLevel::Error, "Failed to delete file:" + folder_path + "/" + file_name );
+        gLogger->Log( LogLevel::Error, "Failed to delete file:" + folder_path + "/" + file_name );
 }
 
 void cFileSystem::DeleteFolder( const std::string& folder_path ) {
     if ( std::filesystem::remove_all( folder_path ) < 0 )
-        gLogger->Print( LogLevel::Error, "Failed to delete folder:" + folder_path );
+        gLogger->Log( LogLevel::Error, "Failed to delete folder:" + folder_path );
 }
 
 std::vector<std::string> cFileSystem::GetFilesInFolder( const std::string& folder_path ) {

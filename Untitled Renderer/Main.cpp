@@ -2,12 +2,11 @@
 
 int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int show_cmd ) {
     gFileSystem->Init( );
-    
+
     gWindow->Init( "Untitled Renderer", Vec2<int16_t>( 1920, 1080 ), true );
     gGraphics->Init( gWindow->GetHandle( ) );
     gBuffer->Init( );
     gWrapper->Init( );
-    gAudio->Init( );
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );
@@ -23,5 +22,4 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     gGraphics->Release( );
     gBuffer->Release( );
-    gAudio->Release( );
 }

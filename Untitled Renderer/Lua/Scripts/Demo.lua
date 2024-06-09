@@ -1,0 +1,1 @@
+Client.Log(LogLevel.Information, "Hello World!")

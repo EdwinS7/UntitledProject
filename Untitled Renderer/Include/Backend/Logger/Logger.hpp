@@ -8,15 +8,20 @@ enum class LogLevel {
 	Normal = 0,
 	Information,
 	Warning,
-	Error
+	Error,
+	Success,
+	END
 };
 
 class cLogger {
 public:
-	void Print( LogLevel level, const std::string& message );
+	void Log( LogLevel level, const std::string& message );
+
+	void ClearLogs( LogLevel level );
+	std::vector<std::string> GetLogs( LogLevel level ) const;
 
 private:
-	
+	std::unordered_map<LogLevel, std::vector<std::string>> m_Logs;
 };
 
 inline const auto gLogger = std::make_unique<cLogger>( );

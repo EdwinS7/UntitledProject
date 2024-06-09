@@ -39,8 +39,8 @@ void cWrapper::Init( ) {
         sol::lib::ffi, sol::lib::jit
     );
 
-    // Update the path for require packages location (Scripts/Libraries)
-    std::string packagePath = ( gFileSystem->GetExecutableDirectory( ) + "/Scripts/Libraries" ) + "/?.lua";
+    // Update the path for require packages location: Executable + 'Lua/Scripts/Libraries'
+    std::string packagePath = ( gFileSystem->GetExecutableDirectory( ) + FS_LIBRARY_SCRIPTS_FOLDER ) + "/?.lua";
     Lua[ "package" ][ "path" ] = packagePath;
 
     // Disabled for user safety.
@@ -133,7 +133,9 @@ void cWrapper::Init( ) {
         "Normal", LogLevel::Normal,
         "Information", LogLevel::Information,
         "Warning", LogLevel::Warning,
-        "Error", LogLevel::Error
+        "Error", LogLevel::Error,
+        "Success", LogLevel::Success,
+        "All", LogLevel::END
     );
 
     Lua.new_usertype<Vec2<int16_t>>(
@@ -203,7 +205,9 @@ void cWrapper::Init( ) {
     Lua[ "LoadString" ] = Globals::LoadString;
 
     auto Client = Lua.create_table( );
-    Client[ "Print" ] = Client::Print;
+    Client[ "Log" ] = Client::Log;
+    Client[ "GetLogs" ] = Client::GetLogs;
+    Client[ "ClearLogs" ] = Client::ClearLogs;
     Client[ "GetUsername" ] = Client::GetUsername;
     Client[ "GetFramerate" ] = Client::GetFPS;
     Client[ "GetRealtime" ] = Client::GetRealTime;
@@ -211,10 +215,6 @@ void cWrapper::Init( ) {
     Client[ "GetFontList" ] = Client::GetFontList;
 
     auto Audio = Lua.create_table( );
-    Audio[ "LoadSound" ] = Audio::LoadSound;
-    Audio[ "PlaySound" ] = Audio::PlaySound_;
-    Audio[ "StopSound" ] = Audio::StopSound;
-    Audio[ "StopAllSounds" ] = Audio::StopAllSounds;
 
     auto Input = Lua.create_table( );
     Input[ "IsMouseHoveringRect" ] = Input::IsMouseHoveringRect;
@@ -299,8 +299,8 @@ void cWrapper::Init( ) {
     Lua[ "Utils" ] = Utils;
 
     // Run scripts located in the 'DefaultScripts/' Folder
-    for ( auto& File : gFileSystem->GetFilesInFolder( "DefaultScripts/" ) ) {
-        LoadScriptFromFile( "DefaultScripts/", File );
+    for ( auto& File : gFileSystem->GetFilesInFolder( FS_DEFAULT_SCRIPTS_FOLDER ) ) {
+        LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, File );
     }
 }
 
