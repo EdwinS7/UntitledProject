@@ -3,11 +3,30 @@
 bool cGraphics::Init( HWND hwnd ) {
     m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
     
-    m_Parameters.Windowed = gWindow->GetFullscreen( );
+    D3DDISPLAYMODE DisplayMode;
+    m_Direct3D->GetAdapterDisplayMode( D3DADAPTER_DEFAULT, &DisplayMode );
+
+    if ( gWindow->GetFullscreen( ) ) {
+        m_Parameters.Windowed = FALSE;
+        m_Parameters.BackBufferWidth = DisplayMode.Width;
+        m_Parameters.BackBufferHeight = DisplayMode.Height;
+    }
+    else {
+        m_Parameters.Windowed = TRUE;
+        m_Parameters.BackBufferWidth = gWindow->GetSize( ).x;
+        m_Parameters.BackBufferHeight = gWindow->GetSize( ).y;
+    }
+
+    m_Parameters.hDeviceWindow = hwnd;
+
     m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
-    m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
+
+    m_Parameters.BackBufferCount = 1;
+    m_Parameters.BackBufferFormat = D3DFMT_X8R8G8B8;
+
     m_Parameters.EnableAutoDepthStencil = TRUE;
     m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
+
     m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
     // Anti-Aliasing ( Add Lua API option for turning it on/off )

@@ -8,7 +8,7 @@ inline bool cWin32::IsFocused() {
     return m_Hwnd == GetForegroundWindow();
 }
 
-inline void cWin32::SetFullscreen(const bool fullscreen) {
+inline void cWin32::SetFullscreen( bool fullscreen ) {
     if (fullscreen) {
         LONG_PTR Style = GetWindowLongPtr(m_Hwnd, GWL_STYLE);
         Style &= ~(WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
@@ -33,7 +33,7 @@ inline bool cWin32::GetFullscreen() const {
     return m_Fullscreen;
 }
 
-inline void cWin32::SetPos(const Vec2<int16_t>& pos) {
+inline void cWin32::SetPos( Vec2<int16_t>& pos ) {
     SetWindowPos( m_Hwnd, NULL, pos.x, pos.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER );
 }
 
@@ -50,14 +50,17 @@ inline Vec2<int16_t> cWin32::GetPos( ) const {
     return Vec2<int16_t>( );
 }
 
-inline void cWin32::SetSize(const Vec2<int16_t>& size) {
+inline void cWin32::SetSize( Vec2<int16_t>& size ) {
     SetWindowPos( m_Hwnd, NULL, 0, 0, size.x, size.y, SWP_NOMOVE | SWP_NOZORDER );
 }
 
 inline Vec2<int16_t> cWin32::GetSize( ) const {
     RECT rect{};
 
-    if (GetClientRect(m_Hwnd, &rect)) {
+    bool Result = GetFullscreen() ? 
+        GetWindowRect( m_Hwnd, &rect ) : GetClientRect( m_Hwnd, &rect );
+
+    if ( Result ) {
         return Vec2<int16_t>(
             static_cast<int16_t>(rect.right - rect.left),
             static_cast<int16_t>(rect.bottom - rect.top)

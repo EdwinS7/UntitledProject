@@ -15,10 +15,10 @@ public:
 	int LoadScript( const std::string& source );
 	int LoadScriptFromFile( const std::string& folder_path, const std::string& file_name );
 
-	inline void RegisterCallback( std::string eventName, sol::protected_function Callback );
+	inline void RegisterCallback( const std::string& event_name, sol::protected_function callback );
 	inline void UnregisterCallbacks( );
 
-	inline std::vector<cLuaCallback> GetCallbacks( std::string eventName );
+	inline std::vector<cLuaCallback> GetCallbacks( const std::string& callback_name );
 	inline void RunCallback( const std::string& callback_name );
 
 private:

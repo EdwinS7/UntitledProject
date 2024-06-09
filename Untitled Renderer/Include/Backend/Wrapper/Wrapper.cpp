@@ -34,214 +34,90 @@ void cWrapper::Init( ) {
     );
 
     // Disabled for user safety.
-    Lua[ "collectgarbage" ] = sol::nil;
-    Lua[ "dofilsse" ] = sol::nil;
-    Lua[ "load" ] = sol::nil;
-    Lua[ "loadfile" ] = sol::nil;
-    Lua[ "pcall" ] = sol::nil;
-    Lua[ "print" ] = sol::nil;
-    Lua[ "xpcall" ] = sol::nil;
-    Lua[ "getmetatable" ] = sol::nil;
-    Lua[ "setmetatable" ] = sol::nil;
-    Lua[ "__nil_callback" ] = [ ] ( ) {};
+    std::vector<std::string> DisabledBaseLuaFunctions = {
+        "collectgarbage", "dofilsse", "load",
+        "loadfile", "pcall", "print", "xpcall",
+        "getmetatable", "setmetatable", "__nil_callback"
+    };
 
-    // Mouse VK Keys
-    Lua.set( "KEY_LMOUSE", KEY_LMOUSE );
-    Lua.set( "KEY_RMOUSE", KEY_RMOUSE );
-    Lua.set( "KEY_CANCEL", KEY_CANCEL );
-    Lua.set( "KEY_MMOUSE", KEY_MMOUSE );
-    Lua.set( "KEY_MOUSE_5", KEY_MOUSE_5 );
-    Lua.set( "KEY_MOUSE_6", KEY_MOUSE_6 );
+    for ( auto& base_lua_function : DisabledBaseLuaFunctions ) {
+        Lua[ base_lua_function ] = sol::nil;
+    }
 
-    // Keyboard VK Keys
-    Lua.set( "KEY_BACK", KEY_BACK );
-    Lua.set( "KEY_TAB", KEY_TAB );
-    Lua.set( "KEY_CLEAR", KEY_CLEAR );
-    Lua.set( "KEY_RETURN", KEY_RETURN );
-    Lua.set( "KEY_SHIFT", KEY_SHIFT );
-    Lua.set( "KEY_CONTROL", KEY_CONTROL );
-    Lua.set( "KEY_ALT", KEY_ALT );
-    Lua.set( "KEY_PAUSE", KEY_PAUSE );
-    Lua.set( "KEY_CAPSLOCK", KEY_CAPSLOCK );
-    Lua.set( "KEY_ESCAPE", KEY_ESCAPE );
-    Lua.set( "KEY_SPACE", KEY_SPACE );
-    Lua.set( "KEY_PAGEUP", KEY_PAGEUP );
-    Lua.set( "KEY_PAGEDOWN", KEY_PAGEDOWN );
-    Lua.set( "KEY_END", KEY_END );
-    Lua.set( "KEY_HOME", KEY_HOME );
-    Lua.set( "KEY_LEFT_ARROW", KEY_LEFT_ARROW );
-    Lua.set( "KEY_UP_ARROW", KEY_UP_ARROW );
-    Lua.set( "KEY_RIGHT_ARROW", KEY_RIGHT_ARROW );
-    Lua.set( "KEY_DOWN_ARROW", KEY_DOWN_ARROW );
-    Lua.set( "KEY_SELECT", KEY_SELECT );
-    Lua.set( "KEY_PRINT", KEY_PRINT );
-    Lua.set( "KEY_EXECUTE", KEY_EXECUTE );
-    Lua.set( "KEY_PRINT_SCREEN", KEY_PRINT_SCREEN );
-    Lua.set( "KEY_INSERT", KEY_INSERT );
-    Lua.set( "KEY_DELETE", KEY_DELETE );
-    Lua.set( "KEY_HELP", KEY_HELP );
-    Lua.set( "KEY_0", KEY_0 );
-    Lua.set( "KEY_1", KEY_1 );
-    Lua.set( "KEY_2", KEY_2 );
-    Lua.set( "KEY_3", KEY_3 );
-    Lua.set( "KEY_4", KEY_4 );
-    Lua.set( "KEY_5", KEY_5 );
-    Lua.set( "KEY_6", KEY_6 );
-    Lua.set( "KEY_7", KEY_7 );
-    Lua.set( "KEY_8", KEY_8 );
-    Lua.set( "KEY_9", KEY_9 );
-    Lua.set( "KEY_A", KEY_A );
-    Lua.set( "KEY_B", KEY_B );
-    Lua.set( "KEY_C", KEY_C );
-    Lua.set( "KEY_D", KEY_D );
-    Lua.set( "KEY_E", KEY_E );
-    Lua.set( "KEY_F", KEY_F );
-    Lua.set( "KEY_G", KEY_G );
-    Lua.set( "KEY_H", KEY_H );
-    Lua.set( "KEY_I", KEY_I );
-    Lua.set( "KEY_J", KEY_J );
-    Lua.set( "KEY_K", KEY_K );
-    Lua.set( "KEY_L", KEY_L );
-    Lua.set( "KEY_M", KEY_M );
-    Lua.set( "KEY_N", KEY_N );
-    Lua.set( "KEY_O", KEY_O );
-    Lua.set( "KEY_P", KEY_P );
-    Lua.set( "KEY_Q", KEY_Q );
-    Lua.set( "KEY_R", KEY_R );
-    Lua.set( "KEY_S", KEY_S );
-    Lua.set( "KEY_T", KEY_T );
-    Lua.set( "KEY_U", KEY_U );
-    Lua.set( "KEY_V", KEY_V );
-    Lua.set( "KEY_W", KEY_W );
-    Lua.set( "KEY_X", KEY_X );
-    Lua.set( "KEY_Y", KEY_Y );
-    Lua.set( "KEY_Z", KEY_Z );
-    Lua.set( "KEY_LEFT_WIN", KEY_LEFT_WIN );
-    Lua.set( "KEY_RIGHT_WIN", KEY_RIGHT_WIN );
-    Lua.set( "KEY_APPS", KEY_APPS );
-    Lua.set( "KEY_SLEEP", KEY_SLEEP );
-    Lua.set( "KEY_NUMPAD_0", KEY_NUMPAD_0 );
-    Lua.set( "KEY_NUMPAD_1", KEY_NUMPAD_1 );
-    Lua.set( "KEY_NUMPAD_2", KEY_NUMPAD_2 );
-    Lua.set( "KEY_NUMPAD_3", KEY_NUMPAD_3 );
-    Lua.set( "KEY_NUMPAD_4", KEY_NUMPAD_4 );
-    Lua.set( "KEY_NUMPAD_5", KEY_NUMPAD_5 );
-    Lua.set( "KEY_NUMPAD_6", KEY_NUMPAD_6 );
-    Lua.set( "KEY_NUMPAD_7", KEY_NUMPAD_7 );
-    Lua.set( "KEY_NUMPAD_8", KEY_NUMPAD_8 );
-    Lua.set( "KEY_NUMPAD_9", KEY_NUMPAD_9 );
-    Lua.set( "KEY_MULTIPLY", KEY_MULTIPLY );
-    Lua.set( "KEY_ADD", KEY_ADD );
-    Lua.set( "KEY_SEPARATOR", KEY_SEPARATOR );
-    Lua.set( "KEY_SUBTRACT", KEY_SUBTRACT );
-    Lua.set( "KEY_DECIMAL", KEY_DECIMAL );
-    Lua.set( "KEY_DIVIDE", KEY_DIVIDE );
-    Lua.set( "KEY_F1", KEY_F1 );
-    Lua.set( "KEY_F2", KEY_F2 );
-    Lua.set( "KEY_F3", KEY_F3 );
-    Lua.set( "KEY_F4", KEY_F4 );
-    Lua.set( "KEY_F5", KEY_F5 );
-    Lua.set( "KEY_F6", KEY_F6 );
-    Lua.set( "KEY_F7", KEY_F7 );
-    Lua.set( "KEY_F8", KEY_F8 );
-    Lua.set( "KEY_F9", KEY_F9 );
-    Lua.set( "KEY_F10", KEY_F10 );
-    Lua.set( "KEY_F11", KEY_F11 );
-    Lua.set( "KEY_F12", KEY_F12 );
-    Lua.set( "KEY_NUMLOCK", KEY_NUMLOCK );
-    Lua.set( "KEY_SCROLL_LOCK", KEY_SCROLL_LOCK );
-    Lua.set( "KEY_LSHIFT", KEY_LSHIFT );
-    Lua.set( "KEY_RSHIFT", KEY_RSHIFT );
-    Lua.set( "KEY_LCONTROL", KEY_LCONTROL );
-    Lua.set( "KEY_RCONTROL", KEY_RCONTROL );
-    Lua.set( "KEY_LMENU", KEY_LMENU );
-    Lua.set( "KEY_RMENU", KEY_RMENU );
-    Lua.set( "KEY_BROWSER_BACK", KEY_BROWSER_BACK );
-    Lua.set( "KEY_BROWSER_FORWARD", KEY_BROWSER_FORWARD );
-    Lua.set( "KEY_BROWSER_REFRESH", KEY_BROWSER_REFRESH );
-    Lua.set( "KEY_BROWSER_STOP", KEY_BROWSER_STOP );
-    Lua.set( "KEY_BROWSER_SEARCH", KEY_BROWSER_SEARCH );
-    Lua.set( "KEY_BROWSER_FAVORITES", KEY_BROWSER_FAVORITES );
-    Lua.set( "KEY_BROWSER_HOME", KEY_BROWSER_HOME );
-    Lua.set( "KEY_VOLUME_MUTE", KEY_VOLUME_MUTE );
-    Lua.set( "KEY_VOLUME_DOWN", KEY_VOLUME_DOWN );
-    Lua.set( "KEY_VOLUME_UP", KEY_VOLUME_UP );
-    Lua.set( "KEY_MEDIA_NEXT_TRACK", KEY_MEDIA_NEXT_TRACK );
-    Lua.set( "KEY_MEDIA_PREV_TRACK", KEY_MEDIA_PREV_TRACK );
-    Lua.set( "KEY_MEDIA_STOP", KEY_MEDIA_STOP );
-    Lua.set( "KEY_MEDIA_PLAY_PAUSE", KEY_MEDIA_PLAY_PAUSE );
-    Lua.set( "KEY_LAUNCH_MAIL", KEY_LAUNCH_MAIL );
-    Lua.set( "KEY_LAUNCH_MEDIA_SELECT", KEY_LAUNCH_MEDIA_SELECT );
-    Lua.set( "KEY_LAUNCH_APP1", KEY_LAUNCH_APP1 );
-    Lua.set( "KEY_LAUNCH_APP2", KEY_LAUNCH_APP2 );
-    Lua.set( "KEY_OEM_1", KEY_OEM_1 );
-    Lua.set( "KEY_OEM_PLUS", KEY_OEM_PLUS );
-    Lua.set( "KEY_OEM_COMMA", KEY_OEM_COMMA );
-    Lua.set( "KEY_OEM_MINUS", KEY_OEM_MINUS );
-    Lua.set( "KEY_OEM_PERIOD", KEY_OEM_PERIOD );
-    Lua.set( "KEY_OEM_2", KEY_OEM_2 );
-    Lua.set( "KEY_OEM_3", KEY_OEM_3 );
-    Lua.set( "KEY_OEM_4", KEY_OEM_4 );
-    Lua.set( "KEY_OEM_5", KEY_OEM_5 );
-    Lua.set( "KEY_OEM_6", KEY_OEM_6 );
-    Lua.set( "KEY_OEM_7", KEY_OEM_7 );
-    Lua.set( "KEY_OEM_8", KEY_OEM_8 );
-    Lua.set( "KEY_OEM_102", KEY_OEM_102 );
-    Lua.set( "KEY_PROCESSKEY", KEY_PROCESSKEY );
-    Lua.set( "KEY_PACKET", KEY_PACKET );
-    Lua.set( "KEY_ATTN", KEY_ATTN );
-    Lua.set( "KEY_CRSEL", KEY_CRSEL );
-    Lua.set( "KEY_EXSEL", KEY_EXSEL );
-    Lua.set( "KEY_EREOF", KEY_EREOF );
-    Lua.set( "KEY_PLAY", KEY_PLAY );
-    Lua.set( "KEY_ZOOM", KEY_ZOOM );
-    Lua.set( "KEY_NONAME", KEY_NONAME );
-    Lua.set( "KEY_PA1", KEY_PA1 );
-    Lua.set( "KEY_OEM_CLEAR", KEY_OEM_CLEAR );
+    const std::vector<std::pair<std::string, int>> KeyDefinitions = {
+        // Mouse Buttons
+        {"KEY_LMOUSE", KEY_LMOUSE}, {"KEY_RMOUSE", KEY_RMOUSE}, {"KEY_CANCEL", KEY_CANCEL},
+        {"KEY_MMOUSE", KEY_MMOUSE}, {"KEY_MOUSE_5", KEY_MOUSE_5}, {"KEY_MOUSE_6", KEY_MOUSE_6},
 
-    // Alias VK Keys
-    Lua.set( "KEY_ENTER", KEY_ENTER );
-    Lua.set( "KEY_BACKSPACE", KEY_BACKSPACE );
-    Lua.set( "KEY_LWIN", KEY_LWIN );
-    Lua.set( "KEY_RWIN", KEY_RWIN );
-    Lua.set( "KEY_CONTEXT_MENU", KEY_CONTEXT_MENU );
-    Lua.set( "KEY_PAUSE_BREAK", KEY_PAUSE_BREAK );
-    Lua.set( "KEY_PAGE_UP", KEY_PAGE_UP );
-    Lua.set( "KEY_PAGE_DOWN", KEY_PAGE_DOWN );
-    Lua.set( "KEY_UP", KEY_UP );
-    Lua.set( "KEY_DOWN", KEY_DOWN );
-    Lua.set( "KEY_LEFT", KEY_LEFT );
-    Lua.set( "KEY_RIGHT", KEY_RIGHT );
-    Lua.set( "KEY_DECIMAL_POINT", KEY_DECIMAL_POINT );
-    Lua.set( "KEY_NUM_LOCK", KEY_NUM_LOCK );
-    Lua.set( "KEY_CTRL_LEFT", KEY_CTRL_LEFT );
-    Lua.set( "KEY_CTRL_RIGHT", KEY_CTRL_RIGHT );
-    Lua.set( "KEY_SHIFT_LEFT", KEY_SHIFT_LEFT );
-    Lua.set( "KEY_SHIFT_RIGHT", KEY_SHIFT_RIGHT );
-    Lua.set( "KEY_ALT_LEFT", KEY_ALT_LEFT );
-    Lua.set( "KEY_ALT_RIGHT", KEY_ALT_RIGHT );
-    Lua.set( "KEY_MUTE", KEY_MUTE );
-    Lua.set( "KEY_VOL_DOWN", KEY_VOL_DOWN );
-    Lua.set( "KEY_VOL_UP", KEY_VOL_UP );
-    Lua.set( "KEY_NEXT_TRACK", KEY_NEXT_TRACK );
-    Lua.set( "KEY_PREV_TRACK", KEY_PREV_TRACK );
-    Lua.set( "KEY_STOP_MEDIA", KEY_STOP_MEDIA );
-    Lua.set( "KEY_STOP_MEDIA", KEY_STOP_MEDIA );
-    Lua.set( "KEY_EMAIL", KEY_EMAIL );
-    Lua.set( "KEY_CALCULATOR", KEY_CALCULATOR );
-    Lua.set( "KEY_MY_COMPUTER", KEY_MY_COMPUTER );
-    Lua.set( "KEY_COLON", KEY_COLON );
-    Lua.set( "KEY_PLUS", KEY_PLUS );
-    Lua.set( "KEY_COMMA", KEY_COMMA );
-    Lua.set( "KEY_MINUS", KEY_MINUS );
-    Lua.set( "KEY_PERIOD", KEY_PERIOD );
-    Lua.set( "KEY_SLASH", KEY_SLASH );
-    Lua.set( "KEY_TILDE", KEY_TILDE );
-    Lua.set( "KEY_LEFT_BRACKET", KEY_LEFT_BRACKET );
-    Lua.set( "KEY_BACKSLASH", KEY_BACKSLASH );
-    Lua.set( "KEY_RIGHT_BRACKET", KEY_RIGHT_BRACKET );
-    Lua.set( "KEY_QUOTE", KEY_QUOTE );
-    Lua.set( "KEY_LESS_THAN", KEY_LESS_THAN );
+        // Keyboard Keys
+        {"KEY_BACK", KEY_BACK}, {"KEY_TAB", KEY_TAB}, {"KEY_ENTER", KEY_ENTER},
+        {"KEY_BACKSPACE", KEY_BACKSPACE}, {"KEY_CTRL_LEFT", KEY_CTRL_LEFT}, {"KEY_CTRL_RIGHT", KEY_CTRL_RIGHT},
+        {"KEY_SHIFT_LEFT", KEY_SHIFT_LEFT}, {"KEY_SHIFT_RIGHT", KEY_SHIFT_RIGHT}, {"KEY_ALT_LEFT", KEY_ALT_LEFT},
+        {"KEY_ALT_RIGHT", KEY_ALT_RIGHT}, {"KEY_PAUSE_BREAK", KEY_PAUSE_BREAK}, {"KEY_CAPSLOCK", KEY_CAPSLOCK},
+        {"KEY_ESCAPE", KEY_ESCAPE}, {"KEY_SPACE", KEY_SPACE}, {"KEY_PAGE_UP", KEY_PAGE_UP},
+        {"KEY_PAGE_DOWN", KEY_PAGE_DOWN}, {"KEY_END", KEY_END}, {"KEY_HOME", KEY_HOME},
+        {"KEY_LEFT_ARROW", KEY_LEFT_ARROW}, {"KEY_UP_ARROW", KEY_UP_ARROW}, {"KEY_RIGHT_ARROW", KEY_RIGHT_ARROW},
+        {"KEY_DOWN_ARROW", KEY_DOWN_ARROW}, {"KEY_SELECT", KEY_SELECT}, {"KEY_PRINT", KEY_PRINT},
+        {"KEY_EXECUTE", KEY_EXECUTE}, {"KEY_PRINT_SCREEN", KEY_PRINT_SCREEN}, {"KEY_INSERT", KEY_INSERT},
+        {"KEY_DELETE", KEY_DELETE}, {"KEY_HELP", KEY_HELP}, {"KEY_0", KEY_0},
+        {"KEY_1", KEY_1}, {"KEY_2", KEY_2}, {"KEY_3", KEY_3},
+        {"KEY_4", KEY_4}, {"KEY_5", KEY_5}, {"KEY_6", KEY_6},
+        {"KEY_7", KEY_7}, {"KEY_8", KEY_8}, {"KEY_9", KEY_9},
+        {"KEY_A", KEY_A}, {"KEY_B", KEY_B}, {"KEY_C", KEY_C},
+        {"KEY_D", KEY_D}, {"KEY_E", KEY_E}, {"KEY_F", KEY_F},
+        {"KEY_G", KEY_G}, {"KEY_H", KEY_H}, {"KEY_I", KEY_I},
+        {"KEY_J", KEY_J}, {"KEY_K", KEY_K}, {"KEY_L", KEY_L},
+        {"KEY_M", KEY_M}, {"KEY_N", KEY_N}, {"KEY_O", KEY_O},
+        {"KEY_P", KEY_P}, {"KEY_Q", KEY_Q}, {"KEY_R", KEY_R},
+        {"KEY_S", KEY_S}, {"KEY_T", KEY_T}, {"KEY_U", KEY_U},
+        {"KEY_V", KEY_V}, {"KEY_W", KEY_W}, {"KEY_X", KEY_X},
+        {"KEY_Y", KEY_Y}, {"KEY_Z", KEY_Z}, {"KEY_LEFT_WIN", KEY_LEFT_WIN},
+        {"KEY_RIGHT_WIN", KEY_RIGHT_WIN}, {"KEY_APPS", KEY_APPS}, {"KEY_SLEEP", KEY_SLEEP},
+        {"KEY_NUMPAD_0", KEY_NUMPAD_0}, {"KEY_NUMPAD_1", KEY_NUMPAD_1}, {"KEY_NUMPAD_2", KEY_NUMPAD_2},
+        {"KEY_NUMPAD_3", KEY_NUMPAD_3}, {"KEY_NUMPAD_4", KEY_NUMPAD_4}, {"KEY_NUMPAD_5", KEY_NUMPAD_5},
+        {"KEY_NUMPAD_6", KEY_NUMPAD_6}, {"KEY_NUMPAD_7", KEY_NUMPAD_7}, {"KEY_NUMPAD_8", KEY_NUMPAD_8},
+        {"KEY_NUMPAD_9", KEY_NUMPAD_9}, {"KEY_MULTIPLY", KEY_MULTIPLY}, {"KEY_ADD", KEY_ADD},
+        {"KEY_SEPARATOR", KEY_SEPARATOR}, {"KEY_SUBTRACT", KEY_SUBTRACT}, {"KEY_DECIMAL", KEY_DECIMAL},
+        {"KEY_DIVIDE", KEY_DIVIDE}, {"KEY_F1", KEY_F1}, {"KEY_F2", KEY_F2},
+        {"KEY_F3", KEY_F3}, {"KEY_F4", KEY_F4}, {"KEY_F5", KEY_F5},
+        {"KEY_F6", KEY_F6}, {"KEY_F7", KEY_F7}, {"KEY_F8", KEY_F8},
+        {"KEY_F9", KEY_F9}, {"KEY_F10", KEY_F10}, {"KEY_F11", KEY_F11},
+        {"KEY_F12", KEY_F12}, {"KEY_NUMLOCK", KEY_NUMLOCK}, {"KEY_SCROLL_LOCK", KEY_SCROLL_LOCK},
+        {"KEY_BROWSER_BACK", KEY_BROWSER_BACK}, {"KEY_BROWSER_FORWARD", KEY_BROWSER_FORWARD}, {"KEY_BROWSER_REFRESH", KEY_BROWSER_REFRESH},
+        {"KEY_BROWSER_STOP", KEY_BROWSER_STOP}, {"KEY_BROWSER_SEARCH", KEY_BROWSER_SEARCH}, {"KEY_BROWSER_FAVORITES", KEY_BROWSER_FAVORITES},
+        {"KEY_BROWSER_HOME", KEY_BROWSER_HOME}, {"KEY_VOLUME_MUTE", KEY_VOLUME_MUTE}, {"KEY_VOLUME_DOWN", KEY_VOLUME_DOWN},
+        {"KEY_VOLUME_UP", KEY_VOLUME_UP}, {"KEY_MEDIA_NEXT_TRACK", KEY_MEDIA_NEXT_TRACK}, {"KEY_MEDIA_PREV_TRACK", KEY_MEDIA_PREV_TRACK},
+        {"KEY_MEDIA_STOP", KEY_MEDIA_STOP}, {"KEY_MEDIA_PLAY_PAUSE", KEY_MEDIA_PLAY_PAUSE}, {"KEY_LAUNCH_MAIL", KEY_LAUNCH_MAIL},
+        {"KEY_LAUNCH_MEDIA_SELECT", KEY_LAUNCH_MEDIA_SELECT}, {"KEY_LAUNCH_APP1", KEY_LAUNCH_APP1}, {"KEY_LAUNCH_APP2", KEY_LAUNCH_APP2},
+        {"KEY_OEM_1", KEY_OEM_1}, {"KEY_OEM_PLUS", KEY_OEM_PLUS}, {"KEY_OEM_COMMA", KEY_OEM_COMMA},
+        {"KEY_OEM_MINUS", KEY_OEM_MINUS}, {"KEY_OEM_PERIOD", KEY_OEM_PERIOD}, {"KEY_OEM_2", KEY_OEM_2},
+        {"KEY_OEM_3", KEY_OEM_3}, {"KEY_OEM_4", KEY_OEM_4}, {"KEY_OEM_5", KEY_OEM_5},
+        {"KEY_OEM_6", KEY_OEM_6}, {"KEY_OEM_7", KEY_OEM_7}, {"KEY_OEM_8", KEY_OEM_8},
+        {"KEY_OEM_102", KEY_OEM_102}, {"KEY_PROCESSKEY", KEY_PROCESSKEY}, {"KEY_PACKET", KEY_PACKET},
+        {"KEY_ATTN", KEY_ATTN}, {"KEY_CRSEL", KEY_CRSEL}, {"KEY_EXSEL", KEY_EXSEL},
+        {"KEY_EREOF", KEY_EREOF}, {"KEY_PLAY", KEY_PLAY}, {"KEY_ZOOM", KEY_ZOOM},
+        {"KEY_NONAME", KEY_NONAME}, {"KEY_PA1", KEY_PA1}, {"KEY_OEM_CLEAR", KEY_OEM_CLEAR},
+        {"KEY_ENTER", KEY_ENTER}, {"KEY_BACKSPACE", KEY_BACKSPACE}, {"KEY_LWIN", KEY_LWIN},
+
+        // Alias Keys
+        {"KEY_RWIN", KEY_RWIN}, {"KEY_CONTEXT_MENU", KEY_CONTEXT_MENU}, {"KEY_PAUSE_BREAK", KEY_PAUSE_BREAK},
+        {"KEY_PAGE_UP", KEY_PAGE_UP}, {"KEY_PAGE_DOWN", KEY_PAGE_DOWN}, {"KEY_UP", KEY_UP},
+        {"KEY_DOWN", KEY_DOWN}, {"KEY_LEFT", KEY_LEFT}, {"KEY_RIGHT", KEY_RIGHT},
+        {"KEY_DECIMAL_POINT", KEY_DECIMAL_POINT}, {"KEY_NUM_LOCK", KEY_NUM_LOCK}, {"KEY_CTRL_LEFT", KEY_CTRL_LEFT},
+        {"KEY_CTRL_RIGHT", KEY_CTRL_RIGHT}, {"KEY_SHIFT_LEFT", KEY_SHIFT_LEFT}, {"KEY_SHIFT_RIGHT", KEY_SHIFT_RIGHT},
+        {"KEY_ALT_LEFT", KEY_ALT_LEFT}, {"KEY_ALT_RIGHT", KEY_ALT_RIGHT}, {"KEY_MUTE", KEY_MUTE},
+        {"KEY_VOL_DOWN", KEY_VOL_DOWN}, {"KEY_VOL_UP", KEY_VOL_UP}, {"KEY_NEXT_TRACK", KEY_NEXT_TRACK},
+        {"KEY_PREV_TRACK", KEY_PREV_TRACK}, {"KEY_STOP_MEDIA", KEY_STOP_MEDIA}, {"KEY_STOP_MEDIA", KEY_STOP_MEDIA},
+        {"KEY_EMAIL", KEY_EMAIL}, {"KEY_CALCULATOR", KEY_CALCULATOR}, {"KEY_MY_COMPUTER", KEY_MY_COMPUTER},
+        {"KEY_COLON", KEY_COLON}, {"KEY_PLUS", KEY_PLUS}, {"KEY_COMMA", KEY_COMMA},
+        {"KEY_MINUS", KEY_MINUS}, {"KEY_PERIOD", KEY_PERIOD}, {"KEY_SLASH", KEY_SLASH},
+        {"KEY_TILDE", KEY_TILDE}, {"KEY_LEFT_BRACKET", KEY_LEFT_BRACKET}, {"KEY_BACKSLASH", KEY_BACKSLASH},
+        {"KEY_RIGHT_BRACKET", KEY_RIGHT_BRACKET}, {"KEY_QUOTE", KEY_QUOTE}, {"KEY_LESS_THAN", KEY_LESS_THAN}
+    };
+
+    for ( const auto& Key : KeyDefinitions ) {
+        Lua.set( Key.first, Key.second );
+    }
 
     Lua.new_enum( "LogLevel",
         "Normal", LogLevel::Normal,
@@ -252,112 +128,69 @@ void cWrapper::Init( ) {
 
     Lua.new_usertype<Vec2<int16_t>>(
         "Vector2", sol::constructors<Vec2<int16_t>( ), Vec2<int16_t>( int16_t, int16_t )>( ),
-        "x", &Vec2<int16_t>::x,
-        "y", &Vec2<int16_t>::y,
-        "Min", &Vec2<int16_t>::Min,
-        "Max", &Vec2<int16_t>::Max,
-        "Lerp", &Vec2<int16_t>::Lerp,
-        "DistanceTo", &Vec2<int16_t>::DistanceTo,
-        "__add", &Vec2<int16_t>::operator+,
-        "__sub", &Vec2<int16_t>::operator-,
-        "__mul", &Vec2<int16_t>::operator*,
-        "__div", &Vec2<int16_t>::operator/,
-        "__iadd", &Vec2<int16_t>::operator+=,
-        "__isub", &Vec2<int16_t>::operator-=,
-        "__imul", &Vec2<int16_t>::operator*=,
-        "__idiv", &Vec2<int16_t>::operator/=,
-        "__lt", &Vec2<int16_t>::operator<,
-        "__le", &Vec2<int16_t>::operator<=,
-        "__gt", &Vec2<int16_t>::operator>,
-        "__ge", &Vec2<int16_t>::operator>=,
+        "x", &Vec2<int16_t>::x, "y", &Vec2<int16_t>::y,
+        "Min", &Vec2<int16_t>::Min, "Max", &Vec2<int16_t>::Max,
+        "Lerp", &Vec2<int16_t>::Lerp, "DistanceTo", &Vec2<int16_t>::DistanceTo,
+        "__add", &Vec2<int16_t>::operator+, "__sub", &Vec2<int16_t>::operator-,
+        "__mul", &Vec2<int16_t>::operator*, "__div", &Vec2<int16_t>::operator/,
+        "__iadd", &Vec2<int16_t>::operator+=, "__isub", &Vec2<int16_t>::operator-=,
+        "__imul", &Vec2<int16_t>::operator*=, "__idiv", &Vec2<int16_t>::operator/=,
+        "__lt", &Vec2<int16_t>::operator<, "__le", &Vec2<int16_t>::operator<=,
+        "__gt", &Vec2<int16_t>::operator>, "__ge", &Vec2<int16_t>::operator>=,
         "__eq", &Vec2<int16_t>::operator==
     );
 
     Lua.new_usertype <Vec3<int>>(
         "Vector3", sol::constructors<Vec3<int>( ), Vec3<int>( int, int, int )>( ),
-        "x", &Vec3<int>::x,
-        "y", &Vec3<int>::y,
-        "z", &Vec3<int>::z,
-        "Min", &Vec3<int>::Min,
-        "Max", &Vec3<int>::Max,
-        "Lerp", &Vec3<int>::Lerp,
-        "DistanceTo", &Vec3<int>::DistanceTo,
-        "__add", &Vec3<int>::operator+,
-        "__sub", &Vec3<int>::operator-,
-        "__mul", &Vec3<int>::operator*,
-        "__div", &Vec3<int>::operator/,
-        "__iadd", &Vec3<int>::operator+=,
-        "__isub", &Vec3<int>::operator-=,
-        "__imul", &Vec3<int>::operator*=,
-        "__idiv", &Vec3<int>::operator/=,
-        "__lt", &Vec3<int>::operator<,
-        "__le", &Vec3<int>::operator<=,
-        "__gt", &Vec3<int>::operator>,
-        "__ge", &Vec3<int>::operator>=,
+        "x", &Vec3<int>::x, "y", &Vec3<int>::y, "z", &Vec3<int>::z,
+        "Min", &Vec3<int>::Min, "Max", &Vec3<int>::Max,
+        "Lerp", &Vec3<int>::Lerp, "DistanceTo", &Vec3<int>::DistanceTo,
+        "__add", &Vec3<int>::operator+, "__sub", &Vec3<int>::operator-,
+        "__mul", &Vec3<int>::operator*, "__div", &Vec3<int>::operator/,
+        "__iadd", &Vec3<int>::operator+=, "__isub", &Vec3<int>::operator-=,
+        "__imul", &Vec3<int>::operator*=, "__idiv", &Vec3<int>::operator/=,
+        "__lt", &Vec3<int>::operator<, "__le", &Vec3<int>::operator<=,
+        "__gt", &Vec3<int>::operator>, "__ge", &Vec3<int>::operator>=,
         "__eq", &Vec3<int>::operator==
     );
 
     Lua.new_usertype <Vec4<int>>( 
         "Vector4", sol::constructors<Vec4<int>( ), Vec4<int>( int, int, int, int )>( ),
-        "x", &Vec4<int>::x,
-        "y", &Vec4<int>::y,
-        "z", &Vec4<int>::z,
-        "w", &Vec4<int>::w,
-        "Min", &Vec4<int>::Min,
-        "Max", &Vec4<int>::Max,
-        "Lerp", &Vec4<int>::Lerp,
-        "DistanceTo", &Vec4<int>::DistanceTo,
-        "__add", &Vec4<int>::operator+,
-        "__sub", &Vec4<int>::operator-,
-        "__mul", &Vec4<int>::operator*,
-        "__div", &Vec4<int>::operator/,
-        "__iadd", &Vec4<int>::operator+=,
-        "__isub", &Vec4<int>::operator-=,
-        "__imul", &Vec4<int>::operator*=,
-        "__idiv", &Vec4<int>::operator/=,
-        "__lt", &Vec4<int>::operator<,
-        "__le", &Vec4<int>::operator<=,
-        "__gt", &Vec4<int>::operator>,
-        "__ge", &Vec4<int>::operator>=,
+        "x", &Vec4<int>::x, "y", &Vec4<int>::y, "z", &Vec4<int>::z, "w", &Vec4<int>::w,
+        "Min", &Vec4<int>::Min, "Max", &Vec4<int>::Max,
+        "Lerp", &Vec4<int>::Lerp, "DistanceTo", &Vec4<int>::DistanceTo,
+        "__add", &Vec4<int>::operator+, "__sub", &Vec4<int>::operator-,
+        "__mul", &Vec4<int>::operator*, "__div", &Vec4<int>::operator/,
+        "__iadd", &Vec4<int>::operator+=, "__isub", &Vec4<int>::operator-=,
+        "__imul", &Vec4<int>::operator*=, "__idiv", &Vec4<int>::operator/=,
+        "__lt", &Vec4<int>::operator<, "__le", &Vec4<int>::operator<=,
+        "__gt", &Vec4<int>::operator>, "__ge", &Vec4<int>::operator>=,
         "__eq", &Vec4<int>::operator==
     );
 
     Lua.new_usertype <Rect<int>>( 
         "Rect", sol::constructors<Rect<int>( ), Rect<int16_t>( int16_t, int16_t, int16_t, int16_t )>( ),
-        "x", &Rect<int>::x,
-        "y", &Rect<int>::y,
-        "w", &Rect<int>::w,
-        "h", &Rect<int>::h,
-        "Min", &Rect<int>::Min,
-        "Max", &Rect<int>::Max,
-        "Lerp", &Rect<int>::Lerp,
-        "DistanceTo", &Rect<int>::DistanceTo,
-        "__add", &Rect<int>::operator+,
-        "__sub", &Rect<int>::operator-,
-        "__mul", &Rect<int>::operator*,
-        "__div", &Rect<int>::operator/,
-        "__iadd", &Rect<int>::operator+=,
-        "__isub", &Rect<int>::operator-=,
-        "__imul", &Rect<int>::operator*=,
-        "__idiv", &Rect<int>::operator/=,
-        "__lt", &Rect<int>::operator<,
-        "__le", &Rect<int>::operator<=,
-        "__gt", &Rect<int>::operator>,
-        "__ge", &Rect<int>::operator>=,
+        "x", &Rect<int>::x, "y", &Rect<int>::y, "w", &Rect<int>::w, "h", &Rect<int>::h,
+        "Min", &Rect<int>::Min, "Max", &Rect<int>::Max, 
+        "Lerp", &Rect<int>::Lerp, "DistanceTo", &Rect<int>::DistanceTo,
+        "__add", &Rect<int>::operator+, "__sub", &Rect<int>::operator-,
+        "__mul", &Rect<int>::operator*, "__div", &Rect<int>::operator/,
+        "__iadd", &Rect<int>::operator+=, "__isub", &Rect<int>::operator-=,
+        "__imul", &Rect<int>::operator*=, "__idiv", &Rect<int>::operator/=,
+        "__lt", &Rect<int>::operator<, "__le", &Rect<int>::operator<=,
+        "__gt", &Rect<int>::operator>, "__ge", &Rect<int>::operator>=,
         "__eq", &Rect<int>::operator==
     );
 
     Lua.new_usertype<Color>( 
         "Color", sol::constructors<Color( ), Color( uint8_t, uint8_t, uint8_t, uint8_t )>( ),
-        "Hex", &Color::Hex,
-        "r", sol::property( &Color::getR ),
-        "g", sol::property( &Color::getG ),
-        "b", sol::property( &Color::getB ),
-        "a", sol::property( &Color::getA )
+        "Hex", &Color::Hex, "r", sol::property( &Color::getR ), "g", sol::property( &Color::getG ),
+        "b", sol::property( &Color::getB ), "a", sol::property( &Color::getA )
     );
 
-    // Globals
-    Lua[ "AddCallback" ] = AddCallback;
+    Lua[ "AddCallback" ] = Globals::AddCallback;
+    Lua[ "LoadScript" ] = Globals::LoadScript;
+    Lua[ "LoadString" ] = Globals::LoadString;
 
     auto Client = Lua.create_table( );
     Client[ "Print" ] = Client::Print;
@@ -401,7 +234,7 @@ void cWrapper::Init( ) {
     Renderer[ "Line" ] = Renderer::Line;
     Renderer[ "Polyline" ] = Renderer::Polyline;
     Renderer[ "Polygon" ] = Renderer::Polygon;
-    Renderer[ "Rectangle" ] = Renderer::FilledRectangle;
+    Renderer[ "Rectangle" ] = Renderer::Rectangle;
     Renderer[ "FilledRectangle" ] = Renderer::FilledRectangle;
     Renderer[ "Gradient" ] = Renderer::Gradient;
     Renderer[ "FilledGradient" ] = Renderer::FilledGradient;

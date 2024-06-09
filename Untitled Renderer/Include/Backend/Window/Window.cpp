@@ -2,7 +2,7 @@
 
 LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
-void cWin32::Init( const char* title, const Vec2<int16_t>& size, const bool fullscreen ) {
+void cWin32::Init( const char* title, Vec2<int16_t> size, bool fullscreen ) {
 	m_WindowClass = {
 		sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
 		0L, 0L, GetModuleHandle( NULL ),

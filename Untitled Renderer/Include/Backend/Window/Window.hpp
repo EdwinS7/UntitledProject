@@ -6,19 +6,19 @@
 
 class cWin32 {
 public:
-	void Init( const char* title, const Vec2<int16_t>& size = { 1280, 720 }, const bool fullscreen = true );
+	void Init( const char* title, Vec2<int16_t> size = { 1280, 720 }, bool fullscreen = true );
 	bool DispatchMessages( );
 
 	inline bool IsMinimized( );
 	inline bool IsFocused( );
 
-	void SetFullscreen( const bool fullscreen );
+	void SetFullscreen( bool fullscreen );
 	inline bool GetFullscreen( ) const;
 
-	inline void SetPos( const Vec2<int16_t>& pos );
+	inline void SetPos( Vec2<int16_t>& pos );
 	inline Vec2<int16_t> GetPos( ) const;
 
-	inline void SetSize( const Vec2<int16_t>& size );
+	inline void SetSize( Vec2<int16_t>& size );
 	inline Vec2<int16_t> GetSize( ) const;
 
 	inline Rect<int16_t> GetRect( ) const;

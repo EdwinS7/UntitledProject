@@ -16,7 +16,7 @@ void cBuffer::Release( ) {
 	ClearCommands( );
 }
 
-void cBuffer::Line( const Vec2< int16_t > from, const Vec2< int16_t > to, const Color color ) {
+void cBuffer::Line( Vec2< int16_t > from, Vec2< int16_t > to, Color color ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( from.x, from.y, 0.f, 1.f, color.Hex ),
 		Vertex( to.x, to.y, 0.f, 1.f, color.Hex )
@@ -25,7 +25,7 @@ void cBuffer::Line( const Vec2< int16_t > from, const Vec2< int16_t > to, const 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::Polyline( const std::vector<Vec2<int16_t>>& points, const Color color ) {
+void cBuffer::Polyline( const std::vector<Vec2<int16_t>>& points, Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( points.size( ) );
 
@@ -33,7 +33,7 @@ void cBuffer::Polyline( const std::vector<Vec2<int16_t>>& points, const Color co
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::Polygon( const std::vector<Vec2<int16_t>>& points, const Color color ) {
+void cBuffer::Polygon( const std::vector<Vec2<int16_t>>& points, Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( points.size( ) );
 
@@ -51,11 +51,11 @@ void cBuffer::Polygon( const std::vector<Vec2<int16_t>>& points, const Color col
 	WriteToBuffer( TRIANGLE, &Vertices, &Indices );
 }
 
-void cBuffer::Rectangle( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color, const int16_t rounding, const CornerFlags flags ) {
-	const bool RoundTopLeft = ( flags & CornerTopLeft ) && rounding;
-	const bool RoundTopRight = ( flags & CornerTopRight ) && rounding;
-	const bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
-	const bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
+void cBuffer::Rectangle( Vec2< int16_t > position, Vec2< int16_t > size, Color color, int16_t rounding, CornerFlags flags ) {
+	bool RoundTopLeft = ( flags & CornerTopLeft ) && rounding;
+	bool RoundTopRight = ( flags & CornerTopRight ) && rounding;
+	bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
+	bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
 
 	std::vector<Vec2<int16_t>> Points;
 
@@ -90,11 +90,11 @@ void cBuffer::Rectangle( const Vec2< int16_t > position, const Vec2< int16_t > s
 	Polyline( Points, color );
 }
 
-void cBuffer::FilledRectangle( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color, const int16_t rounding, const CornerFlags flags ) {
-	const bool RoundTopLeft = ( flags & CornerTopLeft ) && rounding;
-	const bool RoundTopRight = ( flags & CornerTopRight ) && rounding;
-	const bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
-	const bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
+void cBuffer::FilledRectangle( Vec2< int16_t > position, Vec2< int16_t > size, Color color, int16_t rounding, CornerFlags flags ) {
+	bool RoundTopLeft = ( flags & CornerTopLeft ) && rounding;
+	bool RoundTopRight = ( flags & CornerTopRight ) && rounding;
+	bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
+	bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
 
 	std::vector<Vec2<int16_t>> Points;
 
@@ -129,7 +129,7 @@ void cBuffer::FilledRectangle( const Vec2< int16_t > position, const Vec2< int16
 	Polygon( Points, color );
 }
 
-void cBuffer::TexturedRectangle( IDirect3DTexture9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_modulation ) {
+void cBuffer::TexturedRectangle( IDirect3DTexture9* texture, Vec2<int16_t> position, Vec2<int16_t> size, Color color_modulation ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex ),
 		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_modulation.Hex ),
@@ -144,7 +144,7 @@ void cBuffer::TexturedRectangle( IDirect3DTexture9* texture, const Vec2<int16_t>
 	PopTexture( );
 }
 
-void cBuffer::Picture( Image* image, const Vec2<int16_t> position, const Color color_modulation ) {
+void cBuffer::Picture( Image* image, Vec2<int16_t> position, Color color_modulation ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex ),
 		Vertex( position.x + image->Size.x, position.y, 0.f, 1.f, color_modulation.Hex ),
@@ -159,7 +159,7 @@ void cBuffer::Picture( Image* image, const Vec2<int16_t> position, const Color c
 	PopTexture( );
 }
 
-void cBuffer::Cube( const Vec3<float> position, float size, const Color color ) {
+void cBuffer::Cube( Vec3<float> position, float size, Color color ) {
 	float halfSize = size / 2.0f;
 
 	std::vector<Vertex> Vertices = {
@@ -199,7 +199,7 @@ void cBuffer::Cube( const Vec3<float> position, float size, const Color color ) 
 	WriteToBuffer( TRIANGLE, &Vertices, &Indices );
 }
 
-void cBuffer::Gradient( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color1, const Color color2, const bool vertical ) {
+void cBuffer::Gradient( Vec2< int16_t > position, Vec2< int16_t > size, Color color1, Color color2, bool vertical ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex ),
 		Vertex( position.x + size.x, position.y, 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
@@ -212,7 +212,7 @@ void cBuffer::Gradient( const Vec2< int16_t > position, const Vec2< int16_t > si
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledGradient( const Vec2< int16_t > position, const Vec2< int16_t > size, const Color color1, const Color color2, const bool vertical ) {
+void cBuffer::FilledGradient( Vec2< int16_t > position, Vec2< int16_t > size, Color color1, Color color2, bool vertical ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex ),
 		Vertex( position.x + size.x, position.y, 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
@@ -225,7 +225,7 @@ void cBuffer::FilledGradient( const Vec2< int16_t > position, const Vec2< int16_
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left ) {
+void cBuffer::Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex ),
 		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_top_right.Hex ),
@@ -238,7 +238,7 @@ void cBuffer::Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left ) {
+void cBuffer::FilledGradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex ),
 		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_top_right.Hex ),
@@ -251,7 +251,7 @@ void cBuffer::FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> 
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Triangle( const Vec2< int16_t > point1, const Vec2< int16_t > point2, const Vec2< int16_t > point3, const Color color ) {
+void cBuffer::Triangle( Vec2< int16_t > point1, Vec2< int16_t > point2, Vec2< int16_t > point3, Color color ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( point1.x, point1.y, 0.f, 1.f, color.Hex ),
 		Vertex( point2.x, point2.y, 0.f, 1.f, color.Hex ),
@@ -261,7 +261,7 @@ void cBuffer::Triangle( const Vec2< int16_t > point1, const Vec2< int16_t > poin
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledTriangle( const Vec2< int16_t > point1, const Vec2< int16_t > point2, const Vec2< int16_t > point3, const Color color ) {
+void cBuffer::FilledTriangle( Vec2< int16_t > point1, Vec2< int16_t > point2, Vec2< int16_t > point3, Color color ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( point1.x, point1.y, 0.f, 1.f, color.Hex ),
 		Vertex( point2.x, point2.y, 0.f, 1.f, color.Hex ),
@@ -271,7 +271,7 @@ void cBuffer::FilledTriangle( const Vec2< int16_t > point1, const Vec2< int16_t 
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Circle( const Vec2< int16_t > pos, const int16_t radius, const Color color ) {
+void cBuffer::Circle( Vec2< int16_t > pos, int16_t radius, Color color ) {
 	std::vector<Vec2<int16_t>> points;
 	points.reserve( m_CircleSegments + 1 );
 
@@ -279,7 +279,7 @@ void cBuffer::Circle( const Vec2< int16_t > pos, const int16_t radius, const Col
 	Polyline( points, color );
 }
 
-void cBuffer::FilledCircle( const Vec2< int16_t > pos, const int16_t radius, const Color color ) {
+void cBuffer::FilledCircle( Vec2< int16_t > pos, int16_t radius, Color color ) {
 	std::vector<Vec2<int16_t>> points;
 	points.reserve( m_CircleSegments + 1 );
 
@@ -287,20 +287,20 @@ void cBuffer::FilledCircle( const Vec2< int16_t > pos, const int16_t radius, con
 	Polygon( points, color );
 }
 
-void cBuffer::Text( const Font* font, const std::string& str, const Vec2<int16_t> pos, const Color color ) {
+void cBuffer::Text( Font* font, const std::string& str, Vec2<int16_t> pos, Color color ) {
 	if ( !font->Valid || str.empty( ) || ( ( ( color.Hex >> 24 ) & 0xFF ) ) < 1 )
 		return;
 
 	Vec2<int16_t> Advance = { 0, 0 }, TextSize = GetTextSize( font, str );
 	int RowHeight = 0;
 
-	for ( const auto& Char : str ) {
+	for ( auto& Char : str ) {
 		if ( !std::isprint( Char ) && Char != '\n' || Char == ' ' ) {
 			Advance.x += font->CharSet[ Char ].Advance / 64;
 			continue;
 		}
 
-		const auto* glyph = &font->CharSet[ Char ];
+		auto* glyph = &font->CharSet[ Char ];
 		RowHeight = max( RowHeight, static_cast< int >( glyph->Size.y ) );
 
 		if ( Char == '\n' ) {
@@ -326,4 +326,16 @@ void cBuffer::Text( const Font* font, const std::string& str, const Vec2<int16_t
 
 		Advance.x += glyph->Advance / 64 + font->Padding.x;
 	}
+}
+
+Vec2<int16_t> cBuffer::GetTextSize( Font* font, const std::string& text ) {
+	if ( !font->Valid || text.empty( ) )
+		return Vec2<int16_t>( );
+
+	Vec2<int16_t> Size{ 0, static_cast< int16_t >( font->Size * 1.5f ) };
+
+	for ( char c : text )
+		Size.x += font->CharSet.at( c ).Advance / 64;
+
+	return Size;
 }

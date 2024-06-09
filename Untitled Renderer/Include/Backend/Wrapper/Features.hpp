@@ -93,7 +93,7 @@ namespace Input {
 };
 
 namespace Window {
-    void SetFullscreen( const bool fullscreen ) {
+    void SetFullscreen( bool fullscreen ) {
         gWindow->SetFullscreen( fullscreen );
     }
 
@@ -101,7 +101,7 @@ namespace Window {
         return gWindow->GetFullscreen( );
     }
 
-    void SetPos( const Vec2<int16_t>& position )  {
+    void SetPos( Vec2<int16_t>& position )  {
         gWindow->SetPos( position );
     }
 
@@ -109,7 +109,7 @@ namespace Window {
         return gWindow->GetPos( );
     }
 
-    void SetSize( const Vec2<int16_t>& size ) {
+    void SetSize( Vec2<int16_t>& size ) {
         gWindow->SetSize( size );
     }
 
@@ -137,11 +137,11 @@ namespace Graphics {
 };
 
 namespace Renderer {
-    void Line( const Vec2<int16_t> from, const Vec2<int16_t> to, const Color color ) {
+    void Line( Vec2<int16_t> from, Vec2<int16_t> to, Color color ) {
         gBuffer->Line( from, to, color );
     }
 
-    void Polyline( const sol::table& points, const Color& color ) {
+    void Polyline( const sol::table& points, Color color ) {
         std::vector<Vec2<int16_t>> Points;
 
         for ( const auto& kv_pair : points ) {
@@ -153,7 +153,7 @@ namespace Renderer {
         gBuffer->Polyline( Points, color );
     }
 
-    void Polygon( const sol::table& points, const Color& color ) {
+    void Polygon( const sol::table& points, Color color ) {
         std::vector<Vec2<int16_t>> Points;
 
         for ( const auto& kv_pair : points ) {
@@ -165,51 +165,51 @@ namespace Renderer {
         gBuffer->Polygon( Points, color );
     }
 
-    void Rectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color, const int rounding ) {
+    void Rectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color color, int rounding ) {
         gBuffer->Rectangle( position, size, color, rounding, CornerAll );
     }
 
-    void FilledRectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color, const int rounding ) {
+    void FilledRectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color color, int rounding ) {
         gBuffer->FilledRectangle( position, size, color, rounding, CornerAll );
     }
 
-    void Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_from, const Color color_to, const bool vertical ) {
+    void Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_from, Color color_to, bool vertical ) {
         gBuffer->Gradient( position, size, color_from, color_to, vertical );
     }
 
-    void FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_from, const Color color_to, const bool vertical ) {
+    void FilledGradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_from, Color color_to, bool vertical ) {
         gBuffer->FilledGradient( position, size, color_from, color_to, vertical );
     }
 
-    void Gradient4( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left ) {
+    void Gradient4( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left ) {
         gBuffer->Gradient( position, size, color_top_left, color_top_right, color_bottom_right, color_bottom_left );
     }
 
-    void FilledGradient4( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left ) {
+    void FilledGradient4( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left ) {
         gBuffer->FilledGradient( position, size, color_top_left, color_top_right, color_bottom_right, color_bottom_left );
     }
 
-    void Triangle( const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3, const Color color ) {
+    void Triangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color ) {
         gBuffer->Triangle( point1, point2, point3, color );
     }
 
-    void FilledTriangle( const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3, const Color color ) {
+    void FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color ) {
         gBuffer->FilledTriangle( point1, point2, point3, color );
     }
 
-    void Circle( const Vec2<int16_t> position, const int16_t radius, const Color color ) {
+    void Circle( Vec2<int16_t> position, int16_t radius, Color color ) {
         gBuffer->Circle( position, radius, color );
     }
 
-    void FilledCircle( const Vec2<int16_t> position, const int16_t radius, const Color color ) {
+    void FilledCircle( Vec2<int16_t> position, int16_t radius, Color color ) {
         gBuffer->FilledCircle( position, radius, color );
     }
 
-    void Text( Font* font, std::string text, Vec2<int16_t> pos, Color color ) {
+    void Text( Font* font, const std::string& text, Vec2<int16_t> pos, Color color ) {
         gBuffer->Text( font, text, pos, color );
     }
 
-    Vec2<int16_t> GetTextSize( const Font* font, const std::string& text ) {
+    Vec2<int16_t> GetTextSize( Font* font, const std::string& text ) {
         return gBuffer->GetTextSize( font, text );
     }
 
@@ -433,11 +433,21 @@ namespace Utils {
     }
 };
 
-void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {
-    if ( std::find( CallbackIdentifiers.begin( ), CallbackIdentifiers.end( ), event_name ) == CallbackIdentifiers.end( ) ) {
-        std::cout << "Lua error: invalid callback \"" + event_name + '\"' << std::endl;
-        return;
+namespace Globals {
+    void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {
+        if ( std::find( CallbackIdentifiers.begin( ), CallbackIdentifiers.end( ), event_name ) == CallbackIdentifiers.end( ) ) {
+            std::cout << "Lua error: invalid callback \"" + event_name + '\"' << std::endl;
+            return;
+        }
+
+        gWrapper->RegisterCallback( event_name, function );
     }
 
-    gWrapper->RegisterCallback( event_name, function );
-}
+    int LoadScript( const std::string& file_name ) {
+        return gWrapper->LoadScriptFromFile( "Scripts/", file_name );
+    }
+
+    int LoadString( const std::string& source ) {
+        return gWrapper->LoadScript( source );
+    }
+};

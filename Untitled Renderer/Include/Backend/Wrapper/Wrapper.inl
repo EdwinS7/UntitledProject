@@ -1,7 +1,7 @@
 #include "Wrapper.hpp"
 
-inline void cWrapper::RegisterCallback( std::string event_name, sol::protected_function Callback ) {
-    this->m_Callbacks[ event_name ].push_back( cLuaCallback( Callback ) );
+inline void cWrapper::RegisterCallback( const std::string& callback_name, sol::protected_function callback ) {
+    this->m_Callbacks[ callback_name ].push_back( cLuaCallback( callback ) );
 }
 
 inline void cWrapper::UnregisterCallbacks( ) {
@@ -9,8 +9,8 @@ inline void cWrapper::UnregisterCallbacks( ) {
         m_Callbacks.clear( );
 }
 
-inline std::vector<cLuaCallback> cWrapper::GetCallbacks( std::string event_name ) {
-    return this->m_Callbacks[ event_name ];
+inline std::vector<cLuaCallback> cWrapper::GetCallbacks( const std::string& callback_name ) {
+    return this->m_Callbacks[ callback_name ];
 }
 
 inline void cWrapper::RunCallback( const std::string& callback_name ) {

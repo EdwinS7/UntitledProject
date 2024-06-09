@@ -9,12 +9,6 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     gWrapper->Init( );
     gAudio->Init( );
-    
-    std::string Script = "";
-    std::cin >> Script;
-    system( "cls" );
-
-    gWrapper->LoadScriptFromFile( "Scripts/", Script );
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );

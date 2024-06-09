@@ -10,35 +10,35 @@ public:
     void Init( );
     void Release( );
 
-    void Line( const Vec2<int16_t> from, const Vec2<int16_t> to, const Color color );
+    void Line( Vec2<int16_t> from, Vec2<int16_t> to, const Color color );
 
-    void Polyline( const std::vector<Vec2<int16_t>>& points, const Color color );
-    void Polygon( const std::vector<Vec2<int16_t>>& points, const Color color );
+    void Polyline( const std::vector<Vec2<int16_t>>& points, Color color );
+    void Polygon( const std::vector<Vec2<int16_t>>& points, Color color );
 
-    void Rectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
-    void FilledRectangle( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color Color, const int16_t Rounding = 0, const CornerFlags Flags = CornerAll );
+    void Rectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color Color, int16_t Rounding = 0, CornerFlags Flags = CornerAll );
+    void FilledRectangle( Vec2<int16_t> position, Vec2<int16_t> size, Color Color, int16_t Rounding = 0, CornerFlags Flags = CornerAll );
 
-    void TexturedRectangle( IDirect3DTexture9* texture, const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_modulation );
-    void Picture( Image* image, const Vec2<int16_t> position, const Color color_modulation );
+    void TexturedRectangle( IDirect3DTexture9* texture, Vec2<int16_t> position, Vec2<int16_t> size, Color color_modulation );
+    void Picture( Image* image, Vec2<int16_t> position, Color color_modulation );
 
-    void Cube( const Vec3<float> position, float size, const Color color );
+    void Cube( Vec3<float> position, float size, Color color );
 
-    void Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_from, const Color color_to, const bool vertical );
-    void FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_from, const Color color_to, const bool vertical );
-    void Gradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left );
-    void FilledGradient( const Vec2<int16_t> position, const Vec2<int16_t> size, const Color color_top_left, const Color color_top_right, const Color color_bottom_right, const Color color_bottom_left );
+    void Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_from, Color color_to, bool vertical );
+    void FilledGradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_from, Color color_to, bool vertical );
+    void Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left );
+    void FilledGradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left );
 
-    void Triangle( const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3, const Color color );
-    void FilledTriangle( const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3, const Color color );
+    void Triangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color );
+    void FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color );
 
-    void Circle( const Vec2<int16_t> position, const int16_t radius, const Color color );
-    void FilledCircle( const Vec2<int16_t> position, const int16_t radius, const Color color );
+    void Circle( Vec2<int16_t> position, int16_t radius, Color color );
+    void FilledCircle( Vec2<int16_t> position, int16_t radius, Color color );
 
-    void Text( const Font* font, const std::string& string, const Vec2<int16_t> Pos, const Color color );
+    void Text( Font* font, const std::string& string, Vec2<int16_t> Pos, Color color );
 
-    inline Vec2<int16_t> GetTextSize( const Font* font, const std::string& string );
+    Vec2<int16_t> GetTextSize( Font* font, const std::string& string );
 
-    inline void BuildDrawCommands( const std::vector<DrawCommand>* draw_commands );
+    inline void BuildDrawCommands( std::vector<DrawCommand>* draw_commands );
     inline std::vector<DrawCommand>* GetDrawCommands( );
     inline CompiledDrawCommand* GetDrawCommand( );
     inline CommandResources* GetCommand( );
@@ -48,14 +48,13 @@ public:
     inline int GetVerticesCount( );
     inline int GetIndicesCount( );
 
-    inline void PushClip( const Rect<int16_t> Rect );
+    inline void PushClip( Rect<int16_t> Rect );
     inline void PopClip( );
 
     inline void PushTexture( IDirect3DTexture9* Texture );
     inline void PopTexture( );
 
     Font* GetDefaultFont( );
-    Image TestImage;
 
 private:
     int m_VerticesCount{ 0 }, m_IndicesCount{ 0 };
@@ -71,9 +70,9 @@ private:
 
     Font DefaultFont;
 
-    inline void WriteToBuffer( const int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices );
-    inline void GenerateArcPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t>* position, const int16_t radius, const int16_t completion, const int16_t rotation, int16_t segments );
-    inline void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3 );
+    inline void WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices );
+    inline void GenerateArcPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments );
+    inline void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3 );
     
     inline void MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color );
 };

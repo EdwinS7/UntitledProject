@@ -22,10 +22,6 @@ bool cInput::IsActive( ) {
 	return gWindow->IsFocused( );
 }
 
-void cInput::SetMousePos( Vec2<int16_t> position ) {
-	m_MousePos = position;
-}
-
 bool cInput::MouseHoveringRect( Vec2<int16_t> position, Vec2<int16_t> size ) {
 	std::pair<bool, bool> m_hovered {
 		GetMousePos( ).x > position.x && GetMousePos( ).y > position.y,
@@ -41,9 +37,4 @@ bool cInput::KeyPressed( int8_t key ) {
 
 bool cInput::KeyHeld( int8_t key ) {
 	return std::get<0>( m_KeyStates[ key ] );
-}
-
-
-void cInput::SetCursorStyle( LPSTR id ) {
-	m_CursorStyle = id;
 }

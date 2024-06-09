@@ -10,18 +10,18 @@ public:
 	void PoolInput( );
 	bool IsActive( );
 
-	inline Vec2<int16_t> GetMousePos( );
-	void SetMousePos( Vec2<int16_t> position );
-
 	bool MouseHoveringRect( Vec2<int16_t> position, Vec2<int16_t> size );
 
 	bool KeyPressed( int8_t key );
 	bool KeyHeld( int8_t key );
 
-	void SetCursorStyle( LPSTR id );
-	inline LPSTR GetCursorStyle( );
+	inline void SetMousePos( Vec2<int16_t> position );
+	inline Vec2<int16_t> GetMousePos( ) const;
 
-	inline bool AnyKeyPressed( );
+	inline void SetCursorStyle( LPSTR id );
+	inline LPSTR GetCursorStyle( ) const;
+
+	inline bool AnyKeyPressed( ) const;
 
 private:
 	bool m_AnyKeyPressed{};

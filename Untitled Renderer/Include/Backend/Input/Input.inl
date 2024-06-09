@@ -1,13 +1,21 @@
 #include "Input.hpp"
 
-inline Vec2<int16_t> cInput::GetMousePos( ) {
+inline void cInput::SetMousePos( Vec2<int16_t> position ) {
+	m_MousePos = position;
+}
+
+inline Vec2<int16_t> cInput::GetMousePos( ) const {
 	return m_MousePos;
 }
 
-inline LPSTR cInput::GetCursorStyle( ) {
+inline void cInput::SetCursorStyle( LPSTR id ) {
+	m_CursorStyle = id;
+}
+
+inline LPSTR cInput::GetCursorStyle( ) const {
 	return m_CursorStyle;
 }
 
-inline bool cInput::AnyKeyPressed() {
+inline bool cInput::AnyKeyPressed() const {
 	return m_AnyKeyPressed;
 }

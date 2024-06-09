@@ -1,25 +1,6 @@
 #include "Buffer.hpp"
 
-inline void cBuffer::WriteToBuffer( const int8_t primitive, const std::vector< Vertex >* vertices, const std::vector<int32_t>* indices ) {
-	int VerticesCount = vertices->size( ),
-		IndicesCount = indices == nullptr ? ( VerticesCount * 3 ) - 1 : indices->size( );
-
-	std::vector < int32_t > DynamicIndices( IndicesCount );
-
-	if ( indices == nullptr )
-		for ( size_t i = 0; i < VerticesCount; ++i )
-			DynamicIndices[ i ] = i;
-
-	m_VerticesCount += VerticesCount;
-	m_IndicesCount += IndicesCount;
-
-	m_DrawCommands.push_back( DrawCommand(
-		primitive, *vertices, indices == nullptr ? DynamicIndices : *indices,
-		m_CommandResources, VerticesCount, indices != nullptr ? indices->size( ) : IndicesCount )
-	);
-}
-
-inline void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>* draw_commands ) {
+inline void cBuffer::BuildDrawCommands( std::vector<DrawCommand>* draw_commands ) {
 	for ( size_t i = 0; i < draw_commands->size( ); ++i ) {
 		const DrawCommand* drawCommand = &( ( *draw_commands )[ i ] );
 
@@ -38,19 +19,26 @@ inline void cBuffer::BuildDrawCommands( const std::vector<DrawCommand>* draw_com
 	}
 }
 
-inline Vec2<int16_t> cBuffer::GetTextSize( const Font* font, const std::string& text ) {
-	if ( !font->Valid || text.empty( ) )
-		return Vec2<int16_t>( );
+inline void cBuffer::WriteToBuffer( int8_t primitive, const std::vector< Vertex >* vertices, const std::vector<int32_t>* indices ) {
+	int VerticesCount = vertices->size( ),
+		IndicesCount = indices == nullptr ? ( VerticesCount * 3 ) - 1 : indices->size( );
 
-	Vec2<int16_t> Size{ 0, static_cast< int16_t >( font->Size * 1.5f ) };
+	std::vector < int32_t > DynamicIndices( IndicesCount );
 
-	for ( char c : text )
-		Size.x += font->CharSet.at( c ).Advance / 64;
+	if ( indices == nullptr )
+		for ( size_t i = 0; i < VerticesCount; ++i )
+			DynamicIndices[ i ] = i;
 
-	return Size;
+	m_VerticesCount += VerticesCount;
+	m_IndicesCount += IndicesCount;
+
+	m_DrawCommands.push_back( DrawCommand(
+		primitive, *vertices, indices == nullptr ? DynamicIndices : *indices,
+		m_CommandResources, VerticesCount, indices != nullptr ? indices->size( ) : IndicesCount )
+	);
 }
 
-inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, const int16_t radius, const int16_t completion, const int16_t rotation, const int16_t segments ) {
+inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments ) {
 	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
 	double Conversion = completion * 0.01;
 
@@ -69,7 +57,7 @@ inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, cons
 	}
 }
 
-inline void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t> point1, const Vec2<int16_t> point2, const Vec2<int16_t> point3 ) {
+inline void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3 ) {
 	for ( size_t i = 0; i < m_BezierQuadraticSegments; i++ ) {
 		int CompletionFactor = static_cast< double >( i ) / static_cast< double >( m_BezierQuadraticSegments );
 
