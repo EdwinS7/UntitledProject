@@ -238,6 +238,14 @@ namespace Renderer {
     int GetIndicesCount( ) {
         return gBuffer->GetIndicesCount( );
     }
+
+    void PushClip( Rect<int16_t> Rect ) {
+        gBuffer->PushClip( Rect );
+    }
+
+    void PopClip( ) {
+        gBuffer->PopClip( );
+    }
 };
 
 namespace Animations {

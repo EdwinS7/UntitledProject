@@ -195,11 +195,13 @@ void cLuaWrapper::Init( ) {
     Renderer[ "FilledCircle" ] = Renderer::FilledCircle;
     Renderer[ "Text" ] = Renderer::Text;
     Renderer[ "GetTextSize" ] = Renderer::GetTextSize;
+    Renderer[ "GetDefaultFont" ] = Renderer::GetDefaultFont;
+    Renderer[ "CreateFont" ] = Renderer::CreateFont_;
     Renderer[ "GetVerticesCount" ] = Renderer::GetVerticesCount;
     Renderer[ "GetIndicesCount" ] = Renderer::GetIndicesCount;
     Renderer[ "GetScreenSize" ] = Renderer::GetScreenSize;
-    Renderer[ "GetDefaultFont" ] = Renderer::GetDefaultFont;
-    Renderer[ "CreateFont" ] = Renderer::CreateFont_;
+    Renderer[ "PushClip" ] = Renderer::PushClip;
+    Renderer[ "PopClip" ] = Renderer::PopClip;
 
     auto Animations = Lua.create_table( );
     Animations[ "Lerp" ] = Animations::Lerp;
