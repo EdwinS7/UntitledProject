@@ -12,8 +12,8 @@ public:
 
 	bool MouseHoveringRect( Vec2<int16_t> position, Vec2<int16_t> size );
 
-	bool KeyPressed( int8_t key );
-	bool KeyHeld( int8_t key );
+	bool KeyPressed( int8_t key ) const;
+	bool KeyHeld( int8_t key ) const;
 
 	inline void SetMousePos( Vec2<int16_t> position );
 	inline Vec2<int16_t> GetMousePos( ) const;

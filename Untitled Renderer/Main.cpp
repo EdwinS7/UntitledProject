@@ -10,7 +10,6 @@ int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int s
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );
-        gCamera->Update( );
 
         if ( !gWindow->IsMinimized( ) ) {
             gInterface->Draw( );

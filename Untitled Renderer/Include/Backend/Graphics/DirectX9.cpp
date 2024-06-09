@@ -173,10 +173,6 @@ void cGraphics::RenderDrawData( ) {
         m_StateBlock->Release( );
     }
 
-    D3DMATRIX ViewMatrix = gCamera->GetViewMatrix( ), ProjectionMatrix = gCamera->GetProjectionMatrix( );
-    m_Device->SetTransform( D3DTS_VIEW, &ViewMatrix );
-    m_Device->SetTransform( D3DTS_PROJECTION, &ProjectionMatrix );
-
     D3DMATRIX LastWorld, LastView, LastProjection;
     m_Device->GetTransform( D3DTS_WORLD, &LastWorld );
     m_Device->GetTransform( D3DTS_VIEW, &LastView );

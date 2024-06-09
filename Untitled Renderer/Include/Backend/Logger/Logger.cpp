@@ -42,15 +42,6 @@ void cLogger::Log( LogLevel log_level, const std::string& message ) {
     m_Logs[ log_level ].push_back( fmt_message );
 }
 
-void cLogger::ClearLogs( LogLevel log_level ) {
-    if ( log_level == LogLevel::END ) {
-        m_Logs.clear( );
-        return;
-    }
-
-    m_Logs[ log_level ].clear( );
-}
-
 std::vector<std::string> cLogger::GetLogs( LogLevel log_level ) const {
     auto it = m_Logs.find( log_level );
 
@@ -58,4 +49,13 @@ std::vector<std::string> cLogger::GetLogs( LogLevel log_level ) const {
         return it->second;
     else
         return {};
+}
+
+void cLogger::ClearLogs( LogLevel log_level ) {
+    if ( log_level == LogLevel::END ) {
+        m_Logs.clear( );
+        return;
+    }
+
+    m_Logs[ log_level ].clear( );
 }

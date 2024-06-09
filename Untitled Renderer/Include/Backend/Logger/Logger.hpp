@@ -18,8 +18,8 @@ class cLogger {
 public:
 	void Log( LogLevel level, const std::string& message );
 
-	void ClearLogs( LogLevel level );
 	std::vector<std::string> GetLogs( LogLevel level ) const;
+	void ClearLogs( LogLevel level );
 
 private:
 	std::unordered_map<LogLevel, std::vector<std::string>> m_Logs;

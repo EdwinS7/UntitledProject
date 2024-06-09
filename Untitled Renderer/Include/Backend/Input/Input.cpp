@@ -31,10 +31,10 @@ bool cInput::MouseHoveringRect( Vec2<int16_t> position, Vec2<int16_t> size ) {
 	return m_hovered.first && m_hovered.second;
 }
 
-bool cInput::KeyPressed( int8_t key ) {
+bool cInput::KeyPressed( int8_t key ) const {
 	return ( std::get<0>( m_KeyStates[ key ] ) && std::get<1>( m_KeyStates[ key ] ) );
 }
 
-bool cInput::KeyHeld( int8_t key ) {
+bool cInput::KeyHeld( int8_t key ) const {
 	return std::get<0>( m_KeyStates[ key ] );
 }
