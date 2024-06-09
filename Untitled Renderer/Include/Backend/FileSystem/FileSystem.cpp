@@ -29,42 +29,42 @@ bool cFileSystem::DoesFolderExist( const std::string& folder_path ) const {
 }
 
 bool cFileSystem::DoesFileExist( const std::string& folder_path, const std::string& file_name ) const {
-    return std::filesystem::exists( folder_path + "/" + file_name ) && std::filesystem::is_regular_file( folder_path + "/" + file_name );
+    return std::filesystem::exists( folder_path + file_name ) && std::filesystem::is_regular_file( folder_path + file_name );
 }
 
 std::string cFileSystem::GetFileContent( const std::string& folder_path, const std::string& file_name ) const {
-    std::ifstream file( folder_path + "/" + file_name );
+    std::ifstream file( folder_path + file_name );
     if ( file ) {
         std::string content( ( std::istreambuf_iterator<char>( file ) ), std::istreambuf_iterator<char>( ) );
         return content;
     }
     else {
-        gLogger->Log( LogLevel::Error, "Failed to open file: " + folder_path + "/" + file_name );
+        gLogger->Log( LogLevel::Error, "Failed to open file: " + folder_path + file_name );
         return "";
     }
 }
 
 void cFileSystem::WriteToFile( const std::string& folder_path, const std::string& file_name, const std::string& content ) {
-    std::ofstream file( folder_path + "/" + file_name );
+    std::ofstream file( folder_path + file_name );
 
     if ( file )
         file << content;
     else
-        gLogger->Log( LogLevel::Error, "Failed to write to file:" + folder_path + "/" + file_name );
+        gLogger->Log( LogLevel::Error, "Failed to write to file:" + folder_path + file_name );
 }
 
 void cFileSystem::AppendToFile( const std::string& folder_path, const std::string& file_name, const std::string& content ) {
-    std::ofstream file( folder_path + "/" + file_name, std::ios::app );
+    std::ofstream file( folder_path + file_name, std::ios::app );
     
     if ( file )
         file << content;
     else
-        gLogger->Log( LogLevel::Error, "Failed to write to file:" + folder_path + "/" + file_name );
+        gLogger->Log( LogLevel::Error, "Failed to write to file:" + folder_path + file_name );
 }
 
 void cFileSystem::DeleteFile( const std::string& folder_path, const std::string& file_name ) {
-    if ( !std::filesystem::remove( folder_path + "/" + file_name ) )
-        gLogger->Log( LogLevel::Error, "Failed to delete file:" + folder_path + "/" + file_name );
+    if ( !std::filesystem::remove( folder_path + file_name ) )
+        gLogger->Log( LogLevel::Error, "Failed to delete file:" + folder_path + file_name );
 }
 
 void cFileSystem::DeleteFolder( const std::string& folder_path ) {
@@ -97,7 +97,7 @@ std::vector<std::string> cFileSystem::GetFoldersInFolder( const std::string& fol
 }
 
 std::string cFileSystem::GetFileCreationDate( const std::string& folder_path, const std::string& file_name ) const {
-    auto creation_time = std::filesystem::last_write_time( folder_path + "/" + file_name );
+    auto creation_time = std::filesystem::last_write_time( folder_path + file_name );
     auto creation_time_point = std::chrono::time_point_cast< std::chrono::system_clock::duration >( creation_time - decltype( creation_time )::clock::now( ) + std::chrono::system_clock::now( ) );
     std::time_t creation_time_t = std::chrono::system_clock::to_time_t( creation_time_point );
 
@@ -109,7 +109,7 @@ std::string cFileSystem::GetFileCreationDate( const std::string& folder_path, co
 }
 
 std::string cFileSystem::GetFileLastModifiedDate( const std::string& folder_path, const std::string& file_name ) const {
-    auto last_mod_time = std::filesystem::last_write_time( folder_path + "/" + file_name );
+    auto last_mod_time = std::filesystem::last_write_time( folder_path + file_name );
     auto last_mod_time_point = std::chrono::time_point_cast< std::chrono::system_clock::duration >( last_mod_time - decltype( last_mod_time )::clock::now( ) + std::chrono::system_clock::now( ) );
     std::time_t last_mod_time_t = std::chrono::system_clock::to_time_t( last_mod_time_point );
 
@@ -121,7 +121,7 @@ std::string cFileSystem::GetFileLastModifiedDate( const std::string& folder_path
 }
 
 std::size_t cFileSystem::GetFileSize( const std::string& folder_path, const std::string& file_name ) const {
-    return std::filesystem::file_size( folder_path + "/" + file_name );
+    return std::filesystem::file_size( folder_path + file_name );
 }
 
 std::string cFileSystem::GetExecutableDirectory( ) const {
