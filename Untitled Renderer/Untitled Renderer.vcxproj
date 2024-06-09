@@ -181,6 +181,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\Backend\Animation\Animation.cpp" />
     <ClCompile Include="Include\Backend\Audio\Audio.cpp" />
     <ClCompile Include="Include\Backend\Camera\Camera.cpp" />
     <ClCompile Include="Include\Backend\FileSystem\FileSystem.cpp" />
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
+    <ClInclude Include="Include\Backend\Animation\Animation.hpp" />
     <ClInclude Include="Include\Backend\Audio\Audio.hpp" />
     <ClInclude Include="Include\Backend\Camera\Camera.hpp" />
     <ClInclude Include="Include\Backend\Context\Context.hpp" />
@@ -345,6 +347,7 @@
     <ClInclude Include="Thirdparty\Sol\Sol.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Include\Backend\Animation\Animation.inl" />
     <None Include="Include\Backend\Audio\Audio.inl" />
     <None Include="Include\Backend\Buffer\Buffer.inl" />
     <None Include="Include\Backend\Camera\Camera.inl" />

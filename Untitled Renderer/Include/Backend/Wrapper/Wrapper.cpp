@@ -262,6 +262,11 @@ void cWrapper::Init( ) {
     Renderer[ "GetDefaultFont" ] = Renderer::GetDefaultFont;
     Renderer[ "CreateFont" ] = Renderer::CreateFont_;
 
+    auto Animations = Lua.create_table( );
+    Animations[ "Lerp" ] = Animations::Lerp;
+    Animations[ "Coserp" ] = Animations::Coserp;
+    Animations[ "Smoothstep" ] = Animations::Smoothstep;
+
     auto Math = Lua.create_table( );
     Math[ "RandomFloat" ] = Math::RandomFloat;
     Math[ "RandomInt" ] = Math::RandomInt;
@@ -287,6 +292,7 @@ void cWrapper::Init( ) {
     Lua[ "Window" ] = Window;
     Lua[ "Graphics" ] = Graphics;
     Lua[ "Renderer" ] = Renderer;
+    Lua[ "Animations" ] = Animations;
     Lua[ "Math" ] = Math;
     Lua[ "Http" ] = Http;
     Lua[ "Json" ] = Json;

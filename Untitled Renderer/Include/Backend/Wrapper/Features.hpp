@@ -236,6 +236,20 @@ namespace Renderer {
     }
 };
 
+namespace Animations {
+    float Lerp( float from, float to, float delta_time ) {
+        return gAnimations->Lerp( from, to, delta_time );
+    }
+
+    float Coserp( float from, float to, float delta_time ) {
+        return gAnimations->Coserp( from, to, delta_time );
+    }
+
+    float Smoothstep( float from, float to, float delta_time ) {
+        return gAnimations->Smoothstep( from, to, delta_time );
+    }
+};
+
 namespace Math {
     float RandomFloat( float min, float max ) {
         static std::random_device rdev;

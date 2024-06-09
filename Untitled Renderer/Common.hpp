@@ -38,6 +38,7 @@ using json = nlohmann::json;
 
 #include "Include/Backend/Buffer/Buffer.hpp"
 #include "Include/Backend/Buffer/Components.hpp"
+#include "Include/Backend/Animation/Animation.hpp"
 
 #include "Include/Backend/Audio/Audio.hpp"
 #include "Include/Backend/Input/Input.hpp"
