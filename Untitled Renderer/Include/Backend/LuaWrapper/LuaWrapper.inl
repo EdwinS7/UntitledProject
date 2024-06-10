@@ -22,4 +22,17 @@ inline void cLuaWrapper::RunCallback( const std::string& callback_name ) {
             m_Callbacks.clear( );
         }
     }
+
+    auto PriorityCallbacks = GetCallbacks( "__" + callback_name );
+
+    if ( PriorityCallbacks ) {
+        for ( auto& Callback : PriorityCallbacks ) {
+            auto Result = Callback.Function( );
+
+            if ( !Result.valid( ) ) {
+                std::cout << "Lua Error:" << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
+                m_Callbacks.clear( );
+            }
+        }
+    }
 }

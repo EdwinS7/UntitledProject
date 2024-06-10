@@ -462,9 +462,13 @@ namespace Utils {
 namespace Globals {
     static std::vector<std::string> CallbackIdentifiers {
         "OnInterfacePaint",
+        "__OnInterfacePaint",
         "OnWorldPaint",
+        "__OnWorldPaint",
         "OnInputUpdate",
+        "__OnInputUpdate",
         "OnObjectCreation"
+        "__OnInterfacePaint"
     };
 
     void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {

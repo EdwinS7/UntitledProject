@@ -196,7 +196,7 @@ void cBuffer::Cube( Vec3<float> position, float size, Color color ) {
 		12, 13, 13, 14, 14, 15, 15, 12
 	};
 
-	WriteToBuffer( TRIANGLE, &Vertices, &Indices );
+	gGraphics->GetDevice( )->DrawPrimitiveUP( LINE, Vertices.size( ), Vertices.data( ), sizeof( Vertex ) );
 }
 
 void cBuffer::Gradient( Vec2< int16_t > position, Vec2< int16_t > size, Color color1, Color color2, bool vertical ) {
