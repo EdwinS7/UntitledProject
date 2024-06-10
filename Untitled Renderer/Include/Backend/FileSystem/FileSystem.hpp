@@ -12,7 +12,7 @@
 #define FS_DEFAULT_SCRIPTS_FOLDER FS_LUA_FOLDER "DefaultScripts/"
 
 #define FS_GAME_FOLDER "Game/"
-#define FS_SOUND_FOLDER FS_GAME_FOLDER "Sounds/"
+#define FS_SOUNDS_FOLDER FS_GAME_FOLDER "Sounds/"
 #define FS_TEXTURES_FOLDER FS_GAME_FOLDER "Textures/"
 
 class cFileSystem {

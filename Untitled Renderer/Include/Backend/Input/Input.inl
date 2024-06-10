@@ -8,11 +8,11 @@ inline Vec2<int16_t> cInput::GetMousePos( ) const {
 	return m_MousePos;
 }
 
-inline void cInput::SetCursorStyle( LPSTR id ) {
+inline void cInput::SetCursorStyle( MousePointer id ) {
 	m_CursorStyle = id;
 }
 
-inline LPSTR cInput::GetCursorStyle( ) const {
+inline MousePointer cInput::GetCursorStyle( ) const {
 	return m_CursorStyle;
 }
 

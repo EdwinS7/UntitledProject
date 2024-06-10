@@ -54,7 +54,41 @@ void cLuaWrapper::Init( ) {
         Lua[ base_lua_function ] = sol::nil;
     }
 
+    Lua.new_enum( "MousePointer",
+        "Arrow", MousePointer::Arrow,
+        "IBeam", MousePointer::IBeam,
+        "Wait", MousePointer::Wait,
+        "Cross", MousePointer::Cross,
+        "UpArrow", MousePointer::UpArrow,
+        "Size", MousePointer::Size,
+        "Icon", MousePointer::Icon,
+        "SizeNWSE", MousePointer::SizeNWSE,
+        "SizeNESW", MousePointer::SizeNESW,
+        "SizeWE", MousePointer::SizeWE,
+        "SizeNS", MousePointer::SizeNS,
+        "SizeAll", MousePointer::SizeAll,
+        "No", MousePointer::No,
+        "Hand", MousePointer::Hand,
+        "AppStarting", MousePointer::AppStarting,
+        "Help", MousePointer::Help,
+        "Pin", MousePointer::Pin,
+        "Person", MousePointer::Person
+    );
+
     Lua.new_enum( "CornerFlags",
+        "None", CornerFlags::CornerNone,
+        "TopLeft", CornerFlags::CornerTopLeft,
+        "TopRight", CornerFlags::CornerTopRight,
+        "BottomLeft", CornerFlags::CornerBottomLeft,
+        "BottomRight", CornerFlags::CornerBottomRight,
+        "Top", CornerFlags::CornerTop,
+        "Right", CornerFlags::CornerRight,
+        "Bottom", CornerFlags::CornerBottom,
+        "Left", CornerFlags::CornerLeft,
+        "All", CornerFlags::CornerAll
+    );
+
+    Lua.new_enum( "MousePointer",
         "None", CornerFlags::CornerNone,
         "TopLeft", CornerFlags::CornerTopLeft,
         "TopRight", CornerFlags::CornerTopRight,

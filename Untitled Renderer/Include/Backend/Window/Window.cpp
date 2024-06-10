@@ -101,7 +101,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
         break;
 
     case WM_SETCURSOR:
-        SetCursor( LoadCursorA( 0, gInput->GetCursorStyle( ) ) );
+        SetCursor( LoadCursorA( 0, LPCSTR( gInput->GetCursorStyle( ) ) ) );
         break;
 
     case WM_DESTROY:

@@ -71,12 +71,11 @@ namespace Input {
         return gInput->KeyHeld( key );
     }
 
-    // @Todo: Define cursor styles!!
-    void SetCursorStyle( LPSTR cursor_style ) {
+    void SetCursorStyle( MousePointer cursor_style ) {
         gInput->SetCursorStyle( cursor_style );
     }
 
-    LPSTR GetCursorStyle( ) {
+    MousePointer GetCursorStyle( ) {
         return gInput->GetCursorStyle( );
     }
 };

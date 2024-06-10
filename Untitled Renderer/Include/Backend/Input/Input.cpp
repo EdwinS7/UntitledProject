@@ -1,7 +1,7 @@
 #include "Input.hpp"
 
 void cInput::PoolInput( ) {
-	m_CursorStyle = IDC_ARROW;
+	m_CursorStyle = MousePointer::Arrow;
 	m_AnyKeyPressed = false;
 
 	char Buffer[ 256 ];

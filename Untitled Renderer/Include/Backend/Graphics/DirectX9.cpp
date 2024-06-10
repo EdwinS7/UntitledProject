@@ -54,6 +54,26 @@ void cGraphics::Release( ) {
     SafeRelease( m_Device );
 }
 
+void cGraphics::ResetDevice( ) {
+    gBuffer->Release( );
+
+    SafeRelease( m_VertexBuffer );
+    SafeRelease( m_IndexBuffer );
+    SafeRelease( m_Device );
+
+    ReleaseFonts( );
+    ReleaseTextures( );
+
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ),
+        D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
+        throw std::runtime_error( "[cGraphics::ResetDevice] CreateDevice Failed" );
+    }
+
+    UpdateRenderStates( m_Device );
+
+    gBuffer->Init( );
+}
+
 void cGraphics::UpdatePresentationParameters( LPARAM lparam ) {
     m_Parameters.Windowed = TRUE;
     m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
@@ -217,7 +237,7 @@ void cGraphics::DrawScene( ) {
     m_Device->Present( nullptr, nullptr, nullptr, nullptr );
 }
 
-void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int16_t size, const int16_t weight, const Vec2<int16_t> padding, const bool antialiasing ) {
+void cGraphics::CreateFontFromName( Font* font, const std::string& font_name, int16_t size, int16_t weight, Vec2<int16_t> padding, bool antialiasing ) {
     FT_Library Library;
     FT_Face Face;
 
@@ -309,7 +329,7 @@ void cGraphics::CreateTextureFromBytes( IDirect3DTexture9* texture, std::vector<
 
 }
 
-void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, std::string file_name ) {
+void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, const std::string& file_name ) {
     std::string full_path = FS_TEXTURES_FOLDER + file_name;
 
     if ( D3DXCreateTextureFromFile( m_Device, full_path.c_str( ), &texture ) != D3D_OK ) {
@@ -320,7 +340,7 @@ void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, std::string f
     m_Textures.push_back( texture );
 }
 
-void cGraphics::CreateImageFromFile( Image* image, std::string file_name ) {
+void cGraphics::CreateImageFromFile( Image* image, const std::string& file_name ) {
     std::string full_path = FS_TEXTURES_FOLDER + file_name;
     IDirect3DTexture9* Texture;
 
@@ -340,7 +360,7 @@ void cGraphics::CreateImageFromFile( Image* image, std::string file_name ) {
     };
 }
 
-std::string cGraphics::GetFontPath( std::string font_name ) {
+std::string cGraphics::GetFontPath( const std::string& font_name ) {
     RegistryFontList.clear( );
 
     HKEY key;
@@ -379,24 +399,4 @@ std::string cGraphics::GetFontPath( std::string font_name ) {
         return std::string( fonts_directory ) + '\\' + font_path;
     else
         return "";
-}
-
-void cGraphics::ResetDevice( ) {
-    gBuffer->Release( );
-
-    SafeRelease( m_VertexBuffer );
-    SafeRelease( m_IndexBuffer );
-    SafeRelease( m_Device );
-
-    ReleaseFonts( );
-    ReleaseTextures( );
-
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ),
-        D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
-        throw std::runtime_error( "[cGraphics::ResetDevice] CreateDevice Failed" );
-    }
-
-    UpdateRenderStates( m_Device );
-
-    gBuffer->Init( );
 }

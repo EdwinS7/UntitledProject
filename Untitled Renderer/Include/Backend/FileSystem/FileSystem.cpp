@@ -7,7 +7,7 @@ void cFileSystem::Init( ) {
     CreateFolder( FS_DEFAULT_SCRIPTS_FOLDER );
 
     CreateFolder( FS_GAME_FOLDER );
-    CreateFolder( FS_SOUND_FOLDER );
+    CreateFolder( FS_SOUNDS_FOLDER );
     CreateFolder( FS_TEXTURES_FOLDER );
 
     if ( !DoesFileExist( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME ) ) {

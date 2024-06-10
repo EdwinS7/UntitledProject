@@ -1,12 +1,12 @@
 #include "DirectX9.hpp"
 
-inline void cGraphics::SetVerticalSync(const bool vertical_sync) {
+inline void cGraphics::SetVerticalSync( bool vertical_sync ) {
     m_Parameters.PresentationInterval = vertical_sync ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
     m_VerticalSync = vertical_sync;
     ResetDevice();
 }
 
-inline bool cGraphics::GetVerticalSync() {
+inline bool cGraphics::GetVerticalSync() const {
     return m_VerticalSync;
 }
 
