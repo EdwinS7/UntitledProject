@@ -345,7 +345,7 @@ std::string cGraphics::GetFontPath( std::string font_name ) {
 
     HKEY key;
     if ( RegOpenKeyExA( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &key ) != ERROR_SUCCESS ) {
-        std::printf( "[ERROR] Failed to open registry.\n" );
+        gLogger->Log( LogLevel::Error, "Failed to open registry" );
         return "";
     }
 
