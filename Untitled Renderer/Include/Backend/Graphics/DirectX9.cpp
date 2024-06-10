@@ -54,22 +54,6 @@ void cGraphics::Release( ) {
     SafeRelease( m_Device );
 }
 
-void cGraphics::ReleaseFonts( ) {
-    for ( auto& font : m_Fonts ) {
-        SafeRelease( font );
-    }
-
-    m_Fonts.clear( );
-}
-
-void cGraphics::ReleaseTextures( ) {
-    for ( auto& texture : m_Textures ) {
-        SafeRelease( texture );
-    }
-
-    m_Textures.clear( );
-}
-
 void cGraphics::UpdatePresentationParameters( LPARAM lparam ) {
     m_Parameters.Windowed = TRUE;
     m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
@@ -238,16 +222,20 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
     FT_Face Face;
 
     font->Path = GetFontPath( font_name );
+
+    if ( font->Path.empty( ) )
+        return;
+
     font->Padding = padding;
     font->Size = size;
 
     if ( FT_Init_FreeType( &Library ) != FT_Err_Ok ) {
-        throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Init_FreeType Failed?" );
+        gLogger->Log( LogLevel::Error, "Failed to initiate FreeType Library" );
         return;
     }
 
     if ( FT_New_Face( Library, font->Path.c_str( ), 0, &Face ) ) {
-        throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_New_Face Failed?" );
+        gLogger->Log( LogLevel::Error, "Failed to open requested font " + font_name );
         FT_Done_FreeType( Library );
         return;
     }
@@ -256,8 +244,8 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
     FT_Select_Charmap( Face, FT_ENCODING_UNICODE );
 
     for ( unsigned char i = 0; i < 128; ++i ) {
-        if ( FT_Load_Char( Face, i, antialiasing ? FT_LOAD_RENDER : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) ) {
-            throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Load_Char Failed, Font Does Not Exist!" );
+        if ( FT_Load_Char( Face, i, antialiasing ? FT_LOAD_RENDER | FT_LOAD_TARGET_NORMAL : FT_LOAD_RENDER | FT_LOAD_TARGET_MONO ) ) {
+            gLogger->Log( LogLevel::Error, "FT_Load_Char failed to load character for " + std::to_string( i ) );
             continue;
         }
 
@@ -265,7 +253,7 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
         int height = Face->glyph->bitmap.rows ? Face->glyph->bitmap.rows : 16;
 
         if ( m_Device->CreateTexture( static_cast< UINT >( width ), static_cast< UINT >( height ), 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
-            throw std::runtime_error( "[cGraphics::CreateFontFromName] CreateTexture Failed?" );
+            gLogger->Log( LogLevel::Error, "CreateTexture failed to load character for " + std::to_string( i ) );
             continue;
         }
 
@@ -279,7 +267,7 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
             switch ( Face->glyph->bitmap.pixel_mode ) {
             case FT_PIXEL_MODE_MONO:
                 for ( size_t y = 0; y < height; ++y, source += Face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
-                    int8_t bits = 0;
+                    uint8_t bits = 0;
                     const uint8_t* bitsPtr = source;
 
                     for ( size_t x = 0; x < width; ++x, bits <<= 1 ) {
@@ -292,9 +280,10 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
                 break;
 
             case FT_PIXEL_MODE_GRAY:
-                for ( size_t j = 0; j < height; ++j ) {
-                    memcpy( destination, source, width );
-
+                for ( size_t y = 0; y < height; ++y ) {
+                    for ( size_t x = 0; x < width; ++x ) {
+                        destination[ x ] = source[ x ];
+                    }
                     source += Face->glyph->bitmap.pitch;
                     destination += lockedRect.Pitch;
                 }
@@ -308,8 +297,9 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
         font->CharSet[ i ].Size = { width, height };
         font->CharSet[ i ].Bearing = { static_cast< int32_t >( Face->glyph->bitmap_left ), static_cast< int32_t >( Face->glyph->bitmap_top ) };
         font->CharSet[ i ].Advance = Face->glyph->Advance.x;
-        m_Fonts.emplace_back( font );
     }
+
+    m_Fonts.emplace_back( font );
 
     FT_Done_Face( Face );
     FT_Done_FreeType( Library );
@@ -323,7 +313,7 @@ void cGraphics::CreateTextureFromFile( IDirect3DTexture9* texture, std::string f
     std::string full_path = FS_TEXTURES_FOLDER + file_name;
 
     if ( D3DXCreateTextureFromFile( m_Device, full_path.c_str( ), &texture ) != D3D_OK ) {
-        MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Image ({})", std::make_format_args( file_name ) ).c_str( ), 0 );
+        gLogger->Log( LogLevel::Error, std::vformat( "Failed To Create Image ({})", std::make_format_args( file_name ) ) );
         return;
     }
 
@@ -335,20 +325,60 @@ void cGraphics::CreateImageFromFile( Image* image, std::string file_name ) {
     IDirect3DTexture9* Texture;
 
     if ( D3DXCreateTextureFromFile( m_Device, full_path.c_str( ), &Texture ) != D3D_OK ) {
-        MessageBoxA( nullptr, "Graphics", std::vformat( "Failed To Create Image ({})", std::make_format_args( file_name ) ).c_str( ), 0 );
+        gLogger->Log( LogLevel::Error, std::vformat( "Failed To Create Image ({})", std::make_format_args( file_name ) ) );
         return;
     }
-       
 
     D3DSURFACE_DESC desc;
     Texture->GetLevelDesc( 0, &desc );
 
     m_Textures.push_back( Texture );
     image->Texture = Texture;
-    image->Size = { 
+    image->Size = {
         static_cast< int16_t >( desc.Width ),
         static_cast< int16_t >( desc.Height )
     };
+}
+
+std::string cGraphics::GetFontPath( std::string font_name ) {
+    RegistryFontList.clear( );
+
+    HKEY key;
+    if ( RegOpenKeyExA( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &key ) != ERROR_SUCCESS ) {
+        std::printf( "[ERROR] Failed to open registry.\n" );
+        return "";
+    }
+
+    std::string font_path;
+    char buffer[ MAX_PATH ];
+    for ( DWORD i = 0;; i++ ) {
+        DWORD buffer_size = MAX_PATH;
+        memset( buffer, 0, MAX_PATH );
+
+        if ( RegEnumValueA( key, i, buffer, &buffer_size, nullptr, nullptr, nullptr, nullptr ) != ERROR_SUCCESS ) {
+            gLogger->Log( LogLevel::Error, std::string( "Cant find requested font " + font_name ) );
+            break;
+        }
+
+        RegistryFontList.emplace_back( buffer );
+
+        if ( std::string( buffer ).find( font_name ) != std::string::npos ) {
+            buffer_size = MAX_PATH;
+            RegQueryValueExA( key, buffer, nullptr, nullptr, reinterpret_cast< LPBYTE >( buffer ), &buffer_size );
+            font_path = buffer;
+            break;
+        }
+    }
+
+    RegCloseKey( key );
+
+    char fonts_directory[ MAX_PATH ];
+    SHGetFolderPathA( nullptr, CSIDL_FONTS, nullptr, 0, fonts_directory );
+
+    if ( !font_path.empty( ) )
+        return std::string( fonts_directory ) + '\\' + font_path;
+    else
+        return "";
 }
 
 void cGraphics::ResetDevice( ) {

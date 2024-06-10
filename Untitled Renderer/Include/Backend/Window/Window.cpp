@@ -1,49 +1,6 @@
 #include "Window.hpp"
 
-LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
-    static bool isResizing = false;
-
-    switch ( msg ) {
-    case WM_SIZE:
-        if ( !isResizing && gGraphics->GetDevice( ) && wParam != SIZE_MINIMIZED ) {
-            gGraphics->UpdatePresentationParameters( lParam );
-            gGraphics->ResetDevice( );
-        }
-        return 0;
-
-    case WM_ENTERSIZEMOVE:
-        isResizing = true;
-        return 0;
-
-    case WM_EXITSIZEMOVE:
-        if ( gGraphics->GetDevice( ) ) {
-            RECT Rect;
-            GetClientRect( hwnd, &Rect );
-
-            gGraphics->UpdatePresentationParameters(
-                MAKELPARAM( Rect.right - Rect.left, Rect.bottom - Rect.top )
-            );
-
-            gGraphics->ResetDevice( );
-        }
-        isResizing = false;
-        return 0;
-
-    case WM_MOUSEMOVE:
-        gInput->SetMousePos( Vec2<int16_t>( LOWORD( lParam ), HIWORD( lParam ) ) );
-        break;
-
-    case WM_SETCURSOR:
-        SetCursor( LoadCursorA( 0, gInput->GetCursorStyle( ) ) );
-        break;
-
-    case WM_DESTROY:
-        PostQuitMessage( 0 );
-        return 0;
-    }
-
-    return DefWindowProc( hwnd, msg, wParam, lParam );
-}
+LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
 void cWin32::Init( const std::string& title, Vec2<int16_t> size, bool fullscreen ) {
     AllocConsole( );
@@ -56,14 +13,8 @@ void cWin32::Init( const std::string& title, Vec2<int16_t> size, bool fullscreen
 
     HANDLE hStdOut = GetStdHandle( STD_OUTPUT_HANDLE );
 
-    auto AllLogs = gLogger->GetLogs( LogLevel::END );
-    if ( !AllLogs.empty( ) ) {
-        for ( const auto& Log : AllLogs ) {
-            SetConsoleTextAttribute( hStdOut, Log.first );
-            std::cout << Log.second << "\n";
-        }
-
-        SetConsoleTextAttribute( hStdOut, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE );
+    for ( const auto& Log : gLogger->GetLogs( LogLevel::END ) ) {
+        std::cout << Log << "\n";
     }
 
     m_Fullscreen = fullscreen;
@@ -113,4 +64,50 @@ bool cWin32::DispatchMessages( ) {
     }
 
     return true;
+}
+
+// WndProc, Defined at the top of Window.cpp ( this file )
+LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
+    static bool IsResizing = false;
+
+    switch ( msg ) {
+    case WM_SIZE:
+        if ( !IsResizing && gGraphics->GetDevice( ) && wParam != SIZE_MINIMIZED ) {
+            gGraphics->UpdatePresentationParameters( lParam );
+            gGraphics->ResetDevice( );
+        }
+        return 0;
+
+    case WM_ENTERSIZEMOVE:
+        IsResizing = true;
+        return 0;
+
+    case WM_EXITSIZEMOVE:
+        if ( gGraphics->GetDevice( ) ) {
+            RECT Rect;
+            GetClientRect( hwnd, &Rect );
+
+            gGraphics->UpdatePresentationParameters(
+                MAKELPARAM( Rect.right - Rect.left, Rect.bottom - Rect.top )
+            );
+
+            gGraphics->ResetDevice( );
+        }
+        IsResizing = false;
+        return 0;
+
+    case WM_MOUSEMOVE:
+        gInput->SetMousePos( Vec2<int16_t>( LOWORD( lParam ), HIWORD( lParam ) ) );
+        break;
+
+    case WM_SETCURSOR:
+        SetCursor( LoadCursorA( 0, gInput->GetCursorStyle( ) ) );
+        break;
+
+    case WM_DESTROY:
+        PostQuitMessage( 0 );
+        return 0;
+    }
+
+    return DefWindowProc( hwnd, msg, wParam, lParam );
 }
