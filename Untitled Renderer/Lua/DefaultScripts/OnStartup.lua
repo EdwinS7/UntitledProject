@@ -5,7 +5,7 @@ function OnPaint()
 end
 
 function OnInputUpdate()
-    if (Input.IsKeyPressed(Keys.F11)) then
+    if Input.IsKeyPressed(Keys.F11) then
         Window.SetFullscreen(not Window.GetFullscreen())
     end
 end
@@ -13,4 +13,6 @@ end
 AddCallback("OnInputUpdate", OnInputUpdate)
 AddCallback("OnInterfacePaint", OnPaint)
 
-LoadScript("Demo.lua")
+--LoadScript("Demo.lua")
+--LoadString("Client.Print(LogLevel.Normal, ':) - LoadString Function')")
+LoadScript("Testing.lua")
