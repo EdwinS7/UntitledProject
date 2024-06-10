@@ -264,7 +264,7 @@ void cGraphics::CreateFontFromName( Font* font, std::string font_name, const int
         int width = Face->glyph->bitmap.width ? Face->glyph->bitmap.width : 16;
         int height = Face->glyph->bitmap.rows ? Face->glyph->bitmap.rows : 16;
 
-        if ( gGraphics->GetDevice( )->CreateTexture( static_cast< UINT >( width ), static_cast< UINT >( height ), 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
+        if ( m_Device->CreateTexture( static_cast< UINT >( width ), static_cast< UINT >( height ), 1, D3DUSAGE_DYNAMIC, D3DFMT_A8, D3DPOOL_DEFAULT, &font->CharSet[ i ].Texture, NULL ) ) {
             throw std::runtime_error( "[cGraphics::CreateFontFromName] CreateTexture Failed?" );
             continue;
         }
