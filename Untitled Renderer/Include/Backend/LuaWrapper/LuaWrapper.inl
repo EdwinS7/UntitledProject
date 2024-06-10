@@ -12,27 +12,3 @@ inline void cLuaWrapper::UnregisterCallbacks( ) {
 inline std::vector<sol::protected_function> cLuaWrapper::GetCallbacks( const std::string& callback_name ) {
     return this->m_Callbacks[ callback_name ];
 }
-
-inline void cLuaWrapper::RunCallback( const std::string& callback_name ) {
-    for ( auto& Callback : GetCallbacks( callback_name ) ) {
-        auto Result = Callback( );
-
-        if ( !Result.valid( ) ) {
-            std::cout << "Lua Error:" << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
-            m_Callbacks.clear( );
-        }
-    }
-
-    auto PriorityCallbacks = GetCallbacks( "__" + callback_name );
-
-    if ( !PriorityCallbacks.empty( ) ) {
-        for ( auto& Callback : PriorityCallbacks ) {
-            auto Result = Callback( );
-
-            if ( !Result.valid( ) ) {
-                std::cout << "Lua Error:" << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
-                m_Callbacks.clear( );
-            }
-        }
-    }
-}

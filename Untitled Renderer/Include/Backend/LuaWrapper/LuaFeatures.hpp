@@ -473,7 +473,7 @@ namespace Globals {
 
     void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {
         if ( std::find( CallbackIdentifiers.begin( ), CallbackIdentifiers.end( ), event_name ) == CallbackIdentifiers.end( ) ) {
-            std::cout << "Lua error: invalid callback \"" + event_name + '\"' << std::endl;
+            gLogger->Log( LogLevel::Error, "Lua error: invalid callback \"" + event_name + "\"" );
             return;
         }
 

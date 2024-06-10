@@ -264,17 +264,17 @@ int cLuaWrapper::LoadScript( const std::string& source ) {
     if ( source.empty( ) )
         return 0;
 
-    bool Error = false;
+    bool error = false;
 
-    Lua.script( source, [ &Error ] ( lua_State*, sol::protected_function_result Result ) {
-        if ( !Result.valid( ) ) {
-            std::cout << FormatSolError( static_cast< std::string >( Result.get<sol::error>( ).what( ) ) ) << "\n";
-            Error = true;
+    Lua.safe_script( source, [ &error ] ( lua_State*, sol::protected_function_result result ) {
+        if ( !result.valid( ) ) {
+            gLogger->Log( LogLevel::Error, result.get<sol::error>( ).what( ) );
+            error = true;
         }
-        return Result;
+        return result;
     } );
 
-    if ( Error )
+    if ( error )
         return 0;
 
     return 1;
@@ -282,4 +282,23 @@ int cLuaWrapper::LoadScript( const std::string& source ) {
 
 int cLuaWrapper::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
     return LoadScript( gFileSystem->GetFileContent( folder_path, file_name ) );
+}
+
+void cLuaWrapper::RunCallback( const std::string& callback_name ) {
+    auto ExecuteCallbacks = [ this ] ( const std::vector<sol::protected_function>& callbacks ) {
+        for ( const auto& callback : callbacks ) {
+            auto result = callback( );
+
+            if ( !result.valid( ) ) {
+                gLogger->Log( LogLevel::Error, "Lua Error: " + static_cast< std::string >( result.get<sol::error>( ).what( ) ) );
+                m_Callbacks.clear( );
+            }
+        }
+    };
+
+    auto Callbacks = GetCallbacks( callback_name );
+    ExecuteCallbacks( Callbacks );
+
+    auto PriorityCallbacks = GetCallbacks( "__" + callback_name );
+    ExecuteCallbacks( PriorityCallbacks );
 }
