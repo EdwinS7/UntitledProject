@@ -1,7 +1,7 @@
 #include "LuaWrapper.hpp"
 
 inline void cLuaWrapper::RegisterCallback( const std::string& callback_name, sol::protected_function callback ) {
-    this->m_Callbacks[ callback_name ].push_back( cLuaCallback( callback ) );
+    this->m_Callbacks[ callback_name ].push_back( callback );
 }
 
 inline void cLuaWrapper::UnregisterCallbacks( ) {
@@ -9,13 +9,13 @@ inline void cLuaWrapper::UnregisterCallbacks( ) {
         m_Callbacks.clear( );
 }
 
-inline std::vector<cLuaCallback> cLuaWrapper::GetCallbacks( const std::string& callback_name ) {
+inline std::vector<sol::protected_function> cLuaWrapper::GetCallbacks( const std::string& callback_name ) {
     return this->m_Callbacks[ callback_name ];
 }
 
 inline void cLuaWrapper::RunCallback( const std::string& callback_name ) {
     for ( auto& Callback : GetCallbacks( callback_name ) ) {
-        auto Result = Callback.Function( );
+        auto Result = Callback( );
 
         if ( !Result.valid( ) ) {
             std::cout << "Lua Error:" << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";
@@ -25,9 +25,9 @@ inline void cLuaWrapper::RunCallback( const std::string& callback_name ) {
 
     auto PriorityCallbacks = GetCallbacks( "__" + callback_name );
 
-    if ( PriorityCallbacks ) {
+    if ( !PriorityCallbacks.empty( ) ) {
         for ( auto& Callback : PriorityCallbacks ) {
-            auto Result = Callback.Function( );
+            auto Result = Callback( );
 
             if ( !Result.valid( ) ) {
                 std::cout << "Lua Error:" << static_cast< std::string >( Result.get<sol::error>( ).what( ) ) << "\n";

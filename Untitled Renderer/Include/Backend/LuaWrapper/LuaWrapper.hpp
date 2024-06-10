@@ -13,10 +13,6 @@ end
 AddCallback("OnInterfacePaint", OnPaint)
 LoadScript("Demo.lua"))"
 
-struct cLuaCallback {
-	sol::protected_function Function;
-};
-
 class cLuaWrapper {
 public:
 	void Init( );
@@ -27,13 +23,13 @@ public:
 	inline void RegisterCallback( const std::string& event_name, sol::protected_function callback );
 	inline void UnregisterCallbacks( );
 
-	inline std::vector<cLuaCallback> GetCallbacks( const std::string& callback_name );
+	inline std::vector<sol::protected_function> GetCallbacks( const std::string& callback_name );
 	inline void RunCallback( const std::string& callback_name );
 
 private:
 	sol::state Lua;
 
-	std::unordered_map<std::string, std::vector<cLuaCallback>> m_Callbacks;
+	std::unordered_map<std::string, std::vector<sol::protected_function>> m_Callbacks;
 };
 
 inline const auto gLuaWrapper = std::make_unique<cLuaWrapper>( );
