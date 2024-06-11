@@ -88,19 +88,6 @@ void cLuaWrapper::Init( ) {
         "All", CornerFlags::CornerAll
     );
 
-    Lua.new_enum( "MousePointer",
-        "None", CornerFlags::CornerNone,
-        "TopLeft", CornerFlags::CornerTopLeft,
-        "TopRight", CornerFlags::CornerTopRight,
-        "BottomLeft", CornerFlags::CornerBottomLeft,
-        "BottomRight", CornerFlags::CornerBottomRight,
-        "Top", CornerFlags::CornerTop,
-        "Right", CornerFlags::CornerRight,
-        "Bottom", CornerFlags::CornerBottom,
-        "Left", CornerFlags::CornerLeft,
-        "All", CornerFlags::CornerAll
-    );
-
     Lua.new_enum( "LogLevel",
         "Normal", LogLevel::Normal,
         "Information", LogLevel::Information,
