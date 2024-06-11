@@ -209,6 +209,7 @@
     <ClInclude Include="Include\Backend\Buffer\Buffer.hpp" />
     <ClInclude Include="Include\Backend\Buffer\Components.hpp" />
     <ClInclude Include="Include\Backend\FileSystem\FileSystem.hpp" />
+    <ClInclude Include="Include\Backend\Graphics\Components.hpp" />
     <ClInclude Include="Include\Backend\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp" />
     <ClInclude Include="Include\Backend\Logger\Logger.hpp" />

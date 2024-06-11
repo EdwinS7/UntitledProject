@@ -2,20 +2,15 @@
 
 #include "../../../Common.hpp"
 
-#define VERTEX ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
-
-#define TRIANGLE D3DPT_TRIANGLESTRIP
-#define LINE D3DPT_LINESTRIP
-
 class cGraphics {
 public:
 	bool Init( HWND hwnd );
 	void Release( );
 
-	void ResetDevice( );
+	void ResetDevice( HWND hwnd );
 
 	void UpdateRenderStates( IDirect3DDevice9* device );
-	void UpdatePresentationParameters( LPARAM lparam );
+	void UpdatePresentationParameters( HWND hwnd );
 
 	void RenderDrawData( );
 	void DrawScene( );
@@ -27,7 +22,7 @@ public:
 
 	std::string GetFontPath( const std::string& font_name );
 
-	inline void SetVerticalSync( bool vertical_sync );
+	void SetVerticalSync( bool vertical_sync );
 	inline bool GetVerticalSync( ) const;
 
 	inline void SetDevice( IDirect3DDevice9* device );
@@ -46,21 +41,19 @@ private:
 	IDirect3DDevice9* m_Device{};
 	D3DPRESENT_PARAMETERS m_Parameters{};
 
-	int	m_VertexBufferSize{ 5000 },
-		m_IndexBufferSize{ 10000 };
+	int	m_VertexBufferSize, m_IndexBufferSize;
 
 	IDirect3DVertexBuffer9* m_VertexBuffer{};
 	IDirect3DIndexBuffer9* m_IndexBuffer{};
 	IDirect3DStateBlock9* m_StateBlock{};
 
-	std::vector<Font*> m_Fonts;
 	std::vector<IDirect3DTexture9*> m_Textures;
+	std::vector<Font*> m_Fonts;
 
-	template <typename type>
-	inline void SafeRelease( type*& obj );
+	template <typename T>
+	inline void SafeRelease( T*& obj );
 
-	bool m_VerticalSync { false };
-	Color m_ClearColor{ 90, 125, 255, 255 };
+	Color m_ClearColor;
 };
 
 inline const auto gGraphics = std::make_unique<cGraphics>( );

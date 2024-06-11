@@ -1,13 +1,7 @@
 #include "DirectX9.hpp"
 
-inline void cGraphics::SetVerticalSync( bool vertical_sync ) {
-    m_Parameters.PresentationInterval = vertical_sync ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
-    m_VerticalSync = vertical_sync;
-    ResetDevice();
-}
-
 inline bool cGraphics::GetVerticalSync() const {
-    return m_VerticalSync;
+    return m_Parameters.PresentationInterval == D3DPRESENT_INTERVAL_DEFAULT;
 }
 
 inline void cGraphics::SetDevice( IDirect3DDevice9* device ) {
@@ -42,8 +36,8 @@ inline void cGraphics::ReleaseTextures( ) {
     m_Textures.clear( );
 }
 
-template <typename type>
-inline void cGraphics::SafeRelease( type*& obj ) {
+template <typename T>
+inline void cGraphics::SafeRelease( T*& obj ) {
 	if ( obj ) {
 		obj->Release( );
 		obj = nullptr;

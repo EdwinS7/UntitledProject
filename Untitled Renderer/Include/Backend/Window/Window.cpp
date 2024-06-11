@@ -73,8 +73,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
     switch ( msg ) {
     case WM_SIZE:
         if ( !IsResizing && gGraphics->GetDevice( ) && wParam != SIZE_MINIMIZED ) {
-            gGraphics->UpdatePresentationParameters( lParam );
-            gGraphics->ResetDevice( );
+            gGraphics->ResetDevice( hwnd );
         }
         return 0;
 
@@ -84,14 +83,7 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 
     case WM_EXITSIZEMOVE:
         if ( gGraphics->GetDevice( ) ) {
-            RECT Rect;
-            GetClientRect( hwnd, &Rect );
-
-            gGraphics->UpdatePresentationParameters(
-                MAKELPARAM( Rect.right - Rect.left, Rect.bottom - Rect.top )
-            );
-
-            gGraphics->ResetDevice( );
+            gGraphics->ResetDevice( hwnd );
         }
         IsResizing = false;
         return 0;

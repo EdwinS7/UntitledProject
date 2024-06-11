@@ -503,6 +503,9 @@
     <ClInclude Include="Include\Backend\Animation\Animation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Backend\Graphics\Components.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Backend\Buffer\Buffer.inl">

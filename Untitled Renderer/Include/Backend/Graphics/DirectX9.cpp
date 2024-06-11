@@ -3,6 +3,50 @@
 bool cGraphics::Init( HWND hwnd ) {
     m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
     
+    UpdatePresentationParameters( hwnd );
+
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) 
+        throw std::runtime_error( "[cGraphics::Init] CreateDevice Failed" );
+
+    UpdateRenderStates( m_Device );
+
+    return true;
+}
+
+void cGraphics::Release( ) {
+    SafeRelease( m_VertexBuffer );
+    SafeRelease( m_IndexBuffer );
+    SafeRelease( m_StateBlock );
+    SafeRelease( m_Direct3D );
+    SafeRelease( m_Device );
+
+    ReleaseFonts( );
+    ReleaseTextures( );
+}
+
+void cGraphics::ResetDevice( HWND hwnd ) {
+    gBuffer->Release( );
+
+    SafeRelease( m_VertexBuffer );
+    SafeRelease( m_IndexBuffer );
+    SafeRelease( m_Device );
+
+    ReleaseFonts( );
+    ReleaseTextures( );
+
+    UpdatePresentationParameters( hwnd );
+
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ),
+        D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
+        throw std::runtime_error( "[cGraphics::ResetDevice] CreateDevice Failed" );
+    }
+
+    UpdateRenderStates( m_Device );
+
+    gBuffer->Init( );
+}
+
+void cGraphics::UpdatePresentationParameters( HWND hwnd ) {
     D3DDISPLAYMODE DisplayMode;
     m_Direct3D->GetAdapterDisplayMode( D3DADAPTER_DEFAULT, &DisplayMode );
 
@@ -28,72 +72,9 @@ bool cGraphics::Init( HWND hwnd ) {
     m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
 
     m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-
-    // Anti-Aliasing ( Add Lua API option for turning it on/off )
-    //m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
-    //m_Parameters.MultiSampleQuality = 0;
-
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
-        MessageBoxA( nullptr,
-            std::format( "Error at ({}), CreateDevice returned 0", static_cast< void* >( this ) ).c_str( ),
-            std::format( "Graphics->Init ({}) Error", static_cast< void* >( this ) ).c_str( ), 0
-        );
-
-        return false;
-    }
-
-    UpdateRenderStates( m_Device );
-
-    return true;
-}
-
-void cGraphics::Release( ) {
-    SafeRelease( m_VertexBuffer );
-    SafeRelease( m_IndexBuffer );
-    SafeRelease( m_Direct3D );
-    SafeRelease( m_Device );
-}
-
-void cGraphics::ResetDevice( ) {
-    gBuffer->Release( );
-
-    SafeRelease( m_VertexBuffer );
-    SafeRelease( m_IndexBuffer );
-    SafeRelease( m_Device );
-
-    ReleaseFonts( );
-    ReleaseTextures( );
-
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ),
-        D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
-        throw std::runtime_error( "[cGraphics::ResetDevice] CreateDevice Failed" );
-    }
-
-    UpdateRenderStates( m_Device );
-
-    gBuffer->Init( );
-}
-
-void cGraphics::UpdatePresentationParameters( LPARAM lparam ) {
-    m_Parameters.Windowed = TRUE;
-    m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
-    m_Parameters.BackBufferFormat = D3DFMT_UNKNOWN;
-    m_Parameters.EnableAutoDepthStencil = TRUE;
-    m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
-    m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-
-    m_Parameters.BackBufferWidth = LOWORD( lparam );
-    m_Parameters.BackBufferHeight = HIWORD( lparam );
-
-    m_Parameters.MultiSampleType = D3DMULTISAMPLE_4_SAMPLES;
-    m_Parameters.MultiSampleQuality = 0;
 }
 
 void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {
-    if ( !device ) {
-        throw std::invalid_argument( "Device is nullptr?" );
-    }
-
     device->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
     device->SetRenderState( D3DRS_SHADEMODE, D3DSHADE_GOURAUD );
     device->SetRenderState( D3DRS_ZWRITEENABLE, FALSE );
@@ -154,7 +135,7 @@ void cGraphics::RenderDrawData( ) {
 
         if ( m_Device->CreateVertexBuffer( m_VertexBufferSize * sizeof( Vertex ), 
             D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, VERTEX,  D3DPOOL_DEFAULT, &m_VertexBuffer, nullptr ) < D3D_OK )
-            throw std::runtime_error( "[cGraphics::RenderDrawData] CreateVertexBuffer Failed?" );
+            throw std::runtime_error( "[cGraphics::RenderDrawData] CreateVertexBuffer Failed" );
     }
 
     if ( !m_IndexBuffer || DrawCommand->IndicesCount * sizeof( std::int32_t ) > m_IndexBufferSize ) {
@@ -167,11 +148,11 @@ void cGraphics::RenderDrawData( ) {
 
         if ( m_Device->CreateIndexBuffer( m_IndexBufferSize * sizeof( std::int32_t ),
             D3DUSAGE_DYNAMIC |D3DUSAGE_WRITEONLY, D3DFMT_INDEX32, D3DPOOL_DEFAULT, &m_IndexBuffer, nullptr ) < D3D_OK )
-            throw std::runtime_error( "[cGraphics::RenderDrawData] CreateIndexBuffer Failed?" );
+            throw std::runtime_error( "[cGraphics::RenderDrawData] CreateIndexBuffer Failed" );
     }
 
     if ( m_Device->CreateStateBlock( D3DSBT_ALL, &m_StateBlock ) < 0 )
-        throw std::runtime_error( "[cGraphics::RenderDrawData] CreateStateBlock Failed?" );
+        throw std::runtime_error( "[cGraphics::RenderDrawData] CreateStateBlock Failed" );
 
     if ( m_StateBlock->Capture( ) < 0 ) {
         m_StateBlock->Release( );
@@ -186,10 +167,10 @@ void cGraphics::RenderDrawData( ) {
     int32_t* index_data{ };
 
     if ( m_VertexBuffer->Lock( 0, ( int ) ( DrawCommand->VerticesCount * sizeof( Vertex ) ), ( void** ) &vertex_data, D3DLOCK_DISCARD ) < 0 )
-        throw std::runtime_error( "[cGraphics::RenderDrawData] m_VertexBuffer->Lock Failed?" );
+        throw std::runtime_error( "[cGraphics::RenderDrawData] m_VertexBuffer->Lock Failed" );
 
     if ( m_IndexBuffer->Lock( 0, ( int ) ( DrawCommand->IndicesCount * sizeof( std::int32_t ) ), ( void** ) &index_data, D3DLOCK_DISCARD ) < 0 )
-        throw std::runtime_error( "[cGraphics::RenderDrawData] m_IndexBuffer->Lock Failed?" );
+        throw std::runtime_error( "[cGraphics::RenderDrawData] m_IndexBuffer->Lock Failed" );
 
     memcpy( vertex_data, DrawCommand->Vertices.data( ), DrawCommand->VerticesCount * sizeof( Vertex ) );
     memcpy( index_data, DrawCommand->Indices.data( ), DrawCommand->IndicesCount * sizeof( int32_t ) );
@@ -249,10 +230,8 @@ void cGraphics::CreateFontFromName( Font* font, const std::string& font_name, in
     font->Padding = padding;
     font->Size = size;
 
-    if ( FT_Init_FreeType( &Library ) != FT_Err_Ok ) {
-        gLogger->Log( LogLevel::Error, "Failed to initiate FreeType Library" );
-        return;
-    }
+    if ( FT_Init_FreeType( &Library ) != FT_Err_Ok )
+        throw std::runtime_error( "[cGraphics::CreateFontFromName] FT_Init_FreeType Failed" );
 
     if ( FT_New_Face( Library, font->Path.c_str( ), 0, &Face ) ) {
         gLogger->Log( LogLevel::Error, "Failed to open requested font " + font_name );
@@ -399,4 +378,10 @@ std::string cGraphics::GetFontPath( const std::string& font_name ) {
         return std::string( fonts_directory ) + '\\' + font_path;
     else
         return "";
+}
+
+void cGraphics::SetVerticalSync( bool vertical_sync ) {
+    m_Parameters.PresentationInterval = vertical_sync ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+
+    ResetDevice( gWindow->GetHandle( ) );
 }

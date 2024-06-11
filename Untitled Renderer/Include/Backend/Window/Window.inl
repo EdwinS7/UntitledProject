@@ -46,8 +46,9 @@ inline void cWin32::SetFullscreen( bool fullscreen ) {
     }
 }
 
-inline bool cWin32::GetFullscreen() const {
-    return m_Fullscreen;
+inline bool cWin32::GetFullscreen( ) const {
+    LONG_PTR Style = GetWindowLongPtr( m_Hwnd, GWL_STYLE );
+    return !( Style & WS_CAPTION ) && !( Style & WS_THICKFRAME );
 }
 
 inline void cWin32::SetPos( Vec2<int16_t>& pos ) {
