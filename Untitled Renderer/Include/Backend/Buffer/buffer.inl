@@ -19,52 +19,22 @@ inline void cBuffer::BuildDrawCommands( std::vector<DrawCommand>* draw_commands 
 	}
 }
 
-inline void cBuffer::WriteToBuffer( int8_t primitive, const std::vector< Vertex >* vertices, const std::vector<int32_t>* indices ) {
-	int VerticesCount = vertices->size( ),
-		IndicesCount = indices == nullptr ? ( VerticesCount * 3 ) - 1 : indices->size( );
-
-	std::vector < int32_t > DynamicIndices( IndicesCount );
-
-	if ( indices == nullptr )
-		for ( size_t i = 0; i < VerticesCount; ++i )
-			DynamicIndices[ i ] = i;
-
-	m_VerticesCount += VerticesCount;
-	m_IndicesCount += IndicesCount;
-
-	m_DrawCommands.push_back( DrawCommand(
-		primitive, *vertices, indices == nullptr ? DynamicIndices : *indices,
-		m_CommandResources, VerticesCount, indices != nullptr ? indices->size( ) : IndicesCount )
-	);
-}
-
 inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments ) {
-	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
+	double Angle = ( static_cast< double >( rotation ) * 3.14159265358979323846f ) / 180.0;
 	double Conversion = completion * 0.01;
 
 	int16_t SegmentCount = segments > radius ? radius : max( segments, 8 );
 	Points->reserve( SegmentCount + 1 );
 
 	auto GetPoint = [ & ] ( int16_t i ) {
-		double Theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( SegmentCount );
+		double Theta = Angle + 2.0 * Conversion * 3.14159265358979323846f * static_cast< double >( i ) / static_cast< double >( SegmentCount );
 		return Vec2<double>( static_cast< double >( position->x ) + radius * cos( Theta ), static_cast< double >( position->y ) + radius * sin( Theta ) );
 	};
 
-	for ( size_t i = 0; i <= SegmentCount; i++ ) {
+	for ( int i = 0; i <= SegmentCount; i++ ) {
 		Vec2<double> point = GetPoint( i );
 
-		Points->push_back( Vec2<int16_t>( std::round( point.x ), std::round( point.y ) ) );
-	}
-}
-
-inline void cBuffer::GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3 ) {
-	for ( size_t i = 0; i < m_BezierQuadraticSegments; i++ ) {
-		int CompletionFactor = static_cast< double >( i ) / static_cast< double >( m_BezierQuadraticSegments );
-
-		points->push_back( {
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( point1.x, point3.x, CompletionFactor ), std::lerp( point3.x, point2.x, CompletionFactor ), CompletionFactor ) ) ),
-			static_cast< int16_t >( std::round( std::lerp( std::lerp( point1.y, point3.y, CompletionFactor ), std::lerp( point3.y, point2.y, CompletionFactor ), CompletionFactor ) ) )
-		} );
+		Points->push_back( Vec2<int16_t>( static_cast< int16_t >( std::round( point.x ) ), static_cast< int16_t >( std::round( point.y ) ) ) );
 	}
 }
 

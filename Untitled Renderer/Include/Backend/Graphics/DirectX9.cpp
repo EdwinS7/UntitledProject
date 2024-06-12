@@ -36,7 +36,7 @@ void cGraphics::ResetDevice( HWND hwnd ) {
 
     UpdatePresentationParameters( hwnd );
 
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, gWindow->GetHandle( ),
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd,
         D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
         throw std::runtime_error( "[cGraphics::ResetDevice] CreateDevice Failed" );
     }
@@ -50,15 +50,25 @@ void cGraphics::UpdatePresentationParameters( HWND hwnd ) {
     D3DDISPLAYMODE DisplayMode;
     m_Direct3D->GetAdapterDisplayMode( D3DADAPTER_DEFAULT, &DisplayMode );
 
-    if ( gWindow->GetFullscreen( ) ) {
+    LONG_PTR Style = GetWindowLongPtr( hwnd, GWL_STYLE );
+    bool Fullscreen = !( Style & WS_CAPTION ) && !( Style & WS_THICKFRAME );
+
+    if ( Fullscreen ) {
         m_Parameters.Windowed = FALSE;
         m_Parameters.BackBufferWidth = DisplayMode.Width;
         m_Parameters.BackBufferHeight = DisplayMode.Height;
     }
     else {
+        RECT rect{};
+
+        if ( Fullscreen )
+            GetWindowRect( hwnd, &rect );
+        else
+            GetClientRect( hwnd, &rect );
+
         m_Parameters.Windowed = TRUE;
-        m_Parameters.BackBufferWidth = gWindow->GetSize( ).x;
-        m_Parameters.BackBufferHeight = gWindow->GetSize( ).y;
+        m_Parameters.BackBufferWidth = rect.right - rect.left;
+        m_Parameters.BackBufferHeight = rect.bottom - rect.top;
     }
 
     m_Parameters.hDeviceWindow = hwnd;
@@ -222,7 +232,7 @@ void cGraphics::CreateFontFromName( Font* font, const std::string& font_name, in
     FT_Library Library;
     FT_Face Face;
 
-    font->Path = GetFontPath( font_name );
+    font->Path = gFileSystem->GetFontPath( font_name );
 
     if ( font->Path.empty( ) )
         return;
@@ -265,11 +275,11 @@ void cGraphics::CreateFontFromName( Font* font, const std::string& font_name, in
         if ( source && destination ) {
             switch ( Face->glyph->bitmap.pixel_mode ) {
             case FT_PIXEL_MODE_MONO:
-                for ( size_t y = 0; y < height; ++y, source += Face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
+                for ( int y = 0; y < height; ++y, source += Face->glyph->bitmap.pitch, destination += lockedRect.Pitch ) {
                     uint8_t bits = 0;
                     const uint8_t* bitsPtr = source;
 
-                    for ( size_t x = 0; x < width; ++x, bits <<= 1 ) {
+                    for ( int x = 0; x < width; ++x, bits <<= 1 ) {
                         if ( ( x & 7 ) == 0 )
                             bits = *bitsPtr++;
 
@@ -279,8 +289,8 @@ void cGraphics::CreateFontFromName( Font* font, const std::string& font_name, in
                 break;
 
             case FT_PIXEL_MODE_GRAY:
-                for ( size_t y = 0; y < height; ++y ) {
-                    for ( size_t x = 0; x < width; ++x ) {
+                for ( int y = 0; y < height; ++y ) {
+                    for ( int x = 0; x < width; ++x ) {
                         destination[ x ] = source[ x ];
                     }
                     source += Face->glyph->bitmap.pitch;
@@ -337,47 +347,6 @@ void cGraphics::CreateImageFromFile( Image* image, const std::string& file_name 
         static_cast< int16_t >( desc.Width ),
         static_cast< int16_t >( desc.Height )
     };
-}
-
-std::string cGraphics::GetFontPath( const std::string& font_name ) {
-    RegistryFontList.clear( );
-
-    HKEY key;
-    if ( RegOpenKeyExA( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &key ) != ERROR_SUCCESS ) {
-        gLogger->Log( LogLevel::Error, "Failed to open registry" );
-        return "";
-    }
-
-    std::string font_path;
-    char buffer[ MAX_PATH ];
-    for ( DWORD i = 0;; i++ ) {
-        DWORD buffer_size = MAX_PATH;
-        memset( buffer, 0, MAX_PATH );
-
-        if ( RegEnumValueA( key, i, buffer, &buffer_size, nullptr, nullptr, nullptr, nullptr ) != ERROR_SUCCESS ) {
-            gLogger->Log( LogLevel::Error, std::string( "Cant find requested font " + font_name ) );
-            break;
-        }
-
-        RegistryFontList.emplace_back( buffer );
-
-        if ( std::string( buffer ).find( font_name ) != std::string::npos ) {
-            buffer_size = MAX_PATH;
-            RegQueryValueExA( key, buffer, nullptr, nullptr, reinterpret_cast< LPBYTE >( buffer ), &buffer_size );
-            font_path = buffer;
-            break;
-        }
-    }
-
-    RegCloseKey( key );
-
-    char fonts_directory[ MAX_PATH ];
-    SHGetFolderPathA( nullptr, CSIDL_FONTS, nullptr, 0, fonts_directory );
-
-    if ( !font_path.empty( ) )
-        return std::string( fonts_directory ) + '\\' + font_path;
-    else
-        return "";
 }
 
 void cGraphics::SetVerticalSync( bool vertical_sync ) {

@@ -1,6 +1,0 @@
-Client.Log(LogLevel.Normal, "Hello World!")
-Client.Log(LogLevel.Information, "Hello World!")
-Client.Log(LogLevel.Warning, "Hello World!")
-Client.Log(LogLevel.Error, "Hello World!")
-Client.Log(LogLevel.Success, "Hello World!")
-Client.Log(LogLevel.Unknown, "Hello World!")

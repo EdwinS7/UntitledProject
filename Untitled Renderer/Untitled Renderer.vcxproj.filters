@@ -368,7 +368,7 @@
     <ClInclude Include="Thirdparty\FreeType\freetype\tttags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Common.hpp">
+    <ClInclude Include="Include\Common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Backend\Context\Context.hpp">
@@ -504,6 +504,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Backend\Graphics\Components.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Untitled.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

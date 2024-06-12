@@ -2,7 +2,7 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
 
 enum class LogLevel {
 	Normal = 0,

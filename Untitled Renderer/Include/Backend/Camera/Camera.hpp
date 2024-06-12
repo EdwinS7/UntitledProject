@@ -2,7 +2,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
 
 class cCamera {
 public:

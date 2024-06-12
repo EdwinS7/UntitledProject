@@ -10,11 +10,9 @@ inline bool cWin32::IsFocused() {
 
 inline void cWin32::SetFullscreen( bool fullscreen ) {
     static Rect<int16_t> PreviousRect;
-    static bool PreviousRectSet = false;
 
     if ( !gWindow->GetFullscreen( ) && fullscreen ) {
         PreviousRect = gWindow->GetRect( );
-        PreviousRectSet = true;
     }
 
     if ( fullscreen ) {
@@ -31,8 +29,6 @@ inline void cWin32::SetFullscreen( bool fullscreen ) {
         SetWindowPos( m_Hwnd, HWND_TOP, MonitorInfo.rcMonitor.left, MonitorInfo.rcMonitor.top,
             MonitorInfo.rcMonitor.right - MonitorInfo.rcMonitor.left,
             MonitorInfo.rcMonitor.bottom - MonitorInfo.rcMonitor.top, SWP_FRAMECHANGED );
-
-        m_Fullscreen = true;
     }
     else {
         SetWindowLongPtr( m_Hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW );
@@ -40,9 +36,6 @@ inline void cWin32::SetFullscreen( bool fullscreen ) {
 
         ShowWindow( m_Hwnd, SW_SHOWDEFAULT );
         UpdateWindow( m_Hwnd );
-
-        PreviousRectSet = false;
-        m_Fullscreen = false;
     }
 }
 

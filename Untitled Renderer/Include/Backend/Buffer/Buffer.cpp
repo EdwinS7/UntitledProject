@@ -1,7 +1,7 @@
 #include "Buffer.hpp"
 
 void cBuffer::Init( ) {
-	gGraphics->CreateFontFromName( &DefaultFont, "Verdana", 12, 400, Vec2<int16_t>( 0, 0 ), false );
+	gGraphics->CreateFontFromName( &DefaultFont, "Verdana", 10, 400, Vec2<int16_t>( 0, 0 ), false );
 
 	PushClip( gWindow->GetClipRect( ) );
 	PushTexture( nullptr );
@@ -131,12 +131,12 @@ void cBuffer::FilledRectangle( Vec2< int16_t > position, Vec2< int16_t > size, C
 
 void cBuffer::TexturedRectangle( IDirect3DTexture9* texture, Vec2<int16_t> position, Vec2<int16_t> size, Color color_modulation ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x, position.y + size.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex )
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_modulation.Hex )
 	};
 
 	PushTexture( texture );
@@ -146,12 +146,12 @@ void cBuffer::TexturedRectangle( IDirect3DTexture9* texture, Vec2<int16_t> posit
 
 void cBuffer::Picture( Image* image, Vec2<int16_t> position, Color color_modulation ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x + image->Size.x, position.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x + image->Size.x, position.y + image->Size.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x + image->Size.x, position.y + image->Size.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x, position.y + image->Size.y, 0.f, 1.f, color_modulation.Hex ),
-		Vertex( position.x, position.y, 0.f, 1.f, color_modulation.Hex )
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x + image->Size.x ), static_cast< float >( position.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x + image->Size.x ), static_cast< float >( position.y + image->Size.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x + image->Size.x ), static_cast< float >( position.y + image->Size.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y + image->Size.y ), 0.f, 1.f, color_modulation.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_modulation.Hex )
 	};
 
 	PushTexture( image->Texture );
@@ -160,38 +160,30 @@ void cBuffer::Picture( Image* image, Vec2<int16_t> position, Color color_modulat
 }
 
 void cBuffer::Cube( Vec3<float> position, float size, Color color ) {
-	float halfSize = size / 2.0f;
+	float HalfSize = size / 2.0f;
 
 	std::vector<Vertex> Vertices = {
-		// Front top line
-		Vertex( position.x - halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
-		// Front bottom line
-		Vertex( position.x - halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
-		// Back top line
-		Vertex( position.x - halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
-		// Back bottom line
-		Vertex( position.x - halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
-		// Side lines
-		Vertex( position.x - halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x - halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y + halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y - halfSize, position.z + halfSize, 1.f, color.Hex ),
-		Vertex( position.x - halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
-		Vertex( position.x - halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y + halfSize, position.z - halfSize, 1.f, color.Hex ),
-		Vertex( position.x + halfSize, position.y - halfSize, position.z - halfSize, 1.f, color.Hex )
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
+		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex )
 	};
 
 	std::vector<int32_t> Indices = {
-		// Front lines
 		0, 1, 1, 3, 3, 2, 2, 0,
-		// Back lines
 		4, 5, 5, 7, 7, 6, 6, 4,
-		// Side lines
 		8, 9, 9, 10, 10, 11, 11, 8,
 		12, 13, 13, 14, 14, 15, 15, 12
 	};
@@ -199,27 +191,27 @@ void cBuffer::Cube( Vec3<float> position, float size, Color color ) {
 	gGraphics->GetDevice( )->DrawPrimitiveUP( LINE, Vertices.size( ), Vertices.data( ), sizeof( Vertex ) );
 }
 
-void cBuffer::Gradient( Vec2< int16_t > position, Vec2< int16_t > size, Color color1, Color color2, bool vertical ) {
+void cBuffer::Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color1, Color color2, bool vertical ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex ),
-		Vertex( position.x + size.x, position.y, 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
-		Vertex( position.x, position.y + size.y, 0.f, 1.f, vertical ? color2.Hex : color1.Hex ),
-		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex )
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color1.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y ), 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color2.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color2.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, vertical ? color2.Hex : color1.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color1.Hex )
 	};
 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledGradient( Vec2< int16_t > position, Vec2< int16_t > size, Color color1, Color color2, bool vertical ) {
+void cBuffer::FilledGradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color1, Color color2, bool vertical ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex ),
-		Vertex( position.x + size.x, position.y, 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color2.Hex ),
-		Vertex( position.x, position.y + size.y, 0.f, 1.f, vertical ? color2.Hex : color1.Hex ),
-		Vertex( position.x, position.y, 0.f, 1.f, color1.Hex )
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color1.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y ), 0.f, 1.f, vertical ? color1.Hex : color2.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color2.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color2.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, vertical ? color2.Hex : color1.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color1.Hex )
 	};
 
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
@@ -227,12 +219,12 @@ void cBuffer::FilledGradient( Vec2< int16_t > position, Vec2< int16_t > size, Co
 
 void cBuffer::Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex ),
-		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_top_right.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
-		Vertex( position.x, position.y + size.y, 0.f, 1.f, color_bottom_left.Hex ),
-		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex )
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_top_left.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y ), 0.f, 1.f, color_top_right.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_bottom_left.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_top_left.Hex )
 	};
 
 	WriteToBuffer( LINE, &Vertices, nullptr );
@@ -240,38 +232,38 @@ void cBuffer::Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_
 
 void cBuffer::FilledGradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex ),
-		Vertex( position.x + size.x, position.y, 0.f, 1.f, color_top_right.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
-		Vertex( position.x + size.x, position.y + size.y, 0.f, 1.f, color_bottom_right.Hex ),
-		Vertex( position.x, position.y + size.y, 0.f, 1.f, color_bottom_left.Hex ),
-		Vertex( position.x, position.y, 0.f, 1.f, color_top_left.Hex )
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_top_left.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y ), 0.f, 1.f, color_top_right.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( static_cast< float >( position.x + size.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_bottom_right.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y + size.y ), 0.f, 1.f, color_bottom_left.Hex ),
+		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color_top_left.Hex )
 	};
 
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Triangle( Vec2< int16_t > point1, Vec2< int16_t > point2, Vec2< int16_t > point3, Color color ) {
+void cBuffer::Triangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( point1.x, point1.y, 0.f, 1.f, color.Hex ),
-		Vertex( point2.x, point2.y, 0.f, 1.f, color.Hex ),
-		Vertex( point3.x, point3.y, 0.f, 1.f, color.Hex )
+		Vertex( static_cast< float >( point1.x ), static_cast< float >( point1.y ), 0.f, 1.f, color.Hex ),
+		Vertex( static_cast< float >( point2.x ), static_cast< float >( point2.y ), 0.f, 1.f, color.Hex ),
+		Vertex( static_cast< float >( point3.x ), static_cast< float >( point3.y ), 0.f, 1.f, color.Hex )
 	};
 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledTriangle( Vec2< int16_t > point1, Vec2< int16_t > point2, Vec2< int16_t > point3, Color color ) {
+void cBuffer::FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color ) {
 	std::vector<Vertex> Vertices = {
-		Vertex( point1.x, point1.y, 0.f, 1.f, color.Hex ),
-		Vertex( point2.x, point2.y, 0.f, 1.f, color.Hex ),
-		Vertex( point3.x, point3.y, 0.f, 1.f, color.Hex )
+		Vertex( static_cast< float >( point1.x ), static_cast< float >( point1.y ), 0.f, 1.f, color.Hex ),
+		Vertex( static_cast< float >( point2.x ), static_cast< float >( point2.y ), 0.f, 1.f, color.Hex ),
+		Vertex( static_cast< float >( point3.x ), static_cast< float >( point3.y ), 0.f, 1.f, color.Hex )
 	};
 
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Circle( Vec2< int16_t > pos, int16_t radius, Color color ) {
+void cBuffer::Circle( Vec2<int16_t> pos, int16_t radius, Color color ) {
 	std::vector<Vec2<int16_t>> points;
 	points.reserve( m_CircleSegments + 1 );
 
@@ -279,7 +271,7 @@ void cBuffer::Circle( Vec2< int16_t > pos, int16_t radius, Color color ) {
 	Polyline( points, color );
 }
 
-void cBuffer::FilledCircle( Vec2< int16_t > pos, int16_t radius, Color color ) {
+void cBuffer::FilledCircle( Vec2<int16_t> pos, int16_t radius, Color color ) {
 	std::vector<Vec2<int16_t>> points;
 	points.reserve( m_CircleSegments + 1 );
 
@@ -288,43 +280,44 @@ void cBuffer::FilledCircle( Vec2< int16_t > pos, int16_t radius, Color color ) {
 }
 
 void cBuffer::Text( Font* font, const std::string& str, Vec2<int16_t> pos, Color color ) {
-	if ( !font->Valid || str.empty( ) || ( ( ( color.Hex >> 24 ) & 0xFF ) ) < 1 )
+	if ( !font->Valid || str.empty( ) )
 		return;
 
 	Vec2<int16_t> Advance = { 0, 0 }, TextSize = GetTextSize( font, str );
+	Vec2<float> GlyphPos = { 0.f, 0.f };
 	int RowHeight = 0;
 
-	for ( auto& Char : str ) {
+	for ( const auto& Char : str ) {
 		if ( !std::isprint( Char ) && Char != '\n' || Char == ' ' ) {
 			Advance.x += font->CharSet[ Char ].Advance / 64;
 			continue;
 		}
 
-		auto* glyph = &font->CharSet[ Char ];
-		RowHeight = max( RowHeight, static_cast< int >( glyph->Size.y ) );
+		auto* Glyph = &font->CharSet[ Char ];
+		RowHeight = max( RowHeight, static_cast< int >( Glyph->Size.y ) );
 
 		if ( Char == '\n' ) {
 			Advance = Vec2<int16_t>( 0, Advance.y + RowHeight + font->Padding.y );
 			continue;
 		}
 
-		Vec2<float> Pos = {
-			std::round( static_cast< float >( pos.x ) + Advance.x + glyph->Bearing.x ) + 0.5f,
-			std::round( static_cast< float >( pos.y ) + ( TextSize.y * 0.75f ) + Advance.y - glyph->Bearing.y ) + 0.5f
+		GlyphPos = {
+			std::round( static_cast< float >( pos.x ) + Advance.x + Glyph->Bearing.x ) + 0.5f,
+			std::round( static_cast< float >( pos.y ) + ( TextSize.y * 0.75f ) + Advance.y - Glyph->Bearing.y ) + 0.5f
 		};
 
 		std::vector<Vertex> Vertices = {
-			{Pos.x, Pos.y, 0.f, 1.f, color.Hex, 0.f, 0.f},
-			{Pos.x + glyph->Size.x, Pos.y, 0.f, 1.f, color.Hex, 1.f, 0.f},
-			{Pos.x + glyph->Size.x, Pos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 1.f, 1.f},
-			{Pos.x, Pos.y + glyph->Size.y, 0.f, 1.f, color.Hex, 0.f, 1.f}
+			{GlyphPos.x, GlyphPos.y, 0.f, 1.f, color.Hex, 0.f, 0.f},
+			{GlyphPos.x + Glyph->Size.x, GlyphPos.y, 0.f, 1.f, color.Hex, 1.f, 0.f},
+			{GlyphPos.x + Glyph->Size.x, GlyphPos.y + Glyph->Size.y, 0.f, 1.f, color.Hex, 1.f, 1.f},
+			{GlyphPos.x, GlyphPos.y + Glyph->Size.y, 0.f, 1.f, color.Hex, 0.f, 1.f}
 		};
 
-		PushTexture( glyph->Texture );
+		PushTexture( Glyph->Texture );
 		WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 		PopTexture( );
 
-		Advance.x += glyph->Advance / 64 + font->Padding.x;
+		Advance.x += Glyph->Advance / 64 + font->Padding.x;
 	}
 }
 
@@ -338,4 +331,21 @@ Vec2<int16_t> cBuffer::GetTextSize( Font* font, const std::string& text ) {
 		Size.x += font->CharSet.at( c ).Advance / 64;
 
 	return Size;
+}
+
+void cBuffer::WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices ) {
+	int VerticesCount = vertices->size( ),
+		IndicesCount = indices == nullptr ? ( VerticesCount * 3 ) - 1 : indices->size( );
+
+	std::vector<int32_t> DynamicIndices( IndicesCount );
+
+	if ( indices == nullptr )
+		for ( int i = 0; i < VerticesCount; ++i )
+			DynamicIndices[ i ] = i;
+
+	m_VerticesCount += VerticesCount;
+	m_IndicesCount += IndicesCount;
+
+	m_DrawCommands.emplace_back( primitive, *vertices, indices == nullptr ? std::move( DynamicIndices ) : *indices,
+		m_CommandResources, VerticesCount, indices != nullptr ? indices->size( ) : IndicesCount );
 }

@@ -2,8 +2,10 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
 #include "Components.hpp"
+#include "../Graphics/DirectX9.hpp"
+#include "../LuaWrapper/LuaWrapper.hpp"
 
 class cBuffer {
 public:
@@ -60,9 +62,6 @@ private:
     int m_VerticesCount{ 0 }, m_IndicesCount{ 0 };
 
     int m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
-    int m_BezierCubicSegments{ 128 }, m_BezierQuadraticSegments{ 128 };
-
-    float m_RotationAmount{ 0.f };
 
 	std::vector < DrawCommand > m_DrawCommands;
     CommandResources m_CommandResources;
@@ -70,10 +69,9 @@ private:
 
     Font DefaultFont;
 
-    inline void WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices );
+    void WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices );
     inline void GenerateArcPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments );
-    inline void GenerateQuadraticBezierPoints( std::vector<Vec2<int16_t>>* points, Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3 );
-    
+
     inline void MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color );
 };
 

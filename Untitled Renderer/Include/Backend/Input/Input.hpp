@@ -2,8 +2,9 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
 #include "KeyDefinitions.hpp"
+#include "../Window/Window.hpp"
 
 enum class MousePointer {
     Arrow = 32512, IBeam = 32513, Wait = 32514,

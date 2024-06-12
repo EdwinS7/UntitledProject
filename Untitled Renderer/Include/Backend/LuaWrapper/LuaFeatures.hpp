@@ -2,6 +2,16 @@
 
 #include "LuaWrapper.hpp"
 
+sol::table VectorToTable( sol::state_view lua, const std::vector<std::string>& vec ) {
+    sol::table luaTable = lua.create_table( );
+
+    for ( size_t i = 0; i < vec.size( ); ++i ) {
+        luaTable[ i + 1 ] = vec[ i ];
+    }
+
+    return luaTable;
+}
+
 namespace Client {
     void Log( LogLevel log_level, const std::string& message, sol::variadic_args args ) {
         std::ostringstream oss;
@@ -17,8 +27,8 @@ namespace Client {
         gLogger->ClearLogs( log_level );
     }
 
-    std::vector<std::string> GetLogs( LogLevel log_level ) {
-        return gLogger->GetLogs( log_level );
+    sol::table GetLogs( sol::this_state s, LogLevel log_level ) {
+        return VectorToTable( sol::state_view( s ), gLogger->GetLogs( log_level ) );
     }
 
     std::string GetUsername( ) {
@@ -37,8 +47,8 @@ namespace Client {
         return gContext->GetDeltaTime( );
     }
 
-    std::vector<std::string> GetFontList( ) {
-        return gGraphics->RegistryFontList;
+    sol::table GetUsableFonts( sol::this_state s ) {
+        return VectorToTable( sol::state_view( s ), gFileSystem->GetUsableFonts( ) );
     }
 };
 

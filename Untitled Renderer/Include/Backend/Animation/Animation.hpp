@@ -2,7 +2,7 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
 
 class cAnimations {
 public:

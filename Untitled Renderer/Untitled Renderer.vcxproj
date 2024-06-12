@@ -75,14 +75,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/LuaJIT/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x86/;$(ProjectDir)Thirdparty/Curl/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/LuaJIT/;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Include/;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/LuaJIT/;$(ProjectDir)Thirdparty/FreeType/;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Thirdparty/Curl/;$(ProjectDir)Thirdparty/LuaJIT/;$(ProjectDir)Thirdparty/FreeType/;$(DXSDK_DIR)lib/x86/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
     <IntDir>$(SolutionDir)Compiled\$(ProjectName)\Others\</IntDir>
-    <IncludePath>$(DXSDK_DIR)Include;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/LuaJIT/;$(IncludePath)</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib/x86/;$(ProjectDir)Thirdparty/Curl/;$(ProjectDir)Thirdparty/FreeType/;$(ProjectDir)Thirdparty/LuaJIT/;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Include/;$(ProjectDir)Thirdparty/;$(ProjectDir)Thirdparty/LuaJIT/;$(ProjectDir)Thirdparty/FreeType/;$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Thirdparty/Curl/;$(ProjectDir)Thirdparty/LuaJIT/;$(ProjectDir)Thirdparty/FreeType/;$(DXSDK_DIR)lib/x86/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Compiled\$(ProjectName)\Output\</OutDir>
@@ -104,9 +104,11 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile />
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,9 +129,11 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile />
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -201,7 +205,7 @@
     <ClCompile Include="Include\Backend\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.hpp" />
+    <ClInclude Include="Include\Common.hpp" />
     <ClInclude Include="Include\Backend\Animation\Animation.hpp" />
     <ClInclude Include="Include\Backend\Audio\Audio.hpp" />
     <ClInclude Include="Include\Backend\Camera\Camera.hpp" />
@@ -218,6 +222,7 @@
     <ClInclude Include="Include\Scenes\Interface\Interface.hpp" />
     <ClInclude Include="Include\Backend\Input\Input.hpp" />
     <ClInclude Include="Include\Scenes\World\World.hpp" />
+    <ClInclude Include="Include\Untitled.hpp" />
     <ClInclude Include="Thirdparty\Base64.hpp" />
     <ClInclude Include="Thirdparty\Curl\curl.h" />
     <ClInclude Include="Thirdparty\Curl\curlver.h" />

@@ -13,6 +13,26 @@ void cFileSystem::Init( ) {
     if ( !DoesFileExist( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME ) ) {
         WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME, WRAPPER_DEFAULT_SCRIPT );
     }
+
+    HKEY key;
+    if ( RegOpenKeyExA( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &key ) != ERROR_SUCCESS ) {
+        gLogger->Log( LogLevel::Error, "Failed to open registry" );
+        return;
+    }
+
+    char buffer[ MAX_PATH ];
+    for ( DWORD i = 0;; i++ ) {
+        DWORD buffer_size = MAX_PATH;
+        memset( buffer, 0, MAX_PATH );
+
+        if ( RegEnumValueA( key, i, buffer, &buffer_size, nullptr, nullptr, nullptr, nullptr ) != ERROR_SUCCESS ) {
+            break;
+        }
+
+        m_UsableFonts.emplace_back( buffer );
+    }
+
+    RegCloseKey( key );
 }
 
 void cFileSystem::CreateFolder( const std::string& folder_path ) {
@@ -70,6 +90,47 @@ void cFileSystem::DeleteFile( const std::string& folder_path, const std::string&
 void cFileSystem::DeleteFolder( const std::string& folder_path ) {
     if ( std::filesystem::remove_all( folder_path ) < 0 )
         gLogger->Log( LogLevel::Error, "Failed to delete folder:" + folder_path );
+}
+
+std::vector<std::string> cFileSystem::GetUsableFonts( ) const {
+    return m_UsableFonts;
+}
+
+std::string cFileSystem::GetFontPath( const std::string& font_name ) {
+    HKEY key;
+    if ( RegOpenKeyExA( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts", 0, KEY_READ, &key ) != ERROR_SUCCESS ) {
+        gLogger->Log( LogLevel::Error, "Failed to open registry" );
+        return "";
+    }
+
+    std::string font_path;
+    char buffer[ MAX_PATH ];
+    for ( DWORD i = 0;; i++ ) {
+        DWORD buffer_size = MAX_PATH;
+        memset( buffer, 0, MAX_PATH );
+
+        if ( RegEnumValueA( key, i, buffer, &buffer_size, nullptr, nullptr, nullptr, nullptr ) != ERROR_SUCCESS ) {
+            gLogger->Log( LogLevel::Error, std::string( "Cant find requested font " + font_name ) );
+            break;
+        }
+
+        if ( std::string( buffer ).find( font_name ) != std::string::npos ) {
+            buffer_size = MAX_PATH;
+            RegQueryValueExA( key, buffer, nullptr, nullptr, reinterpret_cast< LPBYTE >( buffer ), &buffer_size );
+            font_path = buffer;
+            break;
+        }
+    }
+
+    RegCloseKey( key );
+
+    char fonts_directory[ MAX_PATH ];
+    SHGetFolderPathA( nullptr, CSIDL_FONTS, nullptr, 0, fonts_directory );
+
+    if ( !font_path.empty( ) )
+        return std::string( fonts_directory ) + '\\' + font_path;
+    else
+        return "";
 }
 
 std::vector<std::string> cFileSystem::GetFilesInFolder( const std::string& folder_path ) {

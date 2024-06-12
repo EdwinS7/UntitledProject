@@ -1,13 +1,13 @@
-#include "Common.hpp"
+#include "Include/Untitled.hpp"
 
-int WINAPI WinMain( HINSTANCE instance, HINSTANCE prev_instance, PSTR cmd, int show_cmd ) {
+int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow ) {
     gFileSystem->Init( );
-    gLuaWrapper->Init( );
 
     gWindow->Init( "Untitled Renderer", Vec2<int16_t>( 1280, 720 ), false );
     gGraphics->Init( gWindow->GetHandle( ) );
     gBuffer->Init( );
     
+    gLuaWrapper->Init( );
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );

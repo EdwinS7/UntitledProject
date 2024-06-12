@@ -1,4 +1,5 @@
 #pragma once
+#include "../Graphics/Components.hpp"
 
 enum CornerFlags {
 	CornerNone = 0 << 0,

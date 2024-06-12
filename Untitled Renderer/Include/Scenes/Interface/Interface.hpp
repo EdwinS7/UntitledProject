@@ -2,7 +2,8 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
+#include "../../Backend/LuaWrapper/LuaWrapper.hpp"
 
 class cInterface {
 public:
@@ -11,7 +12,6 @@ public:
 
 private:
 	bool m_DebugConsole{ true };
-
 };
 
 inline const auto gInterface = std::make_unique<cInterface>( );

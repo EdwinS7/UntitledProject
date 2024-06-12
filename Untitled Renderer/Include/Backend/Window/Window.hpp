@@ -2,7 +2,10 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
+#include "../Logger/Logger.hpp"
+#include "../Graphics/DirectX9.hpp"
+#include "../Input/Input.hpp"
 
 class cWin32 {
 public:
@@ -31,8 +34,6 @@ public:
 private:
 	HWND m_Hwnd;
 	WNDCLASSEX m_WindowClass;
-
-	bool m_Fullscreen{ true };
 };
 
 inline const auto gWindow = std::make_unique<cWin32>( );

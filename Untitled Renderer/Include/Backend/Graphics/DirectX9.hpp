@@ -1,6 +1,13 @@
 #pragma once
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
+#include "Components.hpp"
+#include "../Logger/Logger.hpp"
+#include "../FileSystem/FileSystem.hpp"
+#include "../Window/Window.hpp"
+#include "../Buffer/Buffer.hpp"
 
 class cGraphics {
 public:
@@ -20,8 +27,6 @@ public:
 	void CreateTextureFromFile( IDirect3DTexture9* texture, const std::string& file_name );
 	void CreateImageFromFile( Image* image, const std::string& file_name );
 
-	std::string GetFontPath( const std::string& font_name );
-
 	void SetVerticalSync( bool vertical_sync );
 	inline bool GetVerticalSync( ) const;
 
@@ -33,8 +38,6 @@ public:
 
 	inline void ReleaseTextures( );
 	inline void ReleaseFonts( );
-
-	std::vector<std::string> RegistryFontList;
 
 private:
 	IDirect3D9* m_Direct3D{};
@@ -53,9 +56,10 @@ private:
 	template <typename T>
 	inline void SafeRelease( T*& obj );
 
-	Color m_ClearColor;
+	Color m_ClearColor{ 160, 215, 232 };
 };
 
 inline const auto gGraphics = std::make_unique<cGraphics>( );
 
 #include "DirectX9.inl"
+#endif

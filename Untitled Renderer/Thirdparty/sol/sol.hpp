@@ -4893,8 +4893,6 @@ namespace sol {
 			template <class T, class U, class = decltype( swap( std::declval<T&>( ), std::declval<U&>( ) ) )>
 			std::true_type can_swap( int ) noexcept( noexcept( swap( std::declval<T&>( ), std::declval<U&>( ) ) ) );
 
-			template <class, class>
-			std::false_type uses_std( ... );
 			template <class T, class U>
 			std::is_same<decltype( swap( std::declval<T&>( ), std::declval<U&>( ) ) ), tag> uses_std( int );
 

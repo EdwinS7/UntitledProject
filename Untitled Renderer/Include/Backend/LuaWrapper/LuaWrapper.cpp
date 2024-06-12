@@ -156,8 +156,8 @@ void cLuaWrapper::Init( ) {
 
     Lua.new_usertype<Color>( 
         "Color", sol::constructors<Color( ), Color( uint8_t, uint8_t, uint8_t, uint8_t )>( ),
-        "Hex", &Color::Hex, "r", sol::property( &Color::getR ), "g", sol::property( &Color::getG ),
-        "b", sol::property( &Color::getB ), "a", sol::property( &Color::getA )
+        "Hex", &Color::Hex, "r", sol::property( &Color::GetR ), "g", sol::property( &Color::GetG ),
+        "b", sol::property( &Color::GetB ), "a", sol::property( &Color::GetA )
     );
 
     Lua[ "AddCallback" ] = Globals::AddCallback;
@@ -172,7 +172,7 @@ void cLuaWrapper::Init( ) {
     Client[ "GetFramerate" ] = Client::GetFPS;
     Client[ "GetRealtime" ] = Client::GetRealTime;
     Client[ "GetDeltaTime" ] = Client::GetDeltaTime;
-    Client[ "GetFontList" ] = Client::GetFontList;
+    Client[ "GetUsableFonts" ] = Client::GetUsableFonts;
 
     auto Audio = Lua.create_table( );
 

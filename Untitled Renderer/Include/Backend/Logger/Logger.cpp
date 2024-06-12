@@ -25,9 +25,10 @@ void cLogger::Log( LogLevel log_level, const std::string& message ) {
     }
 
     fmt_message.append( message );
-    std::cout << fmt_message << "\n";
 
     m_Logs[ log_level ].emplace_back( fmt_message );
+
+    std::cout << fmt_message << "\n";
 }
 
 std::vector<std::string> cLogger::GetLogs( LogLevel log_level ) const {

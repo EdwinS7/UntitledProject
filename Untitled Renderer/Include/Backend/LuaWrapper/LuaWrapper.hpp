@@ -2,25 +2,16 @@
 #ifndef WRAPPER_H
 #define WRAPPER_H
 
-#include "../../../Common.hpp"
-
-#define WRAPPER_DEFAULT_SCRIPT R"(function OnInputUpdate()
-    if Input.IsKeyPressed(Keys.F11) then
-        Window.SetFullscreen(not Window.GetFullscreen())
-    end
-end
-
-function OnPaint()
-    local TextSize = Renderer.GetTextSize(Renderer.GetDefaultFont(), tostring(Client.GetFramerate()))
-
-    Renderer.FilledRectangle(Vector2.new(5, 5), TextSize, Color.new(0, 0, 0, 255), 0, CornerFlags.None)
-    Renderer.Text(Renderer.GetDefaultFont(), tostring(Client.GetFramerate()), Vector2.new(5, 5), Color.new(255, 255, 255, 255))
-end
-
-AddCallback("OnInputUpdate", OnInputUpdate)
-AddCallback("OnInterfacePaint", OnPaint)
-
-LoadScript("Testing.lua"))"
+#include <Common.hpp>
+#include "../Logger/Logger.hpp"
+#include "../Window/Window.hpp"
+#include "../Graphics/DirectX9.hpp"
+#include "../Animation/Animation.hpp"
+#include "../Context/Context.hpp"
+#include "../Camera/Camera.hpp"
+#include "../Buffer/Buffer.hpp"
+#include "../Input/Input.hpp"
+#include "../Audio/Audio.hpp"
 
 class cLuaWrapper {
 public:

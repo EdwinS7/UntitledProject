@@ -17,8 +17,6 @@ void cWin32::Init( const std::string& title, Vec2<int16_t> size, bool fullscreen
         std::cout << Log << "\n";
     }
 
-    m_Fullscreen = fullscreen;
-
     m_WindowClass = {
         sizeof( m_WindowClass ), CS_CLASSDC, WndProc,
         0L, 0L, GetModuleHandle( NULL ),

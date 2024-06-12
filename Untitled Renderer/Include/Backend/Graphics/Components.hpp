@@ -230,19 +230,19 @@ public:
 	constexpr Color( uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255 ) noexcept
 		: Hex( CreateHexFromRGBA( r, g, b, a ) ) {}
 
-	uint8_t getR( ) const noexcept {
+	uint8_t GetR( ) const noexcept {
 		return ( Hex >> 24 ) & 0xFF;
 	}
 
-	uint8_t getG( ) const noexcept {
+	uint8_t GetG( ) const noexcept {
 		return ( Hex >> 16 ) & 0xFF;
 	}
 
-	uint8_t getB( ) const noexcept {
+	uint8_t GetB( ) const noexcept {
 		return ( Hex >> 8 ) & 0xFF;
 	}
 
-	uint8_t getA( ) const noexcept {
+	uint8_t GetA( ) const noexcept {
 		return Hex & 0xFF;
 	}
 };

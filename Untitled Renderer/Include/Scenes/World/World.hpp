@@ -2,7 +2,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "../../../Common.hpp"
+#include <Common.hpp>
+#include "../../Backend/LuaWrapper/LuaWrapper.hpp"
 
 class cWorld {
 public:
