@@ -196,6 +196,7 @@
     <ClCompile Include="Include\Backend\Graphics\DirectX9.cpp" />
     <ClCompile Include="Include\Backend\Logger\Logger.cpp" />
     <ClCompile Include="Include\Backend\LuaWrapper\LuaWrapper.cpp" />
+    <ClCompile Include="Include\Backend\Networking\Networking.cpp" />
     <ClCompile Include="Include\Scenes\Interface\Interface.cpp" />
     <ClCompile Include="Include\Scenes\World\World.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -205,6 +206,7 @@
     <ClCompile Include="Include\Backend\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Backend\Networking\Networking.hpp" />
     <ClInclude Include="Include\Common.hpp" />
     <ClInclude Include="Include\Backend\Animation\Animation.hpp" />
     <ClInclude Include="Include\Backend\Audio\Audio.hpp" />
@@ -366,6 +368,7 @@
     <None Include="Include\Backend\Graphics\DirectX9.inl" />
     <None Include="Include\Backend\Logger\Logger.inl" />
     <None Include="Include\Backend\LuaWrapper\LuaWrapper.inl" />
+    <None Include="Include\Backend\Networking\Networking.inl" />
     <None Include="Include\Scenes\Interface\Interface.inl" />
     <None Include="Include\Backend\Input\Input.inl" />
     <None Include="Include\Backend\Window\Window.inl" />

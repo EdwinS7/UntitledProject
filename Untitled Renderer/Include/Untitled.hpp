@@ -4,6 +4,7 @@
 #include "Backend/Window/Window.hpp"
 #include "Backend/Graphics/DirectX9.hpp"
 #include "Backend/Animation/Animation.hpp"
+#include "Backend/Networking/Networking.hpp"
 #include "Backend/Context/Context.hpp"
 #include "Backend/Camera/Camera.hpp"
 #include "Backend/Buffer/Buffer.hpp"

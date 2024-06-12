@@ -11,7 +11,10 @@ void cFileSystem::Init( ) {
     CreateFolder( FS_TEXTURES_FOLDER );
 
     if ( !DoesFileExist( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME ) ) {
-        WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME, WRAPPER_DEFAULT_SCRIPT );
+        WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME, gNetworking->Get( WRAPPER_DEFAULT_SCRIPT_URL ) );
+
+        // Dependencies, Ran upon project startup.
+        WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, "Keys.lua", gNetworking->Get( WRAPPER_KEYCODES_SCRIPT_URL ) );
     }
 
     HKEY key;

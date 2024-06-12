@@ -6,9 +6,7 @@
 
 class cCamera {
 public:
-    
-private:
-    
+
 };
 
 inline const auto gCamera = std::make_unique<cCamera>( );

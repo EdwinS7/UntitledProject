@@ -10,9 +10,12 @@ public:
 	void Update( );
 
 	inline int GetFrameRate( ) const;
+
 	inline float GetRealTime( ) const;
 	inline float GetDeltaTime( ) const;
+
 	inline std::string GetUsername( ) const;
+
 	inline std::chrono::steady_clock::time_point getTimePoint( ) const;
 
 private:

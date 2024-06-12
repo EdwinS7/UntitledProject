@@ -7,6 +7,7 @@
 #include "../Window/Window.hpp"
 #include "../Graphics/DirectX9.hpp"
 #include "../Animation/Animation.hpp"
+#include "../Networking/Networking.hpp"
 #include "../Context/Context.hpp"
 #include "../Camera/Camera.hpp"
 #include "../Buffer/Buffer.hpp"

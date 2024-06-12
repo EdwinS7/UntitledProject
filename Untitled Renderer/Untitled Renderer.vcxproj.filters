@@ -57,6 +57,9 @@
     <ClCompile Include="Include\Backend\Animation\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Include\Backend\Networking\Networking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Backend\Window\Window.hpp">
@@ -509,6 +512,9 @@
     <ClInclude Include="Include\Untitled.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Backend\Networking\Networking.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Backend\Buffer\Buffer.inl">
@@ -548,6 +554,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Backend\Animation\Animation.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Include\Backend\Networking\Networking.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

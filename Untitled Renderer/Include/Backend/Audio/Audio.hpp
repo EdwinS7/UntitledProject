@@ -7,8 +7,6 @@
 class cAudio {
 public:
 
-private:
-
 };
 
 inline const auto gAudio = std::make_unique<cAudio>( );

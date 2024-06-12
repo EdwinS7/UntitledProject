@@ -37,13 +37,14 @@ public:
     void FilledCircle( Vec2<int16_t> position, int16_t radius, Color color );
 
     void Text( Font* font, const std::string& string, Vec2<int16_t> Pos, Color color );
-
     Vec2<int16_t> GetTextSize( Font* font, const std::string& string );
 
     inline void BuildDrawCommands( std::vector<DrawCommand>* draw_commands );
     inline std::vector<DrawCommand>* GetDrawCommands( );
+
     inline CompiledDrawCommand* GetDrawCommand( );
     inline CommandResources* GetCommand( );
+
     inline void ClearCommands( );
 
     inline int GetCommandsCount( );
@@ -59,9 +60,8 @@ public:
     Font* GetDefaultFont( );
 
 private:
-    int m_VerticesCount{ 0 }, m_IndicesCount{ 0 };
-
-    int m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
+    int m_VerticesCount{ 0 }, m_IndicesCount{ 0 },
+        m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
 
 	std::vector < DrawCommand > m_DrawCommands;
     CommandResources m_CommandResources;
