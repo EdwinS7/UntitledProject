@@ -63,15 +63,15 @@ inline std::vector<DrawCommand>* cBuffer::GetDrawCommands( ) {
     return &m_DrawCommands;
 }
 
-inline int cBuffer::GetCommandsCount( ) {
+inline int cBuffer::GetCommandsCount( ) const {
     return m_DrawCommands.size();
 }
 
-inline int cBuffer::GetVerticesCount( ) {
+inline int cBuffer::GetVerticesCount( ) const {
     return m_VerticesCount;
 }
 
-inline int cBuffer::GetIndicesCount( ) {
+inline int cBuffer::GetIndicesCount( ) const {
     return m_IndicesCount;
 }
 

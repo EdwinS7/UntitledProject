@@ -1,14 +1,17 @@
 #pragma once
 
-#include "Backend/Logger/Logger.hpp"
-#include "Backend/Window/Window.hpp"
-#include "Backend/Graphics/DirectX9.hpp"
-#include "Backend/Animation/Animation.hpp"
-#include "Backend/Networking/Networking.hpp"
-#include "Backend/Context/Context.hpp"
-#include "Backend/Camera/Camera.hpp"
-#include "Backend/Buffer/Buffer.hpp"
-#include "Backend/Input/Input.hpp"
-#include "Backend/Audio/Audio.hpp"
-#include "Scenes\World\World.hpp"
+#include "Utils/Logger/Logger.hpp"
+#include "Utils/Animation/Animation.hpp"
+#include "Utils/Networking/Networking.hpp"
+
+#include "Core/Window/Window.hpp"
+#include "Core/Graphics/DirectX9.hpp"
+#include "Core/Camera/Camera.hpp"
+#include "Core/Buffer/Buffer.hpp"
+#include "Core/Input/Input.hpp"
+#include "Core/Audio/Audio.hpp"
+
+#include "Core/Context/Context.hpp"
+
+#include "Scenes/World/World.hpp"
 #include "Scenes/Interface/Interface.hpp"

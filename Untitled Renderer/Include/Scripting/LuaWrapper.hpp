@@ -3,16 +3,19 @@
 #define WRAPPER_H
 
 #include <Common.hpp>
-#include "../Logger/Logger.hpp"
-#include "../Window/Window.hpp"
-#include "../Graphics/DirectX9.hpp"
-#include "../Animation/Animation.hpp"
-#include "../Networking/Networking.hpp"
-#include "../Context/Context.hpp"
-#include "../Camera/Camera.hpp"
-#include "../Buffer/Buffer.hpp"
-#include "../Input/Input.hpp"
-#include "../Audio/Audio.hpp"
+
+#include "../Utils/Logger/Logger.hpp"
+#include "../Utils/Animation/Animation.hpp"
+#include "../Utils/Networking/Networking.hpp"
+
+#include "../Core/Window/Window.hpp"
+#include "../Core/Graphics/DirectX9.hpp"
+#include "../Core/Camera/Camera.hpp"
+#include "../Core/Buffer/Buffer.hpp"
+#include "../Core/Input/Input.hpp"
+#include "../Core/Audio/Audio.hpp"
+
+#include "Core/Context/Context.hpp"
 
 class cLuaWrapper {
 public:

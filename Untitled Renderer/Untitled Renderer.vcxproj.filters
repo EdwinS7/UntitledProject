@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Include\Backend\Window\Window.cpp">
+    <ClCompile Include="Include\Core\Window\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Buffer\Buffer.cpp">
+    <ClCompile Include="Include\Core\Buffer\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Context\Context.cpp">
+    <ClCompile Include="Include\Core\Context\Context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Input\Input.cpp">
+    <ClCompile Include="Include\Core\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -33,42 +33,42 @@
     <ClCompile Include="Include\Scenes\Interface\Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Graphics\DirectX9.cpp">
+    <ClCompile Include="Include\Core\Graphics\DirectX9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\Scenes\World\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\LuaWrapper\LuaWrapper.cpp">
+    <ClCompile Include="Include\Scripting\LuaWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Audio\Audio.cpp">
+    <ClCompile Include="Include\Core\Audio\Audio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Camera\Camera.cpp">
+    <ClCompile Include="Include\Core\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Logger\Logger.cpp">
+    <ClCompile Include="Include\Utils\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\FileSystem\FileSystem.cpp">
+    <ClCompile Include="Include\Utils\FileSystem\FileSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Animation\Animation.cpp">
+    <ClCompile Include="Include\Utils\Animation\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Backend\Networking\Networking.cpp">
+    <ClCompile Include="Include\Utils\Networking\Networking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Backend\Window\Window.hpp">
+    <ClInclude Include="Include\Core\Window\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Buffer\Buffer.hpp">
+    <ClInclude Include="Include\Core\Buffer\Buffer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Buffer\Components.hpp">
+    <ClInclude Include="Include\Core\Buffer\Components.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\FreeType\ft2build.h">
@@ -374,25 +374,25 @@
     <ClInclude Include="Include\Common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Context\Context.hpp">
+    <ClInclude Include="Include\Core\Context\Context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Input\Input.hpp">
+    <ClInclude Include="Include\Core\Input\Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Scenes\Interface\Interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Graphics\DirectX9.hpp">
+    <ClInclude Include="Include\Core\Graphics\DirectX9.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Scenes\World\World.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\LuaWrapper\LuaWrapper.hpp">
+    <ClInclude Include="Include\Scripting\LuaWrapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\LuaWrapper\LuaFeatures.hpp">
+    <ClInclude Include="Include\Scripting\LuaFeatures.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\Sol\Config.hpp">
@@ -482,7 +482,7 @@
     <ClInclude Include="Thirdparty\Sha256.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Audio\Audio.hpp">
+    <ClInclude Include="Include\Core\Audio\Audio.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\nlohmann\json.hpp">
@@ -491,72 +491,72 @@
     <ClInclude Include="Thirdparty\nlohmann\json_fwd.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Camera\Camera.hpp">
+    <ClInclude Include="Include\Core\Camera\Camera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Input\KeyDefinitions.hpp">
+    <ClInclude Include="Include\Core\Input\KeyDefinitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Logger\Logger.hpp">
+    <ClInclude Include="Include\Utils\Logger\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\FileSystem\FileSystem.hpp">
+    <ClInclude Include="Include\Utils\FileSystem\FileSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Animation\Animation.hpp">
+    <ClInclude Include="Include\Utils\Animation\Animation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Graphics\Components.hpp">
+    <ClInclude Include="Include\Core\Graphics\Components.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Untitled.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Backend\Networking\Networking.hpp">
+    <ClInclude Include="Include\Utils\Networking\Networking.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Include\Backend\Buffer\Buffer.inl">
+    <None Include="Include\Core\Buffer\Buffer.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Context\Context.inl">
+    <None Include="Include\Core\Context\Context.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Window\Window.inl">
+    <None Include="Include\Core\Window\Window.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Input\Input.inl">
+    <None Include="Include\Core\Input\Input.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Scenes\Interface\Interface.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Graphics\DirectX9.inl">
+    <None Include="Include\Core\Graphics\DirectX9.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="Include\Scenes\World\World.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Audio\Audio.inl">
+    <None Include="Include\Core\Audio\Audio.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Camera\Camera.inl">
+    <None Include="Include\Core\Camera\Camera.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\LuaWrapper\LuaWrapper.inl">
+    <None Include="Include\Scripting\LuaWrapper.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Logger\Logger.inl">
+    <None Include="Include\Utils\Logger\Logger.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\FileSystem\FileSystem.inl">
+    <None Include="Include\Utils\FileSystem\FileSystem.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Animation\Animation.inl">
+    <None Include="Include\Utils\Animation\Animation.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Backend\Networking\Networking.inl">
+    <None Include="Include\Utils\Networking\Networking.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

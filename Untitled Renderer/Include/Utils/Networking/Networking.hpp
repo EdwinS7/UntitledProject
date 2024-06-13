@@ -2,7 +2,7 @@
 #ifndef NETWORKING_H
 #define NETWORKING_H
 
-#include "Common.hpp"
+#include <Common.hpp>
 
 class cNetworking {
 public:

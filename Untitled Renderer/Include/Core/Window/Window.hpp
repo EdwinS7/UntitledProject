@@ -3,7 +3,7 @@
 #define WINDOW_H
 
 #include <Common.hpp>
-#include "../Logger/Logger.hpp"
+#include "../../Utils/Logger/Logger.hpp"
 #include "../Graphics/DirectX9.hpp"
 #include "../Input/Input.hpp"
 

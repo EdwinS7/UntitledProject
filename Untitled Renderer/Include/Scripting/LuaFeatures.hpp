@@ -282,19 +282,19 @@ namespace Math {
 
 namespace Http {
     std::string Get( const std::string& url ) {
-        gNetworking->Get( url );
+        return gNetworking->Get( url );
     }
 
     std::string Post( const std::string& url, const std::string& post_data ) {
-        gNetworking->Post( url, post_data );
+        return gNetworking->Post( url, post_data );
     }
 
     std::string Put( const std::string& url, const std::string& put_data ) {
-        gNetworking->Put( url, put_data );
+        return gNetworking->Put( url, put_data );
     }
 
     std::string Delete( const std::string& url ) {
-        gNetworking->Delete( url );
+        return gNetworking->Delete( url );
     }
 };
 

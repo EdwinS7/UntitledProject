@@ -3,7 +3,7 @@
 #define CONTEXT_H
 
 #include <Common.hpp>
-#include "../LuaWrapper/LuaWrapper.hpp"
+#include "../../Scripting/LuaWrapper.hpp"
 
 class cContext {
 public:

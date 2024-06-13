@@ -4,8 +4,8 @@
 
 #include <Common.hpp>
 #include "Components.hpp"
-#include "../Logger/Logger.hpp"
-#include "../FileSystem/FileSystem.hpp"
+#include "../../Utils/Logger/Logger.hpp"
+#include "../../Utils/FileSystem/FileSystem.hpp"
 #include "../Window/Window.hpp"
 #include "../Buffer/Buffer.hpp"
 

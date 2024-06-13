@@ -332,20 +332,19 @@ Vec2<int16_t> cBuffer::GetTextSize( Font* font, const std::string& text ) {
 
 	return Size;
 }
-
 void cBuffer::WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices ) {
-	int VerticesCount = vertices->size( ),
-		IndicesCount = indices == nullptr ? ( VerticesCount * 3 ) - 1 : indices->size( );
+	int VerticesCount = vertices->size( );
+	int IndicesCount = indices ? indices->size( ) : VerticesCount * 3 - 1;
 
-	std::vector<int32_t> DynamicIndices( IndicesCount );
+	std::vector<int32_t> DynamicIndices( IndicesCount, 0 );
 
-	if ( indices == nullptr )
+	if ( !indices )
 		for ( int i = 0; i < VerticesCount; ++i )
 			DynamicIndices[ i ] = i;
 
 	m_VerticesCount += VerticesCount;
 	m_IndicesCount += IndicesCount;
 
-	m_DrawCommands.emplace_back( primitive, *vertices, indices == nullptr ? std::move( DynamicIndices ) : *indices,
-		m_CommandResources, VerticesCount, indices != nullptr ? indices->size( ) : IndicesCount );
+	m_DrawCommands.emplace_back( primitive, *vertices, indices ? *indices : std::move( DynamicIndices ),
+		m_CommandResources, VerticesCount, IndicesCount );
 }

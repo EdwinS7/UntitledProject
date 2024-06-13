@@ -5,7 +5,7 @@
 #include <Common.hpp>
 #include "Components.hpp"
 #include "../Graphics/DirectX9.hpp"
-#include "../LuaWrapper/LuaWrapper.hpp"
+#include "../../Scripting/LuaWrapper.hpp"
 
 class cBuffer {
 public:
@@ -47,9 +47,9 @@ public:
 
     inline void ClearCommands( );
 
-    inline int GetCommandsCount( );
-    inline int GetVerticesCount( );
-    inline int GetIndicesCount( );
+    inline int GetCommandsCount( ) const;
+    inline int GetVerticesCount( ) const;
+    inline int GetIndicesCount( ) const;
 
     inline void PushClip( Rect<int16_t> Rect );
     inline void PopClip( );

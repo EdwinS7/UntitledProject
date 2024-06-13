@@ -1,32 +1,20 @@
 #include "LuaWrapper.hpp"
 #include "LuaFeatures.hpp"
 
-int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> maybe_exception, sol::string_view description ) {
-    if ( maybe_exception ) {
-        std::cout << "(straight from the exception): ";
-        const std::exception& ex = *maybe_exception;
-        std::cout << ex.what( ) << "\n";
-    }
-    else {
-        std::cout << "(from the description parameter): ";
-        std::cout.write( description.data( ), static_cast< std::streamsize >( description.size( ) ) );
-        std::cout << "\n";
-    }
-    return sol::stack::push( L, description );
+int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> exception, sol::string_view description ) {
+	if ( exception.has_value( ) )
+		gLogger->Log( LogLevel::Error, std::format( "(straight from the exception): {}", exception->what( ) ) );
+	else
+		gLogger->Log( LogLevel::Information, std::format( "(from the description parameter): {}", description ) );
+
+	return sol::stack::push( L, description );
 }
 
-inline void LuaPanicHandler( sol::optional<std::string> maybe_msg ) {
-    std::cerr << "Lua is in a panic state and will now abort() the application" << "\n";
-    if ( maybe_msg ) {
-        const std::string& msg = maybe_msg.value( );
-        std::cerr << "\tLua Panic: " << msg << "\n";
-    }
-}
+inline void LuaPanicHandler( sol::optional<std::string> message ) {
+    gLogger->Log( LogLevel::Error, "Lua is in a panic state and will now abort() the application" );
 
-std::filesystem::path GetExecutableDirectory( ) {
-    char buffer[ MAX_PATH ];
-    GetModuleFileNameA( nullptr, buffer, MAX_PATH );
-    return std::filesystem::path( buffer ).parent_path( );
+    if ( message.has_value( ) )
+        gLogger->Log( LogLevel::Error, std::format( "Lua Panic: ", message.value( ) ) );
 }
 
 void cLuaWrapper::Init( ) {
