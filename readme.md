@@ -33,4 +33,4 @@ The documentation is currently under construction, it may have some undocumented
 [Documentation/Wiki](https://edwn.gitbook.io/documentation/)
 
 # Note from developer
-This project was coded while on hella drugs so they're is hella code inconsistency's.
+This project was coded while on hella drugs so there is hella code inconsistency's.
