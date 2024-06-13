@@ -28,35 +28,9 @@ Our Game Engine is a project aimed at providing developers with a simple yet pow
 # Building
 * **Only supported by MSVC at the moment!**
 
-# Usage
-Once you have installed the engine and successfully built it, you can start creating your game. Here’s a quick example of how to set up a basic game using the [Lua API](https://edwn.gitbook.io/documentation/):
-```lua
-Graphics.SetClearColor(Color.new(0, 0, 0, 255)) --Demo made by @Splatzy
-
-local DefaultFont = Renderer.CreateFont( "Segoe UI", 16, 400, Vector2.new( 0, 0 ), false)
-
-local ASCII = [[
-    ,'\
-    _.----.        ____         ,'  _\   ___    ___     ____
-_,-'       `.     |    |  /`.   \,-'    |   \  /   |   |    \  |`.
-\      __    \    '-.  | /   `.  ___    |    \/    |   '-.   \ |  |
- \.    \ \   |  __  |  |/    ,','_  `.  |          | __  |    \|  |
-   \    \/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  |
-    \     ,-'/  /   \    ,'   | \/ / ,`.|         /  /   \  |     |
-     \    \ |   \_/  |   `-.  \    `'  /|  |    ||   \_/  | |\    |
-      \    \ \      /       `-.`.___,-' |  |\  /| \      /  | |   |
-       \    \ `.__,'|  |`-._    `|      |__| \/ |  `.__,'|  | |   |
-        \_.-'       |__|    `-._ |              '-.|     '-.| |   |
-                                `'                            '-._|
-]]
-    
-function Interface ()   
-	Renderer.Text(DefaultFont, ASCII, Vector2.new(5, 5), Color.new(204, 53, 53,255))
-end
-
-AddCallback("OnInterfacePaint", Interface)
-```
-
 # Documentation
 The documentation is currently under construction, it may have some undocumented features.
 [Documentation/Wiki](https://edwn.gitbook.io/documentation/)
+
+# Note from developer
+This project was coded while on hella drugs so they're is hella code inconsistency's.
