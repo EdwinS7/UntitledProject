@@ -17,7 +17,7 @@
 #define FS_TEXTURES_FOLDER FS_GAME_FOLDER "Textures/"
 
 #define WRAPPER_ENUMERATIONS_SCRIPT_URL "https://raw.githubusercontent.com/EdwinS7/UntitledProject/main/Untitled%20Renderer%20Lua/DefaultScripts/Enumerations.lua"
-#define WRAPPER_DEFAULT_SCRIPT_URL "https://raw.githubusercontent.com/EdwinS7/UntitledProjectLua/main/DefaultScripts/Startup.lua"
+#define WRAPPER_DEFAULT_SCRIPT_URL "https://raw.githubusercontent.com/EdwinS7/UntitledProject/main/Untitled%20Renderer%20Lua/DefaultScripts/Startup.lua"
 
 #define FS_STARTUP_LUA_NAME "Startup.lua"
 
