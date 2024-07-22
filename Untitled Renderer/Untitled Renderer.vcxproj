@@ -196,7 +196,7 @@
     <ClCompile Include="Include\Utils\FileSystem\FileSystem.cpp" />
     <ClCompile Include="Include\Core\Graphics\DirectX9.cpp" />
     <ClCompile Include="Include\Utils\Logger\Logger.cpp" />
-    <ClCompile Include="Include\Scripting\Enviornment\LuaEnviornment.cpp" />
+    <ClCompile Include="Include\Scripting\Enviornment\LuaEnvironment.cpp" />
     <ClCompile Include="Include\Utils\Networking\Networking.cpp" />
     <ClCompile Include="Include\Scenes\Interface\Interface.cpp" />
     <ClCompile Include="Include\Scenes\World\World.cpp" />
@@ -222,7 +222,7 @@
     <ClInclude Include="Include\Core\Input\KeyDefinitions.hpp" />
     <ClInclude Include="Include\Utils\Logger\Logger.hpp" />
     <ClInclude Include="Include\Scripting\Enviornment\Definitions\FunctionWrapper.hpp" />
-    <ClInclude Include="Include\Scripting\Enviornment\LuaEnviornment.hpp" />
+    <ClInclude Include="Include\Scripting\Enviornment\LuaEnvironment.hpp" />
     <ClInclude Include="Include\Scenes\Interface\Interface.hpp" />
     <ClInclude Include="Include\Core\Input\Input.hpp" />
     <ClInclude Include="Include\Scenes\World\World.hpp" />

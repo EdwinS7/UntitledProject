@@ -2,7 +2,7 @@
 #ifndef LUA_ENVIRONMENT_H
 #define LUA_ENVIRONMENT_H
 
-class cLuaEnviornment {
+class cLuaEnvironment {
 public:
 	void Init( );
 

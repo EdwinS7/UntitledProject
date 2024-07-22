@@ -1,28 +1,35 @@
 #include "../LuaAPI.hpp"
-#include "LuaEnviornment.hpp"
+#include "LuaEnvironment.hpp"
 
 // Lua API function definitions.
 #include "Definitions/FunctionWrapper.hpp"
 
-int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> exception, sol::string_view description ) {
-	if ( exception.has_value( ) )
-		gLogger->Log( LogLevel::Error, std::format( "(straight from the exception): {}", exception->what( ) ) );
-	else
-		gLogger->Log( LogLevel::Information, std::format( "(from the description parameter): {}", description ) );
+inline int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> exception, sol::string_view description ) {
+    if ( exception.has_value( ) ) {
+        gLogger->Log( LogLevel::Error, std::format( "(straight from the exception): {}", exception->what( ) ) );
+    }
+    else {
+        gLogger->Log( LogLevel::Information, std::format( "(from the description parameter): {}", description ) );
+    }
 
-	return sol::stack::push( L, description );
+    sol::stack::push( L, description );
+    return 1;
 }
 
 inline void LuaPanicHandler( sol::optional<std::string> message ) {
     gLogger->Log( LogLevel::Error, "Lua panic! This is a fatal error in the Lua state and will now abort() the application" );
 
-    if ( message.has_value( ) )
-        gLogger->Log( LogLevel::Error, std::format( "Lua Panic: ", message.value( ) ) );
+    if ( message.has_value( ) ) {
+        gLogger->Log( LogLevel::Error, std::format( "Lua Panic: {}", message.value( ) ) );
+    }
+
+    std::abort( );
 }
 
-void cLuaEnviornment::Init( ) {
+void cLuaEnvironment::Init( ) {
     Lua = sol::state( sol::c_call<decltype( &LuaPanicHandler ), &LuaPanicHandler> );
-    
+    Lua.set_exception_handler( &LuaExceptionHandler );
+
     Lua.open_libraries(
         sol::lib::base, sol::lib::package, sol::lib::coroutine,
         sol::lib::string, sol::lib::math, sol::lib::table,
@@ -201,27 +208,41 @@ void cLuaEnviornment::Init( ) {
     Lua[ "Json" ] = Json;
     Lua[ "Utils" ] = Utils;
 }
+int cLuaEnvironment::LoadScript( const std::string& source ) {
+	if ( source.empty( ) )
+		return 0;
 
-int cLuaEnviornment::LoadScript( const std::string& source ) {
-    if ( source.empty( ) )
-        return 0;
+	bool ErrorOccured = false;
 
-    bool error = false;
+	try {
+		Lua.safe_script( source, [ &ErrorOccured ] ( lua_State* L, sol::protected_function_result result ) {
+			if ( result.valid( ) ) {
+				return result;
+			}
 
-    Lua.safe_script( source, [ &error ] ( lua_State*, sol::protected_function_result result ) {
-        if ( !result.valid( ) ) {
-            gLogger->Log( LogLevel::Error, result.get<sol::error>( ).what( ) );
-            error = true;
-        }
-        return result;
-    } );
+			gLogger->Log( LogLevel::Error, std::format( "ERROR!!!\nLuaJIT Error: {}", result.get<sol::error>( ).what( ) ) );
 
-    if ( error )
-        return 0;
+			ErrorOccured = true;
+		} );
 
-    return 1;
+		Lua.collect_garbage( );
+
+		if ( ErrorOccured )
+			return 0;
+
+		return 1;
+	}
+	catch ( const std::exception& e ) {
+		gLogger->Log( LogLevel::Error, "Exception caught in LoadScript: " + std::string( e.what( ) ) );
+		return 0;
+	}
 }
 
-int cLuaEnviornment::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
-    return LoadScript( gFileSystem->GetFileContent( folder_path, file_name ) );
+int cLuaEnvironment::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
+    auto Script = gFileSystem->GetFileContent( folder_path, file_name );
+
+    if ( Script.empty( ) )
+        return 0;
+
+    return LoadScript( Script );
 }

@@ -39,7 +39,7 @@
     <ClCompile Include="Include\Scenes\World\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Scripting\Enviornment\LuaEnviornment.cpp">
+    <ClCompile Include="Include\Scripting\Enviornment\LuaEnvironment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\Core\Audio\Audio.cpp">
@@ -392,7 +392,7 @@
     <ClInclude Include="Include\Scenes\World\World.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Scripting\Enviornment\LuaEnviornment.hpp">
+    <ClInclude Include="Include\Scripting\Enviornment\LuaEnvironment.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Scripting\Enviornment\Definitions\FunctionWrapper.hpp">

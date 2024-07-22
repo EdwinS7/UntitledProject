@@ -4,6 +4,7 @@
 #include <shlobj.h>
 #include <fstream>
 #include <vector>
+#include <thread>
 #include <random>
 #include <regex>
 #include <map>

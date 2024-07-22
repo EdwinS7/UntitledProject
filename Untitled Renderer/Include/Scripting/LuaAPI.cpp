@@ -1,43 +1,44 @@
 #include "LuaAPI.hpp"
 
 void cLuaAPI::Init( ) {
-    static std::unique_ptr<cLuaEnviornment> GameEnviornment = std::make_unique<cLuaEnviornment>( );
+    static std::unique_ptr<cLuaEnvironment> GameEnviornment = this->NewEnvironment( );
 
-    if ( !GameEnviornment )
-        return;
-
-    GameEnviornment->Init( );
-
-    for ( auto& Script : gFileSystem->GetFilesInFolder( FS_DEFAULT_SCRIPTS_FOLDER ) ) {
-        if ( Script == "Startup.lua" ) {
-            continue;
-        }
-
-        GameEnviornment->LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, Script );
-    }
-
-    // Default game scripts
+    // Default Guis
     GameEnviornment->LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, "Startup.lua" );
 }
 
-std::unique_ptr<cLuaEnviornment> cLuaAPI::NewEnviornment( ) {
-    std::unique_ptr<cLuaEnviornment> Enviornment = std::make_unique<cLuaEnviornment>( );
+std::unique_ptr<cLuaEnvironment> cLuaAPI::NewEnvironment( ) {
+    std::unique_ptr<cLuaEnvironment> Enviornment = std::make_unique<cLuaEnvironment>( );
 
     if ( !Enviornment )
         return nullptr;
 
     Enviornment->Init( );
 
+    for ( auto& Script : gFileSystem->GetFilesInFolder( FS_DEFAULT_SCRIPTS_FOLDER ) ) {
+        if ( Script == "Startup.lua" ) {
+            continue;
+        }
+
+        Enviornment->LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, Script );
+    }
+
     return Enviornment;
 }
 
 void cLuaAPI::RunConnection( const std::string& connection_name ) {
-    auto RunConnections = [ this ] ( const std::vector<sol::protected_function>& callbacks ) {
-        for ( const auto& callback : callbacks ) {
-            auto result = callback( );
+    auto RunConnections = [ this ] ( const std::vector<sol::protected_function>& connections ) {
+        for ( const auto& connection : connections ) {
+            auto result = connection( );
 
             if ( !result.valid( ) ) {
-                gLogger->Log( LogLevel::Error, "Lua Error: " + static_cast< std::string >( result.get<sol::error>( ).what( ) ) );
+                sol::error Error = result.get<sol::error>( );
+                std::ostringstream LogStream;
+
+                LogStream << "Lua Error: " << Error.what( ) << " | Connection Address: " << static_cast< const void* >( &connection );
+
+                gLogger->Log( LogLevel::Error, LogStream.str( ) );
+
                 m_Connections.clear( );
             }
         }

@@ -57,14 +57,12 @@ bool cFileSystem::DoesFileExist( const std::string& folder_path, const std::stri
 
 std::string cFileSystem::GetFileContent( const std::string& folder_path, const std::string& file_name ) const {
     std::ifstream file( folder_path + file_name );
-    if ( file ) {
-        std::string content( ( std::istreambuf_iterator<char>( file ) ), std::istreambuf_iterator<char>( ) );
-        return content;
-    }
-    else {
-        gLogger->Log( LogLevel::Error, "Failed to open file: " + folder_path + file_name );
+
+    if ( !file )
         return "";
-    }
+
+    std::string content( ( std::istreambuf_iterator<char>( file ) ), std::istreambuf_iterator<char>( ) );
+    return content;
 }
 
 void cFileSystem::WriteToFile( const std::string& folder_path, const std::string& file_name, const std::string& content ) {
