@@ -1,5 +1,8 @@
-#include "LuaWrapper.hpp"
-#include "LuaFeatures.hpp"
+#include "../LuaAPI.hpp"
+#include "LuaEnviornment.hpp"
+
+// Lua API function definitions.
+#include "Definitions/FunctionWrapper.hpp"
 
 int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> exception, sol::string_view description ) {
 	if ( exception.has_value( ) )
@@ -11,15 +14,15 @@ int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception&> exce
 }
 
 inline void LuaPanicHandler( sol::optional<std::string> message ) {
-    gLogger->Log( LogLevel::Error, "Lua is in a panic state and will now abort() the application" );
+    gLogger->Log( LogLevel::Error, "Lua panic! This is a fatal error in the Lua state and will now abort() the application" );
 
     if ( message.has_value( ) )
         gLogger->Log( LogLevel::Error, std::format( "Lua Panic: ", message.value( ) ) );
 }
 
-void cLuaWrapper::Init( ) {
+void cLuaEnviornment::Init( ) {
     Lua = sol::state( sol::c_call<decltype( &LuaPanicHandler ), &LuaPanicHandler> );
-
+    
     Lua.open_libraries(
         sol::lib::base, sol::lib::package, sol::lib::coroutine,
         sol::lib::string, sol::lib::math, sol::lib::table,
@@ -102,7 +105,6 @@ void cLuaWrapper::Init( ) {
     );
 
 	// Global functions
-    Lua[ "LoadScript" ] = Globals::LoadScript; // Only for testing, insecure asf.
     Lua[ "Connect" ] = Globals::Connect;
     Lua[ "print" ] = Globals::Print;
 
@@ -189,7 +191,6 @@ void cLuaWrapper::Init( ) {
     Utils[ "Base64Decode" ] = Utils::Base64Decode;
 
     Lua[ "Client" ] = Client;
-    //Lua[ "Audio" ] = Audio;
     Lua[ "Input" ] = Input;
     Lua[ "Window" ] = Window;
     Lua[ "Graphics" ] = Graphics;
@@ -199,29 +200,9 @@ void cLuaWrapper::Init( ) {
     Lua[ "Http" ] = Http;
     Lua[ "Json" ] = Json;
     Lua[ "Utils" ] = Utils;
-
-    // Run scripts located in the 'DefaultScripts/' Folder
-    for ( auto& File : gFileSystem->GetFilesInFolder( FS_DEFAULT_SCRIPTS_FOLDER ) ) {
-        LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, File );
-    }
 }
 
-std::string FormatSolError( const std::string& error_message ) {
-    std::string ErrorMessage = error_message.substr( 9 );
-
-    std::smatch LineMatch;
-    std::regex LineRegex( ":([0-9]+):" );
-    if ( std::regex_search( ErrorMessage, LineMatch, LineRegex ) ) {
-        std::string LineNum = LineMatch.str( 1 );
-        ErrorMessage = "Lua Error (" + LineNum + "): " + ErrorMessage;
-    }
-
-    std::regex_replace( ErrorMessage, std::regex( " near " ), ": " );
-
-    return ErrorMessage;
-}
-
-int cLuaWrapper::LoadScript( const std::string& source ) {
+int cLuaEnviornment::LoadScript( const std::string& source ) {
     if ( source.empty( ) )
         return 0;
 
@@ -241,25 +222,6 @@ int cLuaWrapper::LoadScript( const std::string& source ) {
     return 1;
 }
 
-int cLuaWrapper::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
+int cLuaEnviornment::LoadScriptFromFile( const std::string& folder_path, const std::string& file_name ) {
     return LoadScript( gFileSystem->GetFileContent( folder_path, file_name ) );
-}
-
-void cLuaWrapper::RunCallback( const std::string& callback_name ) {
-    auto ExecuteCallbacks = [ this ] ( const std::vector<sol::protected_function>& callbacks ) {
-        for ( const auto& callback : callbacks ) {
-            auto result = callback( );
-
-            if ( !result.valid( ) ) {
-                gLogger->Log( LogLevel::Error, "Lua Error: " + static_cast< std::string >( result.get<sol::error>( ).what( ) ) );
-                m_Callbacks.clear( );
-            }
-        }
-    };
-
-    auto Callbacks = GetCallbacks( callback_name );
-    ExecuteCallbacks( Callbacks );
-
-    auto PriorityCallbacks = GetCallbacks( "__" + callback_name );
-    ExecuteCallbacks( PriorityCallbacks );
 }

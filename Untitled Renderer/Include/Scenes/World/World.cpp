@@ -1,9 +1,9 @@
 #include "World.hpp"
 
 void cWorld::Init( ) {
-    
+    // Nothing here yet, im lazy.
 }
 
 void cWorld::Draw( ) {
-    gLuaWrapper->RunCallback( "OnWorldPaint" );
+    gLuaAPI->RunConnection( "OnWorldPaint" );
 }

@@ -189,13 +189,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\Scripting\LuaAPI.cpp" />
     <ClCompile Include="Include\Utils\Animation\Animation.cpp" />
     <ClCompile Include="Include\Core\Audio\Audio.cpp" />
     <ClCompile Include="Include\Core\Camera\Camera.cpp" />
     <ClCompile Include="Include\Utils\FileSystem\FileSystem.cpp" />
     <ClCompile Include="Include\Core\Graphics\DirectX9.cpp" />
     <ClCompile Include="Include\Utils\Logger\Logger.cpp" />
-    <ClCompile Include="Include\Scripting\LuaWrapper.cpp" />
+    <ClCompile Include="Include\Scripting\Enviornment\LuaEnviornment.cpp" />
     <ClCompile Include="Include\Utils\Networking\Networking.cpp" />
     <ClCompile Include="Include\Scenes\Interface\Interface.cpp" />
     <ClCompile Include="Include\Scenes\World\World.cpp" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Include\Core\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Scripting\LuaAPI.hpp" />
     <ClInclude Include="Include\Utils\Networking\Networking.hpp" />
     <ClInclude Include="Include\Common.hpp" />
     <ClInclude Include="Include\Utils\Animation\Animation.hpp" />
@@ -219,8 +221,8 @@
     <ClInclude Include="Include\Core\Graphics\DirectX9.hpp" />
     <ClInclude Include="Include\Core\Input\KeyDefinitions.hpp" />
     <ClInclude Include="Include\Utils\Logger\Logger.hpp" />
-    <ClInclude Include="Include\Scripting\LuaFeatures.hpp" />
-    <ClInclude Include="Include\Scripting\LuaWrapper.hpp" />
+    <ClInclude Include="Include\Scripting\Enviornment\Definitions\FunctionWrapper.hpp" />
+    <ClInclude Include="Include\Scripting\Enviornment\LuaEnviornment.hpp" />
     <ClInclude Include="Include\Scenes\Interface\Interface.hpp" />
     <ClInclude Include="Include\Core\Input\Input.hpp" />
     <ClInclude Include="Include\Scenes\World\World.hpp" />
@@ -367,7 +369,6 @@
     <None Include="Include\Utils\FileSystem\FileSystem.inl" />
     <None Include="Include\Core\Graphics\DirectX9.inl" />
     <None Include="Include\Utils\Logger\Logger.inl" />
-    <None Include="Include\Scripting\LuaWrapper.inl" />
     <None Include="Include\Utils\Networking\Networking.inl" />
     <None Include="Include\Scenes\Interface\Interface.inl" />
     <None Include="Include\Core\Input\Input.inl" />

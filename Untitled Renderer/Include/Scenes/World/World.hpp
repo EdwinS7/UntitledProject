@@ -3,7 +3,7 @@
 #define WORLD_H
 
 #include <Common.hpp>
-#include "../../Scripting/LuaWrapper.hpp"
+#include "../../Scripting/LuaAPI.hpp"
 
 class cWorld {
 public:

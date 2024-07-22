@@ -6,7 +6,7 @@ void cBuffer::Init( ) {
 	PushClip( gWindow->GetClipRect( ) );
 	PushTexture( nullptr );
 
-	gLuaWrapper->RunCallback( "OnObjectCreation" );
+	gLuaAPI->RunConnection( "OnObjectCreation" );
 }
 
 void cBuffer::Release( ) {

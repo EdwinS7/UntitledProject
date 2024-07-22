@@ -6,8 +6,15 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine
 
     gFileSystem->Init( );
     gBuffer->Init( );
-    
-    gLuaWrapper->Init( );
+
+    gLuaAPI->Init( );
+
+    // Memes
+    std::string input;
+    std::cin >> input;
+
+    auto Enviornment = gLuaAPI->NewEnviornment( );
+    Enviornment->LoadScript( input );
 
     while ( gWindow->DispatchMessages( ) ) {
         gContext->Update( );

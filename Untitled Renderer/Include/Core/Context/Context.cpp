@@ -4,7 +4,7 @@ void cContext::Update( ) {
     if ( gInput->IsActive( ) ) {
         gInput->PoolInput( );
 
-        gLuaWrapper->RunCallback( "OnInputUpdate" );
+        gLuaAPI->RunConnection( "OnInputUpdate" );
     }
 
     m_TimePoint = std::chrono::high_resolution_clock::now( );

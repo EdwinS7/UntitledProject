@@ -3,7 +3,7 @@
 #define INTERFACE_H
 
 #include <Common.hpp>
-#include "../../Scripting/LuaWrapper.hpp"
+#include "../../Scripting/LuaAPI.hpp"
 
 class cInterface {
 public:

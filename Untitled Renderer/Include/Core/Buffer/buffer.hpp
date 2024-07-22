@@ -5,7 +5,7 @@
 #include <Common.hpp>
 #include "Components.hpp"
 #include "../Graphics/DirectX9.hpp"
-#include "../../Scripting/LuaWrapper.hpp"
+#include "../../Scripting/LuaAPI.hpp"
 
 class cBuffer {
 public:

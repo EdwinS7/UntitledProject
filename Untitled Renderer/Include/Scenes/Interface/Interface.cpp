@@ -1,9 +1,9 @@
 #include "Interface.hpp"
 
 void cInterface::Init( ) {
-    
+    // All done in Lua so far.
 }
 
 void cInterface::Draw( ) {
-    gLuaWrapper->RunCallback( "OnInterfacePaint" );
+    gLuaAPI->RunConnection( "OnInterfacePaint" );
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "LuaWrapper.hpp"
-
 sol::table VectorToTable( sol::state_view lua, const std::vector<std::string>& vec ) {
     sol::table luaTable = lua.create_table( );
 
@@ -366,28 +364,13 @@ namespace Utils {
 };
 
 namespace Globals {
-    static std::vector<std::string> CallbackIdentifiers {
-        "OnInterfacePaint",
-        "__OnInterfacePaint",
-        "OnWorldPaint",
-        "__OnWorldPaint",
-        "OnInputUpdate",
-        "__OnInputUpdate",
-        "OnObjectCreation"
-        "__OnInterfacePaint"
-    };
-
-    void Connect( sol::this_state s, std::string event_name, sol::protected_function function ) {
-        if ( std::find( CallbackIdentifiers.begin( ), CallbackIdentifiers.end( ), event_name ) == CallbackIdentifiers.end( ) ) {
-            gLogger->Log( LogLevel::Error, "Lua error: invalid callback \"" + event_name + "\"" );
+    void Connect( sol::this_state s, std::string connection_name, sol::protected_function function ) {
+        if ( std::find( gLuaAPI->ConnectionNames.begin( ), gLuaAPI->ConnectionNames.end( ), connection_name ) == gLuaAPI->ConnectionNames.end( ) ) {
+            gLogger->Log( LogLevel::Error, "Lua error: invalid callback \"" + connection_name + "\"" );
             return;
         }
 
-        gLuaWrapper->RegisterCallback( event_name, function );
-    }
-
-    int LoadScript( const std::string& file_name ) {
-        return gLuaWrapper->LoadScriptFromFile( FS_SCRIPTS_FOLDER, file_name );
+        gLuaAPI->AddConnection( connection_name, function );
     }
 
     void ConsolePrint( const std::string& string ) {
