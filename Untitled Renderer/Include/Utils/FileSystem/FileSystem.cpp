@@ -14,7 +14,7 @@ void cFileSystem::Init( ) {
         WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, FS_STARTUP_LUA_NAME, gNetworking->Get( WRAPPER_DEFAULT_SCRIPT_URL ) );
 
         // Dependencies, Ran upon project startup.
-        WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, "Keys.lua", gNetworking->Get( WRAPPER_KEYCODES_SCRIPT_URL ) );
+        WriteToFile( FS_DEFAULT_SCRIPTS_FOLDER, "Enumerations.lua", gNetworking->Get( WRAPPER_ENUMERATIONS_SCRIPT_URL ) );
     }
 
     HKEY key;

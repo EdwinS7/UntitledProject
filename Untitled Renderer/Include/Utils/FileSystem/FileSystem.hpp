@@ -16,10 +16,10 @@
 #define FS_SOUNDS_FOLDER FS_GAME_FOLDER "Sounds/"
 #define FS_TEXTURES_FOLDER FS_GAME_FOLDER "Textures/"
 
-#define WRAPPER_KEYCODES_SCRIPT_URL "https://raw.githubusercontent.com/EdwinS7/UntitledProjectLua/main/DefaultScripts/Keys.lua"
-#define WRAPPER_DEFAULT_SCRIPT_URL "https://raw.githubusercontent.com/EdwinS7/UntitledProjectLua/main/DefaultScripts/OnStartup.lua"
+#define WRAPPER_ENUMERATIONS_SCRIPT_URL "https://raw.githubusercontent.com/EdwinS7/UntitledProject/main/Untitled%20Renderer%20Lua/DefaultScripts/Enumerations.lua"
+#define WRAPPER_DEFAULT_SCRIPT_URL "https://raw.githubusercontent.com/EdwinS7/UntitledProjectLua/main/DefaultScripts/Startup.lua"
 
-#define FS_STARTUP_LUA_NAME "OnStartup.lua"
+#define FS_STARTUP_LUA_NAME "Startup.lua"
 
 class cFileSystem {
 public:
