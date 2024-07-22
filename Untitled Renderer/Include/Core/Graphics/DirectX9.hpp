@@ -11,7 +11,7 @@
 
 class cGraphics {
 public:
-	bool Init( HWND hwnd );
+	void Init( HWND hwnd );
 	void Release( );
 
 	void ResetDevice( HWND hwnd );

@@ -1,7 +1,10 @@
 #include "DirectX9.hpp"
 
-bool cGraphics::Init( HWND hwnd ) {
+void cGraphics::Init( HWND hwnd ) {
     m_Direct3D = Direct3DCreate9( D3D_SDK_VERSION );
+
+    if ( !m_Direct3D )
+		throw std::runtime_error( "[cGraphics::Init] Direct3DCreate9 Failed" );
     
     UpdatePresentationParameters( hwnd );
 
@@ -9,8 +12,6 @@ bool cGraphics::Init( HWND hwnd ) {
         throw std::runtime_error( "[cGraphics::Init] CreateDevice Failed" );
 
     UpdateRenderStates( m_Device );
-
-    return true;
 }
 
 void cGraphics::Release( ) {
@@ -20,8 +21,8 @@ void cGraphics::Release( ) {
     SafeRelease( m_Direct3D );
     SafeRelease( m_Device );
 
-    ReleaseFonts( );
     ReleaseTextures( );
+    ReleaseFonts( );
 }
 
 void cGraphics::ResetDevice( HWND hwnd ) {
@@ -31,13 +32,12 @@ void cGraphics::ResetDevice( HWND hwnd ) {
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_Device );
 
-    ReleaseFonts( );
     ReleaseTextures( );
+    ReleaseFonts( );
 
     UpdatePresentationParameters( hwnd );
 
-    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd,
-        D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
+    if ( m_Direct3D->CreateDevice( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &m_Parameters, &m_Device ) < D3D_OK ) {
         throw std::runtime_error( "[cGraphics::ResetDevice] CreateDevice Failed" );
     }
 
@@ -47,41 +47,39 @@ void cGraphics::ResetDevice( HWND hwnd ) {
 }
 
 void cGraphics::UpdatePresentationParameters( HWND hwnd ) {
-    D3DDISPLAYMODE DisplayMode;
-    m_Direct3D->GetAdapterDisplayMode( D3DADAPTER_DEFAULT, &DisplayMode );
+	D3DDISPLAYMODE DisplayMode;
+	m_Direct3D->GetAdapterDisplayMode( D3DADAPTER_DEFAULT, &DisplayMode );
 
-    LONG_PTR Style = GetWindowLongPtr( hwnd, GWL_STYLE );
-    bool Fullscreen = !( Style & WS_CAPTION ) && !( Style & WS_THICKFRAME );
+	LONG_PTR Style = GetWindowLongPtr( hwnd, GWL_STYLE );
+	bool Fullscreen = !( Style & WS_CAPTION ) && !( Style & WS_THICKFRAME );
 
-    if ( Fullscreen ) {
-        m_Parameters.Windowed = FALSE;
-        m_Parameters.BackBufferWidth = DisplayMode.Width;
-        m_Parameters.BackBufferHeight = DisplayMode.Height;
-    }
-    else {
-        RECT rect{};
+	if ( Fullscreen ) {
+		m_Parameters.Windowed = FALSE;
+		m_Parameters.BackBufferWidth = DisplayMode.Width;
+		m_Parameters.BackBufferHeight = DisplayMode.Height;
+	}
+	else {
+		auto GetRect = Fullscreen ? GetWindowRect : GetClientRect;
 
-        if ( Fullscreen )
-            GetWindowRect( hwnd, &rect );
-        else
-            GetClientRect( hwnd, &rect );
+		RECT rect{};
+		GetRect( hwnd, &rect );
 
-        m_Parameters.Windowed = TRUE;
-        m_Parameters.BackBufferWidth = rect.right - rect.left;
-        m_Parameters.BackBufferHeight = rect.bottom - rect.top;
-    }
+		m_Parameters.Windowed = TRUE;
+		m_Parameters.BackBufferWidth = rect.right - rect.left;
+		m_Parameters.BackBufferHeight = rect.bottom - rect.top;
+	}
 
-    m_Parameters.hDeviceWindow = hwnd;
+	m_Parameters.hDeviceWindow = hwnd;
 
-    m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	m_Parameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 
-    m_Parameters.BackBufferCount = 1;
-    m_Parameters.BackBufferFormat = D3DFMT_X8R8G8B8;
+	m_Parameters.BackBufferCount = 1;
+	m_Parameters.BackBufferFormat = D3DFMT_X8R8G8B8;
 
-    m_Parameters.EnableAutoDepthStencil = TRUE;
-    m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
+	m_Parameters.EnableAutoDepthStencil = TRUE;
+	m_Parameters.AutoDepthStencilFormat = D3DFMT_D16;
 
-    m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	m_Parameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 }
 
 void cGraphics::UpdateRenderStates( IDirect3DDevice9* device ) {

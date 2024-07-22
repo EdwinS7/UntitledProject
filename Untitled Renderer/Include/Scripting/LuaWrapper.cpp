@@ -27,64 +27,17 @@ void cLuaWrapper::Init( ) {
         sol::lib::ffi, sol::lib::jit
     );
 
-    // Update the path for require packages location: Executable + 'Lua/Scripts/Libraries'
-    std::string packagePath = ( gFileSystem->GetExecutableDirectory( ) + FS_LIBRARY_SCRIPTS_FOLDER ) + "/?.lua";
-    Lua[ "package" ][ "path" ] = packagePath;
+    Lua[ "package" ][ "path" ] = ( gFileSystem->GetExecutableDirectory( ) + FS_LIBRARY_SCRIPTS_FOLDER ) + "/?.lua";
 
-    // Disabled for user safety.
-    std::vector<std::string> DisabledBaseLuaFunctions = {
+    std::vector<std::string> UnregisterFunctions = {
         "collectgarbage", "dofilsse", "load",
         "loadfile", "pcall", "print", "xpcall",
         "getmetatable", "setmetatable", "__nil_callback"
     };
 
-    for ( auto& base_lua_function : DisabledBaseLuaFunctions ) {
-        Lua[ base_lua_function ] = sol::nil;
+    for ( auto& function : UnregisterFunctions ) {
+        Lua[ function ] = sol::nil;
     }
-
-    Lua.new_enum( "MousePointer",
-        "Arrow", MousePointer::Arrow,
-        "IBeam", MousePointer::IBeam,
-        "Wait", MousePointer::Wait,
-        "Cross", MousePointer::Cross,
-        "UpArrow", MousePointer::UpArrow,
-        "Size", MousePointer::Size,
-        "Icon", MousePointer::Icon,
-        "SizeNWSE", MousePointer::SizeNWSE,
-        "SizeNESW", MousePointer::SizeNESW,
-        "SizeWE", MousePointer::SizeWE,
-        "SizeNS", MousePointer::SizeNS,
-        "SizeAll", MousePointer::SizeAll,
-        "No", MousePointer::No,
-        "Hand", MousePointer::Hand,
-        "AppStarting", MousePointer::AppStarting,
-        "Help", MousePointer::Help,
-        "Pin", MousePointer::Pin,
-        "Person", MousePointer::Person
-    );
-
-    Lua.new_enum( "CornerFlags",
-        "None", CornerFlags::CornerNone,
-        "TopLeft", CornerFlags::CornerTopLeft,
-        "TopRight", CornerFlags::CornerTopRight,
-        "BottomLeft", CornerFlags::CornerBottomLeft,
-        "BottomRight", CornerFlags::CornerBottomRight,
-        "Top", CornerFlags::CornerTop,
-        "Right", CornerFlags::CornerRight,
-        "Bottom", CornerFlags::CornerBottom,
-        "Left", CornerFlags::CornerLeft,
-        "All", CornerFlags::CornerAll
-    );
-
-    Lua.new_enum( "LogLevel",
-        "Normal", LogLevel::Normal,
-        "Information", LogLevel::Information,
-        "Warning", LogLevel::Warning,
-        "Error", LogLevel::Error,
-        "Success", LogLevel::Success,
-        "Unknown", LogLevel::Unknown,
-        "All", LogLevel::END
-    );
 
     Lua.new_usertype<Vec2<int16_t>>(
         "Vector2", sol::constructors<Vec2<int16_t>( ), Vec2<int16_t>( int16_t, int16_t )>( ),
@@ -148,9 +101,10 @@ void cLuaWrapper::Init( ) {
         "b", sol::property( &Color::GetB ), "a", sol::property( &Color::GetA )
     );
 
-    Lua[ "AddCallback" ] = Globals::AddCallback;
-    Lua[ "LoadScript" ] = Globals::LoadScript;
-    Lua[ "LoadString" ] = Globals::LoadString;
+	// Global functions
+    Lua[ "LoadScript" ] = Globals::LoadScript; // Only for testing, insecure asf.
+    Lua[ "Connect" ] = Globals::Connect;
+    Lua[ "print" ] = Globals::Print;
 
     auto Client = Lua.create_table( );
     Client[ "Log" ] = Client::Log;
@@ -161,8 +115,6 @@ void cLuaWrapper::Init( ) {
     Client[ "GetRealtime" ] = Client::GetRealTime;
     Client[ "GetDeltaTime" ] = Client::GetDeltaTime;
     Client[ "GetUsableFonts" ] = Client::GetUsableFonts;
-
-    auto Audio = Lua.create_table( );
 
     auto Input = Lua.create_table( );
     Input[ "IsMouseHoveringRect" ] = Input::IsMouseHoveringRect;
@@ -237,7 +189,7 @@ void cLuaWrapper::Init( ) {
     Utils[ "Base64Decode" ] = Utils::Base64Decode;
 
     Lua[ "Client" ] = Client;
-    Lua[ "Audio" ] = Audio;
+    //Lua[ "Audio" ] = Audio;
     Lua[ "Input" ] = Input;
     Lua[ "Window" ] = Window;
     Lua[ "Graphics" ] = Graphics;

@@ -377,7 +377,7 @@ namespace Globals {
         "__OnInterfacePaint"
     };
 
-    void AddCallback( sol::this_state s, std::string event_name, sol::protected_function function ) {
+    void Connect( sol::this_state s, std::string event_name, sol::protected_function function ) {
         if ( std::find( CallbackIdentifiers.begin( ), CallbackIdentifiers.end( ), event_name ) == CallbackIdentifiers.end( ) ) {
             gLogger->Log( LogLevel::Error, "Lua error: invalid callback \"" + event_name + "\"" );
             return;
@@ -390,7 +390,11 @@ namespace Globals {
         return gLuaWrapper->LoadScriptFromFile( FS_SCRIPTS_FOLDER, file_name );
     }
 
-    int LoadString( const std::string& source ) {
-        return gLuaWrapper->LoadScript( source );
+    void ConsolePrint( const std::string& string ) {
+        printf( string.c_str( ) );
+    }
+
+    void Print( const std::string& string ) {
+        gLogger->Log( LogLevel::Normal, string );
     }
 };

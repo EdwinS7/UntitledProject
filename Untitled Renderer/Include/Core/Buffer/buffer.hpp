@@ -23,8 +23,6 @@ public:
     void TexturedRectangle( IDirect3DTexture9* texture, Vec2<int16_t> position, Vec2<int16_t> size, Color color_modulation );
     void Picture( Image* image, Vec2<int16_t> position, Color color_modulation );
 
-    void Cube( Vec3<float> position, float size, Color color );
-
     void Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_from, Color color_to, bool vertical );
     void FilledGradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_from, Color color_to, bool vertical );
     void Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color_top_left, Color color_top_right, Color color_bottom_right, Color color_bottom_left );

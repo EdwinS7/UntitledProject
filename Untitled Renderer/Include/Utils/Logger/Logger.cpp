@@ -32,22 +32,18 @@ void cLogger::Log( LogLevel log_level, const std::string& message ) {
 }
 
 std::vector<std::string> cLogger::GetLogs( LogLevel log_level ) const {
-    if ( log_level == LogLevel::END ) {
-        std::vector<std::string> AllLogs;
+	if ( log_level == LogLevel::END ) {
+		std::vector<std::string> AllLogs;
 
-        for ( int i = static_cast< int >( LogLevel::Normal ); i < static_cast< int >( LogLevel::Unknown ); ++i ) {
-            LogLevel currentLevel = static_cast< LogLevel >( i );
-            auto it = m_Logs.find( currentLevel );
-            if ( it != m_Logs.end( ) ) {
-                AllLogs.insert( AllLogs.end( ), it->second.begin( ), it->second.end( ) );
-            }
-        }
+		for ( const auto& [level, logs] : m_Logs ) {
+			AllLogs.insert( AllLogs.end( ), logs.begin( ), logs.end( ) );
+		}
 
-        return AllLogs;
-    }
-    else {
-        return m_Logs[ log_level ];
-    }
+		return AllLogs;
+	}
+	else {
+		return m_Logs[ log_level ];
+	}
 }
 
 void cLogger::ClearLogs( LogLevel log_level ) {

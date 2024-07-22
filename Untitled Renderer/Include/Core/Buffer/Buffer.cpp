@@ -159,38 +159,6 @@ void cBuffer::Picture( Image* image, Vec2<int16_t> position, Color color_modulat
 	PopTexture( );
 }
 
-void cBuffer::Cube( Vec3<float> position, float size, Color color ) {
-	float HalfSize = size / 2.0f;
-
-	std::vector<Vertex> Vertices = {
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z + HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x - HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y + HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex ),
-		Vertex( static_cast< float >( position.x + HalfSize ), static_cast< float >( position.y - HalfSize ), static_cast< float >( position.z - HalfSize ), 1.f, color.Hex )
-	};
-
-	std::vector<int32_t> Indices = {
-		0, 1, 1, 3, 3, 2, 2, 0,
-		4, 5, 5, 7, 7, 6, 6, 4,
-		8, 9, 9, 10, 10, 11, 11, 8,
-		12, 13, 13, 14, 14, 15, 15, 12
-	};
-
-	gGraphics->GetDevice( )->DrawPrimitiveUP( LINE, Vertices.size( ), Vertices.data( ), sizeof( Vertex ) );
-}
-
 void cBuffer::Gradient( Vec2<int16_t> position, Vec2<int16_t> size, Color color1, Color color2, bool vertical ) {
 	std::vector<Vertex> Vertices = {
 		Vertex( static_cast< float >( position.x ), static_cast< float >( position.y ), 0.f, 1.f, color1.Hex ),
