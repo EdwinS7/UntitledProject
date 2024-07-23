@@ -22,6 +22,7 @@
 class cLuaAPI {
 public:
 	void Init( );
+
 	std::unique_ptr<cLuaEnvironment> NewEnvironment( );
 
 	void RunConnection( const std::string& callback_name );

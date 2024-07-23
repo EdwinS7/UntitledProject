@@ -2,46 +2,33 @@
 
 // I just have this for testing at the moment.
 void RunScript( ) {
+    gLogger->Log( LogLevel::Information, "Welcome to Untitled Renderer. Use 'help' for a list of commands." );
+    gLogger->Log( LogLevel::Information, "To run a script, enter the file name with the .lua extension." );
+
     while ( true ) {
         std::cout << "> ";
 
         std::string Input;
-        std::vector<std::string> InputStorage;
+        std::cin >> Input;
 
-        while ( std::getline( std::cin, Input ) ) {
-            bool ShiftHeld = ( GetAsyncKeyState( VK_SHIFT ) & 0x8000 ) != 0;
-
-            if ( Input.empty( ) && !ShiftHeld ) {
-                break;
-            }
-
-            InputStorage.push_back( Input );
-
-            if ( !ShiftHeld ) {
-                break;
-            }
+        if ( Input == "help" || Input == "h" || Input == "?" ) {
+            gLogger->Log( LogLevel::Information, "{'clear', 'cls', 'c'} - Clears the console" );
+            gLogger->Log( LogLevel::Information, "{'information', 'info', 'i'} - Clears the console" );
+            continue;
         }
-
-        Input.clear( );
-
-        for ( const std::string& Line : InputStorage ) {
-            Input.append( Line + "\n" );
+        else if ( Input == "clear" || Input == "cls" || Input == "c" ) {
+			system( "cls" );
+            continue;
         }
-        
-        if ( !Input.empty( ) && Input.back( ) == '\n' ) {
-            Input.pop_back( );
-        }
-
-        if ( Input == "clear" || Input == "cls" ) {
-            system( "cls" );
+        else if ( Input == "information" || Input == "info" || Input == "i" ) {
+            gLogger->Log( LogLevel::Information, "Developed by @fuckuneedthisfor" );
             continue;
         }
 
-        // Creates new env for each script at the moment.
         static auto Environment = gLuaAPI->NewEnvironment( );
 
         if ( !Environment->LoadScriptFromFile( FS_SCRIPTS_FOLDER, Input ) ) {
-            Environment->LoadScript( Input );
+			gLogger->Log( LogLevel::Error, std::format("Failed to load '{}'", Input) );
         }
     }
 }

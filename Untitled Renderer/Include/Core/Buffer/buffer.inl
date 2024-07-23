@@ -20,14 +20,14 @@ inline void cBuffer::BuildDrawCommands( std::vector<DrawCommand>* draw_commands 
 }
 
 inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments ) {
-	double Angle = ( static_cast< double >( rotation ) * 3.14159265358979323846f ) / 180.0;
+	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
 	double Conversion = completion * 0.01;
 
-	int16_t SegmentCount = segments > radius ? radius : max( segments, 8 );
+	int16_t SegmentCount = radius > segments ? radius : max( segments, 8 );
 	Points->reserve( SegmentCount + 1 );
 
 	auto GetPoint = [ & ] ( int16_t i ) {
-		double Theta = Angle + 2.0 * Conversion * 3.14159265358979323846f * static_cast< double >( i ) / static_cast< double >( SegmentCount );
+		double Theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( SegmentCount );
 		return Vec2<double>( static_cast< double >( position->x ) + radius * cos( Theta ), static_cast< double >( position->y ) + radius * sin( Theta ) );
 	};
 

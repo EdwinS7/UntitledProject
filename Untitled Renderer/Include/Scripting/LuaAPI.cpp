@@ -10,8 +10,9 @@ void cLuaAPI::Init( ) {
 std::unique_ptr<cLuaEnvironment> cLuaAPI::NewEnvironment( ) {
     std::unique_ptr<cLuaEnvironment> Enviornment = std::make_unique<cLuaEnvironment>( );
 
-    if ( !Enviornment )
-        return nullptr;
+    if ( !Enviornment ) {
+		return nullptr;
+	}
 
     Enviornment->Init( );
 

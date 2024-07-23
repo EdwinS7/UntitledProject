@@ -16,6 +16,7 @@ inline int LuaExceptionHandler( lua_State* L, sol::optional<const std::exception
     return 1;
 }
 
+// Typically called when too many script are loaded into an environment.
 inline void LuaPanicHandler( sol::optional<std::string> message ) {
     gLogger->Log( LogLevel::Error, "Lua panic! This is a fatal error in the Lua state and will now abort() the application" );
 
@@ -34,7 +35,7 @@ void cLuaEnvironment::Init( ) {
         sol::lib::base, sol::lib::package, sol::lib::coroutine,
         sol::lib::string, sol::lib::math, sol::lib::table,
         sol::lib::debug, sol::lib::bit32, sol::lib::utf8,
-        sol::lib::ffi, sol::lib::jit
+        sol::lib::ffi, sol::lib::jit, sol::lib::os
     );
 
     Lua[ "package" ][ "path" ] = ( gFileSystem->GetExecutableDirectory( ) + FS_LIBRARY_SCRIPTS_FOLDER ) + "/?.lua";
@@ -162,7 +163,7 @@ void cLuaEnvironment::Init( ) {
     Renderer[ "Triangle" ] = Renderer::Triangle;
     Renderer[ "FilledTriangle" ] = Renderer::FilledTriangle;
     Renderer[ "Circle" ] = Renderer::Circle;
-    Renderer[ "FilledCircle" ] = Renderer::FilledCircle;
+    Renderer[ "FilledCircle" ] = Renderer::FilledCircle; 
     Renderer[ "Text" ] = Renderer::Text;
     Renderer[ "GetTextSize" ] = Renderer::GetTextSize;
     Renderer[ "GetDefaultFont" ] = Renderer::GetDefaultFont;

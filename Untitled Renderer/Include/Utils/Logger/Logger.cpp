@@ -7,26 +7,27 @@ void cLogger::Log( LogLevel log_level, const std::string& message ) {
     switch ( log_level ) {
     case LogLevel::Normal:
         fmt_message = "[+] ";
+        Color = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE; // White
         break;
     case LogLevel::Information:
         fmt_message = "[i] ";
-        Color = FOREGROUND_GREEN;
+        Color = FOREGROUND_BLUE | FOREGROUND_INTENSITY; // Light Blue
         break;
     case LogLevel::Warning:
         fmt_message = "[!] ";
-        Color = FOREGROUND_RED | FOREGROUND_GREEN;
+        Color = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY; // Orange-ish Yellow
         break;
     case LogLevel::Error:
         fmt_message = "[x] ";
-        Color = FOREGROUND_RED;
+        Color = FOREGROUND_RED; // Red
         break;
     case LogLevel::Success:
         fmt_message = "[*] ";
-        Color = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+        Color = FOREGROUND_GREEN | FOREGROUND_INTENSITY; // Light Green-ish
         break;
     case LogLevel::Unknown:
         fmt_message = "[?] ";
-        Color = FOREGROUND_BLUE;
+        Color = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY; // Grey
         break;
     }
 

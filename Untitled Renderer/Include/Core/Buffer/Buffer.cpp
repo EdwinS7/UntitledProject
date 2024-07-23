@@ -1,4 +1,4 @@
-#include "Buffer.hpp"
+#include "buffer.hpp"
 
 void cBuffer::Init( ) {
 	gGraphics->CreateFontFromName( &DefaultFont, "Verdana", 10, 400, Vec2<int16_t>( 0, 0 ), false );
@@ -300,6 +300,7 @@ Vec2<int16_t> cBuffer::GetTextSize( Font* font, const std::string& text ) {
 
 	return Size;
 }
+
 void cBuffer::WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices ) {
 	int VerticesCount = vertices->size( );
 	int IndicesCount = indices ? indices->size( ) : VerticesCount * 3 - 1;

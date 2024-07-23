@@ -1,5 +1,6 @@
 #pragma once
 
+#include <corecrt_math_defines.h>
 #include <filesystem>
 #include <shlobj.h>
 #include <fstream>
