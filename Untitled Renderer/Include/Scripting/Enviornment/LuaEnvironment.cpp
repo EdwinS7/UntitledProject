@@ -225,10 +225,10 @@ int cLuaEnvironment::LoadScript( const std::string& source ) {
 			ErrorOccured = true;
 		} );
 
-		Lua.collect_garbage( );
-
 		if ( ErrorOccured )
 			return 0;
+
+        //Lua.collect_garbage( );
 
 		return 1;
 	}

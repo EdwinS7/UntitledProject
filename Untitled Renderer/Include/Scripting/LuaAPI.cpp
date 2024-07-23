@@ -45,11 +45,11 @@ void cLuaAPI::RunConnection( const std::string& connection_name ) {
     };
 
     // Redo this in the future, not sure what to do just yet.
-    auto PriorityCallbacks = GetConnections( "__" + connection_name );
-    RunConnections( PriorityCallbacks );
+    auto PriorityConnections = GetConnections( "__" + connection_name );
+    RunConnections( PriorityConnections );
 
-    auto Callbacks = GetConnections( connection_name );
-    RunConnections( Callbacks );
+    auto Connections = GetConnections( connection_name );
+    RunConnections( Connections );
 }
 
 std::vector<sol::protected_function> cLuaAPI::GetConnections( const std::string& connection_name ) {

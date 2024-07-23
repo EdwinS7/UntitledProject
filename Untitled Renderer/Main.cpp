@@ -38,7 +38,7 @@ void RunScript( ) {
         }
 
         // Creates new env for each script at the moment.
-        auto Environment = gLuaAPI->NewEnvironment( );
+        static auto Environment = gLuaAPI->NewEnvironment( );
 
         if ( !Environment->LoadScriptFromFile( FS_SCRIPTS_FOLDER, Input ) ) {
             Environment->LoadScript( Input );
