@@ -95,14 +95,14 @@ All = 15
 
 ### LogLevel :
 
-```
+```lua
 Normal = 0,
-Information,
-Warning,
-Error,
-Success,
-Unknown,
-All --Only used with Client.GetLogs(LogLevel)
+Information = 1,
+Warning = 2,
+Error = 3,
+Success = 4,
+Unknown = 5,
+All = 6 --Only used with Client.GetLogs(LogLevel)
 ```
 
 {% hint style="info" %}
