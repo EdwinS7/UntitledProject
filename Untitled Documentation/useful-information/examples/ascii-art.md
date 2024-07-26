@@ -1,7 +1,7 @@
 ---
 description: >-
-  Demonstration on how to render text, use multi line strings, use callbacks and
-  creating a font
+  Demonstration on how to render text, use multi line strings and use
+  connections.
 ---
 
 # ⚙️ ASCII Art

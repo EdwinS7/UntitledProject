@@ -7,17 +7,17 @@ description: Animations table
 ### Lerp (float) :
 
 ```lua
-Animations.Lerp(from, to, time)
+Animations.Lerp(from: float, to: float, time: float)
 ```
 
 ### Coserp(float) :
 
 ```lua
-Animations.Coserp(from, to, time)
+Animations.Coserp(from: float, to: float, time: float)
 ```
 
 ### Smoothstep(float) :
 
 ```lua
-Animations.Smoothstep(from, to, time)
+Animations.Smoothstep(from: float, to: float, time: float)
 ```

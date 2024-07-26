@@ -7,19 +7,19 @@ description: Client table
 ### Print (function) :
 
 ```lua
-Client.Log(LogLevel, message, ...)
+Client.Log(level: LogLevel, message: string, ...)
 ```
 
 ### GetLogs (table) :
 
 ```lua
-Client.GetLogs(LogLevel)
+Client.GetLogs(level: LogLevel)
 ```
 
 ### ClearLogs (function) :
 
 ```lua
-Client.ClearLogs(LogLevel)
+Client.ClearLogs(level: LogLevel)
 ```
 
 ### Get Username (string) :
