@@ -77,13 +77,13 @@ Renderer.FilledTriangle(p1: Vector2, p2: Vector2, p3: Vector2, color: Color)
 ### Circle (function) :
 
 ```lua
-Renderer.Cirle(pos: Vector2, radius: int, segments: int, color: Color)
+Renderer.Cirle(pos: Vector2, radius: float, completion: float, rotation: float, segments: int, color: Color)
 ```
 
 ### Filled Circle (function) :
 
 ```lua
-Renderer.FilledCircle(pos: Vector2, radius: int, segments: int, center_color: Color color: Color)
+Renderer.FilledCircle(pos: Vector2, radius: float, completion: float, rotation: float, segments: int, center_color: Color color: Color)
 ```
 
 ### Text (function) :
