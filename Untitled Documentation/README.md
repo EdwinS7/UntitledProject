@@ -4,7 +4,7 @@ description: Welcome to the official Untitled Project wiki!
 
 # Welcome
 
-<figure><img src=".gitbook/assets/pngimg.com - under_construction_PNG18.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/pngimg.com - under_construction_PNG18.png" alt="" width="563"><figcaption></figcaption></figure>
 
 ### About
 
