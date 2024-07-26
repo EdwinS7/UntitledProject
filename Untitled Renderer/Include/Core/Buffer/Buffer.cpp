@@ -25,29 +25,12 @@ void cBuffer::Line( Vec2< int16_t > from, Vec2< int16_t > to, Color color ) {
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::Polyline( const std::vector<Vertex> vertices, Color color ) {
-	WriteToBuffer( LINE, &vertices, nullptr );
-}
-
-void cBuffer::Polygon( const std::vector<Vertex> vertices, Color color ) {
-	std::vector<int32_t> Indices;
-	Indices.reserve( ( vertices.size( ) - 1 ) * 3 );
-
-	for ( size_t i = 1; i < vertices.size( ) - 1; i++ ) {
-		Indices.push_back( 0 );
-		Indices.push_back( i );
-		Indices.push_back( i + 1 );
-	}
-
-	WriteToBuffer( D3DPT_TRIANGLELIST, &vertices, &Indices );
-}
-
 void cBuffer::Polyline( const std::vector<Vec2<int16_t>>& points, Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( points.size( ) );
 
 	MakeVertices( &Vertices, &points, &color );
-	WriteToBuffer( D3DPT_LINELIST, &Vertices, nullptr );
+	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
 void cBuffer::Polygon( const std::vector<Vec2<int16_t>>& points, Color color ) {
@@ -74,7 +57,7 @@ void cBuffer::Rectangle( Vec2< int16_t > position, Vec2< int16_t > size, Color c
 	bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
 	bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
 
-	std::vector<Vec2<int16_t>> Points;
+	std::vector<Vertex> Vertices;
 
 	std::initializer_list<std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>> Corners = {
 		std::tuple{Vec2<int16_t>( position.x, position.y ), Vec2<int16_t>( position.x + rounding, position.y + rounding ), 180, RoundTopLeft},
@@ -91,20 +74,22 @@ void cBuffer::Rectangle( Vec2< int16_t > position, Vec2< int16_t > size, Color c
 			Vec2<int16_t> CornerRounded = std::get<1>( Corner );
 			int Angle = std::get<2>( Corner );
 
-			std::vector<Vec2<int16_t>> CornerPoints;
-			CornerPoints.reserve( m_RectangleSegments + 1 );
+			std::vector<Vertex> CornerVertices;
+			CornerVertices.reserve( m_RectangleSegments + 1 );
 
-			GenerateArcPoints( &CornerPoints, &CornerRounded, rounding, 25, Angle, m_RectangleSegments );
+			GenerateArcVertices( &CornerVertices, &CornerRounded, rounding, 25, Angle, m_RectangleSegments, color, color, false );
 
-			Points.insert( Points.end( ),
-				std::make_move_iterator( CornerPoints.begin( ) ), std::make_move_iterator( CornerPoints.end( ) )
+			Vertices.insert( Vertices.end( ),
+				std::make_move_iterator( CornerVertices.begin( ) ), std::make_move_iterator( CornerVertices.end( ) )
 			);
 		}
-		else
-			Points.emplace_back( std::get<0>( Corner ) );
+		else {
+			auto CornerUnrounded = std::get<0>( Corner );
+			Vertices.emplace_back( Vertex( static_cast< float >( CornerUnrounded.x ), static_cast< float >( CornerUnrounded.y ), 0.f, 1.f, color.Hex, 0.f, 0.f ) );
+		}
 	}
 
-	Polyline( Points, color );
+	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
 void cBuffer::FilledRectangle( Vec2< int16_t > position, Vec2< int16_t > size, Color color, int16_t rounding, CornerFlags flags ) {
@@ -113,7 +98,7 @@ void cBuffer::FilledRectangle( Vec2< int16_t > position, Vec2< int16_t > size, C
 	bool RoundBottomLeft = ( flags & CornerBottomLeft ) && rounding;
 	bool RoundBottomRight = ( flags & CornerBottomRight ) && rounding;
 
-	std::vector<Vec2<int16_t>> Points;
+	std::vector<Vertex> Vertices;
 
 	std::initializer_list<std::tuple<Vec2<int16_t>, Vec2<int16_t>, int, bool>> Corners = {
 		std::tuple{Vec2<int16_t>( position.x, position.y ), Vec2<int16_t>( position.x + rounding, position.y + rounding ), 180, RoundTopLeft},
@@ -130,20 +115,22 @@ void cBuffer::FilledRectangle( Vec2< int16_t > position, Vec2< int16_t > size, C
 			Vec2<int16_t> CornerRounded = std::get<1>( Corner );
 			int Angle = std::get<2>( Corner );
 
-			std::vector<Vec2<int16_t>> CornerPoints;
-			CornerPoints.reserve( m_RectangleSegments + 1 );
+			std::vector<Vertex> CornerVertices;
+			CornerVertices.reserve( m_RectangleSegments + 1 );
 
-			GenerateArcPoints( &CornerPoints, &CornerRounded, rounding, 25, Angle, m_RectangleSegments );
+			GenerateArcVertices( &CornerVertices, &CornerRounded, rounding, 25, Angle, m_RectangleSegments, color, color, false );
 
-			Points.insert( Points.end( ),
-				std::make_move_iterator( CornerPoints.begin( ) ), std::make_move_iterator( CornerPoints.end( ) )
+			Vertices.insert( Vertices.end( ),
+				std::make_move_iterator( CornerVertices.begin( ) ), std::make_move_iterator( CornerVertices.end( ) )
 			);
 		}
-		else
-			Points.emplace_back( std::get<0>( Corner ) );
+		else {
+			auto CornerUnrounded = std::get<0>( Corner );
+			Vertices.emplace_back( Vertex( static_cast< float >( CornerUnrounded.x ), static_cast< float >( CornerUnrounded.y ), 0.f, 1.f, color.Hex, 0.f, 0.f ) );
+		}
 	}
 
-	Polygon( Points, color );
+	WriteToBuffer( TRIANGLE_FAN, &Vertices, nullptr );
 }
 
 void cBuffer::TexturedRectangle( IDirect3DTexture9* texture, Vec2<int16_t> position, Vec2<int16_t> size, Color color_modulation ) {
@@ -249,19 +236,21 @@ void cBuffer::FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<i
 }
 
 void cBuffer::Circle( Vec2<int16_t> pos, int16_t radius, int16_t segments, Color color ) {
-	std::vector<Vertex> vertices;
-	vertices.reserve( segments + 1 );
+	std::vector<Vertex> Vertices;
+	Vertices.reserve( segments );
 
-	GenerateArcVertices( &vertices, &pos, radius, 100, 0, segments, color, color, false );
-	Polyline( vertices, color );
+	GenerateArcVertices( &Vertices, &pos, radius, 100, 0, segments, color, color, false );
+
+	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
 void cBuffer::FilledCircle( Vec2<int16_t> pos, int16_t radius, int16_t segments, Color center_color, Color color ) {
-	std::vector<Vertex> vertices;
-	vertices.reserve( segments + 2 );
+	std::vector<Vertex> Vertices;
+	Vertices.reserve( segments );
+	
+	GenerateArcVertices( &Vertices, &pos, radius, 100, 0, segments, center_color, color, true );
 
-	GenerateArcVertices( &vertices, &pos, radius, 100, 0, segments, center_color, color, true );
-	Polygon( vertices, color );
+	WriteToBuffer( TRIANGLE_FAN, &Vertices, nullptr );
 }
 
 void cBuffer::Text( Font* font, const std::string& str, Vec2<int16_t> pos, Color color ) {

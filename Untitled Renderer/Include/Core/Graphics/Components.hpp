@@ -2,7 +2,9 @@
 
 #define VERTEX ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
 
+#define TRIANGLE_FAN D3DPT_TRIANGLEFAN // Only used for filled circles atm. need to remove it.
 #define TRIANGLE D3DPT_TRIANGLESTRIP
+#define POINT D3DPT_POINTLIST
 #define LINE D3DPT_LINESTRIP
 
 // Template class for 2D vector

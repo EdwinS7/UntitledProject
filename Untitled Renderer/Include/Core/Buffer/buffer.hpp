@@ -14,9 +14,6 @@ public:
 
     void Line( Vec2<int16_t> from, Vec2<int16_t> to, const Color color );
 
-    void Polyline( const std::vector<Vertex> vertices, Color color );
-    void Polygon( const std::vector<Vertex> vertices, Color color );
-
     void Polyline( const std::vector<Vec2<int16_t>>& points, Color color );
     void Polygon( const std::vector<Vec2<int16_t>>& points, Color color );
 

@@ -23,8 +23,7 @@ inline void cBuffer::BuildDrawCommands( std::vector<DrawCommand>* draw_commands 
 inline void cBuffer::GenerateArcVertices( std::vector<Vertex>* vertices, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments, Color center_color, Color color, bool filled ) {
 	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
 	double Conversion = static_cast< double >( completion ) * 0.01;
-
-	double ThetaStep =  ((M_PI * 2.0) * Conversion) / static_cast< double >( segments );
+	double ThetaStep = 2.0 * Conversion * M_PI / static_cast< double >( segments );
 
 	vertices->reserve( segments + 1 );
 
@@ -39,23 +38,23 @@ inline void cBuffer::GenerateArcVertices( std::vector<Vertex>* vertices, const V
 
 	if ( filled ) {
 		vertices->push_back( Vertex(
-			static_cast< int16_t >( std::round( position->x ) ),
-			static_cast< int16_t >( std::round( position->y ) ),
-			0.f, 1.f, // z, rhw
+			static_cast< float >( position->x ),
+			static_cast< float >( position->y ),
+			0.f, 1.f,  // z, rhw
 			center_color.Hex,
-			0.f, 0.f // u, v
+			0.f, 0.f  // u, v
 		) );
 	}
 
-	for ( int i = 0; i <= segments; i++ ) {
+	for ( int i = 0; i <= segments; ++i ) {
 		Vec2<double> point = GetPoint( i );
 
 		vertices->push_back( Vertex(
-			static_cast< int16_t >( std::round( point.x ) ),
-			static_cast< int16_t >( std::round( point.y ) ),
-			0.f, 1.f, // z, rhw
+			static_cast< float >( point.x ),
+			static_cast< float >( point.y ),
+			0.f, 1.f,  // z, rhw
 			color.Hex,
-			0.f, 0.f // u, v
+			0.f, 0.f  // u, v
 		) );
 	}
 }
@@ -64,7 +63,7 @@ inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, cons
 	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
 	double Conversion = static_cast< double >( completion ) * 0.01;
 
-	double ThetaStep = 2.0 * Conversion * M_PI / segments;
+	double ThetaStep = 2.0 * Conversion * M_PI / static_cast< double >( segments );
 
 	Points->reserve( segments + 1 );
 
