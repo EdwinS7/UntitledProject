@@ -5,7 +5,7 @@
 #include <Common.hpp>
 #include "Components.hpp"
 #include "../Graphics/DirectX9.hpp"
-#include "../../Scripting/LuaAPI.hpp"
+#include "../Scripting/LuaAPI.hpp"
 
 class cBuffer {
 public:
@@ -57,6 +57,8 @@ public:
 
     Font* GetDefaultFont( );
 
+    void WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices );
+
 private:
     int m_VerticesCount{ 0 }, m_IndicesCount{ 0 },
         m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
@@ -67,7 +69,6 @@ private:
 
     Font DefaultFont;
 
-    void WriteToBuffer( int8_t primitive, const std::vector<Vertex>* vertices, const std::vector<int32_t>* indices );
     inline void GenerateArcPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments );
 
     inline void MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color );

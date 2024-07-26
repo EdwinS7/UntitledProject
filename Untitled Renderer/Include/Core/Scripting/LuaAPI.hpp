@@ -8,14 +8,14 @@
 #include "../Utils/Animation/Animation.hpp"
 #include "../Utils/Networking/Networking.hpp"
 
-#include "../Core/Window/Window.hpp"
-#include "../Core/Graphics/DirectX9.hpp"
-#include "../Core/Camera/Camera.hpp"
-#include "../Core/Buffer/Buffer.hpp"
-#include "../Core/Input/Input.hpp"
-#include "../Core/Audio/Audio.hpp"
+#include "../Window/Window.hpp"
+#include "../Graphics/DirectX9.hpp"
+#include "../Camera/Camera.hpp"
+#include "../Buffer/Buffer.hpp"
+#include "../Input/Input.hpp"
+#include "../Audio/Audio.hpp"
 
-#include "Core/Context/Context.hpp"
+#include "../Context/Context.hpp"
 
 #include "Enviornment/LuaEnvironment.hpp"
 
@@ -23,7 +23,7 @@ class cLuaAPI {
 public:
 	void Init( );
 
-	std::unique_ptr<cLuaEnvironment> NewEnvironment( );
+	std::unique_ptr<cLuaEnvironment> CreateEnvironment( );
 
 	void RunConnection( const std::string& callback_name );
 	std::vector<sol::protected_function> GetConnections( const std::string& callback_name );

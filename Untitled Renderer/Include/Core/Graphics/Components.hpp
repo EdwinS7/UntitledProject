@@ -269,6 +269,8 @@ public:
 
 			Glyph.Texture = nullptr;
 		}
+
+		Valid = false;
 	}
 };
 

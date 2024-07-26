@@ -39,7 +39,7 @@
     <ClCompile Include="Include\Scenes\World\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Scripting\Enviornment\LuaEnvironment.cpp">
+    <ClCompile Include="Include\Core\Scripting\Enviornment\LuaEnvironment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Include\Core\Audio\Audio.cpp">
@@ -48,19 +48,19 @@
     <ClCompile Include="Include\Core\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Utils\Logger\Logger.cpp">
+    <ClCompile Include="Include\Core\Utils\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Utils\FileSystem\FileSystem.cpp">
+    <ClCompile Include="Include\Core\Utils\FileSystem\FileSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Utils\Animation\Animation.cpp">
+    <ClCompile Include="Include\Core\Utils\Animation\Animation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Utils\Networking\Networking.cpp">
+    <ClCompile Include="Include\Core\Utils\Networking\Networking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\Scripting\LuaAPI.cpp">
+    <ClCompile Include="Include\Core\Scripting\LuaAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -392,10 +392,10 @@
     <ClInclude Include="Include\Scenes\World\World.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Scripting\Enviornment\LuaEnvironment.hpp">
+    <ClInclude Include="Include\Core\Scripting\Enviornment\LuaEnvironment.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Scripting\Enviornment\Definitions\FunctionWrapper.hpp">
+    <ClInclude Include="Include\Core\Scripting\Enviornment\Definitions\FunctionWrapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Thirdparty\Sol\Config.hpp">
@@ -500,13 +500,13 @@
     <ClInclude Include="Include\Core\Input\KeyDefinitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Utils\Logger\Logger.hpp">
+    <ClInclude Include="Include\Core\Utils\Logger\Logger.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Utils\FileSystem\FileSystem.hpp">
+    <ClInclude Include="Include\Core\Utils\FileSystem\FileSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Utils\Animation\Animation.hpp">
+    <ClInclude Include="Include\Core\Utils\Animation\Animation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\Graphics\Components.hpp">
@@ -515,10 +515,10 @@
     <ClInclude Include="Include\Untitled.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Utils\Networking\Networking.hpp">
+    <ClInclude Include="Include\Core\Utils\Networking\Networking.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Scripting\LuaAPI.hpp">
+    <ClInclude Include="Include\Core\Scripting\LuaAPI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -550,16 +550,16 @@
     <None Include="Include\Core\Camera\Camera.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Utils\Logger\Logger.inl">
+    <None Include="Include\Core\Utils\Logger\Logger.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Utils\FileSystem\FileSystem.inl">
+    <None Include="Include\Core\Utils\FileSystem\FileSystem.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Utils\Animation\Animation.inl">
+    <None Include="Include\Core\Utils\Animation\Animation.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Include\Utils\Networking\Networking.inl">
+    <None Include="Include\Core\Utils\Networking\Networking.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

@@ -1,8 +1,11 @@
 #pragma once
 
 #include <corecrt_math_defines.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #include <filesystem>
 #include <shlobj.h>
+#include <intrin.h>
 #include <fstream>
 #include <vector>
 #include <thread>
@@ -15,6 +18,9 @@
 #include <d3dx9tex.h>
 
 #define CURL_STATICLIB
+
+#define SOL_CHECK_ARGUMENTS 1
+//#define SOL_ALL_SAFETIES_ON 1
 #define SOL_LUAJIT 1
 
 #include <Base64.hpp>

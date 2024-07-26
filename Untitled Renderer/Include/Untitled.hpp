@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Utils/Logger/Logger.hpp"
-#include "Utils/Animation/Animation.hpp"
-#include "Utils/Networking/Networking.hpp"
+#include "Core/Utils/Logger/Logger.hpp"
+#include "Core/Utils/Animation/Animation.hpp"
+#include "Core/Utils/Networking/Networking.hpp"
 
 #include "Core/Window/Window.hpp"
 #include "Core/Graphics/DirectX9.hpp"

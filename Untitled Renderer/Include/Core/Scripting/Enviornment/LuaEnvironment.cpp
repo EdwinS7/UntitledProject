@@ -29,6 +29,7 @@ inline void LuaPanicHandler( sol::optional<std::string> message ) {
 
 void cLuaEnvironment::Init( ) {
     Lua = sol::state( sol::c_call<decltype( &LuaPanicHandler ), &LuaPanicHandler> );
+
     Lua.set_exception_handler( &LuaExceptionHandler );
 
     Lua.open_libraries(
@@ -38,12 +39,39 @@ void cLuaEnvironment::Init( ) {
         sol::lib::ffi, sol::lib::jit, sol::lib::os
     );
 
-    Lua[ "package" ][ "path" ] = ( gFileSystem->GetExecutableDirectory( ) + FS_LIBRARY_SCRIPTS_FOLDER ) + "/?.lua";
+    Lua[ "package" ][ "path" ] = ( gFileSystem->GetExecutableDirectory( ) + "/" + FS_LIBRARY_SCRIPTS_FOLDER ) + "?.lua";
 
     std::vector<std::string> UnregisterFunctions = {
-        "collectgarbage", "dofilsse", "load",
-        "loadfile", "pcall", "print", "xpcall",
-        "getmetatable", "setmetatable", "__nil_callback"
+        "loadfile",
+        "load",
+        "dofile",
+        "setfenv",
+        "__nil_callback",
+
+        // These functions can be used to execute arbitrary code or access sensitive data.
+        "os.execute",
+        "os.remove",
+        "os.rename",
+        "io.open",
+        "io.popen",
+        "debug.getinfo",
+        "debug.getlocal",
+        "debug.setlocal",
+        "debug.getupvalue",
+        "debug.setupvalue",
+        "debug.sethook",
+        "debug.traceback",
+
+        // Prevents environment from being manipulated.
+        "package.loadlib",
+        "package.preload",
+        "package.path",
+        "package.cpath",
+        "getmetatable",
+        "setmetatable",
+        "rawget",
+        "rawset",
+        "collectgarbage"
     };
 
     for ( auto& function : UnregisterFunctions ) {
@@ -106,6 +134,11 @@ void cLuaEnvironment::Init( ) {
         "__eq", &Rect<int>::operator==
     );
 
+    Lua.new_usertype<Vertex>(
+        "Vertex", sol::constructors<Vertex( ), Vertex( float, float, float, float, DWORD, float, float )>( ),
+        "x", &Vertex::x, "y", &Vertex::y, "z", &Vertex::z, "rhw", &Vertex::rhw, "Color", &Vertex::Color, "u", &Vertex::u, "v", &Vertex::v
+    );
+
     Lua.new_usertype<Color>( 
         "Color", sol::constructors<Color( ), Color( uint8_t, uint8_t, uint8_t, uint8_t )>( ),
         "Hex", &Color::Hex, "r", sol::property( &Color::GetR ), "g", sol::property( &Color::GetG ),
@@ -121,6 +154,8 @@ void cLuaEnvironment::Init( ) {
     Client[ "GetLogs" ] = Client::GetLogs;
     Client[ "ClearLogs" ] = Client::ClearLogs;
     Client[ "GetUsername" ] = Client::GetUsername;
+    Client[ "GetIPAddress" ] = Client::GetIPAddress;
+    Client[ "GetHwid" ] = Client::GetHwid;
     Client[ "GetFramerate" ] = Client::GetFPS;
     Client[ "GetRealtime" ] = Client::GetRealTime;
     Client[ "GetDeltaTime" ] = Client::GetDeltaTime;
@@ -137,6 +172,8 @@ void cLuaEnvironment::Init( ) {
     Input[ "GetCursorStyle" ] = Input::GetCursorStyle;
 
     auto Window = Lua.create_table( );
+    Window[ "IsFocused" ] = Window::IsFocused;
+    Window[ "IsMinimized" ] = Window::IsMinimized;
     Window[ "SetFullscreen" ] = Window::SetFullscreen;
     Window[ "GetFullscreen" ] = Window::GetFullscreen;
     Window[ "SetSize" ] = Window::SetSize;
@@ -173,6 +210,7 @@ void cLuaEnvironment::Init( ) {
     Renderer[ "GetScreenSize" ] = Renderer::GetScreenSize;
     Renderer[ "PushClip" ] = Renderer::PushClip;
     Renderer[ "PopClip" ] = Renderer::PopClip;
+    Renderer[ "WriteToBuffer" ] = Renderer::WriteToBuffer;
 
     auto Animations = Lua.create_table( );
     Animations[ "Lerp" ] = Animations::Lerp;
@@ -209,27 +247,20 @@ void cLuaEnvironment::Init( ) {
     Lua[ "Json" ] = Json;
     Lua[ "Utils" ] = Utils;
 }
+
 int cLuaEnvironment::LoadScript( const std::string& source ) {
 	if ( source.empty( ) )
 		return 0;
 
-	bool ErrorOccured = false;
-
 	try {
-		Lua.safe_script( source, [ &ErrorOccured ] ( lua_State* L, sol::protected_function_result result ) {
-			if ( result.valid( ) ) {
-				return result;
-			}
-
-			gLogger->Log( LogLevel::Error, std::format( "ERROR!!!\nLuaJIT Error: {}", result.get<sol::error>( ).what( ) ) );
-
-			ErrorOccured = true;
+		auto result = Lua.script( source, [ & ] ( lua_State*, sol::protected_function_result pfr ) {
+            return pfr;
 		} );
 
-		if ( ErrorOccured )
+        if ( !result.valid( ) ) {
+			gLogger->Log( LogLevel::Error, std::format( "Execution error: {}", result.get<sol::error>( ).what( ) ) );
 			return 0;
-
-        //Lua.collect_garbage( );
+		}
 
 		return 1;
 	}

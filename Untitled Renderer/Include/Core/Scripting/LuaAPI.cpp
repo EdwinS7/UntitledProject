@@ -1,30 +1,40 @@
 #include "LuaAPI.hpp"
 
 void cLuaAPI::Init( ) {
-    static std::unique_ptr<cLuaEnvironment> GameEnviornment = this->NewEnvironment( );
+    static std::unique_ptr<cLuaEnvironment> GameEnviornment = this->CreateEnvironment( );
 
     // Default Guis
     GameEnviornment->LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, "Startup.lua" );
 }
 
-std::unique_ptr<cLuaEnvironment> cLuaAPI::NewEnvironment( ) {
-    std::unique_ptr<cLuaEnvironment> Enviornment = std::make_unique<cLuaEnvironment>( );
+std::unique_ptr<cLuaEnvironment> cLuaAPI::CreateEnvironment( ) {
+    std::unique_ptr<cLuaEnvironment> Environment = std::make_unique<cLuaEnvironment>( );
 
-    if ( !Enviornment ) {
+    if ( !Environment ) {
+        gLogger->Log( LogLevel::Error, "Failed to create Lua environment." );
 		return nullptr;
 	}
 
-    Enviornment->Init( );
+    try {
+        Environment->Init( );
 
-    for ( auto& Script : gFileSystem->GetFilesInFolder( FS_DEFAULT_SCRIPTS_FOLDER ) ) {
-        if ( Script == "Startup.lua" ) {
-            continue;
+        auto scripts = gFileSystem->GetFilesInFolder( FS_DEFAULT_SCRIPTS_FOLDER );
+        for ( const auto& Script : scripts ) {
+            if ( Script == "Startup.lua" ) {
+                continue;
+            }
+
+            if ( !Environment->LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, Script ) ) {
+                gLogger->Log( LogLevel::Warning, "Failed to load script: " + Script );
+            }
         }
-
-        Enviornment->LoadScriptFromFile( FS_DEFAULT_SCRIPTS_FOLDER, Script );
+    }
+    catch ( const std::exception& e ) {
+        gLogger->Log( LogLevel::Error, "Exception caught in CreateEnvironment: " + std::string( e.what( ) ) );
+        return nullptr;
     }
 
-    return Enviornment;
+    return Environment;
 }
 
 void cLuaAPI::RunConnection( const std::string& connection_name ) {
@@ -46,11 +56,11 @@ void cLuaAPI::RunConnection( const std::string& connection_name ) {
     };
 
     // Redo this in the future, not sure what to do just yet.
-    auto PriorityConnections = GetConnections( "__" + connection_name );
-    RunConnections( PriorityConnections );
-
     auto Connections = GetConnections( connection_name );
     RunConnections( Connections );
+
+    auto PriorityConnections = GetConnections( "__" + connection_name );
+    RunConnections( PriorityConnections );
 }
 
 std::vector<sol::protected_function> cLuaAPI::GetConnections( const std::string& connection_name ) {

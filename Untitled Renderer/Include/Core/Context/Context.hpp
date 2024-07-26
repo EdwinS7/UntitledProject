@@ -3,11 +3,14 @@
 #define CONTEXT_H
 
 #include <Common.hpp>
-#include "../../Scripting/LuaAPI.hpp"
+#include "../Scripting/LuaAPI.hpp"
 
 class cContext {
 public:
 	void Update( );
+
+	std::string GetHwid( ) const;
+	std::string GetIPAddress( ) const;
 
 	inline int GetFrameRate( ) const;
 

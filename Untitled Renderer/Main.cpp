@@ -3,7 +3,7 @@
 // I just have this for testing at the moment.
 void RunScript( ) {
     gLogger->Log( LogLevel::Information, "Welcome to Untitled Renderer. Use 'help' for a list of commands." );
-    gLogger->Log( LogLevel::Information, "To run a script, enter the file name with the .lua extension." );
+    gLogger->Log( LogLevel::Information, "To run a script, enter the file name with the file extension." );
 
     while ( true ) {
         std::cout << "> ";
@@ -25,7 +25,12 @@ void RunScript( ) {
             continue;
         }
 
-        static auto Environment = gLuaAPI->NewEnvironment( );
+        static auto Environment = gLuaAPI->CreateEnvironment( );
+
+        if ( !Environment ) {
+            gLogger->Log( LogLevel::Error, "Failed to create Lua environment. Exiting..." );
+            continue;
+        }
 
         if ( !Environment->LoadScriptFromFile( FS_SCRIPTS_FOLDER, Input ) ) {
 			gLogger->Log( LogLevel::Error, std::format("Failed to load '{}'", Input) );

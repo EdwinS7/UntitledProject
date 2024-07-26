@@ -25,8 +25,16 @@ namespace Client {
         gLogger->ClearLogs( log_level );
     }
 
-    sol::table GetLogs( sol::this_state s, LogLevel log_level ) {
-        return VectorToTable( sol::state_view( s ), gLogger->GetLogs( log_level ) );
+    sol::table GetLogs( sol::this_state s, sol::optional<LogLevel> log_level ) {
+        return VectorToTable( sol::state_view( s ), gLogger->GetLogs( log_level.value_or( LogLevel::END ) ) );
+    }
+
+    std::string GetIPAddress( ) {
+        return gContext->GetIPAddress( );
+    }
+
+    std::string GetHwid( ) {
+        return gContext->GetHwid( );
     }
 
     std::string GetUsername( ) {
@@ -89,6 +97,14 @@ namespace Input {
 };
 
 namespace Window {
+    bool IsFocused( ) {
+        return gWindow->IsFocused( );
+    }
+
+	bool IsMinimized( ) {
+        return gWindow->IsMinimized( );
+	}
+
     void SetFullscreen( bool fullscreen ) {
         gWindow->SetFullscreen( fullscreen );
     }
@@ -238,6 +254,33 @@ namespace Renderer {
     void PopClip( ) {
         gBuffer->PopClip( );
     }
+
+    void WriteToBuffer( int8_t primitive, const sol::table& vertices, sol::optional<sol::table> indices ) {
+        std::vector<Vertex> Vertices;
+        std::vector<int> Indices;
+
+        for ( const auto& kv : vertices ) {
+            sol::table VertexTable = kv.second.as<sol::table>( );
+
+            Vertices.emplace_back( Vertex(
+                VertexTable.get<float>( "x" ),
+                VertexTable.get<float>( "y" ),
+                VertexTable.get<float>( "z" ),
+                VertexTable.get<float>( "rhw" ),
+                static_cast< DWORD >( VertexTable.get<int>( "Color" ) ),
+                VertexTable.get<float>( "u" ),
+                VertexTable.get<float>( "v" )
+            ) );
+        }
+
+        if ( indices ) {
+            for ( const auto& kv : *indices ) {
+                Indices.push_back( kv.second.as<int>( ) );
+            }
+        }
+
+        gBuffer->WriteToBuffer( primitive, &Vertices, Indices.empty( ) ? nullptr : &Indices );
+    }
 };
 
 namespace Animations {
@@ -368,15 +411,11 @@ namespace Utils {
 namespace Globals {
     void Connect( sol::this_state s, std::string connection_name, sol::protected_function function ) {
         if ( std::find( gLuaAPI->ConnectionNames.begin( ), gLuaAPI->ConnectionNames.end( ), connection_name ) == gLuaAPI->ConnectionNames.end( ) ) {
-            gLogger->Log( LogLevel::Error, "Lua error: invalid callback \"" + connection_name + "\"" );
+            gLogger->Log( LogLevel::Error, "Lua error: \"" + connection_name + "\" is undefined" );
             return;
         }
 
         gLuaAPI->AddConnection( connection_name, function );
-    }
-
-    void ConsolePrint( const std::string& string ) {
-        printf( string.c_str( ) );
     }
 
     void Print( const std::string& string ) {
