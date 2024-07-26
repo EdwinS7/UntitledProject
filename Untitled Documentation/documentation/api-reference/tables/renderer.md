@@ -134,3 +134,15 @@ Renderer.PushClip(position: Vector2, size: Vector2)
 ```lua
 Renderer.PopClip()
 ```
+
+### WriteToBuffer (function)
+
+```lua
+Renderer.WriteToBuffer(primitive: PrimitiveType, [vertex: Vertex, ...], [index: int, ...])
+```
+
+{% hint style="info" %}
+I highly recommend you read on how geometric primitives work, reference here:
+
+[https://learn.microsoft.com/en-us/windows/win32/direct3d9/primitives](https://learn.microsoft.com/en-us/windows/win32/direct3d9/primitives)
+{% endhint %}

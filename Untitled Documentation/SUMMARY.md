@@ -7,6 +7,8 @@
 * [📲 Getting started](useful-information/getting-started.md)
 * [🧠 Examples](useful-information/examples/README.md)
   * [⚙️ ASCII Art](useful-information/examples/ascii-art.md)
+  * [⚙️ Webhook](useful-information/examples/webhook.md)
+  * [⚙️ Custom Renderer](useful-information/examples/custom-renderer.md)
 * [📋 Connections](useful-information/connections.md)
 
 ## Documentation
