@@ -235,20 +235,20 @@ void cBuffer::FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<i
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Circle( Vec2<int16_t> pos, int16_t radius, int16_t segments, Color color ) {
+void cBuffer::Circle( Vec2<int16_t> pos, float radius, float completion, float rotation, int16_t segments, Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( segments );
 
-	GenerateArcVertices( &Vertices, &pos, radius, 100, 0, segments, color, color, false );
+	GenerateArcVertices( &Vertices, &pos, radius, completion, rotation, segments, color, color, false );
 
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
-void cBuffer::FilledCircle( Vec2<int16_t> pos, int16_t radius, int16_t segments, Color center_color, Color color ) {
+void cBuffer::FilledCircle( Vec2<int16_t> pos, float radius, float completion, float rotation, int16_t segments, Color center_color, Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( segments );
 	
-	GenerateArcVertices( &Vertices, &pos, radius, 100, 0, segments, center_color, color, true );
+	GenerateArcVertices( &Vertices, &pos, radius, completion, rotation, segments, center_color, color, true );
 
 	WriteToBuffer( TRIANGLE_FAN, &Vertices, nullptr );
 }

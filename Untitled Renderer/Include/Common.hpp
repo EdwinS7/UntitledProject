@@ -19,8 +19,8 @@
 
 #define CURL_STATICLIB
 
-#define SOL_CHECK_ARGUMENTS 1
-//#define SOL_ALL_SAFETIES_ON 1
+//#define SOL_CHECK_ARGUMENTS 1
+#define SOL_ALL_SAFETIES_ON 1
 #define SOL_LUAJIT 1
 
 #include <Base64.hpp>

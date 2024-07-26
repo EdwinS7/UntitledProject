@@ -31,8 +31,8 @@ public:
     void Triangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color );
     void FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color );
 
-    void Circle( Vec2<int16_t> position, int16_t radius, int16_t segments, Color color );
-    void FilledCircle( Vec2<int16_t> position, int16_t radius, int16_t segments, Color center_color, Color color );
+    void Circle( Vec2<int16_t> pos, float radius, float completion, float rotation, int16_t segments, Color color );
+    void FilledCircle( Vec2<int16_t> pos, float radius, float completion, float rotation, int16_t segments, Color center_color, Color color );
 
     void Text( Font* font, const std::string& string, Vec2<int16_t> Pos, Color color );
     Vec2<int16_t> GetTextSize( Font* font, const std::string& string );
@@ -69,8 +69,7 @@ private:
 
     Font DefaultFont;
 
-    inline void GenerateArcVertices( std::vector<Vertex>* vertices, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments, Color center_color, Color color, bool filled );
-    inline void GenerateArcPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments );
+    inline void GenerateArcVertices( std::vector<Vertex>* vertices, const Vec2<int16_t>* position, float radius, float completion, float rotation, int16_t segments, Color center_color, Color color, bool filled );
 
     inline void MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color );
 };
