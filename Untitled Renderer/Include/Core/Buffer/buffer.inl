@@ -19,22 +19,74 @@ inline void cBuffer::BuildDrawCommands( std::vector<DrawCommand>* draw_commands 
 	}
 }
 
-inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments ) {
+// WIP, don't worry about messy code at the moment.
+inline void cBuffer::GenerateArcVertices( std::vector<Vertex>* vertices, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments, Color center_color, Color color, bool filled ) {
 	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
-	double Conversion = completion * 0.01;
+	double Conversion = static_cast< double >( completion ) * 0.01;
 
-	int16_t SegmentCount = radius > segments ? radius : max( segments, 8 );
-	Points->reserve( SegmentCount + 1 );
+	double ThetaStep =  ((M_PI * 2.0) * Conversion) / static_cast< double >( segments );
+
+	vertices->reserve( segments + 1 );
 
 	auto GetPoint = [ & ] ( int16_t i ) {
-		double Theta = Angle + 2.0 * Conversion * M_PI * static_cast< double >( i ) / static_cast< double >( SegmentCount );
-		return Vec2<double>( static_cast< double >( position->x ) + radius * cos( Theta ), static_cast< double >( position->y ) + radius * sin( Theta ) );
+		double Theta = Angle + static_cast< double >( i ) * ThetaStep;
+
+		return Vec2<double>(
+			static_cast< double >( position->x ) + radius * cos( Theta ),
+			static_cast< double >( position->y ) + radius * sin( Theta )
+		);
 	};
 
-	for ( int i = 0; i <= SegmentCount; i++ ) {
+	if ( filled ) {
+		vertices->push_back( Vertex(
+			static_cast< int16_t >( std::round( position->x ) ),
+			static_cast< int16_t >( std::round( position->y ) ),
+			0.f, 1.f, // z, rhw
+			center_color.Hex,
+			0.f, 0.f // u, v
+		) );
+	}
+
+	for ( int i = 0; i <= segments; i++ ) {
 		Vec2<double> point = GetPoint( i );
 
-		Points->push_back( Vec2<int16_t>( static_cast< int16_t >( std::round( point.x ) ), static_cast< int16_t >( std::round( point.y ) ) ) );
+		vertices->push_back( Vertex(
+			static_cast< int16_t >( std::round( point.x ) ),
+			static_cast< int16_t >( std::round( point.y ) ),
+			0.f, 1.f, // z, rhw
+			color.Hex,
+			0.f, 0.f // u, v
+		) );
+	}
+}
+
+inline void cBuffer::GenerateArcPoints( std::vector<Vec2<int16_t>>* Points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments ) {
+	double Angle = ( static_cast< double >( rotation ) * M_PI ) / 180.0;
+	double Conversion = static_cast< double >( completion ) * 0.01;
+
+	double ThetaStep = 2.0 * Conversion * M_PI / segments;
+
+	Points->reserve( segments + 1 );
+
+	auto GetPoint = [ & ] ( int16_t i ) {
+		double Theta = Angle + static_cast< double >( i ) * ThetaStep;
+
+		return Vec2<double>(
+			static_cast< double >( position->x ) + radius * cos( Theta ),
+			static_cast< double >( position->y ) + radius * sin( Theta )
+		);
+	};
+
+	//Problem atm is were using line strips & triangle strips
+	// We need to push back 3 points per triangle/line
+
+	for ( int i = 0; i <= segments; i++ ) {
+		Vec2<double> point = GetPoint( i );
+
+		Points->push_back( Vec2<int16_t>(
+			static_cast< int16_t >( std::round( point.x ) ),
+			static_cast< int16_t >( std::round( point.y ) )
+		) );
 	}
 }
 

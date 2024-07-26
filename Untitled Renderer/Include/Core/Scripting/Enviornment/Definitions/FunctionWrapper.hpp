@@ -209,12 +209,12 @@ namespace Renderer {
         gBuffer->FilledTriangle( point1, point2, point3, color );
     }
 
-    void Circle( Vec2<int16_t> position, int16_t radius, Color color ) {
-        gBuffer->Circle( position, radius, color );
+    void Circle( Vec2<int16_t> position, int16_t radius, int16_t segments, Color color ) {
+        gBuffer->Circle( position, radius, segments, color );
     }
 
-    void FilledCircle( Vec2<int16_t> position, int16_t radius, Color color ) {
-        gBuffer->FilledCircle( position, radius, color );
+    void FilledCircle( Vec2<int16_t> position, int16_t radius, int16_t segments, Color center_color, Color color ) {
+        gBuffer->FilledCircle( position, radius, segments, center_color, color );
     }
 
     void Text( Font* font, const std::string& text, Vec2<int16_t> pos, Color color ) {

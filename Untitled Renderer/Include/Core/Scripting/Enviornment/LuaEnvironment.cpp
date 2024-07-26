@@ -142,7 +142,7 @@ void cLuaEnvironment::Init( ) {
     Lua.new_usertype<Color>( 
         "Color", sol::constructors<Color( ), Color( uint8_t, uint8_t, uint8_t, uint8_t )>( ),
         "Hex", &Color::Hex, "r", sol::property( &Color::GetR ), "g", sol::property( &Color::GetG ),
-        "b", sol::property( &Color::GetB ), "a", sol::property( &Color::GetA )
+        "b", sol::property( &Color::GetB ), "a", sol::property( &Color::GetA ), "fromRGBA", &Color::fromRGBA, "fromHSVA", &Color::fromHSVA
     );
 
 	// Global functions

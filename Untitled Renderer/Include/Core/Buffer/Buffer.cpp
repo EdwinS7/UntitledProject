@@ -25,12 +25,29 @@ void cBuffer::Line( Vec2< int16_t > from, Vec2< int16_t > to, Color color ) {
 	WriteToBuffer( LINE, &Vertices, nullptr );
 }
 
+void cBuffer::Polyline( const std::vector<Vertex> vertices, Color color ) {
+	WriteToBuffer( LINE, &vertices, nullptr );
+}
+
+void cBuffer::Polygon( const std::vector<Vertex> vertices, Color color ) {
+	std::vector<int32_t> Indices;
+	Indices.reserve( ( vertices.size( ) - 1 ) * 3 );
+
+	for ( size_t i = 1; i < vertices.size( ) - 1; i++ ) {
+		Indices.push_back( 0 );
+		Indices.push_back( i );
+		Indices.push_back( i + 1 );
+	}
+
+	WriteToBuffer( D3DPT_TRIANGLELIST, &vertices, &Indices );
+}
+
 void cBuffer::Polyline( const std::vector<Vec2<int16_t>>& points, Color color ) {
 	std::vector<Vertex> Vertices;
 	Vertices.reserve( points.size( ) );
 
 	MakeVertices( &Vertices, &points, &color );
-	WriteToBuffer( LINE, &Vertices, nullptr );
+	WriteToBuffer( D3DPT_LINELIST, &Vertices, nullptr );
 }
 
 void cBuffer::Polygon( const std::vector<Vec2<int16_t>>& points, Color color ) {
@@ -231,20 +248,20 @@ void cBuffer::FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<i
 	WriteToBuffer( TRIANGLE, &Vertices, nullptr );
 }
 
-void cBuffer::Circle( Vec2<int16_t> pos, int16_t radius, Color color ) {
-	std::vector<Vec2<int16_t>> points;
-	points.reserve( m_CircleSegments + 1 );
+void cBuffer::Circle( Vec2<int16_t> pos, int16_t radius, int16_t segments, Color color ) {
+	std::vector<Vertex> vertices;
+	vertices.reserve( segments + 1 );
 
-	GenerateArcPoints( &points, &pos, radius, 100, 0, m_CircleSegments );
-	Polyline( points, color );
+	GenerateArcVertices( &vertices, &pos, radius, 100, 0, segments, color, color, false );
+	Polyline( vertices, color );
 }
 
-void cBuffer::FilledCircle( Vec2<int16_t> pos, int16_t radius, Color color ) {
-	std::vector<Vec2<int16_t>> points;
-	points.reserve( m_CircleSegments + 1 );
+void cBuffer::FilledCircle( Vec2<int16_t> pos, int16_t radius, int16_t segments, Color center_color, Color color ) {
+	std::vector<Vertex> vertices;
+	vertices.reserve( segments + 2 );
 
-	GenerateArcPoints( &points, &pos, radius, 100, 0, m_CircleSegments );
-	Polygon( points, color );
+	GenerateArcVertices( &vertices, &pos, radius, 100, 0, segments, center_color, color, true );
+	Polygon( vertices, color );
 }
 
 void cBuffer::Text( Font* font, const std::string& str, Vec2<int16_t> pos, Color color ) {

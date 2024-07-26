@@ -14,6 +14,9 @@ public:
 
     void Line( Vec2<int16_t> from, Vec2<int16_t> to, const Color color );
 
+    void Polyline( const std::vector<Vertex> vertices, Color color );
+    void Polygon( const std::vector<Vertex> vertices, Color color );
+
     void Polyline( const std::vector<Vec2<int16_t>>& points, Color color );
     void Polygon( const std::vector<Vec2<int16_t>>& points, Color color );
 
@@ -31,8 +34,8 @@ public:
     void Triangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color );
     void FilledTriangle( Vec2<int16_t> point1, Vec2<int16_t> point2, Vec2<int16_t> point3, Color color );
 
-    void Circle( Vec2<int16_t> position, int16_t radius, Color color );
-    void FilledCircle( Vec2<int16_t> position, int16_t radius, Color color );
+    void Circle( Vec2<int16_t> position, int16_t radius, int16_t segments, Color color );
+    void FilledCircle( Vec2<int16_t> position, int16_t radius, int16_t segments, Color center_color, Color color );
 
     void Text( Font* font, const std::string& string, Vec2<int16_t> Pos, Color color );
     Vec2<int16_t> GetTextSize( Font* font, const std::string& string );
@@ -61,7 +64,7 @@ public:
 
 private:
     int m_VerticesCount{ 0 }, m_IndicesCount{ 0 },
-        m_CircleSegments{ 64 }, m_RectangleSegments{ 16 };
+        m_RectangleSegments{ 8 };
 
 	std::vector < DrawCommand > m_DrawCommands;
     CommandResources m_CommandResources;
@@ -69,6 +72,7 @@ private:
 
     Font DefaultFont;
 
+    inline void GenerateArcVertices( std::vector<Vertex>* vertices, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments, Color center_color, Color color, bool filled );
     inline void GenerateArcPoints( std::vector<Vec2<int16_t>>* points, const Vec2<int16_t>* position, int16_t radius, int16_t completion, int16_t rotation, int16_t segments );
 
     inline void MakeVertices( std::vector<Vertex>* vertices, const std::vector<Vec2<int16_t>>* points, const Color* color );
