@@ -1,17 +1,17 @@
 ---
-description: Guide to writing lua scripts for Implicity
+description: Guide to writing Lua scripts for Untitled Project
 ---
 
 # 📲 Getting started
 
-### Using lua scripts
+### Using Lua scripts
 
-1. Save the Lua script in a sub folder to unknown.exe. The file name should be test.lua
-2. Go to the "Lua Scripting" tab and select the script you want to load and click "Load". If you want it to automatically be loaded whenever you load the cheat, tick "Load on startup"
+1. Save your Lua script in the Lua\Scripts folder, then run the executable.
+2. Type your Lua script name in with the respected file extension.
 
 ### Text editor
 
-The best text editors make it simple and easy to code without formatting issues corrupting it.
+The best text editors make it simple and easy to code without formatting issues corrupting your script.
 
 | Text editor                      | Link                                                    |
 | -------------------------------- | ------------------------------------------------------- |
@@ -20,7 +20,7 @@ The best text editors make it simple and easy to code without formatting issues 
 | :third\_place:Notepad++          | [notepad-plus-plus.org](https://notepad-plus-plus.org/) |
 
 {% hint style="info" %}
-**the API automatically includes the base, string, math, table, debug, package libraries!**
+**the API automatically includes the base, package, coroutine**, **string, math, table, debug, bit32, utf8, ffi, jit and os library for ease of use!**
 {% endhint %}
 
 {% hint style="warning" %}
