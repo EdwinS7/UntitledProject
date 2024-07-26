@@ -37,5 +37,5 @@ Window.SetSize(size: Vector2)
 ### GetSize (Vector2) :
 
 ```lua
-Window.GetSize()
+Window.GetSize() -- Default { 1280: x, 720: y }
 ```
