@@ -7,7 +7,7 @@ description: Window table
 ### SetFullscreen (function) :
 
 ```lua
-Window.SetFullscreen(true)
+Window.SetFullscreen(state: bool)
 ```
 
 ### GetFullscreen (bool) :
@@ -19,7 +19,7 @@ Window.GetFullscreen()
 ### SetPosition(function) :
 
 ```lua
-Window.SetPosition(Vector2)
+Window.SetPosition(position: Vector2)
 ```
 
 ### GetPosition(Vector2)
@@ -31,7 +31,7 @@ Window.GetPosition()
 ### SetSize (function) :
 
 ```lua
-Window.SetSize(Vector2)
+Window.SetSize(size: Vector2)
 ```
 
 ### GetSize (Vector2) :

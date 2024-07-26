@@ -27,6 +27,7 @@
     * [⚙️ Vector2D](documentation/api-reference/types/vector2d.md)
     * [⚙️ Vector3D](documentation/api-reference/types/vector3d.md)
     * [⚙️ Vector4D](documentation/api-reference/types/vector4d.md)
+    * [⚙️ Vertex](documentation/api-reference/types/vertex.md)
     * [⚙️ Rect](documentation/api-reference/types/rect.md)
   * [⚙️ Globals](documentation/api-reference/globals.md)
   * [⚙️ Enumerations](documentation/api-reference/enumerations.md)

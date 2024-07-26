@@ -7,11 +7,11 @@ description: Math table
 ### Random Float (float) :
 
 ```lua
-Math.RandomFloat(min, max)
+Math.RandomFloat(min: float, max: float)
 ```
 
 ### Random Integer (int) :
 
 ```lua
-Math.RandomInt(min, max)
+Math.RandomInt(min: int, max: int)
 ```

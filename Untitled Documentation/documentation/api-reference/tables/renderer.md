@@ -7,91 +7,91 @@ description: Renderer table
 ### Line (function) :
 
 ```lua
-Renderer.Line(from, to, color)
+Renderer.Line(from: Vector2, to: Vector2, color: Color)
 ```
 
 ### Polyline (function) :
 
 ```lua
-Renderer.Polyline([pos, ...], color)
+Renderer.Polyline([pos: Vector2, ...], color: Color)
 ```
 
 ### Polygon (function) :
 
 ```lua
-Renderer.Polygon([pos, ...], color)
+Renderer.Polygon([pos: Vector2, ...], color: Color)
 ```
 
 ### Rectangle (function) :
 
 ```lua
-Renderer.Rectangle(pos, size, color, rounding)
+Renderer.Rectangle(pos: Vector2, size: Vector2, color: Color, rounding: int)
 ```
 
 ### Filled Rectangle (function) :
 
 ```lua
-Renderer.FilledRectangle(pos, size, color, rounding)
+Renderer.FilledRectangle(pos: Vector2, size: Vector2, color: Color, rounding: int)
 ```
 
 ### Gradient (function) :
 
 ```lua
-Renderer.Gradient(pos, size, color, color, vertical)
+Renderer.Gradient(pos: Vector2, size: Vector2, color: Color, vertical: bool)
 ```
 
 ### Filled Gradient (function) :
 
 ```lua
-Renderer.FilledGradient(pos, size, color, color, vertical)
+Renderer.FilledGradient(pos: Vector2, size: Vector2, color: Color, vertical: bool)
 ```
 
 ### Gradient4 (function) :
 
 ```lua
-Renderer.Gradient4(pos, size, color, color, color, color)
+Renderer.Gradient4(pos: Vector2, size: Vector2, color: Color, color: Color, color: Color, color: Color)
 ```
 
 ### Filled Gradient4 (function) :
 
 ```lua
-Renderer.FilledGradient4(pos, size, color, color, color, color)
+Renderer.FilledGradient4(pos: Vector2, size: Vector2, color: Color, color: Color, color: Color, color: Color)
 ```
 
 ### Triangle (function) :
 
 ```lua
-Renderer.Triangle(p1, p2, p3, color)
+Renderer.Triangle(p1: Vector2, p2: Vector2, p3: Vector2, color: Color)
 ```
 
 ### Filled Triangle (function) :
 
 ```lua
-Renderer.FilledTriangle(p1, p2, p3, color)
+Renderer.FilledTriangle(p1: Vector2, p2: Vector2, p3: Vector2, color: Color)
 ```
 
 ### Circle (function) :
 
 ```lua
-Renderer.Cirle(pos, radius, color)
+Renderer.Cirle(pos: Vector2, radius: int, color: Color)
 ```
 
 ### Filled Circle (function) :
 
 ```lua
-Renderer.FilledCirle(pos, radius, color)
+Renderer.FilledCircle(pos: Vector2, radius: int, color: Color)
 ```
 
 ### Text (function) :
 
 ```lua
-Renderer.Text(font, text, pos, color)
+Renderer.Text(font: Font, text: string, pos: Vector2, color: Color)
 ```
 
 ### Get Text Size (Vector2) :
 
 ```lua
-Renderer.GetTextSize(font, text)
+Renderer.GetTextSize(font: Font, text: string)
 ```
 
 ### Get Screen Size (Vector2) :
@@ -108,7 +108,7 @@ Renderer.GetScreenSize()
 ### Create Font (function) :
 
 ```lua
-Renderer.CreateFont(font_name, size, weight, padding, antialiasing)
+Renderer.CreateFont(font_name: string, size: int, weight: int, padding: int, antialiasing: bool)
 ```
 
 ### Get Vertices Count (int) :
@@ -126,7 +126,7 @@ Renderer.GetIndicesCount()
 ### Push Clip (function) :
 
 ```lua
-Renderer.PushClip(position, size)
+Renderer.PushClip(position: Vector2, size: Vector2)
 ```
 
 ### Pop Clip (function)

@@ -108,3 +108,14 @@ All = 6 --Only used with Client.GetLogs(LogLevel)
 {% hint style="info" %}
 Only to be used with Client.Log(LogLevel, message, ...) or Client.GetLogs(LogLevel)
 {% endhint %}
+
+### PrimitiveType
+
+```lua
+PointList = 1,
+LineList = 2,
+LineStrip = 3,
+TriangleList = 4,
+TriangleStrip = 5,
+TriangleFan = 6
+```

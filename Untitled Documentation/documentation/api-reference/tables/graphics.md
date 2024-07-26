@@ -7,7 +7,7 @@ description: Graphics table
 ### Set Vertical Sync (function) :
 
 ```lua
-Graphics.SetVerticalSync(true) --default
+Graphics.SetVerticalSync(state: bool) --default
 ```
 
 ### Set Clear Color (function) :
