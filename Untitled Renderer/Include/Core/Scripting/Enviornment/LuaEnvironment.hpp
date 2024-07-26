@@ -9,6 +9,9 @@ public:
 	int LoadScript( const std::string& source );
 	int LoadScriptFromFile( const std::string& folder_path, const std::string& file_name );
 
+public:
+	sol::state& GetLua( ) { return Lua; }
+
 private:
 	sol::state Lua;
 };

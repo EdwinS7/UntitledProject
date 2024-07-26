@@ -164,7 +164,7 @@ void cLuaEnvironment::Init( ) {
     auto Input = Lua.create_table( );
     Input[ "IsMouseHoveringRect" ] = Input::IsMouseHoveringRect;
     Input[ "GetMousePosition" ] = Input::GetMousePosition;
-    Input[ "SetMousePosition" ] = Input::SetMousePosition;
+    Input[ "GetMouseWheelDelta" ] = Input::GetMouseWheelDelta;
     Input[ "IsAnyKeyPressed" ] = Input::IsAnyKeyPressed;
     Input[ "IsKeyPressed" ] = Input::IsKeyPressed;
     Input[ "IsKeyHeld" ] = Input::IsKeyHeld;

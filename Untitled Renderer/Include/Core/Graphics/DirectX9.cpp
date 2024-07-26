@@ -15,6 +15,8 @@ void cGraphics::Init( HWND hwnd ) {
 }
 
 void cGraphics::Release( ) {
+    gBuffer->Release( );
+
     SafeRelease( m_VertexBuffer );
     SafeRelease( m_IndexBuffer );
     SafeRelease( m_StateBlock );

@@ -1,6 +1,8 @@
 #include "Include/Untitled.hpp"
 
 // I just have this for testing at the moment.
+auto Environment = gLuaAPI->CreateEnvironment( );
+
 void RunScript( ) {
     gLogger->Log( LogLevel::Information, "Welcome to Untitled Renderer. Use 'help' for a list of commands." );
     gLogger->Log( LogLevel::Information, "To run a script, enter the file name with the file extension." );
@@ -24,8 +26,6 @@ void RunScript( ) {
             gLogger->Log( LogLevel::Information, "Developed by @fuckuneedthisfor" );
             continue;
         }
-
-        static auto Environment = gLuaAPI->CreateEnvironment( );
 
         if ( !Environment ) {
             gLogger->Log( LogLevel::Error, "Failed to create Lua environment. Exiting..." );

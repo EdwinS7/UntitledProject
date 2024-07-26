@@ -29,13 +29,18 @@ public:
 	inline void SetMousePos( Vec2<int16_t> position );
 	inline Vec2<int16_t> GetMousePos( ) const;
 
+	inline void SetMouseWheelDelta( float delta );
+	inline float GetMouseWheelDelta( ) const;
+
 	inline void SetCursorStyle( MousePointer id );
 	inline MousePointer GetCursorStyle( ) const;
 
 	inline bool AnyKeyPressed( ) const;
 
 private:
-	Vec2<int16_t> m_MousePos;
+	Vec2<int16_t> m_MousePosition;
+
+	float m_MouseWheelDelta{ 0.f };
 	bool m_AnyKeyPressed{ false };
 
 	MousePointer m_CursorStyle{ MousePointer::Arrow };

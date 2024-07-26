@@ -73,27 +73,31 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
         if ( !IsResizing && gGraphics->GetDevice( ) && wParam != SIZE_MINIMIZED ) {
             gGraphics->ResetDevice( hwnd );
         }
-        return 0;
 
+        return 0;
     case WM_ENTERSIZEMOVE:
         IsResizing = true;
-        return 0;
 
+        return 0;
     case WM_EXITSIZEMOVE:
         if ( gGraphics->GetDevice( ) ) {
             gGraphics->ResetDevice( hwnd );
         }
         IsResizing = false;
-        return 0;
 
+        return 0;
     case WM_MOUSEMOVE:
         gInput->SetMousePos( Vec2<int16_t>( LOWORD( lParam ), HIWORD( lParam ) ) );
         break;
 
+    case WM_MOUSEWHEEL:
+        gInput->SetMouseWheelDelta(gInput->GetMouseWheelDelta( ) + GET_WHEEL_DELTA_WPARAM( wParam ) );
+
+        break;
     case WM_SETCURSOR:
         SetCursor( LoadCursorA( 0, LPCSTR( gInput->GetCursorStyle( ) ) ) );
-        break;
 
+        break;
     case WM_DESTROY:
         PostQuitMessage( 0 );
         return 0;

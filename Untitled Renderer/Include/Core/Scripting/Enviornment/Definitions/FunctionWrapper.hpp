@@ -71,9 +71,9 @@ namespace Input {
         return gInput->GetMousePos( );
     }
 
-    void SetMousePosition( Vec2<int16_t> position ) {
-        return gInput->SetMousePos( position );
-    }
+	float GetMouseWheelDelta( ) {
+		return gInput->GetMouseWheelDelta( );
+	}
 
     bool IsAnyKeyPressed( ) {
         return gInput->AnyKeyPressed( );

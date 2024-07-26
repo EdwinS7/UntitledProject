@@ -79,7 +79,16 @@ Enums = {
     LogLevel = {
         Normal = 0, Information = 1, Warning = 2,
         Error = 3, Success = 4, Unknown = 5,
-        All = 6 -- Only used for getting specific logs
+        All = 6
+    },
+
+    PrimitiveType = {
+        PointList = 1,
+        LineList = 2,
+        LineStrip = 3,
+        TriangleList = 4,
+        TriangleStrip = 5,
+        TriangleFan = 6
     }
 }
 
