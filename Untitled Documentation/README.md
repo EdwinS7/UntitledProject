@@ -11,11 +11,11 @@ description: Welcome to the official Untitled Project wiki!
 Untitled Project is a unique software providing huge functionality and easy setup, designed for new low-level developers all users.
 
 {% hint style="warning" %}
-Expect rapid changes, this software is still under development!
+Please anticipate frequent updates as this software is still in development.
 {% endhint %}
 
 {% hint style="info" %}
-Current software version: **1.0**
+Current version: **0.1**
 {% endhint %}
 
 ### Getting started

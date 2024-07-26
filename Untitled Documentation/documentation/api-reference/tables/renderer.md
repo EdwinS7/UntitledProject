@@ -4,6 +4,10 @@ description: Renderer table
 
 # ⚙️ Renderer
 
+{% hint style="info" %}
+We recommend reading how all the 'Types' in Untitled Project work before you use any of this, features like [WriteToBuffer ](renderer.md#writetobuffer-function)are very advanced for your average person.
+{% endhint %}
+
 ### Line (function) :
 
 ```lua
@@ -73,13 +77,13 @@ Renderer.FilledTriangle(p1: Vector2, p2: Vector2, p3: Vector2, color: Color)
 ### Circle (function) :
 
 ```lua
-Renderer.Cirle(pos: Vector2, radius: int, color: Color)
+Renderer.Cirle(pos: Vector2, radius: int, segments: int, color: Color)
 ```
 
 ### Filled Circle (function) :
 
 ```lua
-Renderer.FilledCircle(pos: Vector2, radius: int, color: Color)
+Renderer.FilledCircle(pos: Vector2, radius: int, segments: int, center_color: Color color: Color)
 ```
 
 ### Text (function) :
