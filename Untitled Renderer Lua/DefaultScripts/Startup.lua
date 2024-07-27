@@ -1,7 +1,3 @@
-function math.clamp(x, min, max)
-    return math.max(math.min(x, max), min)
-end
-
 function Paint()
     local TextSize = Renderer.GetTextSize(Renderer.GetDefaultFont(), tostring(Client.GetFramerate()))
     local ScreenSize = Renderer.GetScreenSize()
