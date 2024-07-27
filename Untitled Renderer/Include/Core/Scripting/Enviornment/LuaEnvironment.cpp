@@ -169,7 +169,6 @@ void cLuaEnvironment::Init( ) {
     Input[ "IsKeyPressed" ] = Input::IsKeyPressed;
     Input[ "IsKeyHeld" ] = Input::IsKeyHeld;
     Input[ "SetCursorStyle" ] = Input::SetCursorStyle;
-    Input[ "GetCursorStyle" ] = Input::GetCursorStyle;
 
     auto Window = Lua.create_table( );
     Window[ "IsFocused" ] = Window::IsFocused;
@@ -220,6 +219,7 @@ void cLuaEnvironment::Init( ) {
     auto Math = Lua.create_table( );
     Math[ "RandomFloat" ] = Math::RandomFloat;
     Math[ "RandomInt" ] = Math::RandomInt;
+    Math[ "Clamp" ] = Math::Clamp;
 
     auto Http = Lua.create_table( );
     Http[ "Get" ] = Http::Get;

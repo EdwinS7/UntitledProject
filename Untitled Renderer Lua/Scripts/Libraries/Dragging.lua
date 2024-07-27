@@ -1,4 +1,22 @@
-local Dragging = {ResizeBoxSize = Vector2.new(10, 10), IsDragging = {}, IsResizing = {}, Difference = {}} Dragging.__index = Dragging
+-- Dragging ModuleScript
+-- Developed & Maintained by @fuckuneedthisfor
+
+local Dragging = {
+    MaximumFrameSize = Renderer.GetScreenSize(),
+    MinimumFrameSize = Vector2.new(100, 100),
+    ResizeBoxSize = Vector2.new(10, 10),
+
+    DragUsingHeader = true,
+    HeaderSize = Vector2.new(),
+
+    IsDragging = {},
+    IsResizing = {},
+
+    -- Shared (Dragging & Resizing)
+    Difference = {}
+} 
+
+Dragging.__index = Dragging
 
 function Dragging:HandleDragging(id, position, size)
     for _, v in pairs(self.IsResizing) do
@@ -13,7 +31,13 @@ function Dragging:HandleDragging(id, position, size)
         end
     end
 
-    if not self.IsDragging[id] and Input.IsMouseHoveringRect(position, size) and Input.IsKeyHeld(Enums.Keys.Mouse1) then
+    local MouseHoveringRect = Input.IsMouseHoveringRect(position, self.DragUsingHeader and size or self.HeaderSize)
+
+    if MouseHoveringRect or self.IsDragging[id] then
+        Input.SetCursorStyle(Enums.CursorStyle.SizeAll)
+    end
+
+    if not self.IsDragging[id] and MouseHoveringRect and Input.IsKeyHeld(Enums.Keys.Mouse1) then
         self.Difference[id] = Input.GetMousePosition() - position
         self.IsDragging[id] = true
     end
@@ -43,7 +67,13 @@ function Dragging:HandleResizing(id, position, size)
         end
     end
 
-    if not self.IsResizing[id] and Input.IsMouseHoveringRect(position + (size - self.ResizeBoxSize), self.ResizeBoxSize) and Input.IsKeyHeld(Enums.Keys.Mouse1) then
+    local MouseHoveringRect = Input.IsMouseHoveringRect(position + (size - self.ResizeBoxSize), self.ResizeBoxSize)
+
+    if MouseHoveringRect or self.IsResizing[id] then
+        Input.SetCursorStyle(Enums.CursorStyle.SizeNWSE)
+    end
+
+    if not self.IsResizing[id] and MouseHoveringRect and Input.IsKeyHeld(Enums.Keys.Mouse1) then
         self.Difference[id] = Input.GetMousePosition() - position - size
         self.IsResizing[id] = true
     end
@@ -54,6 +84,11 @@ function Dragging:HandleResizing(id, position, size)
             self.IsResizing[id] = false
         else
             size = Input.GetMousePosition() - position - self.Difference[id]
+
+            size = Vector2.new( -- Prevents undersizing and oversizing
+                Math.Clamp(size.x, self.MinimumFrameSize.x, self.MaximumFrameSize.x),
+                Math.Clamp(size.y, self.MinimumFrameSize.y, self.MaximumFrameSize.y)
+            )
         end
     end
 

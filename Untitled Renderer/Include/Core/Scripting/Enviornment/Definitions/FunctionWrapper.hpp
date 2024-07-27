@@ -320,7 +320,9 @@ namespace Math {
         return static_cast< int >( uni( re ) );
     }
 
-
+    float Clamp( float x, float min, float max ) {
+        return x < min ? min : x > max ? max : x;
+    }
 };
 
 namespace Http {
